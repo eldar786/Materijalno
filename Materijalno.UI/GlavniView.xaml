@@ -1,0 +1,615 @@
+﻿<UserControl x:Class="Materijalno.UI.GlavniView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Materijalno.UI"
+             xmlns:vm="clr-namespace:Materijalno.ViewModel;assembly=Materijalno.ViewModel"
+             mc:Ignorable="d" 
+             d:DesignHeight="800" d:DesignWidth="1100" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+
+    <UserControl.Resources>
+        <BooleanToVisibilityConverter x:Key="BoolToVis" />
+        
+        <DataTemplate DataType="{x:Type vm:GlavniViewModel}">
+            <local:GlavniView/>
+        </DataTemplate>
+        
+
+        <DataTemplate DataType="{x:Type vm:SifarnikSkladistaViewModel}">
+            <local:SifarnikSkladista/>
+        </DataTemplate>
+
+    </UserControl.Resources>
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+
+        <Grid>
+            <Grid.RowDefinitions></Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="5"/>
+                <ColumnDefinition Width="0"/>
+            </Grid.ColumnDefinitions>
+
+            <Expander Header="ŠIFARNICI" Grid.Column="0" FontSize="18" IsExpanded="False" BorderBrush="{x:Null}" Background="White" VerticalAlignment="Top" Grid.ColumnSpan="2" Height="300" Margin="0,0,-20,-250">
+                <StackPanel Orientation="Vertical">
+                    <Button x:Name="skladista" Width="Auto" Height="30" HorizontalAlignment="Left" BorderBrush="{x:Null}" Command="{Binding SifarnikSkladistaCommand}" Margin="20,0,0,0">
+                        <Button.Style>
+                            <Style TargetType="{x:Type Button}">
+                                <Setter Property="Background" Value="White"/>
+                                <Style.Triggers>
+                                    <Trigger Property="IsFocused" Value="True">
+                                        <Setter Property="Background" Value="MediumPurple"/>
+                                    </Trigger>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Background" Value="CornflowerBlue"/>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Button.Style>
+                        <Grid>
+                            <Grid.RowDefinitions></Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+                            <Label Grid.Column="1" Foreground="Black" Grid.ColumnSpan="2" VerticalAlignment="Center" FontSize="15" Margin="0,0,0,0" Content="Šifarnik skladišta" Height="34"/>
+                        </Grid>
+                    </Button>
+                    <Button x:Name="materijala" Width="Auto" Height="30" HorizontalAlignment="Left" BorderBrush="{x:Null}" Margin="20,0,0,0" Command="{Binding ZaduzenjeCommand}">
+                        <Button.Style>
+                            <Style TargetType="{x:Type Button}">
+                                <Setter Property="Background" Value="White" />
+                                <Style.Triggers>
+                                    <Trigger Property="IsFocused" Value="True">
+                                        <Setter Property="Background" Value="MediumPurple"/>
+                                    </Trigger>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Background" Value="CornflowerBlue"/>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Button.Style>
+                        <Grid>
+                            <Grid.RowDefinitions></Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+                            <Label Grid.Column="1" Foreground="Black" Grid.ColumnSpan="2" VerticalAlignment="Center" FontSize="15"  Content="Šifarnik materijala" Height="35"/>
+                        </Grid>
+                    </Button>
+
+
+
+                    <Button x:Name="konta" Width="Auto" Height="30" HorizontalAlignment="Left" BorderBrush="{x:Null}" Margin="20,0,0,0" Command="{Binding IsplOsnovnihCommand}">
+                        <Button.Style>
+                            <Style TargetType="{x:Type Button}">
+                                <Setter Property="Background" Value="White" />
+                                <Style.Triggers>
+                                    <Trigger Property="IsFocused" Value="True">
+                                        <Setter Property="Background" Value="MediumPurple"/>
+                                    </Trigger>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Background" Value="CornflowerBlue"/>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Button.Style>
+
+                        <Grid>
+                            <Grid.RowDefinitions></Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+                            <Label Grid.Column="1" Foreground="Black" Grid.ColumnSpan="2" VerticalAlignment="Center" FontSize="15"  Content="Šifarnik konta " Height="35"/>
+                        </Grid>
+                    </Button>
+
+                    <Button x:Name="materijalSkladisteKonta" Width="Auto" Height="30" HorizontalAlignment="Left" BorderBrush="{x:Null}" Margin="20,0,0,0" Command="{Binding UplOsnovnihCommand}">
+                        <Button.Style>
+                            <Style TargetType="{x:Type Button}">
+                                <Setter Property="Background" Value="White" />
+                                <Style.Triggers>
+                                    <Trigger Property="IsFocused" Value="True">
+                                        <Setter Property="Background" Value="MediumPurple"/>
+                                    </Trigger>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Background" Value="CornflowerBlue"/>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Button.Style>
+                        <Grid>
+                            <Grid.RowDefinitions></Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+                            <Label Foreground="Black" Grid.Column="1" Grid.ColumnSpan="2" VerticalAlignment="Center" FontSize="15" Margin="0,1,0.5,0" Content="Šifarnik materijal-skladište-konta" Height="33"/>
+                        </Grid>
+                    </Button>
+                </StackPanel>
+
+
+            </Expander>
+
+        </Grid>
+
+        <Grid>
+            <Grid.RowDefinitions></Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Expander Header="PROMET" Grid.Column="2" Visibility="{Binding Path=PrikaziRU, Converter={StaticResource BoolToVis}}" FontSize="18" IsExpanded="False" BorderBrush="{x:Null}" Background="White" VerticalAlignment="Top" Height="300" Margin="30,0,-150,-250">
+                <StackPanel Orientation="Vertical">
+                    <Button x:Name="ulazMaterijala" Width="Auto" Height="30" HorizontalAlignment="Left" BorderBrush="{x:Null}" Command="{Binding PologCommand}" Margin="20,0,0,0" >
+                        <Button.Style>
+                            <Style TargetType="{x:Type Button}">
+                                <Setter Property="Background" Value="White"/>
+                                <Style.Triggers>
+                                    <Trigger Property="IsFocused" Value="True">
+                                        <Setter Property="Background" Value="MediumPurple"/>
+                                    </Trigger>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Background" Value="CornflowerBlue"/>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Button.Style>
+                        <Grid>
+                            <Grid.RowDefinitions></Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+                            <Label Grid.Column="1" Foreground="Black" Grid.ColumnSpan="2" VerticalAlignment="Center" FontSize="15" Margin="0,0,0,0" Content="Ulaz materijala" Height="34"/>
+                        </Grid>
+                    </Button>
+                    <Button x:Name="izlazMaterijala" Width="Auto" Height="30" HorizontalAlignment="Left" BorderBrush="{x:Null}" Margin="20,0,0,0" Command="{Binding ZaduzenjeCommand}">
+                        <Button.Style>
+                            <Style TargetType="{x:Type Button}">
+                                <Setter Property="Background" Value="White" />
+                                <Style.Triggers>
+                                    <Trigger Property="IsFocused" Value="True">
+                                        <Setter Property="Background" Value="MediumPurple"/>
+                                    </Trigger>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Background" Value="CornflowerBlue"/>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Button.Style>
+                        <Grid>
+                            <Grid.RowDefinitions></Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+                            <Label Grid.Column="1" Foreground="Black" Grid.ColumnSpan="2" VerticalAlignment="Center" FontSize="15"  Content="Izlaz materijala" Height="35"/>
+                        </Grid>
+                    </Button>
+
+
+
+                    <Button x:Name="medjuskladisnica" Width="Auto" Height="30" HorizontalAlignment="Left" BorderBrush="{x:Null}" Margin="20,0,0,0" Command="{Binding IsplOsnovnihCommand}">
+                        <Button.Style>
+                            <Style TargetType="{x:Type Button}">
+                                <Setter Property="Background" Value="White" />
+                                <Style.Triggers>
+                                    <Trigger Property="IsFocused" Value="True">
+                                        <Setter Property="Background" Value="MediumPurple"/>
+                                    </Trigger>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Background" Value="CornflowerBlue"/>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Button.Style>
+
+                        <Grid>
+                            <Grid.RowDefinitions></Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+                            <Label Grid.Column="1" Foreground="Black" Grid.ColumnSpan="2" VerticalAlignment="Center" FontSize="15"  Content="Međuskladisnica" Height="35"/>
+                        </Grid>
+                    </Button>
+
+                    <Button x:Name="povratMaterijala" Width="Auto" Height="30" HorizontalAlignment="Left" BorderBrush="{x:Null}" Margin="20,0,0,0" Command="{Binding UplOsnovnihCommand}">
+                        <Button.Style>
+                            <Style TargetType="{x:Type Button}">
+                                <Setter Property="Background" Value="White" />
+                                <Style.Triggers>
+                                    <Trigger Property="IsFocused" Value="True">
+                                        <Setter Property="Background" Value="MediumPurple"/>
+                                    </Trigger>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Background" Value="CornflowerBlue"/>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Button.Style>
+                        <Grid>
+                            <Grid.RowDefinitions></Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+                            <Label Foreground="Black" Grid.Column="1" Grid.ColumnSpan="2" VerticalAlignment="Center" FontSize="15" Margin="0,1,0.5,0" Content="Povrat materijala" Height="33"/>
+                        </Grid>
+                    </Button>
+                </StackPanel>
+            </Expander>
+        </Grid>
+
+        <Grid>
+            <Grid.RowDefinitions></Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <!--<Image Grid.Column="0" Source="/Ikone/parametri.png"/>-->
+        </Grid>
+        <Label Foreground="Black" VerticalAlignment="Center" FontSize="18" Height="50" Grid.Column="2" Margin="0,0,26,0" >
+            <Label.Style>
+                <Style TargetType="{x:Type Label}">
+                    <Style.Triggers>
+                        <Trigger Property="IsFocused" Value="True">
+                            <Setter Property="Foreground" Value="White"/>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </Label.Style>
+            <TextBlock Height="48"><Run Text="IZVJEŠTAJI"/></TextBlock>
+        </Label>
+
+        <Grid>
+            <Grid.RowDefinitions></Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+        </Grid>
+
+        <Expander Header="NALOZI ZA FINANSIJE" Grid.Column="3" FontSize="18" IsExpanded="False" BorderBrush="{x:Null}" Background="White" VerticalAlignment="Top" Height="300" Margin="0,0,-100,-250">
+            <StackPanel Orientation="Vertical">
+                <Button x:Name="ulazUCentralniMagazin" Width="Auto" Height="30" HorizontalAlignment="Left" BorderBrush="{x:Null}" Command="{Binding PologCommand}" Margin="20,0,0,0" >
+                    <Button.Style>
+                        <Style TargetType="{x:Type Button}">
+                            <Setter Property="Background" Value="White"/>
+                            <Style.Triggers>
+                                <Trigger Property="IsFocused" Value="True">
+                                    <Setter Property="Background" Value="MediumPurple"/>
+                                </Trigger>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Background" Value="CornflowerBlue"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+                    <Grid>
+                        <Grid.RowDefinitions></Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <Label Grid.Column="1" Foreground="Black" Grid.ColumnSpan="2" VerticalAlignment="Center" FontSize="15" Margin="0,0,0,0" Content="Ulaz u centralni magazin" Height="34"/>
+                    </Grid>
+                </Button>
+                <Button x:Name="zaduzenjeProdavnice" Width="Auto" Height="30" HorizontalAlignment="Left" BorderBrush="{x:Null}" Margin="20,0,0,0" Command="{Binding ZaduzenjeCommand}">
+                    <Button.Style>
+                        <Style TargetType="{x:Type Button}">
+                            <Setter Property="Background" Value="White" />
+                            <Style.Triggers>
+                                <Trigger Property="IsFocused" Value="True">
+                                    <Setter Property="Background" Value="MediumPurple"/>
+                                </Trigger>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Background" Value="CornflowerBlue"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+                    <Grid>
+                        <Grid.RowDefinitions></Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <Label Grid.Column="1" Foreground="Black" Grid.ColumnSpan="2" VerticalAlignment="Center" FontSize="15"  Content="Zaduzenje Prodavnice" Height="35"/>
+                    </Grid>
+                </Button>
+
+
+
+                <Button x:Name="medjuskladisnica2" Width="Auto" Height="30" HorizontalAlignment="Left" BorderBrush="{x:Null}" Margin="20,0,0,0" Command="{Binding IsplOsnovnihCommand}">
+                    <Button.Style>
+                        <Style TargetType="{x:Type Button}">
+                            <Setter Property="Background" Value="White" />
+                            <Style.Triggers>
+                                <Trigger Property="IsFocused" Value="True">
+                                    <Setter Property="Background" Value="MediumPurple"/>
+                                </Trigger>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Background" Value="CornflowerBlue"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+
+                    <Grid>
+                        <Grid.RowDefinitions></Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <Label Grid.Column="1" Foreground="Black" Grid.ColumnSpan="2" VerticalAlignment="Center" FontSize="15"  Content="Međuskladisnica" Height="35"/>
+                    </Grid>
+                </Button>
+
+                <Button x:Name="povratUSkladiste" Width="Auto" Height="30" HorizontalAlignment="Left" BorderBrush="{x:Null}" Margin="20,0,0,0" Command="{Binding UplOsnovnihCommand}">
+                    <Button.Style>
+                        <Style TargetType="{x:Type Button}">
+                            <Setter Property="Background" Value="White" />
+                            <Style.Triggers>
+                                <Trigger Property="IsFocused" Value="True">
+                                    <Setter Property="Background" Value="MediumPurple"/>
+                                </Trigger>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Background" Value="CornflowerBlue"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+                    <Grid>
+                        <Grid.RowDefinitions></Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <Label Foreground="Black" Grid.Column="1" Grid.ColumnSpan="2" VerticalAlignment="Center" FontSize="15" Margin="0,1,0.5,0" Content="Povrat u skladiste" Height="33"/>
+                    </Grid>
+                </Button>
+                <Button x:Name="printanjeNaloga" Width="Auto" Height="30" HorizontalAlignment="Left" BorderBrush="{x:Null}" Margin="20,0,0,0" Command="{Binding UplOsnovnihCommand}">
+                    <Button.Style>
+                        <Style TargetType="{x:Type Button}">
+                            <Setter Property="Background" Value="White" />
+                            <Style.Triggers>
+                                <Trigger Property="IsFocused" Value="True">
+                                    <Setter Property="Background" Value="MediumPurple"/>
+                                </Trigger>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Background" Value="CornflowerBlue"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+                    <Grid>
+                        <Grid.RowDefinitions></Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <Label Foreground="Black" Grid.Column="1" Grid.ColumnSpan="2" VerticalAlignment="Center" FontSize="15" Margin="0,1,0.5,0" Content="Printanje naloga" Height="33"/>
+                    </Grid>
+                </Button>
+            </StackPanel>
+        </Expander>
+
+        <Grid>
+            <Grid.RowDefinitions></Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+        </Grid>
+        <Expander Header="INVENTURA" Grid.Column="4" FontSize="18" IsExpanded="False" BorderBrush="{x:Null}" Background="White" VerticalAlignment="Top" Height="300" Margin="-85,0,-150,-250">
+            <StackPanel Orientation="Vertical">
+                <Button x:Name="stampanjeInventurnihListica" Width="Auto" Height="30" HorizontalAlignment="Left" BorderBrush="{x:Null}" Command="{Binding PologCommand}" Margin="20,0,0,0" >
+                    <Button.Style>
+                        <Style TargetType="{x:Type Button}">
+                            <Setter Property="Background" Value="White"/>
+                            <Style.Triggers>
+                                <Trigger Property="IsFocused" Value="True">
+                                    <Setter Property="Background" Value="MediumPurple"/>
+                                </Trigger>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Background" Value="CornflowerBlue"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+                    <Grid>
+                        <Grid.RowDefinitions></Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <Label Grid.Column="1" Foreground="Black" Grid.ColumnSpan="2" VerticalAlignment="Center" FontSize="15" Margin="0,0,0,0" Content="Štampanje inventurnih listica" Height="34"/>
+                    </Grid>
+                </Button>
+
+                <Button x:Name="unosInventurnogStanja" Width="Auto" Height="30" HorizontalAlignment="Left" BorderBrush="{x:Null}" Margin="20,0,0,0" Command="{Binding IsplOsnovnihCommand}">
+                    <Button.Style>
+                        <Style TargetType="{x:Type Button}">
+                            <Setter Property="Background" Value="White" />
+                            <Style.Triggers>
+                                <Trigger Property="IsFocused" Value="True">
+                                    <Setter Property="Background" Value="MediumPurple"/>
+                                </Trigger>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Background" Value="CornflowerBlue"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+
+                    <Grid>
+                        <Grid.RowDefinitions></Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <Label Grid.Column="1" Foreground="Black" Grid.ColumnSpan="2" VerticalAlignment="Center" FontSize="15"  Content="Unos inventurnog stanja" Height="35"/>
+                    </Grid>
+                </Button>
+
+                <Button x:Name="stampanjeInventurnihZaliha" Width="Auto" Height="30" HorizontalAlignment="Left" BorderBrush="{x:Null}" Margin="20,0,0,0" Command="{Binding UplOsnovnihCommand}">
+                    <Button.Style>
+                        <Style TargetType="{x:Type Button}">
+                            <Setter Property="Background" Value="White" />
+                            <Style.Triggers>
+                                <Trigger Property="IsFocused" Value="True">
+                                    <Setter Property="Background" Value="MediumPurple"/>
+                                </Trigger>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Background" Value="CornflowerBlue"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+                    <Grid>
+                        <Grid.RowDefinitions></Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <Label Foreground="Black" Grid.Column="1" Grid.ColumnSpan="2" VerticalAlignment="Center" FontSize="15" Margin="0,1,0.5,0" Content="Štampanje inventurnih zaliha" Height="33"/>
+                    </Grid>
+                </Button>
+            </StackPanel>
+        </Expander>
+
+        <Grid>
+            <Grid.RowDefinitions></Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+
+        </Grid>
+        <Expander Header="POČETNO STANJE" Grid.Column="5" FontSize="18" IsExpanded="False" BorderBrush="{x:Null}" Background="White" VerticalAlignment="Top" Height="300" Margin="20,0,-150,-250">
+            <StackPanel Orientation="Vertical">
+                <Button x:Name="pocetnoStanjePrviPut" Width="Auto" Height="30" HorizontalAlignment="Left" BorderBrush="{x:Null}" Command="{Binding PologCommand}" Margin="20,0,0,0" >
+                    <Button.Style>
+                        <Style TargetType="{x:Type Button}">
+                            <Setter Property="Background" Value="White"/>
+                            <Style.Triggers>
+                                <Trigger Property="IsFocused" Value="True">
+                                    <Setter Property="Background" Value="MediumPurple"/>
+                                </Trigger>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Background" Value="CornflowerBlue"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+                    <Grid>
+                        <Grid.RowDefinitions></Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <Label Grid.Column="1" Foreground="Black" Grid.ColumnSpan="2" VerticalAlignment="Center" FontSize="15" Margin="0,0,0,0" Content="Pocetno stanje prvi put" Height="34"/>
+                    </Grid>
+                </Button>
+
+                <Button x:Name="postavkaNovogPocetnogStanja" Width="Auto" Height="30" HorizontalAlignment="Left" BorderBrush="{x:Null}" Margin="20,0,0,0" Command="{Binding IsplOsnovnihCommand}">
+                    <Button.Style>
+                        <Style TargetType="{x:Type Button}">
+                            <Setter Property="Background" Value="White" />
+                            <Style.Triggers>
+                                <Trigger Property="IsFocused" Value="True">
+                                    <Setter Property="Background" Value="MediumPurple"/>
+                                </Trigger>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Background" Value="CornflowerBlue"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+
+                    <Grid>
+                        <Grid.RowDefinitions></Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <Label Grid.Column="1" Foreground="Black" Grid.ColumnSpan="2" VerticalAlignment="Center" FontSize="15"  Content="Postavka novog pocetnog stanja" Height="35"/>
+                    </Grid>
+                </Button>
+            </StackPanel>
+        </Expander>
+
+        <Grid>
+            <Grid.RowDefinitions></Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+        </Grid>
+
+        <Button Name="arhivaBtn" Foreground="Black" VerticalAlignment="Center" FontSize="18" Height="50" Grid.Column="6" Margin="0,0,0,0"  BorderBrush="White" Background="White" >
+            <TextBlock Height="48"><Run Text="Arhiva"/></TextBlock>
+        </Button>
+
+        <Button Name="otkazBtn" Foreground="Black" VerticalAlignment="Center" FontSize="18" Height="50" Grid.Column="7" Margin="0,0,0,0" BorderBrush="White" Background="White" >
+            <TextBlock Height="48"><Run Text="Otkaz"/></TextBlock>
+        </Button>
+        <ContentControl x:Name="odabraniContent" Content="{Binding OdabraniVM}" Grid.Row="1" Grid.Column="1" Grid.RowSpan="7" Grid.ColumnSpan="6" />
+
+        <TextBlock Height="50" Grid.ColumnSpan="7" DockPanel.Dock="Bottom" HorizontalAlignment="Left" VerticalAlignment="Bottom" Grid.Row="9" Foreground="#FFFF0303" FontWeight="Bold" Grid.Column="1"><Run/>I N T E R N O<LineBreak/>UPOZORENJE: SVI DOKUMENTI I PODACI MOGU SE KORISTITI SAMO ZA INTERNU UPOTREBU!</TextBlock>
+        <Image Source="/Ikone/Lutrija_logo.png" DockPanel.Dock="Bottom" HorizontalAlignment="Left" VerticalAlignment="Bottom" Grid.Row="9"/>
+    </Grid>
+</UserControl>

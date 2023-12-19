@@ -1,0 +1,86 @@
+﻿<Window x:Class="Materijalno.UI.SifarnikSkladistaFormWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Materijalno.UI"
+        mc:Ignorable="d"
+        Title="SifarnikSkladistaFormWindow" Height="650" Width="800">
+    
+    <Window.Resources>
+        <!-- Style for the TextBlocks (labels) -->
+        <Style TargetType="TextBlock">
+            <Setter Property="Margin" Value="0,5"/>
+        </Style>
+
+        <!-- Style for the TextBoxes -->
+        <Style TargetType="TextBox">
+            <Setter Property="Margin" Value="0,5"/>
+            <Setter Property="Width" Value="150"/>
+        </Style>
+
+        <!-- Style for the Buttons -->
+        <Style TargetType="Button">
+            <Setter Property="Width" Value="75"/>
+            <Setter Property="Height" Value="25"/>
+            <Setter Property="Margin" Value="0,10"/>
+        </Style>
+    </Window.Resources>
+
+    <Grid Margin="10">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <!-- Input Fields -->
+        <StackPanel Orientation="Vertical" Grid.Column="2" Grid.ColumnSpan="2" Grid.RowSpan="7">
+            <TextBlock Text="Field 1:" />
+            <TextBox x:Name="textBox1" />
+
+            <TextBlock Text="Field 2:" />
+            <TextBox x:Name="textBox2" />
+
+            <TextBlock Text="Field 3:" />
+            <TextBox x:Name="textBox3" />
+
+            <TextBlock Text="Field 4:" />
+            <TextBox x:Name="textBox4" />
+
+            <TextBlock Text="Field 5:" />
+            <TextBox x:Name="textBox5" />
+
+            <TextBlock Text="Field 6:" />
+            <TextBox x:Name="textBox6" />
+
+            <TextBlock Text="Field 7:" />
+            <TextBox x:Name="textBox7" />
+
+            <TextBlock Text="Field 8:" />
+            <TextBox x:Name="textBox8" />
+
+            <TextBlock Text="Field 9:" />
+            <TextBox x:Name="textBox9" />
+        </StackPanel>
+
+        <!-- Buttons -->
+        <StackPanel Grid.Column="2"  Grid.ColumnSpan="2" Grid.Row="6" VerticalAlignment="Center" Orientation="Horizontal" HorizontalAlignment="Center">
+            <!--<Button  Content="Save" Click="SaveButton_Click" Margin="20"/>-->
+
+            <Button Content="Cancel" Margin="20"/>
+        </StackPanel>
+    </Grid>
+</Window>
