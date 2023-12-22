@@ -12,11 +12,15 @@ namespace Materijalno.ViewModel
     {
         private GlavniViewModel _gvm;
 
-
-        public SifarnikSkladistaFormViewModel(GlavniViewModel gvm)
+        SifarnikSkladista sifarnikSkladista;
+        public SifarnikSkladistaFormViewModel(SifarnikSkladistaViewModel sifarnikSkladistaViewModel)
         {
-            _gvm = gvm;
+            //_gvm = gvm;
+            sifarnikSkladista = sifarnikSkladistaViewModel.SelectedSifarnikSkladista;
 
         }
+
+        public SifarnikSkladista SifarnikSkladista { get => sifarnikSkladista; set { sifarnikSkladista = value; OnPropertyChanged("SifarnikSkladista"); } }
+
     }
 }

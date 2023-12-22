@@ -10,6 +10,10 @@
 
     <UserControl.Resources>
 
+        <DataTemplate DataType="{x:Type vm:SifarnikSkladistaFormViewModel}">
+            
+        </DataTemplate>
+
         <Style TargetType="TextBlock">
             <Setter Property="VerticalAlignment" Value="Center" />
             <Setter Property="HorizontalAlignment" Value="Center" />
@@ -62,15 +66,15 @@
         <TextBlock Text="SIFARNIK SKLADISTA FORM" FontSize="16" FontWeight="Bold" Grid.Column="0" Grid.ColumnSpan="2" VerticalAlignment="Center" HorizontalAlignment="Center" />
 
         <!-- TextBoxes -->
-        <TextBox Grid.Row="1" Grid.Column="2" />
-        <TextBox Grid.Row="2" Grid.Column="2" />
-        <TextBox Grid.Row="3" Grid.Column="2" />
-        <TextBox Grid.Row="4" Grid.Column="2" />
-        <TextBox Grid.Row="5" Grid.Column="2" />
-        <TextBox Grid.Row="6" Grid.Column="2" />
-        <TextBox Grid.Row="7" Grid.Column="2" />
-        <TextBox Grid.Row="8" Grid.Column="2" />
-        <TextBox Grid.Row="9" Grid.Column="2" />
+        <TextBox Grid.Row="1" Grid.Column="2" Text="{Binding SifarnikSkladista.Kljnaz, UpdateSourceTrigger=PropertyChanged}"/>
+        <TextBox Grid.Row="2" Grid.Column="2" Text="{Binding SifarnikSkladista.NazivOrg, UpdateSourceTrigger=PropertyChanged}"/>
+        <TextBox Grid.Row="3" Grid.Column="2" Text="{Binding SifarnikSkladista.ZiroRacun, UpdateSourceTrigger=PropertyChanged}"/>
+        <TextBox Grid.Row="4" Grid.Column="2" Text="{Binding SifarnikSkladista.PozBr, UpdateSourceTrigger=PropertyChanged}"/>
+        <TextBox Grid.Row="5" Grid.Column="2" Text="{Binding SifarnikSkladista.DevizniRacun, UpdateSourceTrigger=PropertyChanged}"/>
+        <TextBox Grid.Row="6" Grid.Column="2" Text="{Binding SifarnikSkladista.PozBrD, UpdateSourceTrigger=PropertyChanged}"/>
+        <TextBox Grid.Row="7" Grid.Column="2" Text="{Binding SifarnikSkladista.Opstina, UpdateSourceTrigger=PropertyChanged}"/>
+        <TextBox Grid.Row="8" Grid.Column="2" Text="{Binding SifarnikSkladista.NazivSdk, UpdateSourceTrigger=PropertyChanged}"/>
+        <TextBox Grid.Row="9" Grid.Column="2" Text="{Binding SifarnikSkladista.MjestoAdresa, UpdateSourceTrigger=PropertyChanged}"/>
 
         <Button Content="Save" HorizontalAlignment="Right" Margin="20" Width="100" Grid.Column="0" Grid.Row="11" />
         <Button Content="Cancel" HorizontalAlignment="Left" Margin="20" Width="100" Grid.Column="1" Grid.Row="11" />

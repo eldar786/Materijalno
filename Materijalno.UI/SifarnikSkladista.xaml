@@ -78,7 +78,7 @@
         <Grid Grid.Row="6" Grid.Column="1" Grid.ColumnSpan="4" HorizontalAlignment="Center" VerticalAlignment="Center">
             
             <StackPanel Orientation="Horizontal" VerticalAlignment="Top" Grid.ColumnSpan="1">
-                <Button x:Name="btnUnos" Command="{Binding OpenWindowSifarnikSkladistaCommand}"  Content="Unos" FontSize="18" Width="110" Margin="5,5,0,5" HorizontalAlignment="Left" />
+                <Button x:Name="btnUnos" Command="{Binding OpenSifarnikSkladistaFormCommand}"  Content="Unos" FontSize="18" Width="110" Margin="5,5,0,5" HorizontalAlignment="Left" />
                 <!--<Button x:Name="btnUnos" Click="btnUnos_Click"  Content="Unos" FontSize="18" Width="110" Margin="5,5,0,5" HorizontalAlignment="Left" />-->
                 <Button x:Name="btnIzmjena" FontSize="18" Content="Izmjena" Width="110" Margin="5,5,0,5" Grid.Column="1" HorizontalAlignment="Left" Command="{Binding IzmjenaCommand}" />
                 <Button x:Name="btnBrisanje"  Content="Brisanje" FontSize="18" Width="110" Margin="5,5,0,5" HorizontalAlignment="Left" Command="{Binding DeleteSifarnikSkladistaCommand}" />

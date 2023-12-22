@@ -55,7 +55,7 @@ namespace Materijalno.ViewModel
         #region Otvaranje Sifarnik Skladista Form
         private void OpenSifarnikSkladistaForm()
         {
-            _gvm.OdabraniVM = new SifarnikSkladistaFormViewModel(_gvm);
+            _gvm.OdabraniVM = new SifarnikSkladistaFormViewModel(this);
         }
 
         #endregion
