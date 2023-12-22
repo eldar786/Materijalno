@@ -24,28 +24,40 @@ namespace Materijalno.ViewModel
         private SifarnikSkladista sifarnikSkladista;
 
         public ObservableCollection<SifarnikSkladista> SifarnikSkladistaList { get; set; }
+
         #endregion
 
         #region Commands
         public ICommand DeleteSifarnikSkladistaCommand { get; set; }
         public ICommand AddSifarnikSkladistaCommand { get; set; }
-        public ICommand OpenWindowSifarnikSkladistaCommand { get; set; }
+        public ICommand OpenSifarnikSkladistaFormCommand { get; set; }
 
         #endregion
 
         #region Constructor
         public SifarnikSkladistaViewModel(GlavniViewModel gvm)
         {
+
+            _gvm = gvm;
+
             using (var dbContext = new materijalno_knjigovodstvoContext())
             {
                 SifarnikSkladistaList = new ObservableCollection<SifarnikSkladista>(dbContext.SifarnikSkladista.ToList());
 
                 DeleteSifarnikSkladistaCommand = new RelayCommand(DeleteSifarnikSkladista);
                 AddSifarnikSkladistaCommand = new RelayCommand(AddSifarnikSkladista);
-                OpenWindowSifarnikSkladistaCommand = new RelayCommand(OpenWindowSifarnikSkladista);
+                OpenSifarnikSkladistaFormCommand = new RelayCommand(OpenSifarnikSkladistaForm);
             }
 
         }
+        #endregion
+
+        #region Otvaranje Sifarnik Skladista Form
+        private void OpenSifarnikSkladistaForm()
+        {
+            _gvm.OdabraniVM = new SifarnikSkladistaFormViewModel(_gvm);
+        }
+
         #endregion
 
         #region Brisanje sifarnika
@@ -86,20 +98,9 @@ namespace Materijalno.ViewModel
         }
         #endregion
 
-        #region Otvaranje Sifarnik Skladista Form
-        private void OpenWindowSifarnikSkladista()
-        {
-            
-        }
-
-
-
-        #endregion
-
         #region Update sifarnika
 
         #endregion
-
 
         public event PropertyChangedEventHandler PropertyChanged;
 

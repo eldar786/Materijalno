@@ -1,5 +1,4 @@
-﻿using Materijalno.ViewModel;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,20 +10,19 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 namespace Materijalno.UI
 {
     /// <summary>
-    /// Interaction logic for SifarnikSkladistaFormWindow.xaml
+    /// Interaction logic for SifarnikSkladistaForm.xaml
     /// </summary>
-    public partial class SifarnikSkladistaFormWindow : Window
+    public partial class SifarnikSkladistaForm : UserControl
     {
-        public SifarnikSkladistaFormWindow(SifarnikSkladistaViewModel sifarnikSkladistaViewModel)
+        public SifarnikSkladistaForm()
         {
             InitializeComponent();
-
-            textBox1.Text = sifarnikSkladistaViewModel.SelectedSifarnikSkladista.Kljnaz.ToString();
         }
     }
 }

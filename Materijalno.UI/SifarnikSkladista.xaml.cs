@@ -21,27 +21,20 @@ namespace Materijalno.UI
     /// </summary>
     public partial class SifarnikSkladista : UserControl
     {
-        //public static readonly DependencyProperty OpenWindowSifarnikSkladistaCommandProperty = DependencyProperty.Register(
-        //  "OpenWindowSifarnikSkladistaCommand", typeof(ICommand), typeof(SifarnikSkladista),
-        //  new PropertyMetadata(default(ICommand)));
-
-        //public ICommand OpenWindowSifarnikSkladistaCommand { get; set; }
-
         public SifarnikSkladista()
         {
             InitializeComponent();
-            DataContext = new SifarnikSkladistaViewModel(null);
+            //DataContext = new SifarnikSkladistaViewModel(null);
 
         }
 
         //private void btnUnos_Click(object sender, RoutedEventArgs e)
         //{
+            
+        //    SifarnikSkladistaFormWindow sifarnikSkladistaFormWindow = new SifarnikSkladistaFormWindow((SifarnikSkladistaViewModel)DataContext);
+        //    sifarnikSkladistaFormWindow.DataContext = DataContext;
 
-        //    SifarnikSkladistaFormWindow sifarnikSkladistaFormWindow = new SifarnikSkladistaFormWindow();
-
-        //    //sifarnikSkladistaFormWindow.DataContext = 
-
-        //    //sifarnikSkladistaFormWindow.Show();
+        //    sifarnikSkladistaFormWindow.Show();
         //}
     }
 }

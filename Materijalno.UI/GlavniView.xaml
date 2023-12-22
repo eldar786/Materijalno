@@ -10,15 +10,19 @@
 
     <UserControl.Resources>
         <BooleanToVisibilityConverter x:Key="BoolToVis" />
-        
+
         <DataTemplate DataType="{x:Type vm:GlavniViewModel}">
             <local:GlavniView/>
         </DataTemplate>
-        
 
         <DataTemplate DataType="{x:Type vm:SifarnikSkladistaViewModel}">
             <local:SifarnikSkladista/>
         </DataTemplate>
+
+        <DataTemplate DataType="{x:Type vm:SifarnikSkladistaFormViewModel}">
+            <local:SifarnikSkladistaForm/>
+        </DataTemplate>
+
 
     </UserControl.Resources>
 
@@ -43,7 +47,8 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
-            <RowDefinition/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
         <Grid>
@@ -607,7 +612,7 @@
         <Button Name="otkazBtn" Foreground="Black" VerticalAlignment="Center" FontSize="18" Height="50" Grid.Column="7" Margin="0,0,0,0" BorderBrush="White" Background="White" >
             <TextBlock Height="48"><Run Text="Otkaz"/></TextBlock>
         </Button>
-        <ContentControl x:Name="odabraniContent" Content="{Binding OdabraniVM}" Grid.Row="1" Grid.Column="1" Grid.RowSpan="7" Grid.ColumnSpan="6" />
+        <ContentControl x:Name="odabraniContent" Content="{Binding OdabraniVM}" Grid.Row="2" Grid.Column="1" Grid.RowSpan="7" Grid.ColumnSpan="6" />
 
         <TextBlock Height="50" Grid.ColumnSpan="7" DockPanel.Dock="Bottom" HorizontalAlignment="Left" VerticalAlignment="Bottom" Grid.Row="9" Foreground="#FFFF0303" FontWeight="Bold" Grid.Column="1"><Run/>I N T E R N O<LineBreak/>UPOZORENJE: SVI DOKUMENTI I PODACI MOGU SE KORISTITI SAMO ZA INTERNU UPOTREBU!</TextBlock>
         <Image Source="/Ikone/Lutrija_logo.png" DockPanel.Dock="Bottom" HorizontalAlignment="Left" VerticalAlignment="Bottom" Grid.Row="9"/>

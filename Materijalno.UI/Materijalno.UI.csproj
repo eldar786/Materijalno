@@ -197,6 +197,9 @@
     <Compile Include="SifarnikSkladista.xaml.cs">
       <DependentUpon>SifarnikSkladista.xaml</DependentUpon>
     </Compile>
+    <Compile Include="SifarnikSkladistaForm.xaml.cs">
+      <DependentUpon>SifarnikSkladistaForm.xaml</DependentUpon>
+    </Compile>
     <Compile Include="SifarnikSkladistaFormWindow.xaml.cs">
       <DependentUpon>SifarnikSkladistaFormWindow.xaml</DependentUpon>
     </Compile>
@@ -212,6 +215,10 @@
       <DependentUpon>GlavniView.xaml</DependentUpon>
     </Compile>
     <Page Include="SifarnikSkladista.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SifarnikSkladistaForm.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -18,6 +18,7 @@ namespace Materijalno.ViewModel
 
         public ICommand SifarnikSkladistaCommand { get; set; }
         public ICommand GlavniCommand { get; set; }
+        public ICommand ZaduzenjeCommand { get; set; }
 
         public GlavniViewModel(ApplicationViewModel avm)
         {
@@ -26,23 +27,26 @@ namespace Materijalno.ViewModel
 
             SifarnikSkladistaCommand = new RelayCommand(OtvoriSifarnikSkladista);
             GlavniCommand = new RelayCommand(OtvoriGlavni);
-
         }
 
         public GlavniViewModel()
         {
             SifarnikSkladistaCommand = new RelayCommand(OtvoriSifarnikSkladista);
+            ZaduzenjeCommand = new RelayCommand(OtvoriZaduzenje);
         }
 
         public void OtvoriSifarnikSkladista()
         {
             OdabraniVM = new SifarnikSkladistaViewModel(this);
         }
+        public void OtvoriZaduzenje()
+        {
+            
+        }
 
         public void OtvoriGlavni()
         {
             OdabraniVM = new GlavniViewModel(_avm);
-
         }
 
         public object OdabraniVM

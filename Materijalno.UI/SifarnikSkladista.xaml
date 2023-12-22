@@ -8,6 +8,16 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="900" >
 
+
+    <!--DataContext je dodat kroz konstruktor, uzima iz SifarnikSkladistaViewModel-->
+    <!--<UserControl.Resources>
+        <BooleanToVisibilityConverter x:Key="BoolToVis" />
+
+        <DataTemplate DataType="{x:Type vm:SifarnikSkladistaFormWindowViewModel}">
+            <local:SifarnikSkladistaFormWindow/>
+        </DataTemplate>
+
+    </UserControl.Resources>-->
     
             <Grid>
         <Grid.ColumnDefinitions>
@@ -29,15 +39,15 @@
             <RowDefinition/>
         </Grid.RowDefinitions>
 
-        <Border Background="AliceBlue" BorderBrush="Silver" BorderThickness="1,0,1,1" Grid.Row="1" Grid.RowSpan="10" Grid.Column="0" Grid.ColumnSpan="6"/>
+        <Border Background="AliceBlue" BorderBrush="Silver" BorderThickness="1,1,1,1" Grid.Row="1" Grid.RowSpan="10" Grid.Column="0" Grid.ColumnSpan="6"/>
         <Label Content="{Binding Path=OdabranaOpcija, FallbackValue='odabrana_opcija'}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center"  VerticalAlignment="Center" Foreground="Black" FontSize="14" FontWeight="Bold" Height="34" Margin="0,-30,-128,28" Grid.Column="1" Grid.Row="1"/>
 
         <Label Grid.Row="1" VerticalAlignment="Center" FontSize="18">Sort:</Label>
-        <ComboBox Grid.Row="1" VerticalAlignment="Center" Margin="53,17,650,19" Height="54"/>
+        <ComboBox Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" Height="54"/>
 
-        <Label Grid.Row="1" VerticalAlignment="Center" Margin="670,0,200,0" FontSize="18" >Filter:</Label>
-        <RadioButton Grid.Row="1" Content="Ukljucen" Margin="800,50,0,0" Grid.RowSpan="2"/>
-        <RadioButton Grid.Row="1" Margin="800,20,0,0" Content="Iskljucen"/>
+        <Label Grid.Row="1" Grid.Column="3" VerticalAlignment="Center" FontSize="18" >Filter:</Label>
+        <RadioButton Grid.Row="1" Grid.Column="5" Content="Ukljucen" Grid.RowSpan="2"/>
+        <RadioButton Grid.Row="1" Grid.Column="4" Content="Iskljucen"/>
 
         <ListView Grid.Row="2" Grid.RowSpan="4" Grid.Column="1" Grid.ColumnSpan="4" Name="GrKomitenti" ItemsSource="{Binding SifarnikSkladistaList}" SelectedValue="{Binding SelectedSifarnikSkladista}">
 
@@ -69,6 +79,7 @@
             
             <StackPanel Orientation="Horizontal" VerticalAlignment="Top" Grid.ColumnSpan="1">
                 <Button x:Name="btnUnos" Command="{Binding OpenWindowSifarnikSkladistaCommand}"  Content="Unos" FontSize="18" Width="110" Margin="5,5,0,5" HorizontalAlignment="Left" />
+                <!--<Button x:Name="btnUnos" Click="btnUnos_Click"  Content="Unos" FontSize="18" Width="110" Margin="5,5,0,5" HorizontalAlignment="Left" />-->
                 <Button x:Name="btnIzmjena" FontSize="18" Content="Izmjena" Width="110" Margin="5,5,0,5" Grid.Column="1" HorizontalAlignment="Left" Command="{Binding IzmjenaCommand}" />
                 <Button x:Name="btnBrisanje"  Content="Brisanje" FontSize="18" Width="110" Margin="5,5,0,5" HorizontalAlignment="Left" Command="{Binding DeleteSifarnikSkladistaCommand}" />
                 <Button x:Name="btnStampa"  Content="Stampa" FontSize="18" Width="110" Margin="5,5,0,5" HorizontalAlignment="Left" Command="{Binding StampaCommand}" />
