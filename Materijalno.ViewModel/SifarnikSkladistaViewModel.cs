@@ -22,6 +22,7 @@ namespace Materijalno.ViewModel
         private GlavniViewModel _gvm;
 
         private SifarnikSkladista selectedSifarnikSkladista;
+        private bool isSelectedUnosSifarnik = false;
 
         public ObservableCollection<SifarnikSkladista> SifarnikSkladistaList { get; set; }
 
@@ -57,6 +58,7 @@ namespace Materijalno.ViewModel
         #region Otvaranje Sifarnik Skladista Form (Unos & Izmjena)
         private void OpenSifarnikSkladistaForm()
         {
+            isSelectedUnosSifarnik = true;
             _gvm.OdabraniVM = new SifarnikSkladistaFormViewModel(this);
         }
 
@@ -125,6 +127,7 @@ namespace Materijalno.ViewModel
 
         #region Properties
         public SifarnikSkladista SelectedSifarnikSkladista { get => selectedSifarnikSkladista; set { selectedSifarnikSkladista = value; OnPropertyChanged("SelectedSifarnikSkladista"); } }
+        public bool IsSelectedUnosSifarnik { get => isSelectedUnosSifarnik; set { isSelectedUnosSifarnik = value; OnPropertyChanged("IsSelectedUnosSifarnik"); } }
 
         // Treba property bool, da li je click na Unos ili Izmjena. Ako je Unos onda nece uzimati SelectedSifarnikSkladista property value u polja, vec ce biti prazna
         

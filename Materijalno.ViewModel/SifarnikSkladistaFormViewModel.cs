@@ -16,7 +16,10 @@ namespace Materijalno.ViewModel
         public SifarnikSkladistaFormViewModel(SifarnikSkladistaViewModel sifarnikSkladistaViewModel)
         {
             //_gvm = gvm;
-            sifarnikSkladista = sifarnikSkladistaViewModel.SelectedSifarnikSkladista;
+            if (sifarnikSkladistaViewModel.IsSelectedUnosSifarnik == false)
+            {
+                sifarnikSkladista = sifarnikSkladistaViewModel.SelectedSifarnikSkladista;
+            }
 
         }
 
