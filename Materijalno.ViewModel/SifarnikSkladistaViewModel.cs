@@ -21,7 +21,7 @@ namespace Materijalno.ViewModel
         private ApplicationViewModel _avm;
         private GlavniViewModel _gvm;
 
-        private SifarnikSkladista sifarnikSkladista;
+        private SifarnikSkladista selectedSifarnikSkladista;
 
         public ObservableCollection<SifarnikSkladista> SifarnikSkladistaList { get; set; }
 
@@ -31,6 +31,7 @@ namespace Materijalno.ViewModel
         public ICommand DeleteSifarnikSkladistaCommand { get; set; }
         public ICommand AddSifarnikSkladistaCommand { get; set; }
         public ICommand OpenSifarnikSkladistaFormCommand { get; set; }
+        public ICommand IzmjenaSifarnikSkladistaFormCommand { get; set; }
 
         #endregion
 
@@ -47,14 +48,26 @@ namespace Materijalno.ViewModel
                 DeleteSifarnikSkladistaCommand = new RelayCommand(DeleteSifarnikSkladista);
                 AddSifarnikSkladistaCommand = new RelayCommand(AddSifarnikSkladista);
                 OpenSifarnikSkladistaFormCommand = new RelayCommand(OpenSifarnikSkladistaForm);
+                IzmjenaSifarnikSkladistaFormCommand = new RelayCommand(IzmjenaSifarnikSkladistaForm);
             }
 
         }
         #endregion
 
-        #region Otvaranje Sifarnik Skladista Form
+        #region Otvaranje Sifarnik Skladista Form (Unos & Izmjena)
         private void OpenSifarnikSkladistaForm()
         {
+            _gvm.OdabraniVM = new SifarnikSkladistaFormViewModel(this);
+        }
+
+        private void IzmjenaSifarnikSkladistaForm()
+        {
+            if (selectedSifarnikSkladista == null)
+            {
+                System.Windows.MessageBox.Show("Niste odabrali sifarnik", "Upozorenje", MessageBoxButton.OK, MessageBoxImage.Information);
+
+                return;
+            }
             _gvm.OdabraniVM = new SifarnikSkladistaFormViewModel(this);
         }
 
@@ -111,7 +124,11 @@ namespace Materijalno.ViewModel
         }
 
         #region Properties
-        public SifarnikSkladista SelectedSifarnikSkladista { get => sifarnikSkladista; set { sifarnikSkladista = value; OnPropertyChanged("SelectedSifarnikSkladista"); } }
+        public SifarnikSkladista SelectedSifarnikSkladista { get => selectedSifarnikSkladista; set { selectedSifarnikSkladista = value; OnPropertyChanged("SelectedSifarnikSkladista"); } }
+
+        // Treba property bool, da li je click na Unos ili Izmjena. Ako je Unos onda nece uzimati SelectedSifarnikSkladista property value u polja, vec ce biti prazna
+        
+        // Napraviti ako je click na Izmjeni, da ne moze otvoriti dok nije izabran select
         #endregion
     }
 }

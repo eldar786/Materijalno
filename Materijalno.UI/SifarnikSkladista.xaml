@@ -79,8 +79,7 @@
             
             <StackPanel Orientation="Horizontal" VerticalAlignment="Top" Grid.ColumnSpan="1">
                 <Button x:Name="btnUnos" Command="{Binding OpenSifarnikSkladistaFormCommand}"  Content="Unos" FontSize="18" Width="110" Margin="5,5,0,5" HorizontalAlignment="Left" />
-                <!--<Button x:Name="btnUnos" Click="btnUnos_Click"  Content="Unos" FontSize="18" Width="110" Margin="5,5,0,5" HorizontalAlignment="Left" />-->
-                <Button x:Name="btnIzmjena" FontSize="18" Content="Izmjena" Width="110" Margin="5,5,0,5" Grid.Column="1" HorizontalAlignment="Left" Command="{Binding IzmjenaCommand}" />
+                <Button x:Name="btnIzmjena" Command="{Binding IzmjenaSifarnikSkladistaFormCommand}" FontSize="18" Content="Izmjena" Width="110" Margin="5,5,0,5" Grid.Column="1" HorizontalAlignment="Left" />
                 <Button x:Name="btnBrisanje"  Content="Brisanje" FontSize="18" Width="110" Margin="5,5,0,5" HorizontalAlignment="Left" Command="{Binding DeleteSifarnikSkladistaCommand}" />
                 <Button x:Name="btnStampa"  Content="Stampa" FontSize="18" Width="110" Margin="5,5,0,5" HorizontalAlignment="Left" Command="{Binding StampaCommand}" />
                 <Button x:Name="btnIzlaz"  Content="Izlaz" FontSize="18" Width="110" Margin="5,5,0,5" HorizontalAlignment="Left" Command="{Binding IzlazCommand}" />
