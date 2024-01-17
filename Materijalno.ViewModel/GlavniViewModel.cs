@@ -37,7 +37,7 @@ namespace Materijalno.ViewModel
 
         public void OtvoriSifarnikSkladista()
         {
-            OdabraniVM = new SifarnikSkladistaViewModel(this);
+            OdabraniVM = new SifarnikSkladistaViewModel(this); 
         }
         public void OtvoriZaduzenje()
         {

@@ -39,7 +39,6 @@ namespace Materijalno.ViewModel
         #region Constructor
         public SifarnikSkladistaViewModel(GlavniViewModel gvm)
         {
-
             _gvm = gvm;
 
             using (var dbContext = new materijalno_knjigovodstvoContext())
@@ -51,7 +50,6 @@ namespace Materijalno.ViewModel
                 OpenSifarnikSkladistaFormCommand = new RelayCommand(OpenSifarnikSkladistaForm);
                 IzmjenaSifarnikSkladistaFormCommand = new RelayCommand(IzmjenaSifarnikSkladistaForm);
             }
-
         }
         #endregion
 
@@ -59,7 +57,7 @@ namespace Materijalno.ViewModel
         private void OpenSifarnikSkladistaForm()
         {
             isSelectedUnosSifarnik = true;
-            _gvm.OdabraniVM = new SifarnikSkladistaFormViewModel(this);
+            _gvm.OdabraniVM = new SifarnikSkladistaFormViewModel(this, _gvm);
         }
 
         private void IzmjenaSifarnikSkladistaForm()
@@ -70,7 +68,7 @@ namespace Materijalno.ViewModel
 
                 return;
             }
-            _gvm.OdabraniVM = new SifarnikSkladistaFormViewModel(this);
+            _gvm.OdabraniVM = new SifarnikSkladistaFormViewModel(this, _gvm);
         }
 
         #endregion
@@ -85,7 +83,7 @@ namespace Materijalno.ViewModel
                     dbContext.SifarnikSkladista.Remove(SelectedSifarnikSkladista);
                     dbContext.SaveChanges();
 
-                    // Vidjeti drugi naci za refresh listu, da radi INotPropChanged
+                    // Uraditi message box provjeru da li zelimo da obrisemo
                     SifarnikSkladistaList.Remove(SelectedSifarnikSkladista);
 
                     SelectedSifarnikSkladista = null;
@@ -129,9 +127,6 @@ namespace Materijalno.ViewModel
         public SifarnikSkladista SelectedSifarnikSkladista { get => selectedSifarnikSkladista; set { selectedSifarnikSkladista = value; OnPropertyChanged("SelectedSifarnikSkladista"); } }
         public bool IsSelectedUnosSifarnik { get => isSelectedUnosSifarnik; set { isSelectedUnosSifarnik = value; OnPropertyChanged("IsSelectedUnosSifarnik"); } }
 
-        // Treba property bool, da li je click na Unos ili Izmjena. Ako je Unos onda nece uzimati SelectedSifarnikSkladista property value u polja, vec ce biti prazna
-        
-        // Napraviti ako je click na Izmjeni, da ne moze otvoriti dok nije izabran select
         #endregion
     }
 }

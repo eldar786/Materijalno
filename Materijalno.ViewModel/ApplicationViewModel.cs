@@ -27,28 +27,14 @@ namespace Materijalno.ViewModel
                 _odabraniVM = value;
                 OnPropertyChanged("OdabraniVM");
             }
-
         }
         public ApplicationViewModel()
         {
-            //SifarnikSkladistaCommand = new RelayCommand(OtvoriSifarnikSkladista);
             GlavniCommand = new RelayCommand(OtvoriGlavni);
-            SifarnikSkladistaCommand = new RelayCommand(OtvoriSifarnikSkladista);
         }
-
-        //private void OtvoriSifarnikSkladista()
-        //{
-        //    OdabraniVM = new SifarnikSkladistaViewModel(this);
-        //} 
-        
         private void OtvoriGlavni()
         {
             OdabraniVM = new GlavniViewModel(this);
-        }
-
-        public void OtvoriSifarnikSkladista()
-        {
-            //OdabraniVM = new SifarnikSkladistaViewModel();
         }
     }
 }

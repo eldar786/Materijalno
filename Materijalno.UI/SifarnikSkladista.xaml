@@ -10,14 +10,14 @@
 
 
     <!--DataContext je dodat kroz konstruktor, uzima iz SifarnikSkladistaViewModel-->
-    <!--<UserControl.Resources>
+    <UserControl.Resources>
         <BooleanToVisibilityConverter x:Key="BoolToVis" />
 
-        <DataTemplate DataType="{x:Type vm:SifarnikSkladistaFormWindowViewModel}">
-            <local:SifarnikSkladistaFormWindow/>
+        <DataTemplate DataType="{x:Type vm:SifarnikSkladistaViewModel}">
+            <local:SifarnikSkladista/>
         </DataTemplate>
 
-    </UserControl.Resources>-->
+    </UserControl.Resources>
     
             <Grid>
         <Grid.ColumnDefinitions>

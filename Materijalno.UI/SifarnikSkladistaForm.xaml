@@ -54,13 +54,13 @@
         <!-- TextBlocks -->
         <TextBlock Grid.Row="1" Grid.Column="0" Text="Kljnaz:" />
         <TextBlock Grid.Row="2" Grid.Column="0" Text="Nazivorg:" />
-        <TextBlock Grid.Row="3" Grid.Column="0" Text="Text 3:" />
-        <TextBlock Grid.Row="4" Grid.Column="0" Text="Text 4:" />
-        <TextBlock Grid.Row="5" Grid.Column="0" Text="Text 5:" />
-        <TextBlock Grid.Row="6" Grid.Column="0" Text="Text 6:" />
-        <TextBlock Grid.Row="7" Grid.Column="0" Text="Text 7:" />
-        <TextBlock Grid.Row="8" Grid.Column="0" Text="Text 8:" />
-        <TextBlock Grid.Row="9" Grid.Column="0" Text="Text 9:" />
+        <TextBlock Grid.Row="3" Grid.Column="0" Text="ZiroRacun:" />
+        <TextBlock Grid.Row="4" Grid.Column="0" Text="PozBr:" />
+        <TextBlock Grid.Row="5" Grid.Column="0" Text="DevizniRacun:" />
+        <TextBlock Grid.Row="6" Grid.Column="0" Text="PozBrD:" />
+        <TextBlock Grid.Row="7" Grid.Column="0" Text="Opstina:" />
+        <TextBlock Grid.Row="8" Grid.Column="0" Text="NazivSdk:" />
+        <TextBlock Grid.Row="9" Grid.Column="0" Text="MjestoAdresa:" />
 
         <!-- Header -->
         <TextBlock Text="SIFARNIK SKLADISTA FORM" FontSize="16" FontWeight="Bold" Grid.Column="0" Grid.ColumnSpan="2" VerticalAlignment="Center" HorizontalAlignment="Center" />
@@ -76,7 +76,7 @@
         <TextBox Grid.Row="8" Grid.Column="2" Text="{Binding SifarnikSkladista.NazivSdk, UpdateSourceTrigger=PropertyChanged}"/>
         <TextBox Grid.Row="9" Grid.Column="2" Text="{Binding SifarnikSkladista.MjestoAdresa, UpdateSourceTrigger=PropertyChanged}"/>
 
-        <Button Content="Save" HorizontalAlignment="Right" Margin="20" Width="100" Grid.Column="0" Grid.Row="11" />
+        <Button Content="Save" Command="{Binding SaveSifarnikSkladistaCommand}" HorizontalAlignment="Right" Margin="20" Width="100" Grid.Column="0" Grid.Row="11" />
         <Button Content="Cancel" HorizontalAlignment="Left" Margin="20" Width="100" Grid.Column="1" Grid.Row="11" />
     </Grid>
 </UserControl>

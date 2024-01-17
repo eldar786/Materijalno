@@ -8,7 +8,7 @@ using System.ComponentModel;
 
 namespace Materijalno.Model.EntityModels
 {
-    public partial class SifarnikSkladista : INotifyPropertyChanged
+    public class SifarnikSkladista : INotifyPropertyChanged
     {
         public int Id { get; set; }
         public int? Kljnaz { get; set; }
