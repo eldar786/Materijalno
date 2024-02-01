@@ -1,10 +1,10 @@
 ﻿<UserControl x:Class="Materijalno.UI.SifarnikSkladistaForm"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:vm="clr-namespace:Materijalno.ViewModel;assembly=Materijalno.ViewModel"
-             xmlns:local="clr-namespace:Materijalno.UI"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="clr-namespace:Materijalno.ViewModel;assembly=Materijalno.ViewModel" 
+             xmlns:validationrules="clr-namespace:Materijalno.UI.ValidationRules"
              mc:Ignorable="d" 
              d:DesignHeight="650" d:DesignWidth="800">
 
@@ -17,17 +17,19 @@
         <Style TargetType="TextBlock">
             <Setter Property="VerticalAlignment" Value="Center" />
             <Setter Property="HorizontalAlignment" Value="Center" />
+            <Setter Property="Width" Value="200"/>
         </Style>
 
         <Style TargetType="TextBox">
             <Setter Property="VerticalAlignment" Value="Center"/>
             <Setter Property="HorizontalAlignment" Value="Left"/>
             <Setter Property="Width" Value="200"/>
+
+            <Setter Property="ToolTip" Value=""/>
         </Style>
 
     </UserControl.Resources>
 
-    
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
@@ -66,7 +68,19 @@
         <TextBlock Text="SIFARNIK SKLADISTA FORM" FontSize="16" FontWeight="Bold" Grid.Column="0" Grid.ColumnSpan="2" VerticalAlignment="Center" HorizontalAlignment="Center" />
 
         <!-- TextBoxes -->
-        <TextBox Grid.Row="1" Grid.Column="2" Text="{Binding SifarnikSkladista.Kljnaz, UpdateSourceTrigger=PropertyChanged}"/>
+            <TextBox x:Name="textBox" Grid.Row="1" Grid.Column="2">
+            <TextBox.Text>
+                <Binding Path="SifarnikSkladista.Kljnaz" UpdateSourceTrigger="PropertyChanged">
+                    <Binding.ValidationRules>
+                        <validationrules:FormValidationRule />
+                    </Binding.ValidationRules>
+                </Binding>
+            </TextBox.Text>
+            </TextBox>
+            <TextBlock Text="{Binding ElementName=textBox, Path=(Validation.Errors)/ErrorContent}" Foreground="Red" Grid.Row="1" Grid.Column="2" VerticalAlignment="Top" HorizontalAlignment="Left" />
+      
+        
+        <!--<TextBox Grid.Row="1" Grid.Column="2" Text="{Binding SifarnikSkladista.Kljnaz, UpdateSourceTrigger=PropertyChanged}"/>-->
         <TextBox Grid.Row="2" Grid.Column="2" Text="{Binding SifarnikSkladista.NazivOrg, UpdateSourceTrigger=PropertyChanged}"/>
         <TextBox Grid.Row="3" Grid.Column="2" Text="{Binding SifarnikSkladista.ZiroRacun, UpdateSourceTrigger=PropertyChanged}"/>
         <TextBox Grid.Row="4" Grid.Column="2" Text="{Binding SifarnikSkladista.PozBr, UpdateSourceTrigger=PropertyChanged}"/>

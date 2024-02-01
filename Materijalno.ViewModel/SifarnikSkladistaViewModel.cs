@@ -80,14 +80,29 @@ namespace Materijalno.ViewModel
             {
                 using (var dbContext = new materijalno_knjigovodstvoContext())
                 {
-                    dbContext.SifarnikSkladista.Remove(SelectedSifarnikSkladista);
-                    dbContext.SaveChanges();
+                   var resultMessageBox = System.Windows.MessageBox.Show("Da li ste sigurni da želite obrisati sifarnik 'Kljnaz': " + SelectedSifarnikSkladista.Kljnaz, "Upozorenje", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                   
+                    if (resultMessageBox == MessageBoxResult.Yes)
+                    {
+                        dbContext.SifarnikSkladista.Remove(SelectedSifarnikSkladista);
+                        dbContext.SaveChanges();
+
+                        SifarnikSkladistaList.Remove(SelectedSifarnikSkladista);
+                    }
+                    else if (resultMessageBox == MessageBoxResult.No)
+                    {
+                        return;
+                    }
 
                     // Uraditi message box provjeru da li zelimo da obrisemo
-                    SifarnikSkladistaList.Remove(SelectedSifarnikSkladista);
+                    //SifarnikSkladistaList.Remove(SelectedSifarnikSkladista);
 
-                    SelectedSifarnikSkladista = null;
+                    //SelectedSifarnikSkladista = null;
                 }
+            }
+            else if (SelectedSifarnikSkladista == null)
+            {
+                System.Windows.MessageBox.Show("Niste odabrali sifarnik za brisanje", "Upozorenje", MessageBoxButton.OK, MessageBoxImage.Warning);
             }
         }
         #endregion

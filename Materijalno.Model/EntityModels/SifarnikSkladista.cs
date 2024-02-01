@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 
 // Code scaffolded by EF Core assumes nullable reference types (NRTs) are not used or disabled.
 // If you have enabled NRTs for your project, then un-comment the following line:
@@ -12,6 +14,8 @@ namespace Materijalno.Model.EntityModels
     {
         public int Id { get; set; }
         public int? Kljnaz { get; set; }
+
+        [Required(ErrorMessage = "Ovo polje je obavezno.")]
         public string NazivOrg { get; set; }
         public int? ZiroRacun { get; set; }
         public int? PozBr { get; set; }
