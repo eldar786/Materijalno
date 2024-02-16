@@ -14,8 +14,6 @@ namespace Materijalno.Model.EntityModels
     {
         public int Id { get; set; }
         public int? Kljnaz { get; set; }
-
-        [Required(ErrorMessage = "Ovo polje je obavezno.")]
         public string NazivOrg { get; set; }
         public int? ZiroRacun { get; set; }
         public int? PozBr { get; set; }

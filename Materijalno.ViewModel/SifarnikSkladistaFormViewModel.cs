@@ -19,6 +19,7 @@ namespace Materijalno.ViewModel
         SifarnikSkladista sifarnikSkladista = new SifarnikSkladista();
 
         public ICommand SaveSifarnikSkladistaCommand { get; set; }
+        public ICommand CancelSifarnikSkladistaCommand { get; set; }
 
         #region Objasnjenje prelaska iz jednog UserControlera u drugi 
 
@@ -33,6 +34,7 @@ namespace Materijalno.ViewModel
             _gvm = glavniViewModel;
             isSelectedUnosSifarnik = sifarnikSkladistaViewModel.IsSelectedUnosSifarnik;
             SaveSifarnikSkladistaCommand = new RelayCommand(SaveSifarnikSkladista);
+            CancelSifarnikSkladistaCommand = new RelayCommand(CancelSifarnikSkladista);
             if (sifarnikSkladistaViewModel.IsSelectedUnosSifarnik == false)
             {
                 sifarnikSkladista = sifarnikSkladistaViewModel.SelectedSifarnikSkladista;
@@ -54,7 +56,7 @@ namespace Materijalno.ViewModel
         private bool ValidationSifarnikSkladista()
         {
             if (!SifarnikSkladista.Kljnaz.HasValue ||
-                string.IsNullOrEmpty(SifarnikSkladista.NazivOrg) ||
+                string.IsNullOrWhiteSpace(sifarnikSkladista.NazivOrg) ||
                 !SifarnikSkladista.ZiroRacun.HasValue ||
                 !SifarnikSkladista.PozBr.HasValue ||
                 !SifarnikSkladista.DevizniRacun.HasValue ||
@@ -106,6 +108,11 @@ namespace Materijalno.ViewModel
                     _gvm.OdabraniVM = new SifarnikSkladistaViewModel(_gvm);
                 }
             }
+        }
+
+        private void CancelSifarnikSkladista()
+        {
+            _gvm.OdabraniVM = new SifarnikSkladistaViewModel(_gvm);
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
