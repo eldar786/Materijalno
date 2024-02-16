@@ -17,8 +17,9 @@ namespace Materijalno.ViewModel
         private bool isSelectedUnosSifarnik;
 
         SifarnikSkladista sifarnikSkladista = new SifarnikSkladista();
-        
+
         public ICommand SaveSifarnikSkladistaCommand { get; set; }
+        public ICommand CancelSifarnikSkladistaCommand { get; set; }
 
         #region Objasnjenje prelaska iz jednog UserControlera u drugi 
 
@@ -33,10 +34,42 @@ namespace Materijalno.ViewModel
             _gvm = glavniViewModel;
             isSelectedUnosSifarnik = sifarnikSkladistaViewModel.IsSelectedUnosSifarnik;
             SaveSifarnikSkladistaCommand = new RelayCommand(SaveSifarnikSkladista);
-            //_gvm = gvm;
+            CancelSifarnikSkladistaCommand = new RelayCommand(CancelSifarnikSkladista);
             if (sifarnikSkladistaViewModel.IsSelectedUnosSifarnik == false)
             {
                 sifarnikSkladista = sifarnikSkladistaViewModel.SelectedSifarnikSkladista;
+            }
+        }
+
+        //private bool ValidationForEach()
+        //{
+        //    foreach (var item in SifarnikSkladista)
+        //    {
+        //        if (string.IsNullOrEmpty(item.ToString()))
+        //        {
+        //            return false;
+        //        }
+        //    }
+        //    return true;
+        //}
+
+        private bool ValidationSifarnikSkladista()
+        {
+            if (!SifarnikSkladista.Kljnaz.HasValue ||
+                string.IsNullOrWhiteSpace(sifarnikSkladista.NazivOrg) ||
+                !SifarnikSkladista.ZiroRacun.HasValue ||
+                !SifarnikSkladista.PozBr.HasValue ||
+                !SifarnikSkladista.DevizniRacun.HasValue ||
+                !SifarnikSkladista.PozBrD.HasValue ||
+                string.IsNullOrEmpty(SifarnikSkladista.Opstina) ||
+                string.IsNullOrEmpty(SifarnikSkladista.NazivSdk) ||
+                string.IsNullOrEmpty(SifarnikSkladista.MjestoAdresa))
+            {
+                return false;
+            }
+            else
+            {
+                return true;
             }
         }
 
@@ -47,6 +80,11 @@ namespace Materijalno.ViewModel
                 //Ako je odabrana izmjena Button da radi Update na bazi
                 if (isSelectedUnosSifarnik == false)
                 {
+                    if (ValidationSifarnikSkladista() == false)
+                    {
+                        System.Windows.MessageBox.Show("Molimo unesite sva polja", "Greška", MessageBoxButton.OK, MessageBoxImage.Error);
+                        return;
+                    }
                     dbContext.Update(SifarnikSkladista);
                     dbContext.SaveChanges();
 
@@ -57,6 +95,11 @@ namespace Materijalno.ViewModel
                 }
                 else
                 {
+                    if (ValidationSifarnikSkladista() == false)
+                    {
+                        System.Windows.MessageBox.Show("Molimo unesite sva polja", "Greška", MessageBoxButton.OK, MessageBoxImage.Error);
+                        return;
+                    }
                     dbContext.Add(SifarnikSkladista);
                     dbContext.SaveChanges();
 
@@ -65,6 +108,11 @@ namespace Materijalno.ViewModel
                     _gvm.OdabraniVM = new SifarnikSkladistaViewModel(_gvm);
                 }
             }
+        }
+
+        private void CancelSifarnikSkladista()
+        {
+            _gvm.OdabraniVM = new SifarnikSkladistaViewModel(_gvm);
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
