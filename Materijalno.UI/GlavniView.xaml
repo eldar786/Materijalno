@@ -23,6 +23,10 @@
             <local:SifarnikSkladistaForm/>
         </DataTemplate>
 
+        <DataTemplate DataType="{x:Type vm:SifarnikMaterijalSkladisteKontoViewModel}">
+            <local:SifarnikMaterijalSkladisteKonto/>
+        </DataTemplate>
+
 
     </UserControl.Resources>
 
@@ -138,7 +142,7 @@
                         </Grid>
                     </Button>
 
-                    <Button x:Name="materijalSkladisteKonta" Width="Auto" Height="30" HorizontalAlignment="Left" BorderBrush="{x:Null}" Margin="20,0,0,0" Command="{Binding UplOsnovnihCommand}">
+                    <Button x:Name="materijalSkladisteKonta" Width="Auto" Height="30" HorizontalAlignment="Left" BorderBrush="{x:Null}" Margin="20,0,0,0" Command="{Binding SifarnikMaterijalSkladisteKontoCommand}">
                         <Button.Style>
                             <Style TargetType="{x:Type Button}">
                                 <Setter Property="Background" Value="White" />
