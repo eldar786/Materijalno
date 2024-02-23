@@ -23,6 +23,10 @@
             <local:SifarnikSkladistaForm/>
         </DataTemplate>
 
+        <DataTemplate DataType="{x:Type vm:SifarnikMatrijalaViewModel}">
+            <local:SifarnikMaterijala/>
+        </DataTemplate>
+
 
     </UserControl.Resources>
 
@@ -85,7 +89,7 @@
                             <Label Grid.Column="1" Foreground="Black" Grid.ColumnSpan="2" VerticalAlignment="Center" FontSize="15" Margin="0,0,0,0" Content="Šifarnik skladišta" Height="34"/>
                         </Grid>
                     </Button>
-                    <Button x:Name="materijala" Width="Auto" Height="30" HorizontalAlignment="Left" BorderBrush="{x:Null}" Margin="20,0,0,0" Command="{Binding ZaduzenjeCommand}">
+                    <Button x:Name="materijala" Width="Auto" Height="30" HorizontalAlignment="Left" BorderBrush="{x:Null}" Margin="20,0,0,0" Command="{Binding SifarnikMaterijalaCommand}">
                         <Button.Style>
                             <Style TargetType="{x:Type Button}">
                                 <Setter Property="Background" Value="White" />
