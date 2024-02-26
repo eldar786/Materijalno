@@ -194,8 +194,12 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="SifarnikKonta.xaml.cs">
+      <DependentUpon>SifarnikKonta.xaml</DependentUpon>
+    </Compile>
     <Compile Include="SifarnikMaterijalSkladisteKonto.xaml.cs">
       <DependentUpon>SifarnikMaterijalSkladisteKonto.xaml</DependentUpon>
+    </Compile>
     <Compile Include="SifarnikMaterijala.xaml.cs">
       <DependentUpon>SifarnikMaterijala.xaml</DependentUpon>
     </Compile>
@@ -220,7 +224,14 @@
     <Compile Include="GlavniView.xaml.cs">
       <DependentUpon>GlavniView.xaml</DependentUpon>
     </Compile>
+    <Page Include="SifarnikKonta.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="SifarnikMaterijalSkladisteKonto.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="SifarnikMaterijala.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
