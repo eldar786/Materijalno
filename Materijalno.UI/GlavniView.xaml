@@ -25,6 +25,7 @@
 
         <DataTemplate DataType="{x:Type vm:SifarnikMatrijalaViewModel}">
             <local:SifarnikMaterijala/>
+
         </DataTemplate>
 
 
@@ -116,7 +117,7 @@
 
 
 
-                    <Button x:Name="konta" Width="Auto" Height="30" HorizontalAlignment="Left" BorderBrush="{x:Null}" Margin="20,0,0,0" Command="{Binding IsplOsnovnihCommand}">
+                    <Button x:Name="konta" Width="Auto" Height="30" HorizontalAlignment="Left" BorderBrush="{x:Null}" Margin="20,0,0,0" Command="{Binding SifarnikKontaCommand}">
                         <Button.Style>
                             <Style TargetType="{x:Type Button}">
                                 <Setter Property="Background" Value="White" />
