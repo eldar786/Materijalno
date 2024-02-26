@@ -19,6 +19,7 @@ namespace Materijalno.ViewModel
         public ICommand SifarnikSkladistaCommand { get; set; }
         public ICommand GlavniCommand { get; set; }
         public ICommand ZaduzenjeCommand { get; set; }
+        public ICommand SifarnikMaterijalSkladisteKontoCommand { get; set; }
         public ICommand SifarnikMaterijalaCommand { get; set; }
         public ICommand SifarnikKontaCommand { get; set; }
         public ICommand SifarnikMaterijalSkladisteKontoCommand { get; set; }
@@ -33,7 +34,6 @@ namespace Materijalno.ViewModel
         public ICommand StampanjeInventurnihListicaCommand { get; set; }
         public ICommand SifarnikKontaCommand { get; set; }
 
-
         public GlavniViewModel(ApplicationViewModel avm)
         {
             _avm = avm;
@@ -47,10 +47,10 @@ namespace Materijalno.ViewModel
         {
             SifarnikSkladistaCommand = new RelayCommand(OtvoriSifarnikSkladista);
             ZaduzenjeCommand = new RelayCommand(OtvoriZaduzenje);
+            SifarnikMaterijalSkladisteKontoCommand = new RelayCommand(OtvoriSifarnikMaterijalSkladisteKonto);
             SifarnikMaterijalaCommand = new RelayCommand(OtvoriSifarnikMaterijala);
 
             SifarnikKontaCommand = new RelayCommand(OtvoriSifarnikKonta);
-
         }
 
         public void OtvoriSifarnikSkladista()
@@ -62,6 +62,9 @@ namespace Materijalno.ViewModel
             
         }
 
+        public void OtvoriSifarnikMaterijalSkladisteKonto()
+        {
+            OdabraniVM = new SifarnikMaterijalSkladisteKontoViewModel(this);
         public void OtvoriSifarnikMaterijala()
         {
             OdabraniVM = new SifarnikMatrijalaViewModel(this);
@@ -69,7 +72,6 @@ namespace Materijalno.ViewModel
         public void OtvoriSifarnikKonta()
         {
             OdabraniVM = new SifarnikKontaViewModel(this);
-
         }
 
         public void OtvoriGlavni()
