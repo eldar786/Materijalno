@@ -23,6 +23,10 @@
             <local:SifarnikSkladistaForm/>
         </DataTemplate>
 
+        <DataTemplate DataType="{x:Type vm:UlazMaterijalaViewModel}">
+            <local:UlazMaterijala/>
+        </DataTemplate>
+
 
     </UserControl.Resources>
 
@@ -178,7 +182,7 @@
             </Grid.ColumnDefinitions>
             <Expander Header="PROMET" Grid.Column="2" Visibility="{Binding Path=PrikaziRU, Converter={StaticResource BoolToVis}}" FontSize="18" IsExpanded="False" BorderBrush="{x:Null}" Background="White" VerticalAlignment="Top" Height="300" Margin="30,0,-150,-250">
                 <StackPanel Orientation="Vertical">
-                    <Button x:Name="ulazMaterijala" Width="Auto" Height="30" HorizontalAlignment="Left" BorderBrush="{x:Null}" Command="{Binding PologCommand}" Margin="20,0,0,0" >
+                    <Button x:Name="ulazMaterijala" Width="Auto" Height="30" HorizontalAlignment="Left" BorderBrush="{x:Null}" Command="{Binding UlazMaterijalaCommand}" Margin="20,0,0,0" >
                         <Button.Style>
                             <Style TargetType="{x:Type Button}">
                                 <Setter Property="Background" Value="White"/>
