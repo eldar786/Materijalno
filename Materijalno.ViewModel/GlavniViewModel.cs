@@ -49,6 +49,7 @@ namespace Materijalno.ViewModel
         public void OtvoriCentralniMagacin()
         {
             OdabraniVM = new CentralniMagacinViewModel(this);
+            //nisam uradila comit all and push
         }
 
         public void OtvoriGlavni()
