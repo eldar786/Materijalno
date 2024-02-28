@@ -203,6 +203,9 @@
     <Compile Include="SifarnikSkladistaFormWindow.xaml.cs">
       <DependentUpon>SifarnikSkladistaFormWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="StampanjeInventurnihZaliha.xaml.cs">
+      <DependentUpon>StampanjeInventurnihZaliha.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ValidationRules\FormValidationRule.cs" />
     <Page Include="GlavniView.xaml">
       <SubType>Designer</SubType>
@@ -224,6 +227,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="SifarnikSkladistaFormWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="StampanjeInventurnihZaliha.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
