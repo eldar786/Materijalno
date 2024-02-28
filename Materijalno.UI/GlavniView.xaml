@@ -22,8 +22,14 @@
         <DataTemplate DataType="{x:Type vm:SifarnikSkladistaFormViewModel}">
             <local:SifarnikSkladistaForm/>
         </DataTemplate>
-
-
+        
+        
+         <DataTemplate DataType="{x:Type vm:UnosInventurnogStanjaViewModel}">
+              <local:UnosInventurnogStanja/>
+         </DataTemplate>      
+     
+        
+        
     </UserControl.Resources>
 
     <Grid>
@@ -479,7 +485,7 @@
                     </Grid>
                 </Button>
 
-                <Button x:Name="unosInventurnogStanja" Width="Auto" Height="30" HorizontalAlignment="Left" BorderBrush="{x:Null}" Margin="20,0,0,0" Command="{Binding IsplOsnovnihCommand}">
+                <Button x:Name="unosInventurnogStanja" Width="Auto" Height="30" HorizontalAlignment="Left" BorderBrush="{x:Null}" Margin="20,0,0,0" Command="{Binding UnosInventurnogStanjaCommand}">
                     <Button.Style>
                         <Style TargetType="{x:Type Button}">
                             <Setter Property="Background" Value="White" />
