@@ -23,6 +23,10 @@
             <local:SifarnikSkladistaForm/>
         </DataTemplate>
 
+        <DataTemplate DataType="{x:Type vm:PovratUSkladisteViewModel}">
+            <local:PovratUSkladiste/>
+        </DataTemplate>
+
 
     </UserControl.Resources>
 
@@ -393,7 +397,7 @@
                     </Grid>
                 </Button>
 
-                <Button x:Name="povratUSkladiste" Width="Auto" Height="30" HorizontalAlignment="Left" BorderBrush="{x:Null}" Margin="20,0,0,0" Command="{Binding UplOsnovnihCommand}">
+                <Button x:Name="povratUSkladiste" Width="Auto" Height="30" HorizontalAlignment="Left" BorderBrush="{x:Null}" Margin="20,0,0,0" Command="{Binding PovratUSkladisteCommand}">
                     <Button.Style>
                         <Style TargetType="{x:Type Button}">
                             <Setter Property="Background" Value="White" />
