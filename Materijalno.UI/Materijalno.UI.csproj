@@ -194,6 +194,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Dnevnik.xaml.cs">
+      <DependentUpon>Dnevnik.xaml</DependentUpon>
+    </Compile>
     <Compile Include="SifarnikKonta.xaml.cs">
       <DependentUpon>SifarnikKonta.xaml</DependentUpon>
     </Compile>
@@ -213,6 +216,10 @@
       <DependentUpon>SifarnikSkladistaFormWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="ValidationRules\FormValidationRule.cs" />
+    <Page Include="Dnevnik.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="GlavniView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

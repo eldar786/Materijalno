@@ -35,6 +35,10 @@
             <local:SifarnikKonta/>
         </DataTemplate>
 
+        <DataTemplate DataType="{x:Type vm:DnevnikViewModel}">
+            <local:Dnevnik/>
+        </DataTemplate>
+
     </UserControl.Resources>
 
     <Grid>
@@ -305,7 +309,7 @@
         </Grid>
         <Expander Header="IZVJEŠTAJI" Grid.Column="2" FontSize="18" IsExpanded="False" BorderBrush="{x:Null}" Background="White" VerticalAlignment="Top" Height="300" Margin="0,0,-50,-200">
             <StackPanel Orientation="Vertical">
-                <Button x:Name="dnevnik" Width="Auto" Height="30" HorizontalAlignment="Left" BorderBrush="{x:Null}" Command="{Binding SifarnikSkladistaCommand1}" Margin="20,0,0,0">
+                <Button x:Name="dnevnik" Width="Auto" Height="30" HorizontalAlignment="Left" BorderBrush="{x:Null}" Command="{Binding DnevnikCommand}" Margin="20,0,0,0">
                     <Button.Style>
                         <Style TargetType="{x:Type Button}">
                             <Setter Property="Background" Value="White"/>
@@ -329,7 +333,7 @@
                         <Label Grid.Column="1" Foreground="Black" Grid.ColumnSpan="2" VerticalAlignment="Center" FontSize="15" Margin="0,0,0,0" Content="Dnevnik" Height="34"/>
                     </Grid>
                 </Button>
-                <Button x:Name="analitickakartica" Width="Auto" Height="30" HorizontalAlignment="Left" BorderBrush="{x:Null}" Margin="20,0,0,0" Command="{Binding ZaduzenjeCommand}">
+                <Button x:Name="analitickakartica" Width="Auto" Height="30" HorizontalAlignment="Left" BorderBrush="{x:Null}" Margin="20,0,0,0" Command="{Binding AnalitickaKarticaCommand}">
                     <Button.Style>
                         <Style TargetType="{x:Type Button}">
                             <Setter Property="Background" Value="White" />
