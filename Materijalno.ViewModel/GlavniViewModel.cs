@@ -66,7 +66,7 @@ namespace Materijalno.ViewModel
         }
         public void OtvoriSifarnikMaterijala()
         {
-            OdabraniVM = new SifarnikMatrijalaViewModel(this);
+            OdabraniVM = new SifarnikMaterijalaViewModel(this);
         }
         public void OtvoriSifarnikKonta()
         {

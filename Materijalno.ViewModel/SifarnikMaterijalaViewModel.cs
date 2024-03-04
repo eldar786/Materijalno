@@ -14,14 +14,17 @@ using Materijalno.Model.EntityModels;
 
 namespace Materijalno.ViewModel
 {
-    public class SifarnikMatrijalaViewModel : ObservableObject
+    public class SifarnikMaterijalaViewModel : ObservableObject
     {
         private ApplicationViewModel _avm;
         private GlavniViewModel _gvm;
+        private SifarnikMaterijala selectedSifarnikMaterijala;
+        private bool isSelectedUnosSifarnik = false;
+
         public ObservableCollection<SifarnikMaterijala> SifarnikMaterijalaList { get; set; }
 
         #region Commands
-        public ICommand UnosCommand { get; set; }
+        public ICommand OpenSifarnikMaterijalaFormCommand { get; set; }
         public ICommand IzmjenaCommand { get; set; }
         public ICommand ObrisiCommand { get; set; }
         public ICommand StampaCommand { get; set; }
@@ -30,7 +33,7 @@ namespace Materijalno.ViewModel
         #endregion
 
 
-        public SifarnikMatrijalaViewModel(GlavniViewModel gvm)
+        public SifarnikMaterijalaViewModel(GlavniViewModel gvm)
         {
             _gvm = gvm;
 
@@ -39,7 +42,7 @@ namespace Materijalno.ViewModel
                 SifarnikMaterijalaList = new ObservableCollection<SifarnikMaterijala>(dbContext.SifarnikMaterijala.ToList());
 
                 ObrisiCommand = new RelayCommand(ObrisiSifarnikMaterijala);
-                UnosCommand = new RelayCommand(UnosSifarnikMaterijala);
+                OpenSifarnikMaterijalaFormCommand = new RelayCommand(OpenSifarnikMaterijalaForm);
                 IzmjenaCommand = new RelayCommand(IzmjenaSifarnikMaterijala);
             }
         }
@@ -49,9 +52,10 @@ namespace Materijalno.ViewModel
             throw new NotImplementedException();
         }
 
-        private void UnosSifarnikMaterijala()
+        private void OpenSifarnikMaterijalaForm()
         {
-            throw new NotImplementedException();
+            isSelectedUnosSifarnik = true;
+            _gvm.OdabraniVM = new SifarnikMaterijalaFormViewModel(this, _gvm);
         }
 
         private void ObrisiSifarnikMaterijala()
@@ -67,5 +71,12 @@ namespace Materijalno.ViewModel
             if (PropertyChanged != null)
                 PropertyChanged(this, e);
         }
+
+        #region Properties
+        public SifarnikMaterijala SelectedSifarnikMaterijala { get => selectedSifarnikMaterijala; set { selectedSifarnikMaterijala = value; OnPropertyChanged("SelectedSifarnikMaterijala"); } }
+        public bool IsSelectedUnosSifarnikMaterijala { get => isSelectedUnosSifarnik; set { isSelectedUnosSifarnik = value; OnPropertyChanged("IsSelectedUnosSifarnikMaterijala"); } }
+
+        #endregion
+
     }
 }

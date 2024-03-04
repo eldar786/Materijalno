@@ -30,7 +30,8 @@ namespace Materijalno.ViewModel
 
         #region Commands
         public ICommand DeleteSifarnikSkladistaCommand { get; set; }
-        public ICommand AddSifarnikSkladistaCommand { get; set; }
+        //Potrebno obrisati
+        //public ICommand AddSifarnikSkladistaCommand { get; set; }
         public ICommand OpenSifarnikSkladistaFormCommand { get; set; }
         public ICommand IzmjenaSifarnikSkladistaFormCommand { get; set; }
 
@@ -46,7 +47,8 @@ namespace Materijalno.ViewModel
                 SifarnikSkladistaList = new ObservableCollection<SifarnikSkladista>(dbContext.SifarnikSkladista.ToList());
 
                 DeleteSifarnikSkladistaCommand = new RelayCommand(DeleteSifarnikSkladista);
-                AddSifarnikSkladistaCommand = new RelayCommand(AddSifarnikSkladista);
+                //Potrebno obrisati
+                //AddSifarnikSkladistaCommand = new RelayCommand(AddSifarnikSkladista);
                 OpenSifarnikSkladistaFormCommand = new RelayCommand(OpenSifarnikSkladistaForm);
                 IzmjenaSifarnikSkladistaFormCommand = new RelayCommand(IzmjenaSifarnikSkladistaForm);
             }
