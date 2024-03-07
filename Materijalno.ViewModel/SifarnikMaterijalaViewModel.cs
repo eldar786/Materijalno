@@ -51,17 +51,42 @@ namespace Materijalno.ViewModel
         {
             throw new NotImplementedException();
         }
-
+        #region Otvaranje Sifarnik Materijala Form (Unos & Izmjena)
         private void OpenSifarnikMaterijalaForm()
         {
             isSelectedUnosSifarnik = true;
             _gvm.OdabraniVM = new SifarnikMaterijalaFormViewModel(this, _gvm);
         }
+        #endregion
 
+        #region Brisanje sifarnika skladista
         private void ObrisiSifarnikMaterijala()
         {
-            throw new NotImplementedException();
+            if (SelectedSifarnikMaterijala != null)
+            {
+                using (var dbContext = new materijalno_knjigovodstvoContext())
+                {
+                    var resultMessageBox = System.Windows.MessageBox.Show("Da li ste sigurni da želite obrisati sifarnik 'Ident': " + SelectedSifarnikMaterijala.Ident, "Upozorenje", MessageBoxButton.YesNo, MessageBoxImage.Question);
+
+                    if (resultMessageBox == MessageBoxResult.Yes)
+                    {
+                        dbContext.SifarnikMaterijala.Remove(SelectedSifarnikMaterijala);
+                        dbContext.SaveChanges();
+
+                        SifarnikMaterijalaList.Remove(SelectedSifarnikMaterijala);
+                    }
+                    else if (resultMessageBox == MessageBoxResult.No)
+                    {
+                        return;
+                    }
+                }
+            }
+            else if (SelectedSifarnikMaterijala == null)
+            {
+                System.Windows.MessageBox.Show("Niste odabrali sifarnik materijala za brisanje", "Upozorenje", MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
         }
+        #endregion
 
         public event PropertyChangedEventHandler PropertyChanged;
 
