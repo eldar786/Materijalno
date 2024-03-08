@@ -19,6 +19,7 @@ namespace Materijalno.ViewModel
         public ICommand SifarnikSkladistaCommand { get; set; }
         public ICommand GlavniCommand { get; set; }
         public ICommand ZaduzenjeCommand { get; set; }
+        public ICommand PovratMaterijalaCommand { get; set; }
         public ICommand IzlazMaterijalaCommand { get; set; }
         public ICommand MedjuskladisnicaCommand { get; set; }
         public ICommand UlazMaterijalaCommand { get; set; }
@@ -45,6 +46,7 @@ namespace Materijalno.ViewModel
         {
             SifarnikSkladistaCommand = new RelayCommand(OtvoriSifarnikSkladista);
             ZaduzenjeCommand = new RelayCommand(OtvoriZaduzenje);
+            PovratMaterijalaCommand = new RelayCommand(OtvoriPovratMaterijala);
             IzlazMaterijalaCommand = new RelayCommand(OtvoriIzlazMaterijala);
             MedjuskladisnicaCommand = new RelayCommand(OtvoriMedjuskladisnica);
             UlazMaterijalaCommand = new RelayCommand(OtvoriUlazMaterijala);
@@ -85,6 +87,11 @@ namespace Materijalno.ViewModel
         public void OtvoriIzlazMaterijala()
         {
             OdabraniVM = new IzlazMaterijalaViewModel(this);
+        }
+
+        public void OtvoriPovratMaterijala()
+        {
+            OdabraniVM = new PovratMaterijalaViewModel(this);
         }
 
         public void OtvoriGlavni()

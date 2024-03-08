@@ -169,6 +169,7 @@
   <ItemGroup>
     <Compile Include="ApplicationViewModel.cs" />
     <Compile Include="GlavniViewModel.cs" />
+    <Compile Include="PovratMaterijalaViewModel.cs" />
     <Compile Include="IzlazMaterijalaViewModel.cs" />
     <Compile Include="MedjuskladisnicaViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

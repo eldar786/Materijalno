@@ -23,6 +23,10 @@
             <local:SifarnikSkladistaForm/>
         </DataTemplate>
 
+        <DataTemplate DataType="{x:Type vm:PovratMaterijalaViewModel}">
+            <local:PovratMaterijala/>
+        </DataTemplate>
+
         <DataTemplate DataType="{x:Type vm:IzlazMaterijalaViewModel}">
             <local:IzlazMaterijala/>
         </DataTemplate>
@@ -278,7 +282,7 @@
                         </Grid>
                     </Button>
 
-                    <Button x:Name="povratMaterijala" Width="Auto" Height="30" HorizontalAlignment="Left" BorderBrush="{x:Null}" Margin="20,0,0,0" Command="{Binding UplOsnovnihCommand}">
+                    <Button x:Name="povratMaterijala" Width="Auto" Height="30" HorizontalAlignment="Left" BorderBrush="{x:Null}" Margin="20,0,0,0" Command="{Binding PovratMaterijalaCommand}">
                         <Button.Style>
                             <Style TargetType="{x:Type Button}">
                                 <Setter Property="Background" Value="White" />
