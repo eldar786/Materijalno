@@ -19,6 +19,9 @@ namespace Materijalno.Model.EntityModels
         {
         }
 
+        public virtual DbSet<SifarnikKonta> SifarnikKonta { get; set; }
+        public virtual DbSet<SifarnikMaterijalSkladisteKonto> SifarnikMaterijalSkladisteKonto { get; set; }
+        public virtual DbSet<SifarnikMaterijala> SifarnikMaterijala { get; set; }
         public virtual DbSet<SifarnikSkladista> SifarnikSkladista { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -32,6 +35,45 @@ namespace Materijalno.Model.EntityModels
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<SifarnikKonta>(entity =>
+            {
+                entity.HasNoKey();
+
+                entity.ToTable("sifarnik_konta");
+
+                entity.Property(e => e.Nazkont).HasMaxLength(50);
+            });
+
+            modelBuilder.Entity<SifarnikMaterijalSkladisteKonto>(entity =>
+            {
+                entity.HasNoKey();
+
+                entity.ToTable("sifarnik_materijal_skladiste_konto");
+            });
+
+            modelBuilder.Entity<SifarnikMaterijala>(entity =>
+            {
+                entity.HasNoKey();
+
+                entity.ToTable("sifarnik_materijala");
+
+                entity.Property(e => e.Ident).HasColumnName("ident");
+
+                entity.Property(e => e.Jedm)
+                    .HasColumnName("jedm")
+                    .HasMaxLength(50);
+
+                entity.Property(e => e.Konto1).HasColumnName("konto1");
+
+                entity.Property(e => e.Konto2).HasColumnName("konto2");
+
+                entity.Property(e => e.Nazmat)
+                    .HasColumnName("nazmat")
+                    .HasMaxLength(50);
+
+                entity.Property(e => e.Siftar).HasColumnName("siftar");
+            });
+
             modelBuilder.Entity<SifarnikSkladista>(entity =>
             {
                 entity.ToTable("sifarnik_skladista");
