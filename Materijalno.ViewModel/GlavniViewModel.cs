@@ -20,6 +20,18 @@ namespace Materijalno.ViewModel
         public ICommand GlavniCommand { get; set; }
         public ICommand ZaduzenjeCommand { get; set; }
         public ICommand UlazMaterijalaCommand { get; set; }
+        public ICommand SifarnikMaterijalSkladisteKontoCommand { get; set; }
+        public ICommand SifarnikMaterijalaCommand { get; set; }
+        public ICommand SifarnikKontaCommand { get; set; }
+        public ICommand UlazMaterijalaCommand { get; set; }
+        public ICommand IzlazMaterijalaCommand { get; set; }
+        public ICommand MedjuskladisnicaCommand { get; set; }
+        public ICommand PovratMaterijalaCommand { get; set; }
+        public ICommand CentralniMagacinCommand { get; set; }
+        public ICommand ZaduzenjeProdavniceCommand { get; set; }
+        public ICommand NaloziMedjuskladisnicaCommand { get; set; }
+        public ICommand PovratUSkladisteCommand { get; set; }
+        public ICommand StampanjeInventurnihListicaCommand { get; set; }
 
         public GlavniViewModel(ApplicationViewModel avm)
         {
@@ -35,6 +47,10 @@ namespace Materijalno.ViewModel
             SifarnikSkladistaCommand = new RelayCommand(OtvoriSifarnikSkladista);
             ZaduzenjeCommand = new RelayCommand(OtvoriZaduzenje);
             UlazMaterijalaCommand = new RelayCommand(OtvoriUlazMaterijala);
+            SifarnikMaterijalSkladisteKontoCommand = new RelayCommand(OtvoriSifarnikMaterijalSkladisteKonto);
+            SifarnikMaterijalaCommand = new RelayCommand(OtvoriSifarnikMaterijala);
+
+            SifarnikKontaCommand = new RelayCommand(OtvoriSifarnikKonta);
         }
 
         public void OtvoriSifarnikSkladista()
@@ -49,6 +65,18 @@ namespace Materijalno.ViewModel
         public void OtvoriUlazMaterijala()
         {
             OdabraniVM = new UlazMaterijalaViewModel(this);
+
+        public void OtvoriSifarnikMaterijalSkladisteKonto()
+        {
+            OdabraniVM = new SifarnikMaterijalSkladisteKontoViewModel(this);
+        }
+        public void OtvoriSifarnikMaterijala()
+        {
+            OdabraniVM = new SifarnikMatrijalaViewModel(this);
+        }
+        public void OtvoriSifarnikKonta()
+        {
+            OdabraniVM = new SifarnikKontaViewModel(this);
         }
 
         public void OtvoriGlavni()
