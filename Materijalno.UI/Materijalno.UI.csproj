@@ -196,6 +196,16 @@
     </ApplicationDefinition>
     <Compile Include="IzlazMaterijala.xaml.cs">
       <DependentUpon>IzlazMaterijala.xaml</DependentUpon>
+    <Compile Include="Medjuskladisnica.xaml.cs">
+      <DependentUpon>Medjuskladisnica.xaml</DependentUpon>
+    <Compile Include="SifarnikKonta.xaml.cs">
+      <DependentUpon>SifarnikKonta.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SifarnikMaterijalSkladisteKonto.xaml.cs">
+      <DependentUpon>SifarnikMaterijalSkladisteKonto.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SifarnikMaterijala.xaml.cs">
+      <DependentUpon>SifarnikMaterijala.xaml</DependentUpon>
     </Compile>
     <Compile Include="SifarnikSkladista.xaml.cs">
       <DependentUpon>SifarnikSkladista.xaml</DependentUpon>
@@ -205,6 +215,9 @@
     </Compile>
     <Compile Include="SifarnikSkladistaFormWindow.xaml.cs">
       <DependentUpon>SifarnikSkladistaFormWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UlazMaterijala.xaml.cs">
+      <DependentUpon>UlazMaterijala.xaml</DependentUpon>
     </Compile>
     <Compile Include="ValidationRules\FormValidationRule.cs" />
     <Page Include="GlavniView.xaml">
@@ -219,6 +232,16 @@
       <DependentUpon>GlavniView.xaml</DependentUpon>
     </Compile>
     <Page Include="IzlazMaterijala.xaml">
+    <Page Include="Medjuskladisnica.xaml">
+    <Page Include="SifarnikKonta.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="SifarnikMaterijalSkladisteKonto.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SifarnikMaterijala.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -231,6 +254,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="SifarnikSkladistaFormWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UlazMaterijala.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
