@@ -212,6 +212,9 @@
     <Compile Include="SifarnikSkladistaFormWindow.xaml.cs">
       <DependentUpon>SifarnikSkladistaFormWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UlazMaterijala.xaml.cs">
+      <DependentUpon>UlazMaterijala.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ValidationRules\FormValidationRule.cs" />
     <Page Include="GlavniView.xaml">
       <SubType>Designer</SubType>
@@ -245,6 +248,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="SifarnikSkladistaFormWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UlazMaterijala.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
