@@ -196,8 +196,10 @@
     </ApplicationDefinition>
     <Compile Include="IzlazMaterijala.xaml.cs">
       <DependentUpon>IzlazMaterijala.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Medjuskladisnica.xaml.cs">
       <DependentUpon>Medjuskladisnica.xaml</DependentUpon>
+    </Compile>
     <Compile Include="SifarnikKonta.xaml.cs">
       <DependentUpon>SifarnikKonta.xaml</DependentUpon>
     </Compile>
@@ -232,7 +234,13 @@
       <DependentUpon>GlavniView.xaml</DependentUpon>
     </Compile>
     <Page Include="IzlazMaterijala.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Medjuskladisnica.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="SifarnikKonta.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
