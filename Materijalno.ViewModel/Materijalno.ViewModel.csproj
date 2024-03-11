@@ -169,13 +169,17 @@
   <ItemGroup>
     <Compile Include="ApplicationViewModel.cs" />
     <Compile Include="GlavniViewModel.cs" />
+    <Compile Include="PovratMaterijalaViewModel.cs" />
+    <Compile Include="IzlazMaterijalaViewModel.cs" />
+    <Compile Include="MedjuskladisnicaViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RelayCommand.cs" />
     <Compile Include="SifarnikMaterijalSkladisteKontoViewModel.cs" />
-    <Compile Include="SifarnikMatrijalaViewModel.cs" />
+    <Compile Include="SifarnikMaterijalaViewModel.cs" />
     <Compile Include="SifarnikKontaViewModel.cs" />
     <Compile Include="SifarnikSkladistaFormViewModel.cs" />
     <Compile Include="SifarnikSkladistaViewModel.cs" />
+    <Compile Include="UlazMaterijalaViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Materijalno.Model\Materijalno.Model.csproj">
