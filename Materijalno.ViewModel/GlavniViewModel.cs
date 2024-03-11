@@ -26,7 +26,6 @@ namespace Materijalno.ViewModel
         public ICommand SifarnikMaterijalSkladisteKontoCommand { get; set; }
         public ICommand SifarnikMaterijalaCommand { get; set; }
         public ICommand SifarnikKontaCommand { get; set; }
-        public ICommand PovratMaterijalaCommand { get; set; }
         public ICommand CentralniMagacinCommand { get; set; }
         public ICommand ZaduzenjeProdavniceCommand { get; set; }
         public ICommand NaloziMedjuskladisnicaCommand { get; set; }
