@@ -194,6 +194,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="CentralniMagacin.xaml.cs">
+      <DependentUpon>CentralniMagacin.xaml</DependentUpon>
+    </Compile>
     <Compile Include="PovratMaterijala.xaml.cs">
       <DependentUpon>PovratMaterijala.xaml</DependentUpon>
     </Compile>
@@ -225,6 +228,10 @@
       <DependentUpon>UlazMaterijala.xaml</DependentUpon>
     </Compile>
     <Compile Include="ValidationRules\FormValidationRule.cs" />
+    <Page Include="CentralniMagacin.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="GlavniView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

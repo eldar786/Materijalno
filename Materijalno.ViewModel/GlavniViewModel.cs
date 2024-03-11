@@ -45,6 +45,7 @@ namespace Materijalno.ViewModel
         {
             SifarnikSkladistaCommand = new RelayCommand(OtvoriSifarnikSkladista);
             ZaduzenjeCommand = new RelayCommand(OtvoriZaduzenje);
+            CentralniMagacinCommand = new RelayCommand(OtvoriCentralniMagacin);
             PovratMaterijalaCommand = new RelayCommand(OtvoriPovratMaterijala);
             IzlazMaterijalaCommand = new RelayCommand(OtvoriIzlazMaterijala);
             MedjuskladisnicaCommand = new RelayCommand(OtvoriMedjuskladisnica);
@@ -91,6 +92,12 @@ namespace Materijalno.ViewModel
         public void OtvoriPovratMaterijala()
         {
             OdabraniVM = new PovratMaterijalaViewModel(this);
+        }
+
+        public void OtvoriCentralniMagacin()
+        {
+            OdabraniVM = new CentralniMagacinViewModel(this);
+            //nisam uradila comit all and push
         }
 
         public void OtvoriGlavni()
