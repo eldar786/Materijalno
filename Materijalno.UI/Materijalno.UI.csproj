@@ -228,6 +228,11 @@
       <DependentUpon>UlazMaterijala.xaml</DependentUpon>
     </Compile>
     <Compile Include="ValidationRules\FormValidationRule.cs" />
+    
+    <Compile Include="ZaduzenjeProdavnice.xaml.cs">
+      <DependentUpon>ZaduzenjeProdavnice.xaml</DependentUpon>
+    </Compile>
+
     <Page Include="CentralniMagacin.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -276,6 +281,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="SifarnikSkladistaFormWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ZaduzenjeProdavnice.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
