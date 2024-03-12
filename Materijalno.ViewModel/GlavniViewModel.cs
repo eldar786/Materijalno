@@ -45,6 +45,7 @@ namespace Materijalno.ViewModel
         {
             SifarnikSkladistaCommand = new RelayCommand(OtvoriSifarnikSkladista);
             ZaduzenjeCommand = new RelayCommand(OtvoriZaduzenje);
+            PovratUSkladisteCommand = new RelayCommand(OtvoriPovratUSkladiste);
             NaloziMedjuskladisnicaCommand = new RelayCommand(OtvoriNaloziMedjuskladisnice);
             ZaduzenjeProdavniceCommand = new RelayCommand(OtvoriZaduzenjeProdavnice);
             CentralniMagacinCommand = new RelayCommand(OtvoriCentralniMagacin);
@@ -105,6 +106,11 @@ namespace Materijalno.ViewModel
         public void OtvoriNaloziMedjuskladisnice()
         {
             OdabraniVM = new NaloziMedjuskladisnicaViewModel(this);
+        }
+
+        public void OtvoriPovratUSkladiste()
+        {
+            OdabraniVM = new PovratUSkladisteViewModel(this);
         }
 
         public void OtvoriGlavni()
