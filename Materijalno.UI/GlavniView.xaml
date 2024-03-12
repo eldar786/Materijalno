@@ -23,6 +23,10 @@
             <local:SifarnikSkladistaForm/>
         </DataTemplate>
 
+        <DataTemplate DataType="{x:Type vm:NaloziMedjuskladisnicaViewModel}">
+            <local:NaloziMedjuskladisnica/>
+        </DataTemplate>
+   
         <DataTemplate DataType="{x:Type vm:ZaduzenjeProdavniceViewModel}">
             <local:ZaduzenjeProdavnice/>
         </DataTemplate>
@@ -624,7 +628,7 @@
 
 
 
-                <Button x:Name="medjuskladisnica2" Width="Auto" Height="30" HorizontalAlignment="Left" BorderBrush="{x:Null}" Margin="20,0,0,0" Command="{Binding IsplOsnovnihCommand}">
+                <Button x:Name="medjuskladisnica2" Width="Auto" Height="30" HorizontalAlignment="Left" BorderBrush="{x:Null}" Margin="20,0,0,0" Command="{Binding NaloziMedjuskladisnicaCommand}">
                     <Button.Style>
                         <Style TargetType="{x:Type Button}">
                             <Setter Property="Background" Value="White" />

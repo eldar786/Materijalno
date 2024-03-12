@@ -194,6 +194,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="NaloziMedjuskladisnica.xaml.cs">
+      <DependentUpon>NaloziMedjuskladisnica.xaml</DependentUpon>
+    </Compile>
     <Compile Include="CentralniMagacin.xaml.cs">
       <DependentUpon>CentralniMagacin.xaml</DependentUpon>
     </Compile>
@@ -248,6 +251,10 @@
     <Compile Include="GlavniView.xaml.cs">
       <DependentUpon>GlavniView.xaml</DependentUpon>
     </Compile>
+    <Page Include="NaloziMedjuskladisnica.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="PovratMaterijala.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
