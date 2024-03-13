@@ -23,6 +23,10 @@
             <local:SifarnikSkladistaForm/>
         </DataTemplate>
 
+        <DataTemplate DataType="{x:Type vm:NaloziZaFinansijePrintanjeNalogaViewModel}">
+            <local:NaloziZaFinansijePrintanjeNaloga/>
+        </DataTemplate>
+
 
     </UserControl.Resources>
 
@@ -417,7 +421,7 @@
                         <Label Foreground="Black" Grid.Column="1" Grid.ColumnSpan="2" VerticalAlignment="Center" FontSize="15" Margin="0,1,0.5,0" Content="Povrat u skladiste" Height="33"/>
                     </Grid>
                 </Button>
-                <Button x:Name="printanjeNaloga" Width="Auto" Height="30" HorizontalAlignment="Left" BorderBrush="{x:Null}" Margin="20,0,0,0" Command="{Binding UplOsnovnihCommand}">
+                <Button x:Name="printanjeNaloga" Width="Auto" Height="30" HorizontalAlignment="Left" BorderBrush="{x:Null}" Margin="20,0,0,0" Command="{Binding NaloziZaFinansijePrintanjeNalogaCommand}">
                     <Button.Style>
                         <Style TargetType="{x:Type Button}">
                             <Setter Property="Background" Value="White" />
