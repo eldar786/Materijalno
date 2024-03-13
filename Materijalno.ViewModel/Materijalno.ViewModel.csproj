@@ -170,6 +170,7 @@
     <Compile Include="ApplicationViewModel.cs" />
     <Compile Include="CentralniMagacinViewModel.cs" />
     <Compile Include="GlavniViewModel.cs" />
+    <Compile Include="PocetnoStanjePrviPutViewModel.cs" />
     <Compile Include="NaloziZaFinansijePrintanjeNalogaViewModel.cs" />
     <Compile Include="PovratUSkladisteViewModel.cs" />
     <Compile Include="NaloziMedjuskladisnicaViewModel.cs" />
