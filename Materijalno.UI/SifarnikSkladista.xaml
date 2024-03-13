@@ -43,11 +43,11 @@
         <Label Content="{Binding Path=OdabranaOpcija, FallbackValue='odabrana_opcija'}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center"  VerticalAlignment="Center" Foreground="Black" FontSize="14" FontWeight="Bold" Height="34" Margin="0,-30,-128,28" Grid.Column="1" Grid.Row="1"/>
 
         <Label Grid.Row="1" VerticalAlignment="Center" FontSize="18">Sort:</Label>
-        <ComboBox Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" Height="54"/>
+        <ComboBox Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" Height="30"/>
 
-        <Label Grid.Row="1" Grid.Column="3" VerticalAlignment="Center" FontSize="18" >Filter:</Label>
-        <RadioButton Grid.Row="1" Grid.Column="5" Content="Ukljucen" Grid.RowSpan="2"/>
-        <RadioButton Grid.Row="1" Grid.Column="4" Content="Iskljucen"/>
+        <Label Grid.Row="1" Grid.Column="3" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="18" >Filter:</Label>
+        <RadioButton Grid.Row="1" Grid.Column="4" Margin="0,20,0,16" Content="Iskljucen"/>
+        <RadioButton Grid.Row="1"  Grid.Column="4" Content="Ukljucen" Margin="0,60,0,46" Grid.RowSpan="2"/>
 
         <ListView Grid.Row="2" Grid.RowSpan="4" Grid.Column="1" Grid.ColumnSpan="4" Name="GrKomitenti" ItemsSource="{Binding SifarnikSkladistaList}" SelectedValue="{Binding SelectedSifarnikSkladista}">
 
