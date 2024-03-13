@@ -183,6 +183,7 @@
     <Compile Include="SifarnikKontaViewModel.cs" />
     <Compile Include="SifarnikSkladistaFormViewModel.cs" />
     <Compile Include="SifarnikSkladistaViewModel.cs" />
+    <Compile Include="UnosInventurnogStanjaViewModel.cs" />
     <Compile Include="StampanjeInventurnihListicaViewModel.cs" />
     <Compile Include="ZaduzenjeProdavniceViewModel.cs" />
     <Compile Include="UlazMaterijalaViewModel.cs" />

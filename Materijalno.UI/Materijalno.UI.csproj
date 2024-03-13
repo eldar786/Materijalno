@@ -233,6 +233,9 @@
     <Compile Include="SifarnikSkladistaFormWindow.xaml.cs">
       <DependentUpon>SifarnikSkladistaFormWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UnosInventurnogStanja.xaml.cs">
+      <DependentUpon>UnosInventurnogStanja.xaml</DependentUpon>
+    </Compile>
     <Compile Include="StampanjeInventurnihListica.xaml.cs">
       <DependentUpon>StampanjeInventurnihListica.xaml</DependentUpon>
     </Compile>
@@ -308,6 +311,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="UnosInventurnogStanja.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>    
     <Page Include="StampanjeInventurnihListica.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
