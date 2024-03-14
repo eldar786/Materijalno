@@ -14,7 +14,7 @@ using Materijalno.Model.EntityModels;
 
 namespace Materijalno.ViewModel
 {
-    public class SifarnikMatrijalaViewModel : ObservableObject
+    public class SifarnikMaterijalaViewModel : ObservableObject
     {
         private ApplicationViewModel _avm;
         private GlavniViewModel _gvm;
@@ -30,7 +30,7 @@ namespace Materijalno.ViewModel
         #endregion
 
 
-        public SifarnikMatrijalaViewModel(GlavniViewModel gvm)
+        public SifarnikMaterijalaViewModel(GlavniViewModel gvm)
         {
             _gvm = gvm;
 
