@@ -87,10 +87,6 @@
             <local:SifarnikKonta/>
         </DataTemplate>
 
-        <DataTemplate DataType="{x:Type vm:RekapitulacijaTroskovaViewModel}">
-            <local:Rekapitulacijatroskova/>
-        </DataTemplate>
-
     </UserControl.Resources>
 
     <Grid>
@@ -410,31 +406,7 @@
                     </Grid>
                 </Button>
 
-                <Button x:Name="pregledulaza" Width="Auto" Height="30" HorizontalAlignment="Left" BorderBrush="{x:Null}" Margin="20,0,0,0" Command="{Binding IsplOsnovnihCommand}">
-                    <Button.Style>
-                        <Style TargetType="{x:Type Button}">
-                            <Setter Property="Background" Value="White" />
-                            <Style.Triggers>
-                                <Trigger Property="IsFocused" Value="True">
-                                    <Setter Property="Background" Value="MediumPurple"/>
-                                </Trigger>
-                                <Trigger Property="IsMouseOver" Value="True">
-                                    <Setter Property="Background" Value="CornflowerBlue"/>
-                                </Trigger>
-                            </Style.Triggers>
-                        </Style>
-                    </Button.Style>
 
-                    <Grid>
-                        <Grid.RowDefinitions></Grid.RowDefinitions>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition/>
-                            <ColumnDefinition/>
-                            <ColumnDefinition/>
-                        </Grid.ColumnDefinitions>
-                        <Label Grid.Column="1" Foreground="Black" Grid.ColumnSpan="2" VerticalAlignment="Center" FontSize="15"  Content="Pregled ulaza " Height="35"/>
-                    </Grid>
-                </Button>
 
                 <Button x:Name="pregledulaza" Width="Auto" Height="30" HorizontalAlignment="Left" BorderBrush="{x:Null}" Margin="20,0,0,0" Command="{Binding IsplOsnovnihCommand}">
                     <Button.Style>
@@ -588,7 +560,6 @@
                     </Grid>
                 </Button>
 
-                <Button x:Name="rekapitulacijatroskova" Width="Auto" Height="30" HorizontalAlignment="Left" BorderBrush="{x:Null}" Margin="20,0,0,0" Command="{Binding RekapitulacijaTroskovaCommand}">
                 <Button x:Name="rekapitulacijatroskova" Width="Auto" Height="30" HorizontalAlignment="Left" BorderBrush="{x:Null}" Margin="20,0,0,0" Command="{Binding UplOsnovnihCommand}">
                     <Button.Style>
                         <Style TargetType="{x:Type Button}">
