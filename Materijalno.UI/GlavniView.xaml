@@ -31,6 +31,10 @@
             <local:NaloziZaFinansijePrintanjeNaloga/>
         </DataTemplate>
 
+        <DataTemplate DataType="{x:Type vm:PostavkaNovogPocetnogstanjaViewModel}">
+            <local:PostavkaNovogPocetnogstanja/>
+        </DataTemplate>
+
         <DataTemplate DataType="{x:Type vm:PocetnoStanjePrviPutViewModel}">
             <local:PocetnoStanjePrviPut/>
         </DataTemplate>
@@ -853,7 +857,7 @@
                     </Grid>
                 </Button>
 
-                <Button x:Name="postavkaNovogPocetnogStanja" Width="Auto" Height="30" HorizontalAlignment="Left" BorderBrush="{x:Null}" Margin="20,0,0,0" Command="{Binding IsplOsnovnihCommand}">
+                <Button x:Name="postavkaNovogPocetnogStanja" Width="Auto" Height="30" HorizontalAlignment="Left" BorderBrush="{x:Null}" Margin="20,0,0,0" Command="{Binding PostavkaNovogPocetnogStanjaCommand}">
                     <Button.Style>
                         <Style TargetType="{x:Type Button}">
                             <Setter Property="Background" Value="White" />
