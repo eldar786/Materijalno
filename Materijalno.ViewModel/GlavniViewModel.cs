@@ -31,13 +31,13 @@ namespace Materijalno.ViewModel
         public ICommand SifarnikMaterijalSkladisteKontoCommand { get; set; }
         public ICommand SifarnikMaterijalaCommand { get; set; }
         public ICommand SifarnikKontaCommand { get; set; }
+        public ICommand DnevnikCommand { get; set; }
         public ICommand CentralniMagacinCommand { get; set; }
         public ICommand ZaduzenjeProdavniceCommand { get; set; }
         public ICommand NaloziMedjuskladisnicaCommand { get; set; }
         public ICommand PovratUSkladisteCommand { get; set; }
         public ICommand StampanjeInventurnihListicaCommand { get; set; }
         public ICommand RekapitulacijaZalihaCommand { get; set; }
-
         public ICommand RekapitulacijaTroskovaCommand { get; set; }
 
         public GlavniViewModel(ApplicationViewModel avm)
@@ -70,6 +70,7 @@ namespace Materijalno.ViewModel
             SifarnikMaterijalSkladisteKontoCommand = new RelayCommand(OtvoriSifarnikMaterijalSkladisteKonto);
             SifarnikMaterijalaCommand = new RelayCommand(OtvoriSifarnikMaterijala);
             SifarnikKontaCommand = new RelayCommand(OtvoriSifarnikKonta);
+            DnevnikCommand = new RelayCommand(OtvoriDnevnik);
             RekapitulacijaZalihaCommand = new RelayCommand(OtvoriRekapitulacijaZaliha);
             RekapitulacijaTroskovaCommand = new RelayCommand(OtvoriRekapitulacijaTroskova);
         }
@@ -128,6 +129,12 @@ namespace Materijalno.ViewModel
         {
             OdabraniVM = new SifarnikKontaViewModel(this);
         }
+        
+        public void OtvoriDnevnik()
+        {
+            OdabraniVM = new DnevnikViewModel(this);
+        }
+        
         public void OtvoriRekapitulacijaZaliha()
         {
             OdabraniVM = new RekapitulacijazalihaViewModel(this);
