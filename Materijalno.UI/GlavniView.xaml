@@ -260,7 +260,8 @@
             </Grid.ColumnDefinitions>
             <Expander Header="PROMET" Grid.Column="2" Visibility="{Binding Path=PrikaziRU, Converter={StaticResource BoolToVis}}" FontSize="18" IsExpanded="False" BorderBrush="{x:Null}" Background="White" VerticalAlignment="Top" Height="300" Margin="100,0,-250,-250">
                 <StackPanel Orientation="Vertical">
-                    <Button x:Name="ulazMaterijala" Width="Auto" Height="30" HorizontalAlignment="Left" BorderBrush="{x:Null}" Command="{Binding UlazMaterijalaCommand}" Margin="20,0,0,0" >
+                    
+                  <Button x:Name="ulazMaterijala" Width="Auto" Height="30" HorizontalAlignment="Left" BorderBrush="{x:Null}" Command="{Binding UlazMaterijalaCommand}" Margin="20,0,0,0" >
                         <Button.Style>
                             <Style TargetType="{x:Type Button}">
                                 <Setter Property="Background" Value="White"/>
@@ -284,6 +285,7 @@
                             <Label Grid.Column="1" Foreground="Black" Grid.ColumnSpan="2" VerticalAlignment="Center" FontSize="15" Margin="0,0,0,0" Content="Ulaz materijala" Height="34"/>
                         </Grid>
                     </Button>
+                  
                     <Button x:Name="izlazMaterijala" Width="Auto" Height="30" HorizontalAlignment="Left" BorderBrush="{x:Null}" Margin="20,0,0,0" Command="{Binding IzlazMaterijalaCommand}">
                         <Button.Style>
                             <Style TargetType="{x:Type Button}">
@@ -308,8 +310,6 @@
                             <Label Grid.Column="1" Foreground="Black" Grid.ColumnSpan="2" VerticalAlignment="Center" FontSize="15"  Content="Izlaz materijala" Height="35"/>
                         </Grid>
                     </Button>
-
-
 
                     <Button x:Name="medjuskladisnica" Width="Auto" Height="30" HorizontalAlignment="Left" BorderBrush="{x:Null}" Margin="20,0,0,0" Command="{Binding MedjuskladisnicaCommand}">
                         <Button.Style>
@@ -397,11 +397,11 @@
                             <ColumnDefinition/>
                             <ColumnDefinition/>
                         </Grid.ColumnDefinitions>
-                        <Label Grid.Column="1" Foreground="Black" Grid.ColumnSpan="2" VerticalAlignment="Center" FontSize="15" Margin="0,0,0,10" Content="Dnevnik" Height="34"/>
+                        <Label Grid.Column="1" Foreground="Black" Grid.ColumnSpan="2" VerticalAlignment="Center" FontSize="15" Margin="0,0,0,0" Content="Dnevnik" Height="34"/>
                     </Grid>
                 </Button>
               
-                <Button x:Name="analitickakartica" Width="Auto" Height="30" HorizontalAlignment="Left" BorderBrush="{x:Null}" Margin="10,0,0,0" Command="{Binding AnalitickaKarticaCommand}">
+                <Button x:Name="analitickakartica" Width="Auto" Height="30" HorizontalAlignment="Left" BorderBrush="{x:Null}" Margin="20,0,0,0" Command="{Binding AnalitickaKarticaCommand}">
                     <Button.Style>
                         <Style TargetType="{x:Type Button}">
                             <Setter Property="Background" Value="White" />
@@ -425,10 +425,6 @@
                         <Label Grid.Column="1" Foreground="Black" Grid.ColumnSpan="2" VerticalAlignment="Center" FontSize="15"  Content="Analiticka kartica" Height="35"/>
                     </Grid>
                 </Button>
-
-
-
-                
 
                 <Button x:Name="pregledizlaza" Width="Auto" Height="30" HorizontalAlignment="Left" BorderBrush="{x:Null}" Margin="20,0,0,0" Command="{Binding UplOsnovnihCommand}">
                     <Button.Style>
@@ -480,7 +476,6 @@
                     </Grid>
                 </Button>
 
-
                 <Button x:Name="stanjezaliha" Width="Auto" Height="30" HorizontalAlignment="Left" BorderBrush="{x:Null}" Margin="20,0,0,0" Command="{Binding UplOsnovnihCommand}">
                     <Button.Style>
                         <Style TargetType="{x:Type Button}">
@@ -531,7 +526,7 @@
                     </Grid>
                 </Button>
 
-                <Button x:Name="rekapitulacijazaliha" Width="Auto" Height="30" HorizontalAlignment="Left" BorderBrush="{x:Null}" Margin="20,0,0,0" Command="{Binding RekapitulacijaZalihaCommand}">
+                <Button x:Name="rekapitulacijazaliha" Width="Auto" Height="30" HorizontalAlignment="Left" BorderBrush="{x:Null}" Margin="20,0,0,0" Command="{Binding UplOsnovnihCommand}">
                     <Button.Style>
                         <Style TargetType="{x:Type Button}">
                             <Setter Property="Background" Value="White" />
@@ -580,7 +575,6 @@
                         <Label Foreground="Black" Grid.Column="1" Grid.ColumnSpan="2" VerticalAlignment="Center" FontSize="15" Margin="0,1,0.5,0" Content="Rekapitulacija troškova" Height="33"/>
                     </Grid>
                 </Button>
-
 
             </StackPanel>
 

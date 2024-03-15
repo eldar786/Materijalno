@@ -75,6 +75,7 @@ namespace Materijalno.ViewModel
             DnevnikCommand = new RelayCommand(OtvoriDnevnik);
             RekapitulacijaZalihaCommand = new RelayCommand(OtvoriRekapitulacijaZaliha);
             RekapitulacijaTroskovaCommand = new RelayCommand(OtvoriRekapitulacijaTroskova);
+
         }
 
         public void OtvoriSifarnikSkladista()
