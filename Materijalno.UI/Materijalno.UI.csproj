@@ -221,6 +221,9 @@
     <Compile Include="Medjuskladisnica.xaml.cs">
       <DependentUpon>Medjuskladisnica.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Rekapitulacijatroskova.xaml.cs">
+      <DependentUpon>Rekapitulacijatroskova.xaml</DependentUpon>
+    </Compile>
     <Compile Include="SifarnikKonta.xaml.cs">
       <DependentUpon>SifarnikKonta.xaml</DependentUpon>
     </Compile>
@@ -252,11 +255,9 @@
       <DependentUpon>UlazMaterijala.xaml</DependentUpon>
     </Compile>
     <Compile Include="ValidationRules\FormValidationRule.cs" />
-    
     <Compile Include="ZaduzenjeProdavnice.xaml.cs">
       <DependentUpon>ZaduzenjeProdavnice.xaml</DependentUpon>
     </Compile>
-
     <Page Include="CentralniMagacin.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -275,7 +276,7 @@
     <Page Include="PostavkaNovogPocetnogstanja.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
-    </Page>    
+    </Page>
     <Page Include="PocetnoStanjePrviPut.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -304,6 +305,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Rekapitulacijatroskova.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="SifarnikKonta.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -331,11 +336,11 @@
     <Page Include="StampanjeInventurnihZaliha.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
-    </Page>       
+    </Page>
     <Page Include="UnosInventurnogStanja.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
-    </Page>    
+    </Page>
     <Page Include="StampanjeInventurnihListica.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
