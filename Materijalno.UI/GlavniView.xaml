@@ -91,6 +91,10 @@
             <local:SifarnikKonta/> 
         </DataTemplate>
 
+        <DataTemplate DataType="{x:Type vm:RekapitulacijaTroskovaViewModel}">
+            <local:Rekapitulacijatroskova/>
+        </DataTemplate>
+
     </UserControl.Resources>
 
     <Grid>
