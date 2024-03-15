@@ -10,26 +10,17 @@ using System.Windows.Input;
 using Materijalno.Model;
 using System.Windows;
 using System.Windows.Forms;
-using Materijalno.Model.EntityModels;
 
 namespace Materijalno.ViewModel
 {
-    public class RekapitulacijaTroskovaViewModel : ObservableObject
+    public class PostavkaNovogPocetnogstanjaViewModel : ObservableObject
     {
         private ApplicationViewModel _avm;
         private GlavniViewModel _gvm;
-        public ObservableCollection<SifarnikKonta> SifarnikKontaList { get; set; }
 
-
-        public RekapitulacijaTroskovaViewModel(GlavniViewModel gvm)
+        public PostavkaNovogPocetnogstanjaViewModel(GlavniViewModel gvm)
         {
-            _gvm = gvm;
 
-            using (var dbContext = new materijalno_knjigovodstvoContext())
-            {
-                SifarnikKontaList = new ObservableCollection<SifarnikKonta>(dbContext.SifarnikKonta.ToList());
-
-            }
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

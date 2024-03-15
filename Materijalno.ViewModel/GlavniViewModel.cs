@@ -19,6 +19,7 @@ namespace Materijalno.ViewModel
         public ICommand SifarnikSkladistaCommand { get; set; }
         public ICommand GlavniCommand { get; set; }
         public ICommand ZaduzenjeCommand { get; set; }
+        public ICommand PostavkaNovogPocetnogStanjaCommand { get; set; }
         public ICommand PocetnoStanjePrviPutCommand { get; set; }
         public ICommand StampanjeInventurnihZalihaCommand { get; set; }
         public ICommand UnosInventurnogStanjaCommand { get; set; }
@@ -35,7 +36,6 @@ namespace Materijalno.ViewModel
         public ICommand NaloziMedjuskladisnicaCommand { get; set; }
         public ICommand PovratUSkladisteCommand { get; set; }
         public ICommand StampanjeInventurnihListicaCommand { get; set; }
-        public ICommand RekapitulacijaTroskovaCommand { get; set; }
 
         public GlavniViewModel(ApplicationViewModel avm)
         {
@@ -50,6 +50,7 @@ namespace Materijalno.ViewModel
         {
             SifarnikSkladistaCommand = new RelayCommand(OtvoriSifarnikSkladista);
             ZaduzenjeCommand = new RelayCommand(OtvoriZaduzenje);
+            PostavkaNovogPocetnogStanjaCommand = new RelayCommand(OtvoriPostavkaNovogPocetnogStanja);
             PocetnoStanjePrviPutCommand = new RelayCommand(OtvoriPocetnoStanjePrviPut);
             StampanjeInventurnihZalihaCommand = new RelayCommand(OtvoriStampanjeInventurnihZaliha);
             UnosInventurnogStanjaCommand = new RelayCommand(OtvoriUnosInventurnogStanja);
@@ -66,12 +67,16 @@ namespace Materijalno.ViewModel
             SifarnikMaterijalSkladisteKontoCommand = new RelayCommand(OtvoriSifarnikMaterijalSkladisteKonto);
             SifarnikMaterijalaCommand = new RelayCommand(OtvoriSifarnikMaterijala);
             SifarnikKontaCommand = new RelayCommand(OtvoriSifarnikKonta);
-            RekapitulacijaTroskovaCommand = new RelayCommand(OtvoriRekapitulacijaTroskova);
         }
 
         public void OtvoriSifarnikSkladista()
         {
             OdabraniVM = new SifarnikSkladistaViewModel(this); 
+        }
+        
+        public void OtvoriPostavkaNovogPocetnogStanja()
+        {
+            OdabraniVM = new PostavkaNovogPocetnogstanjaViewModel(this); 
         }
         
         public void OtvoriStampanjeInventurnihZaliha()
@@ -112,11 +117,6 @@ namespace Materijalno.ViewModel
         public void OtvoriSifarnikKonta()
         {
             OdabraniVM = new SifarnikKontaViewModel(this);
-        }
-        
-        public void OtvoriRekapitulacijaTroskova()
-        {
-            OdabraniVM = new RekapitulacijaTroskovaViewModel(this);
         }
 
         public void OtvoriIzlazMaterijala()

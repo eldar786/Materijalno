@@ -194,8 +194,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Rekapitulacijatroskova.xaml.cs">
-      <DependentUpon>Rekapitulacijatroskova.xaml</DependentUpon>
+    <Compile Include="PostavkaNovogPocetnogstanja.xaml.cs">
+      <DependentUpon>PostavkaNovogPocetnogstanja.xaml</DependentUpon>
     </Compile>
     <Compile Include="PocetnoStanjePrviPut.xaml.cs">
       <DependentUpon>PocetnoStanjePrviPut.xaml</DependentUpon>
@@ -272,10 +272,10 @@
     <Compile Include="GlavniView.xaml.cs">
       <DependentUpon>GlavniView.xaml</DependentUpon>
     </Compile>
-    <Page Include="Rekapitulacijatroskova.xaml">
-      <SubType>Designer</SubType>
+    <Page Include="PostavkaNovogPocetnogstanja.xaml">
       <Generator>MSBuild:Compile</Generator>
-    </Page>
+      <SubType>Designer</SubType>
+    </Page>    
     <Page Include="PocetnoStanjePrviPut.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
