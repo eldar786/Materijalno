@@ -197,6 +197,15 @@
     <Compile Include="Rekapitulacijazaliha.xaml.cs">
       <DependentUpon>Rekapitulacijazaliha.xaml</DependentUpon>
     </Compile>
+    <Compile Include="PovratMaterijala.xaml.cs">
+      <DependentUpon>PovratMaterijala.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="IzlazMaterijala.xaml.cs">
+      <DependentUpon>IzlazMaterijala.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Medjuskladisnica.xaml.cs">
+      <DependentUpon>Medjuskladisnica.xaml</DependentUpon>
+    </Compile>
     <Compile Include="SifarnikKonta.xaml.cs">
       <DependentUpon>SifarnikKonta.xaml</DependentUpon>
     </Compile>
@@ -215,6 +224,9 @@
     <Compile Include="SifarnikSkladistaFormWindow.xaml.cs">
       <DependentUpon>SifarnikSkladistaFormWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UlazMaterijala.xaml.cs">
+      <DependentUpon>UlazMaterijala.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ValidationRules\FormValidationRule.cs" />
     <Page Include="GlavniView.xaml">
       <SubType>Designer</SubType>
@@ -230,6 +242,18 @@
     <Page Include="Rekapitulacijazaliha.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="PovratMaterijala.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="IzlazMaterijala.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Medjuskladisnica.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="SifarnikKonta.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -252,6 +276,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="SifarnikSkladistaFormWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UlazMaterijala.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
