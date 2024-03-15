@@ -194,6 +194,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="AnalitickaKartica.xaml.cs">
+      <DependentUpon>AnalitickaKartica.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Dnevnik.xaml.cs">
       <DependentUpon>Dnevnik.xaml</DependentUpon>
     </Compile>
@@ -261,6 +264,10 @@
       <DependentUpon>UlazMaterijala.xaml</DependentUpon>
     </Compile>
     <Compile Include="ValidationRules\FormValidationRule.cs" />
+    <Page Include="AnalitickaKartica.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>    
     <Page Include="Dnevnik.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
