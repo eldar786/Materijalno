@@ -95,6 +95,10 @@
             <local:Rekapitulacijatroskova/>
         </DataTemplate>
 
+        <DataTemplate DataType="{x:Type vm:RekapitulacijazalihaViewModel}">
+            <local:Rekapitulacijazaliha/>
+        </DataTemplate>
+
     </UserControl.Resources>
 
     <Grid>
@@ -386,10 +390,10 @@
                             <ColumnDefinition/>
                             <ColumnDefinition/>
                         </Grid.ColumnDefinitions>
-                        <Label Grid.Column="1" Foreground="Black" Grid.ColumnSpan="2" VerticalAlignment="Center" FontSize="15" Margin="0,0,0,0" Content="Dnevnik" Height="34"/>
+                        <Label Grid.Column="1" Foreground="Black" Grid.ColumnSpan="2" VerticalAlignment="Center" FontSize="15" Margin="0,0,0,10" Content="Dnevnik" Height="34"/>
                     </Grid>
                 </Button>
-                <Button x:Name="analitickakartica" Width="Auto" Height="30" HorizontalAlignment="Left" BorderBrush="{x:Null}" Margin="20,0,0,0" Command="{Binding ZaduzenjeCommand}">
+                <Button x:Name="analitickakartica" Width="Auto" Height="30" HorizontalAlignment="Left" BorderBrush="{x:Null}" Margin="10,0,0,0" Command="{Binding ZaduzenjeCommand}">
                     <Button.Style>
                         <Style TargetType="{x:Type Button}">
                             <Setter Property="Background" Value="White" />
@@ -519,7 +523,7 @@
                     </Grid>
                 </Button>
 
-                <Button x:Name="rekapitulacijazaliha" Width="Auto" Height="30" HorizontalAlignment="Left" BorderBrush="{x:Null}" Margin="20,0,0,0" Command="{Binding UplOsnovnihCommand}">
+                <Button x:Name="rekapitulacijazaliha" Width="Auto" Height="30" HorizontalAlignment="Left" BorderBrush="{x:Null}" Margin="20,0,0,0" Command="{Binding RekapitulacijaZalihaCommand}">
                     <Button.Style>
                         <Style TargetType="{x:Type Button}">
                             <Setter Property="Background" Value="White" />
