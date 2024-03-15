@@ -194,9 +194,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Rekapitulacijazaliha.xaml.cs">
-      <DependentUpon>Rekapitulacijazaliha.xaml</DependentUpon>
-    </Compile>
     <Compile Include="PovratMaterijala.xaml.cs">
       <DependentUpon>PovratMaterijala.xaml</DependentUpon>
     </Compile>
@@ -239,10 +236,6 @@
     <Compile Include="GlavniView.xaml.cs">
       <DependentUpon>GlavniView.xaml</DependentUpon>
     </Compile>
-    <Page Include="Rekapitulacijazaliha.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="PovratMaterijala.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
