@@ -56,6 +56,18 @@
             <local:SifarnikKonta/>
         </DataTemplate>
 
+        <DataTemplate DataType="{x:Type vm:DnevnikViewModel}">
+            <local:Dnevnik/>
+        </DataTemplate>
+        
+        <DataTemplate DataType="{x:Type vm:AnalitickaKarticaViewModel}">
+            <local:AnalitickaKartica/>
+        </DataTemplate>
+
+        <DataTemplate DataType="{x:Type vm:SifarnikMaterijalaFormViewModel}">
+            <local:SifarnikMaterijalaForm/>
+        </DataTemplate>
+        
     </UserControl.Resources>
 
     <Grid>
