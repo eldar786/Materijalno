@@ -10,6 +10,7 @@ using System.Windows.Input;
 using Materijalno.Model;
 using System.Windows;
 using System.Windows.Forms;
+using Materijalno.Model.EntityModels;
 
 namespace Materijalno.ViewModel
 {
@@ -17,10 +18,21 @@ namespace Materijalno.ViewModel
     {
         private ApplicationViewModel _avm;
         private GlavniViewModel _gvm;
+        public ObservableCollection<SifarnikKonta> SifarnikKontaList { get; set; }
+
 
         public SifarnikKontaViewModel(GlavniViewModel gvm)
         {
+            _gvm = gvm;
 
+            using (var dbContext = new materijalno_knjigovodstvoContext())
+            {
+                SifarnikKontaList = new ObservableCollection<SifarnikKonta>(dbContext.SifarnikKonta.ToList());
+
+                //ObrisiCommand = new RelayCommand(ObrisiSifarnikMaterijala);
+                //UnosCommand = new RelayCommand(UnosSifarnikMaterijala);
+                //IzmjenaCommand = new RelayCommand(IzmjenaSifarnikMaterijala);
+            }
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

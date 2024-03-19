@@ -24,7 +24,9 @@ namespace Materijalno.ViewModel
         public ObservableCollection<SifarnikMaterijala> SifarnikMaterijalaList { get; set; }
 
         #region Commands
+        
         public ICommand OpenSifarnikMaterijalaFormCommand { get; set; }
+        public ICommand UnosCommand { get; set; }
         public ICommand IzmjenaCommand { get; set; }
         public ICommand ObrisiCommand { get; set; }
         public ICommand StampaCommand { get; set; }
@@ -43,6 +45,7 @@ namespace Materijalno.ViewModel
 
                 ObrisiCommand = new RelayCommand(ObrisiSifarnikMaterijala);
                 OpenSifarnikMaterijalaFormCommand = new RelayCommand(OpenSifarnikMaterijalaForm);
+                UnosCommand = new RelayCommand(UnosSifarnikMaterijala);
                 IzmjenaCommand = new RelayCommand(IzmjenaSifarnikMaterijala);
             }
         }
@@ -88,6 +91,16 @@ namespace Materijalno.ViewModel
         }
         #endregion
 
+        private void UnosSifarnikMaterijala()
+        {
+            throw new NotImplementedException();
+        }
+
+        private void ObrisiSifarnikMaterijala()
+        {
+            throw new NotImplementedException();
+        }
+
         public event PropertyChangedEventHandler PropertyChanged;
 
 
@@ -98,6 +111,7 @@ namespace Materijalno.ViewModel
         }
 
         #region Properties
+        
         public SifarnikMaterijala SelectedSifarnikMaterijala { get => selectedSifarnikMaterijala; set { selectedSifarnikMaterijala = value; OnPropertyChanged("SelectedSifarnikMaterijala"); } }
         public bool IsSelectedUnosSifarnikMaterijala { get => isSelectedUnosSifarnik; set { isSelectedUnosSifarnik = value; OnPropertyChanged("IsSelectedUnosSifarnikMaterijala"); } }
 

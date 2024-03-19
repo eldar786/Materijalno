@@ -45,13 +45,13 @@
         <RadioButton Grid.Row="1"  Grid.Column="4" Content="Ukljucen" Margin="0,60,0,46" Grid.RowSpan="2"/>
 
 
-        <ListView Grid.Row="2" Grid.RowSpan="4" Grid.Column="1" Grid.ColumnSpan="4" Name="GrKomitenti" ItemsSource="{Binding SifarnikSkladista}">
+        <ListView Grid.Row="2" Grid.RowSpan="4" Grid.Column="1" Grid.ColumnSpan="4" Name="GrKomitenti" ItemsSource="{Binding SifarnikKontaList}">
 
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="Sifkonta" DisplayMemberBinding="{Binding Sifkonta}" 
                                     Width="80"></GridViewColumn>
-                    <GridViewColumn Header="Nazkonta" DisplayMemberBinding="{Binding NazivKonta}" 
+                    <GridViewColumn Header="Nazkonta" DisplayMemberBinding="{Binding Nazkont}" 
                                     Width="250"></GridViewColumn>
                     <GridViewColumn Header="Stakont" DisplayMemberBinding="{Binding Stakont}"
                                     Width="140"></GridViewColumn>

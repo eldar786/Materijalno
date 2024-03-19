@@ -9,7 +9,7 @@
              d:DesignHeight="450" d:DesignWidth="900">
 
     <UserControl.Resources>
-        
+
         <DataTemplate DataType="{x:Type vm:SifarnikMaterijalaViewModel}">
             <local:SifarnikMaterijala/>
         </DataTemplate>
