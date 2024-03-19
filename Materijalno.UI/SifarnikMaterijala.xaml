@@ -9,11 +9,12 @@
              d:DesignHeight="450" d:DesignWidth="900">
 
     <UserControl.Resources>
+
         <DataTemplate DataType="{x:Type vm:SifarnikMaterijalaViewModel}">
             <local:SifarnikMaterijala/>
         </DataTemplate>
+        
     </UserControl.Resources>
-    
     
     <Grid>
         <Grid.ColumnDefinitions>
@@ -46,7 +47,7 @@
         <RadioButton Grid.Row="1"  Grid.Column="4" Content="Ukljucen" Margin="0,60,0,46" Grid.RowSpan="2"/>
 
 
-        <ListView Grid.Row="2" Grid.RowSpan="4" Grid.Column="1" Grid.ColumnSpan="4" Name="GrKomitenti" ItemsSource="{Binding SifarnikMaterijalaList}">
+        <ListView Grid.Row="2" Grid.RowSpan="4" Grid.Column="1" Grid.ColumnSpan="4" Name="GrKomitenti" ItemsSource="{Binding SifarnikMaterijalaList}" SelectedValue="{Binding SelectedSifarnikMaterijala}">
 
             <ListView.View>
                 <GridView>
