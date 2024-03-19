@@ -206,6 +206,9 @@
     <Compile Include="SifarnikKonta.xaml.cs">
       <DependentUpon>SifarnikKonta.xaml</DependentUpon>
     </Compile>
+    <Compile Include="SifarnikMaterijalaForm.xaml.cs">
+      <DependentUpon>SifarnikMaterijalaForm.xaml</DependentUpon>
+    </Compile>
     <Compile Include="SifarnikMaterijalSkladisteKonto.xaml.cs">
       <DependentUpon>SifarnikMaterijalSkladisteKonto.xaml</DependentUpon>
     </Compile>
@@ -251,6 +254,10 @@
     <Page Include="SifarnikKonta.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="SifarnikMaterijalaForm.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="SifarnikMaterijalSkladisteKonto.xaml">
       <SubType>Designer</SubType>
@@ -332,7 +339,21 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="bin\Debug\de\" />
+    <Folder Include="bin\Debug\es\" />
+    <Folder Include="bin\Debug\fr\" />
+    <Folder Include="bin\Debug\it\" />
+    <Folder Include="bin\Debug\ja\" />
+    <Folder Include="bin\Debug\ko\" />
+    <Folder Include="bin\Debug\pt-BR\" />
+    <Folder Include="bin\Debug\ru\" />
+    <Folder Include="bin\Debug\x64\" />
+    <Folder Include="bin\Debug\x86\" />
+    <Folder Include="bin\Debug\zh-Hans\" />
+    <Folder Include="bin\Debug\zh-Hant\" />
+    <Folder Include="bin\Release\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>

@@ -18,9 +18,14 @@ namespace Materijalno.ViewModel
     {
         private ApplicationViewModel _avm;
         private GlavniViewModel _gvm;
+        private SifarnikMaterijala selectedSifarnikMaterijala;
+        private bool isSelectedUnosSifarnik = false;
+
         public ObservableCollection<SifarnikMaterijala> SifarnikMaterijalaList { get; set; }
 
         #region Commands
+        
+        public ICommand OpenSifarnikMaterijalaFormCommand { get; set; }
         public ICommand UnosCommand { get; set; }
         public ICommand IzmjenaCommand { get; set; }
         public ICommand ObrisiCommand { get; set; }
@@ -39,6 +44,7 @@ namespace Materijalno.ViewModel
                 SifarnikMaterijalaList = new ObservableCollection<SifarnikMaterijala>(dbContext.SifarnikMaterijala.ToList());
 
                 ObrisiCommand = new RelayCommand(ObrisiSifarnikMaterijala);
+                OpenSifarnikMaterijalaFormCommand = new RelayCommand(OpenSifarnikMaterijalaForm);
                 UnosCommand = new RelayCommand(UnosSifarnikMaterijala);
                 IzmjenaCommand = new RelayCommand(IzmjenaSifarnikMaterijala);
             }
@@ -48,6 +54,42 @@ namespace Materijalno.ViewModel
         {
             throw new NotImplementedException();
         }
+        #region Otvaranje Sifarnik Materijala Form (Unos & Izmjena)
+        private void OpenSifarnikMaterijalaForm()
+        {
+            isSelectedUnosSifarnik = true;
+            _gvm.OdabraniVM = new SifarnikMaterijalaFormViewModel(this, _gvm);
+        }
+        #endregion
+
+        #region Brisanje sifarnika skladista
+        private void ObrisiSifarnikMaterijala()
+        {
+            if (SelectedSifarnikMaterijala != null)
+            {
+                using (var dbContext = new materijalno_knjigovodstvoContext())
+                {
+                    var resultMessageBox = System.Windows.MessageBox.Show("Da li ste sigurni da želite obrisati sifarnik 'Ident': " + SelectedSifarnikMaterijala.Ident, "Upozorenje", MessageBoxButton.YesNo, MessageBoxImage.Question);
+
+                    if (resultMessageBox == MessageBoxResult.Yes)
+                    {
+                        dbContext.SifarnikMaterijala.Remove(SelectedSifarnikMaterijala);
+                        dbContext.SaveChanges();
+
+                        SifarnikMaterijalaList.Remove(SelectedSifarnikMaterijala);
+                    }
+                    else if (resultMessageBox == MessageBoxResult.No)
+                    {
+                        return;
+                    }
+                }
+            }
+            else if (SelectedSifarnikMaterijala == null)
+            {
+                System.Windows.MessageBox.Show("Niste odabrali sifarnik materijala za brisanje", "Upozorenje", MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
+        }
+        #endregion
 
         private void UnosSifarnikMaterijala()
         {
@@ -67,5 +109,13 @@ namespace Materijalno.ViewModel
             if (PropertyChanged != null)
                 PropertyChanged(this, e);
         }
+
+        #region Properties
+        
+        public SifarnikMaterijala SelectedSifarnikMaterijala { get => selectedSifarnikMaterijala; set { selectedSifarnikMaterijala = value; OnPropertyChanged("SelectedSifarnikMaterijala"); } }
+        public bool IsSelectedUnosSifarnikMaterijala { get => isSelectedUnosSifarnik; set { isSelectedUnosSifarnik = value; OnPropertyChanged("IsSelectedUnosSifarnikMaterijala"); } }
+
+        #endregion
+
     }
 }
