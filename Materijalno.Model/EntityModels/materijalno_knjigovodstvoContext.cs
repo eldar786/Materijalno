@@ -53,7 +53,7 @@ namespace Materijalno.Model.EntityModels
 
             modelBuilder.Entity<SifarnikMaterijala>(entity =>
             {
-                entity.HasNoKey();
+                entity.HasKey(e => e.Ident);
 
                 entity.ToTable("sifarnik_materijala");
 

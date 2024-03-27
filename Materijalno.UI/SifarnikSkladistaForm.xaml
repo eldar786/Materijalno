@@ -168,15 +168,15 @@
         <TextBlock Text="{Binding ElementName=textBox9, Path=(Validation.Errors)/ErrorContent}" Foreground="Red" Grid.Row="9" Grid.Column="2" VerticalAlignment="Top" HorizontalAlignment="Left" />
 
 
-        <!--<TextBox Grid.Row="1" Grid.Column="2" Text="{Binding SifarnikSkladista.Kljnaz, UpdateSourceTrigger=PropertyChanged}"/>-->
-        <!--<TextBox Grid.Row="2" Grid.Column="2" Text="{Binding SifarnikSkladista.NazivOrg, UpdateSourceTrigger=PropertyChanged}"/>-->
-        <!--<TextBox Grid.Row="3" Grid.Column="2" Text="{Binding SifarnikSkladista.ZiroRacun, UpdateSourceTrigger=PropertyChanged}"/>-->
-        <!--<TextBox Grid.Row="4" Grid.Column="2" Text="{Binding SifarnikSkladista.PozBr, UpdateSourceTrigger=PropertyChanged}"/>-->
-        <!--<TextBox Grid.Row="5" Grid.Column="2" Text="{Binding SifarnikSkladista.DevizniRacun, UpdateSourceTrigger=PropertyChanged}"/>-->
-        <!--<TextBox Grid.Row="6" Grid.Column="2" Text="{Binding SifarnikSkladista.PozBrD, UpdateSourceTrigger=PropertyChanged}"/>-->
-        <!--<TextBox Grid.Row="7" Grid.Column="2" Text="{Binding SifarnikSkladista.Opstina, UpdateSourceTrigger=PropertyChanged}"/>-->
-        <!--<TextBox Grid.Row="8" Grid.Column="2" Text="{Binding SifarnikSkladista.NazivSdk, UpdateSourceTrigger=PropertyChanged}"/>-->
-        <!--<TextBox Grid.Row="9" Grid.Column="2" Text="{Binding SifarnikSkladista.MjestoAdresa, UpdateSourceTrigger=PropertyChanged}"/>-->
+        <TextBox Grid.Row="1" Grid.Column="2" Text="{Binding SifarnikSkladista.Kljnaz, UpdateSourceTrigger=PropertyChanged}"/>
+        <TextBox Grid.Row="2" Grid.Column="2" Text="{Binding SifarnikSkladista.NazivOrg, UpdateSourceTrigger=PropertyChanged}"/>
+        <TextBox Grid.Row="3" Grid.Column="2" Text="{Binding SifarnikSkladista.ZiroRacun, UpdateSourceTrigger=PropertyChanged}"/>
+        <TextBox Grid.Row="4" Grid.Column="2" Text="{Binding SifarnikSkladista.PozBr, UpdateSourceTrigger=PropertyChanged}"/>
+        <TextBox Grid.Row="5" Grid.Column="2" Text="{Binding SifarnikSkladista.DevizniRacun, UpdateSourceTrigger=PropertyChanged}"/>
+        <TextBox Grid.Row="6" Grid.Column="2" Text="{Binding SifarnikSkladista.PozBrD, UpdateSourceTrigger=PropertyChanged}"/>
+        <TextBox Grid.Row="7" Grid.Column="2" Text="{Binding SifarnikSkladista.Opstina, UpdateSourceTrigger=PropertyChanged}"/>
+        <TextBox Grid.Row="8" Grid.Column="2" Text="{Binding SifarnikSkladista.NazivSdk, UpdateSourceTrigger=PropertyChanged}"/>
+        <TextBox Grid.Row="9" Grid.Column="2" Text="{Binding SifarnikSkladista.MjestoAdresa, UpdateSourceTrigger=PropertyChanged}"/>
 
         <!--<Button Content="Save" Command="{Binding SaveSifarnikSkladistaCommand}" HorizontalAlignment="Right" Margin="20" Width="100" Grid.Column="0" Grid.Row="11" />-->
         <Button Content="Save" Command="{Binding SaveSifarnikSkladistaCommand}" HorizontalAlignment="Right" Margin="20" Width="100" Grid.Column="0" Grid.Row="11">
