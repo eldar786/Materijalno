@@ -52,13 +52,7 @@ namespace Materijalno.ViewModel
 
         private void IzmjenaSifarnikMaterijala()
         {
-            if (selectedSifarnikMaterijala == null)
-            {
-                System.Windows.MessageBox.Show("Niste odabrali sifarnik materijala", "Upozorenje", MessageBoxButton.OK, MessageBoxImage.Information);
-
-                return;
-            }
-            _gvm.OdabraniVM = new SifarnikMaterijalaFormViewModel(this, _gvm);
+            throw new NotImplementedException();
         }
         
         #region Otvaranje Sifarnik Materijala Form (Unos & Izmjena)
