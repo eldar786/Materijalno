@@ -52,6 +52,9 @@
             <local:SifarnikMaterijalaForm/>
         </DataTemplate>
 
+        <DataTemplate DataType="{x:Type vm:RekapitulacijaZalihaViewModel}">
+            <local:RekapitulacijaZaliha/>
+      
         <DataTemplate DataType="{x:Type vm:SifarnikKontaViewModel}">
             <local:SifarnikKonta/>
         </DataTemplate>

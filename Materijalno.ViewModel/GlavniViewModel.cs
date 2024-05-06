@@ -82,6 +82,20 @@ namespace Materijalno.ViewModel
         {
             OdabraniVM = new SifarnikKontaViewModel(this);
         }
+        
+        public void OtvoriAnalitickaKartica()
+        {
+            OdabraniVM = new AnalitickaKarticaViewModel(this);
+        }
+        public void OtvoriDnevnik()
+        {
+            OdabraniVM = new DnevnikViewModel(this);
+        }
+        
+        public void Otvori()
+        {
+            OdabraniVM = new RekapitulacijaZalihaViewModel(this);
+        }
 
         public void OtvoriIzlazMaterijala()
         {
