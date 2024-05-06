@@ -144,7 +144,7 @@ namespace Materijalno.ViewModel
         
         public void OtvoriRekapitulacijaZaliha()
         {
-            OdabraniVM = new RekapitulacijazalihaViewModel(this);
+            OdabraniVM = new RekapitulacijaZalihaViewModel(this);
         }
 
         public void OtvoriIzlazMaterijala()
