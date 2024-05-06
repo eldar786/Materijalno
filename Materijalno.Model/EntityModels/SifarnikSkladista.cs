@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
 
 // Code scaffolded by EF Core assumes nullable reference types (NRTs) are not used or disabled.
 // If you have enabled NRTs for your project, then un-comment the following line:
@@ -10,7 +7,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Materijalno.Model.EntityModels
 {
-    public class SifarnikSkladista : INotifyPropertyChanged
+    public partial class SifarnikSkladista
     {
         public int Id { get; set; }
         public int? Kljnaz { get; set; }
@@ -22,7 +19,5 @@ namespace Materijalno.Model.EntityModels
         public string Opstina { get; set; }
         public string NazivSdk { get; set; }
         public string MjestoAdresa { get; set; }
-
-        public event PropertyChangedEventHandler PropertyChanged;
     }
 }

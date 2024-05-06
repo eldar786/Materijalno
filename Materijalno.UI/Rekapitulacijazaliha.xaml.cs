@@ -16,11 +16,11 @@ using System.Windows.Shapes;
 namespace Materijalno.UI
 {
     /// <summary>
-    /// Interaction logic for NaloziMedjuskladisnica.xaml
+    /// Interaction logic for Rekapitulacijazaliha.xaml
     /// </summary>
-    public partial class NaloziMedjuskladisnica : UserControl
+    public partial class Rekapitulacijazaliha : UserControl
     {
-        public NaloziMedjuskladisnica()
+        public Rekapitulacijazaliha()
         {
             InitializeComponent();
         }

@@ -16,11 +16,11 @@ using System.Windows.Shapes;
 namespace Materijalno.UI
 {
     /// <summary>
-    /// Interaction logic for PocetnoStanjePrviPut.xaml
+    /// Interaction logic for SifarnikMaterijalaForm.xaml
     /// </summary>
-    public partial class PocetnoStanjePrviPut : UserControl
+    public partial class SifarnikMaterijalaForm : UserControl
     {
-        public PocetnoStanjePrviPut()
+        public SifarnikMaterijalaForm()
         {
             InitializeComponent();
         }

@@ -13,12 +13,12 @@ using System.Windows.Forms;
 
 namespace Materijalno.ViewModel
 {
-    public class StampanjeInventurnihZalihaViewModel
+    public class RekapitulacijazalihaViewModel : ObservableObject
     {
         private ApplicationViewModel _avm;
         private GlavniViewModel _gvm;
 
-        public StampanjeInventurnihZalihaViewModel(GlavniViewModel gvm)
+        public RekapitulacijazalihaViewModel(GlavniViewModel gvm)
         {
 
         }
