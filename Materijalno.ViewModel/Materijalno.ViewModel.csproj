@@ -174,6 +174,7 @@
     <Compile Include="MedjuskladisnicaViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RekapitulacijaTroskovaViewModel.cs" />
+    <Compile Include="RekapitulacijaZalihaViewModel.cs" />
     <Compile Include="RekapitulacijazalihaViewModel.cs" />
     <Compile Include="RelayCommand.cs" />
     <Compile Include="SifarnikMaterijalSkladisteKontoViewModel.cs" />
