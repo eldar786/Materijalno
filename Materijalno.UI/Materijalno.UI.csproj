@@ -251,15 +251,6 @@
     <Compile Include="SifarnikSkladistaFormWindow.xaml.cs">
       <DependentUpon>SifarnikSkladistaFormWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="StampanjeInventurnihZaliha.xaml.cs">
-      <DependentUpon>StampanjeInventurnihZaliha.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="UnosInventurnogStanja.xaml.cs">
-      <DependentUpon>UnosInventurnogStanja.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="StampanjeInventurnihListica.xaml.cs">
-      <DependentUpon>StampanjeInventurnihListica.xaml</DependentUpon>
-    </Compile>
     <Compile Include="UlazMaterijala.xaml.cs">
       <DependentUpon>UlazMaterijala.xaml</DependentUpon>
     </Compile>
@@ -351,22 +342,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="SifarnikSkladistaFormWindow.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="StampanjeInventurnihZaliha.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="UnosInventurnogStanja.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="StampanjeInventurnihListica.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="ZaduzenjeProdavnice.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
