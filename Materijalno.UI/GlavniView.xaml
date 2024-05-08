@@ -1037,7 +1037,7 @@
 
                 </StackPanel>
             </ScrollViewer>
-            <ContentControl x:Name="odabraniContent" Content="{Binding OdabraniVM}" Grid.Row="0" Grid.Column="1" Grid.RowSpan="10"/>
+            <ContentControl x:Name="odabraniContent" Content="{Binding OdabraniVM}" Grid.Row="0" Grid.Column="1" Grid.RowSpan="11"/>
         </Grid>
     </DockPanel>
 

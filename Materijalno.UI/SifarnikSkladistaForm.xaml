@@ -54,29 +54,17 @@
 
 
         <!-- TextBlocks -->
-        <TextBlock Grid.Row="1" Grid.Column="0" Text="Kljnaz:" />
+
         <TextBlock Grid.Row="2" Grid.Column="0" Text="Nazivorg:" />
-        <TextBlock Grid.Row="3" Grid.Column="0" Text="ZiroRacun:" />
-        <TextBlock Grid.Row="4" Grid.Column="0" Text="PozBr:" />
-        <TextBlock Grid.Row="5" Grid.Column="0" Text="DevizniRacun:" />
-        <TextBlock Grid.Row="6" Grid.Column="0" Text="PozBrD:" />
-        <TextBlock Grid.Row="7" Grid.Column="0" Text="Opstina:" />
-        <TextBlock Grid.Row="8" Grid.Column="0" Text="NazivSdk:" />
-        <TextBlock Grid.Row="9" Grid.Column="0" Text="MjestoAdresa:" />
+        <TextBlock Grid.Row="3" Grid.Column="0" Text="Opstina:" />
+        <TextBlock Grid.Row="4" Grid.Column="0" Text="NazivSdk:" />
+        <TextBlock Grid.Row="5" Grid.Column="0" Text="MjestoAdresa:" />
 
         <!-- Header -->
         <TextBlock Text="SIFARNIK SKLADISTA FORM" FontSize="16" FontWeight="Bold" Grid.Column="0" Grid.ColumnSpan="2" VerticalAlignment="Center" HorizontalAlignment="Center" />
 
         <!-- TextBoxes -->
-            <TextBox x:Name="textBox1" Grid.Row="1" Grid.Column="2">
-            <TextBox.Text>
-                <Binding Path="SifarnikSkladista.Kljnaz" UpdateSourceTrigger="PropertyChanged">
-                    <Binding.ValidationRules>
-                        <validationrules:FormValidationRule />
-                    </Binding.ValidationRules>
-                </Binding>
-            </TextBox.Text>
-            </TextBox>
+            
             <TextBlock Text="{Binding ElementName=textBox1, Path=(Validation.Errors)/ErrorContent}" Foreground="Red" Grid.Row="1" Grid.Column="2" VerticalAlignment="Top" HorizontalAlignment="Left" />
 
         <TextBox x:Name="textBox2" Grid.Row="2" Grid.Column="2">
@@ -123,50 +111,7 @@
         </TextBox>
         <TextBlock Text="{Binding ElementName=textBox5, Path=(Validation.Errors)/ErrorContent}" Foreground="Red" Grid.Row="5" Grid.Column="2" VerticalAlignment="Top" HorizontalAlignment="Left" />
 
-        <TextBox x:Name="textBox6" Grid.Row="6" Grid.Column="2">
-            <TextBox.Text>
-                <Binding Path="SifarnikSkladista.PozBrD" UpdateSourceTrigger="PropertyChanged">
-                    <Binding.ValidationRules>
-                        <validationrules:FormValidationRule />
-                    </Binding.ValidationRules>
-                </Binding>
-            </TextBox.Text>
-        </TextBox>
-        <TextBlock Text="{Binding ElementName=textBox6, Path=(Validation.Errors)/ErrorContent}" Foreground="Red" Grid.Row="6" Grid.Column="2" VerticalAlignment="Top" HorizontalAlignment="Left" />
-
-        <TextBox x:Name="textBox7" Grid.Row="7" Grid.Column="2">
-            <TextBox.Text>
-                <Binding Path="SifarnikSkladista.Opstina" UpdateSourceTrigger="PropertyChanged">
-                    <Binding.ValidationRules>
-                        <validationrules:FormValidationRule />
-                    </Binding.ValidationRules>
-                </Binding>
-            </TextBox.Text>
-        </TextBox>
-        <TextBlock Text="{Binding ElementName=textBox7, Path=(Validation.Errors)/ErrorContent}" Foreground="Red" Grid.Row="7" Grid.Column="2" VerticalAlignment="Top" HorizontalAlignment="Left" />
-
-        <TextBox x:Name="textBox8" Grid.Row="8" Grid.Column="2">
-            <TextBox.Text>
-                <Binding Path="SifarnikSkladista.NazivSdk" UpdateSourceTrigger="PropertyChanged">
-                    <Binding.ValidationRules>
-                        <validationrules:FormValidationRule />
-                    </Binding.ValidationRules>
-                </Binding>
-            </TextBox.Text>
-        </TextBox>
-        <TextBlock Text="{Binding ElementName=textBox8, Path=(Validation.Errors)/ErrorContent}" Foreground="Red" Grid.Row="8" Grid.Column="2" VerticalAlignment="Top" HorizontalAlignment="Left" />
-
-        <TextBox x:Name="textBox9" Grid.Row="9" Grid.Column="2">
-            <TextBox.Text>
-                <Binding Path="SifarnikSkladista.MjestoAdresa" UpdateSourceTrigger="PropertyChanged">
-                    <Binding.ValidationRules>
-                        <validationrules:FormValidationRule />
-                    </Binding.ValidationRules>
-                </Binding>
-            </TextBox.Text>
-        </TextBox>
-        <TextBlock Text="{Binding ElementName=textBox9, Path=(Validation.Errors)/ErrorContent}" Foreground="Red" Grid.Row="9" Grid.Column="2" VerticalAlignment="Top" HorizontalAlignment="Left" />
-
+        
 
         <!--<TextBox Grid.Row="1" Grid.Column="2" Text="{Binding SifarnikSkladista.Kljnaz, UpdateSourceTrigger=PropertyChanged}"/>-->
         <!--<TextBox Grid.Row="2" Grid.Column="2" Text="{Binding SifarnikSkladista.NazivOrg, UpdateSourceTrigger=PropertyChanged}"/>-->
@@ -186,15 +131,12 @@
                     <Style.Triggers>
                         <MultiDataTrigger>
                             <MultiDataTrigger.Conditions>
-                                <Condition Binding="{Binding Path=(Validation.HasError), ElementName=textBox1}" Value="False"/>
+                                
                                 <Condition Binding="{Binding Path=(Validation.HasError), ElementName=textBox2}" Value="False"/>
                                 <Condition Binding="{Binding Path=(Validation.HasError), ElementName=textBox3}" Value="False"/>
                                 <Condition Binding="{Binding Path=(Validation.HasError), ElementName=textBox4}" Value="False"/>
                                 <Condition Binding="{Binding Path=(Validation.HasError), ElementName=textBox5}" Value="False"/>
-                                <Condition Binding="{Binding Path=(Validation.HasError), ElementName=textBox6}" Value="False"/>
-                                <Condition Binding="{Binding Path=(Validation.HasError), ElementName=textBox7}" Value="False"/>
-                                <Condition Binding="{Binding Path=(Validation.HasError), ElementName=textBox8}" Value="False"/>
-                                <Condition Binding="{Binding Path=(Validation.HasError), ElementName=textBox9}" Value="False"/>
+                                
                             </MultiDataTrigger.Conditions>
                             <Setter Property="IsEnabled" Value="True"/>
                         </MultiDataTrigger>

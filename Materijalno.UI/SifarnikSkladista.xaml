@@ -35,36 +35,59 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
 
             <RowDefinition/>
         </Grid.RowDefinitions>
+                
 
         <Border Background="AliceBlue" BorderBrush="Silver" BorderThickness="1,1,1,1" Grid.Row="1" Grid.RowSpan="10" Grid.Column="0" Grid.ColumnSpan="6"/>
         <Label Content="{Binding Path=OdabranaOpcija, FallbackValue='odabrana_opcija'}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center"  VerticalAlignment="Center" Foreground="Black" FontSize="14" FontWeight="Bold" Height="34" Margin="0,-30,-128,28" Grid.Column="1" Grid.Row="1"/>
 
-        <Label Grid.Row="1" VerticalAlignment="Center" FontSize="18">Sort:</Label>
-        <ComboBox Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" Height="30"/>
+        <!--<Label Grid.Row="1" VerticalAlignment="Center" FontSize="18">Sort:</Label>-->
+        <!--<ComboBox Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" Height="30"/>-->
 
-        <Label Grid.Row="1" Grid.Column="3" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="18" >Filter:</Label>
+        <Button Grid.Row="1" Grid.Column="4" x:Name="btnStampa"  FontSize="18" Width="50" Margin="210,5,0,20" HorizontalAlignment="Left" Command="{Binding StampaCommand}" >
+            <Image Source="/Ikone/print.png" Stretch="Uniform"/>
+        </Button>
+
+        <Button Grid.Row="1" Grid.Column="4" x:Name="btnUnos" Command="{Binding OpenSifarnikSkladistaFormCommand, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" FontSize="18" Width="50" Margin="120,5,0,20" HorizontalAlignment="Left">
+            <Image Source="/Ikone/dodaj.jpg" Stretch="Uniform"/>
+        </Button>
+
+        <Button Grid.Row="1" Grid.Column="4" x:Name="btnIzmjena" Command="{Binding IzmjenaSifarnikSkladistaFormCommand}" FontSize="18" Width="50" Margin="30,5,0,20" HorizontalAlignment="Left">
+            <Image Source="/Ikone/uredi.png" Stretch="Uniform"/>
+        </Button>
+
+        <Button Grid.Row="1" Grid.Column="4" x:Name="btnBrisanje" FontSize="18" Width="50" Margin="-60,5,0,20" HorizontalAlignment="Left" Command="{Binding DeleteSifarnikSkladistaCommand}" >
+            <Image Source="/Ikone/obrisi.png" Stretch="Uniform"/>
+        </Button>
+
+        <!--<Label Grid.Row="1" Grid.Column="3" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="18" >Filter:</Label>
         <RadioButton Grid.Row="1" Grid.Column="4" Margin="0,20,0,16" Content="Iskljucen"/>
-        <RadioButton Grid.Row="1"  Grid.Column="4" Content="Ukljucen" Margin="0,60,0,46" Grid.RowSpan="2"/>
+        <RadioButton Grid.Row="1"  Grid.Column="4" Content="Ukljucen" Margin="0,60,0,46" Grid.RowSpan="2"/>-->
 
         <ListView Grid.Row="2" Grid.RowSpan="4" Grid.Column="1" Grid.ColumnSpan="4" Name="GrKomitenti" ItemsSource="{Binding SifarnikSkladistaList}" SelectedValue="{Binding SelectedSifarnikSkladista}">
 
             <ListView.View>
                 <GridView>
-                    <GridViewColumn Header="Kljnaz" DisplayMemberBinding="{Binding Kljnaz}" 
-                                    Width="80"></GridViewColumn>
+                    <GridViewColumn  Width="40">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <Button Command="{Binding DataContext.DeleteSifarnikSkladistaCommand, RelativeSource={RelativeSource AncestorType={x:Type ListView}}}" HorizontalAlignment="Center">
+                                    <Image Source="/Ikone/obrisi.png" Width="20" Height="20"/>
+                                </Button>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+
                     <GridViewColumn Header="Nazivorg" DisplayMemberBinding="{Binding NazivOrg}" 
                                     Width="250"></GridViewColumn>
-                    <GridViewColumn Header="Ziroracun" DisplayMemberBinding="{Binding ZiroRacun}"
-                                    Width="140"></GridViewColumn>
-                    <GridViewColumn Header="Pozbr" DisplayMemberBinding="{Binding PozBr}"
-                                    Width="80"></GridViewColumn>
-                    <GridViewColumn Header="Devrac" DisplayMemberBinding="{Binding DevizniRacun}"
-                                    Width="80"></GridViewColumn>
-                    <GridViewColumn Header="Pozbrd" DisplayMemberBinding="{Binding PozBrD}"
-                                    Width="80"></GridViewColumn>
                     <GridViewColumn Header="Opstina" DisplayMemberBinding="{Binding Opstina}"
                                     Width="200"></GridViewColumn>
                     <GridViewColumn Header="Nazivsdk" DisplayMemberBinding="{Binding NazivSdk}"
@@ -76,15 +99,15 @@
         </ListView>
 
         <Grid Grid.Row="6" Grid.Column="1" Grid.ColumnSpan="4" HorizontalAlignment="Center" VerticalAlignment="Center">
-            
             <StackPanel Orientation="Horizontal" VerticalAlignment="Top" Grid.ColumnSpan="1">
-                <Button x:Name="btnUnos" Command="{Binding OpenSifarnikSkladistaFormCommand, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Content="Unos" FontSize="18" Width="110" Margin="5,5,0,5" HorizontalAlignment="Left" />
-                <Button x:Name="btnIzmjena" Command="{Binding IzmjenaSifarnikSkladistaFormCommand}" FontSize="18" Content="Izmjena" Width="110" Margin="5,5,0,5" Grid.Column="1" HorizontalAlignment="Left" />
-                <Button x:Name="btnBrisanje"  Content="Brisanje" FontSize="18" Width="110" Margin="5,5,0,5" HorizontalAlignment="Left" Command="{Binding DeleteSifarnikSkladistaCommand}" />
-                <Button x:Name="btnStampa"  Content="Stampa" FontSize="18" Width="110" Margin="5,5,0,5" HorizontalAlignment="Left" Command="{Binding StampaCommand}" />
-                <Button x:Name="btnIzlaz"  Content="Izlaz" FontSize="18" Width="110" Margin="5,5,0,5" HorizontalAlignment="Left" Command="{Binding IzlazCommand}" />
+                <!--<Button x:Name="btnIzmjena" Command="{Binding IzmjenaSifarnikSkladistaFormCommand}" FontSize="18" Width="60" Margin="5,5,0,5" Grid.Column="1" HorizontalAlignment="Left">
+                    <Image Source="/Ikone/uredi.png" Stretch="Uniform"/>
+                </Button>-->
+                <!--<Button x:Name="btnBrisanje" FontSize="18" Width="60" Margin="5,5,0,5" HorizontalAlignment="Left" Command="{Binding DeleteSifarnikSkladistaCommand}" >
+                    <Image Source="/Ikone/obrisi.png" Stretch="Uniform"/>
+                </Button>-->
+                <!--<Button x:Name="btnIzlaz"  Content="Izlaz" FontSize="18" Width="110" Margin="5,5,0,5" HorizontalAlignment="Left" Command="{Binding IzlazCommand}" />-->
             </StackPanel>
         </Grid>
-
     </Grid>
 </UserControl>
