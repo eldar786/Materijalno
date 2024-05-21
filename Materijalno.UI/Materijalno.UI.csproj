@@ -308,10 +308,12 @@
     <Resource Include="Ikone\document.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Ikone\delete2.png" />
-    <Resource Include="Ikone\dodaj.jpg" />
+    <Resource Include="Ikone\sacuvaj.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Ikone\dodaj.png" />
     <Resource Include="Ikone\print.png" />
-    <Resource Include="Ikone\uredi.png" />
+    <Resource Include="Ikone\uredi3.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Ikone\obrisi.png" />
