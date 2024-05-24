@@ -9,12 +9,13 @@
              d:DesignHeight="450" d:DesignWidth="900">
 
     <UserControl.Resources>
-        <DataTemplate DataType="{x:Type vm:SifarnikMatrijalaViewModel}">
+
+        <DataTemplate DataType="{x:Type vm:SifarnikMaterijalaViewModel}">
             <local:SifarnikMaterijala/>
         </DataTemplate>
+
     </UserControl.Resources>
-    
-    
+
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
@@ -46,7 +47,7 @@
         <RadioButton Grid.Row="1"  Grid.Column="4" Content="Ukljucen" Margin="0,60,0,46" Grid.RowSpan="2"/>
 
 
-        <ListView Grid.Row="2" Grid.RowSpan="4" Grid.Column="1" Grid.ColumnSpan="4" Name="GrKomitenti" ItemsSource="{Binding SifarnikMaterijalaList}">
+        <ListView Grid.Row="2" Grid.RowSpan="4" Grid.Column="1" Grid.ColumnSpan="4" Name="GrKomitenti" ItemsSource="{Binding SifarnikMaterijalaList}" SelectedValue="{Binding SelectedSifarnikMaterijala}">
 
             <ListView.View>
                 <GridView>
@@ -69,7 +70,7 @@
         <Grid Grid.Row="6" Grid.Column="1" Grid.ColumnSpan="4" HorizontalAlignment="Center" VerticalAlignment="Center">
 
             <StackPanel Orientation="Horizontal" VerticalAlignment="Top" Grid.ColumnSpan="1">
-                <Button x:Name="btnUnos"  Content="Unos" FontSize="18" Width="110" Margin="5,5,0,5" HorizontalAlignment="Left" Command="{Binding UnosCommand}" Visibility="{Binding Path=VidljivoOdabirVrsteIncidenta}"/>
+                <Button x:Name="btnUnos"  Content="Unos" FontSize="18" Width="110" Margin="5,5,0,5" HorizontalAlignment="Left" Command="{Binding UnosCommand, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                 <Button x:Name="btnIzmjena" FontSize="18" Content="Izmjena" Width="110" Margin="5,5,0,5" Grid.Column="1" HorizontalAlignment="Left" Command="{Binding IzmjenaCommand}" Visibility="{Binding Path=VidljivoOdabirVrsteIncidenta}"/>
                 <Button x:Name="btnBrisanje"  Content="Brisanje" FontSize="18" Width="110" Margin="5,5,0,5" HorizontalAlignment="Left" Command="{Binding ObrisiCommand}" Visibility="{Binding Path=VidljivoOdabirVrsteIncidenta}"/>
                 <Button x:Name="btnStampa"  Content="Stampa" FontSize="18" Width="110" Margin="5,5,0,5" HorizontalAlignment="Left" Command="{Binding StampaCommand}" Visibility="{Binding Path=VidljivoOdabirVrsteIncidenta}"/>

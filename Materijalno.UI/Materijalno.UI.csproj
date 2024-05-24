@@ -194,8 +194,50 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="AnalitickaKartica.xaml.cs">
+      <DependentUpon>AnalitickaKartica.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="CentralniMagacin.xaml.cs">
+      <DependentUpon>CentralniMagacin.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Dnevnik.xaml.cs">
+      <DependentUpon>Dnevnik.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="NaloziMedjuskladisnica.xaml.cs">
+      <DependentUpon>NaloziMedjuskladisnica.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="NaloziZaFinansijePrintanjeNaloga.xaml.cs">
+      <DependentUpon>NaloziZaFinansijePrintanjeNaloga.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="PocetnoStanjePrviPut.xaml.cs">
+      <DependentUpon>PocetnoStanjePrviPut.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="PostavkaNovogPocetnogstanja.xaml.cs">
+      <DependentUpon>PostavkaNovogPocetnogstanja.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="PovratMaterijala.xaml.cs">
+      <DependentUpon>PovratMaterijala.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="IzlazMaterijala.xaml.cs">
+      <DependentUpon>IzlazMaterijala.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Medjuskladisnica.xaml.cs">
+      <DependentUpon>Medjuskladisnica.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="PovratUSkladiste.xaml.cs">
+      <DependentUpon>PovratUSkladiste.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="RekapitulacijaTroskova.xaml.cs">
+      <DependentUpon>RekapitulacijaTroskova.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="RekapitulacijaZaliha.xaml.cs">
+      <DependentUpon>RekapitulacijaZaliha.xaml</DependentUpon>
+    </Compile>
     <Compile Include="SifarnikKonta.xaml.cs">
       <DependentUpon>SifarnikKonta.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SifarnikMaterijalaForm.xaml.cs">
+      <DependentUpon>SifarnikMaterijalaForm.xaml</DependentUpon>
     </Compile>
     <Compile Include="SifarnikMaterijalSkladisteKonto.xaml.cs">
       <DependentUpon>SifarnikMaterijalSkladisteKonto.xaml</DependentUpon>
@@ -212,7 +254,34 @@
     <Compile Include="SifarnikSkladistaFormWindow.xaml.cs">
       <DependentUpon>SifarnikSkladistaFormWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="StampanjeInventurnihListica.xaml.cs">
+      <DependentUpon>StampanjeInventurnihListica.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="StampanjeInventurnihZaliha.xaml.cs">
+      <DependentUpon>StampanjeInventurnihZaliha.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UlazMaterijala.xaml.cs">
+      <DependentUpon>UlazMaterijala.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UnosInventurnogStanja.xaml.cs">
+      <DependentUpon>UnosInventurnogStanja.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ValidationRules\FormValidationRule.cs" />
+    <Compile Include="ZaduzenjeProdavnice.xaml.cs">
+      <DependentUpon>ZaduzenjeProdavnice.xaml</DependentUpon>
+    </Compile>
+    <Page Include="AnalitickaKartica.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="CentralniMagacin.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Dnevnik.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="GlavniView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -224,9 +293,53 @@
     <Compile Include="GlavniView.xaml.cs">
       <DependentUpon>GlavniView.xaml</DependentUpon>
     </Compile>
+    <Page Include="NaloziMedjuskladisnica.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="NaloziZaFinansijePrintanjeNaloga.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="PocetnoStanjePrviPut.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="PostavkaNovogPocetnogstanja.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="PovratMaterijala.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="IzlazMaterijala.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Medjuskladisnica.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="PovratUSkladiste.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="RekapitulacijaTroskova.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="RekapitulacijaZaliha.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="SifarnikKonta.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="SifarnikMaterijalaForm.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="SifarnikMaterijalSkladisteKonto.xaml">
       <SubType>Designer</SubType>
@@ -245,6 +358,26 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="SifarnikSkladistaFormWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="StampanjeInventurnihListica.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="StampanjeInventurnihZaliha.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UlazMaterijala.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UnosInventurnogStanja.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ZaduzenjeProdavnice.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -167,15 +167,35 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AnalitickaKarticaViewModel.cs" />
     <Compile Include="ApplicationViewModel.cs" />
+    <Compile Include="CentralniMagacinViewModel.cs" />
+    <Compile Include="DnevnikViewModel.cs" />
     <Compile Include="GlavniViewModel.cs" />
+    <Compile Include="NaloziMedjuskladisnicaViewModel.cs" />
+    <Compile Include="NaloziZaFinansijePrintanjeNalogaViewModel.cs" />
+    <Compile Include="PocetnoStanjePrviPutViewModel.cs" />
+    <Compile Include="PostavkaNovogPocetnogstanjaViewModel.cs" />
+    <Compile Include="PovratMaterijalaViewModel.cs" />
+    <Compile Include="IzlazMaterijalaViewModel.cs" />
+    <Compile Include="MedjuskladisnicaViewModel.cs" />
+    <Compile Include="PovratUSkladisteViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RekapitulacijaTroskovaViewModel.cs" />
+    <Compile Include="RekapitulacijaZalihaViewModel.cs" />
+    <Compile Include="RekapitulacijazalihaViewModel.cs" />
     <Compile Include="RelayCommand.cs" />
+    <Compile Include="SifarnikMaterijalaFormViewModel.cs" />
     <Compile Include="SifarnikMaterijalSkladisteKontoViewModel.cs" />
-    <Compile Include="SifarnikMatrijalaViewModel.cs" />
+    <Compile Include="SifarnikMaterijalaViewModel.cs" />
     <Compile Include="SifarnikKontaViewModel.cs" />
     <Compile Include="SifarnikSkladistaFormViewModel.cs" />
     <Compile Include="SifarnikSkladistaViewModel.cs" />
+    <Compile Include="StampanjeInventurnihListicaViewModel.cs" />
+    <Compile Include="StampanjeInventurnihZalihaViewModel.cs" />
+    <Compile Include="UlazMaterijalaViewModel.cs" />
+    <Compile Include="UnosInventurnogStanjaViewModel.cs" />
+    <Compile Include="ZaduzenjeProdavniceViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Materijalno.Model\Materijalno.Model.csproj">
