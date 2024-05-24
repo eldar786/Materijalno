@@ -42,7 +42,7 @@ namespace Materijalno.ViewModel
                 SifarnikMaterijalaList = new ObservableCollection<SifarnikMaterijala>(dbContext.SifarnikMaterijala.ToList());
 
                 ObrisiCommand = new RelayCommand(ObrisiSifarnikMaterijala);
-                UnosCommand = new RelayCommand(UnosSifarnikMaterijala);
+                UnosCommand = new RelayCommand(OpenSifarnikMaterijalaForm);
                 IzmjenaCommand = new RelayCommand(IzmjenaSifarnikMaterijala);
             }
         }
@@ -52,9 +52,10 @@ namespace Materijalno.ViewModel
             throw new NotImplementedException();
         }
 
-        private void UnosSifarnikMaterijala()
+        private void OpenSifarnikMaterijalaForm()
         {
-            throw new NotImplementedException();
+            isSelectedUnosSifarnik = true;
+            _gvm.OdabraniVM = new SifarnikMaterijalaFormViewModel(this, _gvm);
         }
 
         #region Brisanje sifarnika skladista

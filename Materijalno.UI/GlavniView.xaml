@@ -87,6 +87,10 @@
             <local:SifarnikMaterijala/>
         </DataTemplate>
 
+        <DataTemplate DataType="{x:Type vm:SifarnikMaterijalaFormViewModel}">
+            <local:SifarnikMaterijalaForm/>
+        </DataTemplate>
+
         <DataTemplate DataType="{x:Type vm:SifarnikKontaViewModel}">
             <local:SifarnikKonta/>
         </DataTemplate>

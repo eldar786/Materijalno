@@ -236,6 +236,9 @@
     <Compile Include="SifarnikKonta.xaml.cs">
       <DependentUpon>SifarnikKonta.xaml</DependentUpon>
     </Compile>
+    <Compile Include="SifarnikMaterijalaForm.xaml.cs">
+      <DependentUpon>SifarnikMaterijalaForm.xaml</DependentUpon>
+    </Compile>
     <Compile Include="SifarnikMaterijalSkladisteKonto.xaml.cs">
       <DependentUpon>SifarnikMaterijalSkladisteKonto.xaml</DependentUpon>
     </Compile>
@@ -333,6 +336,10 @@
     <Page Include="SifarnikKonta.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="SifarnikMaterijalaForm.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="SifarnikMaterijalSkladisteKonto.xaml">
       <SubType>Designer</SubType>
