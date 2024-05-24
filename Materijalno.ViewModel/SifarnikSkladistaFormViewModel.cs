@@ -57,10 +57,10 @@ namespace Materijalno.ViewModel
         {
             if (!SifarnikSkladista.Kljnaz.HasValue ||
                 string.IsNullOrWhiteSpace(sifarnikSkladista.NazivOrg) ||
-                !SifarnikSkladista.ZiroRacun.HasValue ||
-                !SifarnikSkladista.PozBr.HasValue ||
-                !SifarnikSkladista.DevizniRacun.HasValue ||
-                !SifarnikSkladista.PozBrD.HasValue ||
+                //!SifarnikSkladista.ZiroRacun.HasValue ||
+                //!SifarnikSkladista.PozBr.HasValue ||
+                //!SifarnikSkladista.DevizniRacun.HasValue ||
+                //!SifarnikSkladista.PozBrD.HasValue ||
                 string.IsNullOrEmpty(SifarnikSkladista.Opstina) ||
                 string.IsNullOrEmpty(SifarnikSkladista.NazivSdk) ||
                 string.IsNullOrEmpty(SifarnikSkladista.MjestoAdresa))
