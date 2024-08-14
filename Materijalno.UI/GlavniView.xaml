@@ -23,6 +23,11 @@
             <local:SifarnikSkladistaForm/>
         </DataTemplate>
 
+        <DataTemplate DataType="{x:Type vm:SifarnikKontaFormViewModel}">
+            <local:SifarnikKontaForm/>
+        </DataTemplate>
+        
+        
         <DataTemplate DataType="{x:Type vm:UnosInventurnogStanjaViewModel}">
             <local:UnosInventurnogStanja/>
         </DataTemplate>
