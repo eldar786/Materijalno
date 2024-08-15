@@ -103,11 +103,11 @@
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
 
+                    <GridViewColumn Header="Kljnaz" DisplayMemberBinding="{Binding Kljnaz}" 
+                                    Width="200" ></GridViewColumn>
                     <GridViewColumn Header="Nazivorg" DisplayMemberBinding="{Binding NazivOrg}" 
                                     Width="200" ></GridViewColumn>
                     <GridViewColumn Header="Opstina" DisplayMemberBinding="{Binding Opstina}"
-                                    Width="200"></GridViewColumn>
-                    <GridViewColumn Header="Nazivsdk" DisplayMemberBinding="{Binding NazivSdk}"
                                     Width="200"></GridViewColumn>
                     <GridViewColumn Header="Mjeadr" DisplayMemberBinding="{Binding MjestoAdresa}"
                                     Width="200"></GridViewColumn>
