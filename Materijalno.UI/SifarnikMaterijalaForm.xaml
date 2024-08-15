@@ -32,11 +32,8 @@
 
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="100"/>
-            <RowDefinition Height="50"/>
-            <RowDefinition Height="50"/>
-            <RowDefinition Height="50"/>
-            <RowDefinition Height="50"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
@@ -48,28 +45,24 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
-        <Border Background="white" BorderBrush="Silver" BorderThickness="1,1,1,1" Grid.Row="0" Grid.RowSpan="11" Grid.Column="0" Grid.ColumnSpan="4" />
+        <Border Background="AliceBlue" BorderBrush="Silver" BorderThickness="1,1,1,1" Grid.Row="0" Grid.RowSpan="11" Grid.Column="0" Grid.ColumnSpan="4" />
 
 
         <!-- TextBlocks -->
-        <TextBlock Grid.Row="1" Grid.Column="1" Text="Ident:" FontSize="18" HorizontalAlignment="Right" Margin="0,0,-120,0" />
-        <TextBlock Grid.Row="2" Grid.Column="1" Text="Nazmat:" FontSize="18" HorizontalAlignment="Right" Margin="0,0,-120,-10" />
-        <TextBlock Grid.Row="3" Grid.Column="1" Text="Jedm:" FontSize="18" HorizontalAlignment="Right" Margin="0,0,-120,-10" />
-        <TextBlock Grid.Row="4" Grid.Column="1" Text="Siftar:" FontSize="18" HorizontalAlignment="Right" Margin="0,0,-120,-10" />
-        <TextBlock Grid.Row="5" Grid.Column="1" Text="Konto1:" FontSize="18" HorizontalAlignment="Right" Margin="0,0,-120,40" />
-        <TextBlock Grid.Row="6" Grid.Column="1" Text="Konto2:" FontSize="18" HorizontalAlignment="Right" Margin="0,-140,-120,0" />
+        <TextBlock Grid.Row="1" Grid.Column="0" Text="Ident:" />
+        <TextBlock Grid.Row="2" Grid.Column="0" Text="Nazmat:" />
+        <TextBlock Grid.Row="3" Grid.Column="0" Text="Jedm:" />
+        <TextBlock Grid.Row="4" Grid.Column="0" Text="Siftar:" />
+        <TextBlock Grid.Row="5" Grid.Column="0" Text="Konto1:" />
+        <TextBlock Grid.Row="6" Grid.Column="0" Text="Konto2:" />
 
         <!-- Header -->
-        <TextBlock Text="SIFARNIK MATERIJALA FORMA" FontSize="16" Margin="80,0,0,0" FontWeight="Bold" Grid.Column="0" Grid.ColumnSpan="4" VerticalAlignment="Center" HorizontalAlignment="Center" />
-
-        <TextBlock Text="{Binding ElementName=textBox1, Path=(Validation.Errors)/ErrorContent}" Foreground="Red" Grid.Row="1" Grid.Column="2" VerticalAlignment="Top" HorizontalAlignment="Left" />
+        <TextBlock Text="SIFARNIK MATERIJALA FORMA" FontSize="16" FontWeight="Bold" Grid.Column="0" Grid.ColumnSpan="2" VerticalAlignment="Center" HorizontalAlignment="Center" />
 
         <!-- TextBoxes -->
-        <TextBox x:Name="textBox1" Grid.Row="1" Grid.Column="2" FontSize="18" Height="30" Margin="0,10,0,0" >
+        <TextBox x:Name="textBox1" Grid.Row="1" Grid.Column="2">
             <TextBox.Text>
                 <Binding Path="SifarnikSkladista.Kljnaz" UpdateSourceTrigger="PropertyChanged">
                     <Binding.ValidationRules>
@@ -80,7 +73,7 @@
         </TextBox>
         <TextBlock Text="{Binding ElementName=textBox1, Path=(Validation.Errors)/ErrorContent}" Foreground="Red" Grid.Row="1" Grid.Column="2" VerticalAlignment="Top" HorizontalAlignment="Left" />
 
-        <TextBox x:Name="textBox2" Grid.Row="2" Grid.Column="2" FontSize="18" Height="30" Margin="0,20,0,0">
+        <TextBox x:Name="textBox2" Grid.Row="2" Grid.Column="2">
             <TextBox.Text>
                 <Binding Path="SifarnikSkladista.NazivOrg" UpdateSourceTrigger="PropertyChanged">
                     <Binding.ValidationRules>
@@ -91,7 +84,7 @@
         </TextBox>
         <TextBlock Text="{Binding ElementName=textBox2, Path=(Validation.Errors)/ErrorContent}" Foreground="Red" Grid.Row="2" Grid.Column="2" VerticalAlignment="Top" HorizontalAlignment="Left" />
 
-        <TextBox x:Name="textBox3" Grid.Row="3" Grid.Column="2" FontSize="18" Height="30" Margin="0,20,0,0">
+        <TextBox x:Name="textBox3" Grid.Row="3" Grid.Column="2">
             <TextBox.Text>
                 <Binding Path="SifarnikSkladista.ZiroRacun" UpdateSourceTrigger="PropertyChanged">
                     <Binding.ValidationRules>
@@ -102,7 +95,7 @@
         </TextBox>
         <TextBlock Text="{Binding ElementName=textBox3, Path=(Validation.Errors)/ErrorContent}" Foreground="Red" Grid.Row="3" Grid.Column="2" VerticalAlignment="Top" HorizontalAlignment="Left" />
 
-        <TextBox x:Name="textBox4" Grid.Row="4" Grid.Column="2" FontSize="18" Height="30" Margin="0,20,0,0">
+        <TextBox x:Name="textBox4" Grid.Row="4" Grid.Column="2">
             <TextBox.Text>
                 <Binding Path="SifarnikSkladista.PozBr" UpdateSourceTrigger="PropertyChanged">
                     <Binding.ValidationRules>
@@ -113,7 +106,7 @@
         </TextBox>
         <TextBlock Text="{Binding ElementName=textBox4, Path=(Validation.Errors)/ErrorContent}" Foreground="Red" Grid.Row="4" Grid.Column="2" VerticalAlignment="Top" HorizontalAlignment="Left" />
 
-        <TextBox x:Name="textBox5" Grid.Row="5" Grid.Column="2" FontSize="18" Height="30" Margin="0,-30,0,10">
+        <TextBox x:Name="textBox5" Grid.Row="5" Grid.Column="2">
             <TextBox.Text>
                 <Binding Path="SifarnikSkladista.DevizniRacun" UpdateSourceTrigger="PropertyChanged">
                     <Binding.ValidationRules>
@@ -124,7 +117,7 @@
         </TextBox>
         <TextBlock Text="{Binding ElementName=textBox5, Path=(Validation.Errors)/ErrorContent}" Foreground="Red" Grid.Row="5" Grid.Column="2" VerticalAlignment="Top" HorizontalAlignment="Left" />
 
-        <TextBox x:Name="textBox6" Grid.Row="6" Grid.Column="2" FontSize="18" Height="30" Margin="0,-140,0,10">
+        <TextBox x:Name="textBox6" Grid.Row="6" Grid.Column="2">
             <TextBox.Text>
                 <Binding Path="SifarnikSkladista.PozBrD" UpdateSourceTrigger="PropertyChanged">
                     <Binding.ValidationRules>
@@ -135,28 +128,27 @@
         </TextBox>
         <TextBlock Text="{Binding ElementName=textBox6, Path=(Validation.Errors)/ErrorContent}" Foreground="Red" Grid.Row="6" Grid.Column="2" VerticalAlignment="Top" HorizontalAlignment="Left" />
 
-        <!--<TextBox Grid.Row="1" Grid.Column="2" Text="{Binding SifarnikMaterijala.Ident, UpdateSourceTrigger=PropertyChanged}"/>
+        <TextBox Grid.Row="1" Grid.Column="2" Text="{Binding SifarnikMaterijala.Ident, UpdateSourceTrigger=PropertyChanged}"/>
         <TextBox Grid.Row="2" Grid.Column="2" Text="{Binding SifarnikMaterijala.NazivOrg, UpdateSourceTrigger=PropertyChanged}"/>
         <TextBox Grid.Row="3" Grid.Column="2" Text="{Binding SifarnikMaterijala.ZiroRacun, UpdateSourceTrigger=PropertyChanged}"/>
         <TextBox Grid.Row="4" Grid.Column="2" Text="{Binding SifarnikMaterijala.PozBr, UpdateSourceTrigger=PropertyChanged}"/>
         <TextBox Grid.Row="5" Grid.Column="2" Text="{Binding SifarnikMaterijala.DevizniRacun, UpdateSourceTrigger=PropertyChanged}"/>
-        <TextBox Grid.Row="6" Grid.Column="2" Text="{Binding SifarnikMaterijala.PozBrD, UpdateSourceTrigger=PropertyChanged}"/>-->
+        <TextBox Grid.Row="6" Grid.Column="2" Text="{Binding SifarnikMaterijala.PozBrD, UpdateSourceTrigger=PropertyChanged}"/>
 
 
-        <Button  Background="White" Command="{Binding SaveSifarnikMaterijalaCommand}" HorizontalAlignment="Right" Margin="50,0,50,0" Height="60" Width="60" Grid.Column="1" Grid.Row="6">
-            <Image Source="/Ikone/sacuvaj.png" Stretch="Uniform"/>
+        <Button Content="Save" Command="{Binding SaveSifarnikSkladistaCommand}" HorizontalAlignment="Right" Margin="17" Width="100" Grid.Column="0" Grid.Row="11">
             <Button.Style>
                 <Style TargetType="Button">
                     <Setter Property="IsEnabled" Value="False"/>
                     <Style.Triggers>
                         <MultiDataTrigger>
                             <MultiDataTrigger.Conditions>
-
+                                <Condition Binding="{Binding Path=(Validation.HasError), ElementName=textBox1}" Value="False"/>
                                 <Condition Binding="{Binding Path=(Validation.HasError), ElementName=textBox2}" Value="False"/>
                                 <Condition Binding="{Binding Path=(Validation.HasError), ElementName=textBox3}" Value="False"/>
                                 <Condition Binding="{Binding Path=(Validation.HasError), ElementName=textBox4}" Value="False"/>
                                 <Condition Binding="{Binding Path=(Validation.HasError), ElementName=textBox5}" Value="False"/>
-
+                                <Condition Binding="{Binding Path=(Validation.HasError), ElementName=textBox6}" Value="False"/>
                             </MultiDataTrigger.Conditions>
                             <Setter Property="IsEnabled" Value="True"/>
                         </MultiDataTrigger>
@@ -165,14 +157,6 @@
             </Button.Style>
         </Button>
 
-        <Button Background="White" Command="{Binding CancelSifarnikMaterijalaCommand}"  HorizontalAlignment="Left" Margin="-20,0,0,0" Height="60" Width="60" Grid.Column="2" Grid.Row="6">
-            <Image Source="/Ikone/obrisi.png" Stretch="Uniform"/>
-        </Button>
-
-        <Button Background="White" Grid.Row="6" Grid.Column="2" x:Name="btnStampa"  FontSize="18" Margin="70,0,0,0" Height="60" Width="60"  HorizontalAlignment="Left" Command="{Binding StampaCommand}" >
-            <Image Source="/Ikone/print.png" Stretch="Uniform"/>
-            <Button.ToolTip>
-                <ToolTip Content="Print"/>
-            </Button.ToolTip>
-        </Button></Grid>
+        <Button Command="{Binding CancelSifarnikSkladistaCommand}" Content="Cancel" HorizontalAlignment="Left" Margin="17" Width="100" Grid.Column="1" Grid.Row="11" />
+    </Grid>
 </UserControl>

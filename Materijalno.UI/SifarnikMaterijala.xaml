@@ -32,52 +32,25 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
 
             <RowDefinition/>
         </Grid.RowDefinitions>
 
-        <TextBlock Text="ŠIFARNIK MATERIJALA" FontSize="18" Margin="450,0,0,0" FontWeight="Bold" Grid.Column="0" Grid.ColumnSpan="4" VerticalAlignment="Center" HorizontalAlignment="Center" />
-
-
         <Border Background="AliceBlue" BorderBrush="Silver" BorderThickness="1,0,1,1" Grid.Row="1" Grid.RowSpan="10" Grid.Column="0" Grid.ColumnSpan="6"/>
-        <!--<Label Content="{Binding Path=OdabranaOpcija, FallbackValue='odabrana_opcija'}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center"  VerticalAlignment="Center" Foreground="Black" FontSize="14" FontWeight="Bold" Height="34" Margin="0,-30,-128,28" Grid.Column="1" Grid.Row="1"/>-->
+        <Label Content="{Binding Path=OdabranaOpcija, FallbackValue='odabrana_opcija'}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center"  VerticalAlignment="Center" Foreground="Black" FontSize="14" FontWeight="Bold" Height="34" Margin="0,-30,-128,28" Grid.Column="1" Grid.Row="1"/>
 
-        <!--<Label Grid.Row="1" Grid.Column="1" Margin="40,0,0,0" VerticalAlignment="Center" FontSize="18">Sort:</Label>
+        <Label Grid.Row="1" Grid.Column="1" Margin="40,0,0,0" VerticalAlignment="Center" FontSize="18">Sort:</Label>
         <ComboBox Grid.Row="1" Grid.Column="2" Margin="-140,0,140,0" VerticalAlignment="Center" Height="30"/>
 
         <Label Grid.Row="1" Grid.Column="3" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="18" >Filter:</Label>
         <RadioButton Grid.Row="1" Grid.Column="4" Margin="0,20,0,16" Content="Iskljucen"/>
-        <RadioButton Grid.Row="1"  Grid.Column="4" Content="Ukljucen" Margin="0,60,0,46" Grid.RowSpan="2"/>-->
-        
-        <Button Background="White" Grid.Row="1" Grid.Column="4" x:Name="btnStampa"  FontSize="18" Width="50" Margin="200,5,0,20" HorizontalAlignment="Left" Command="{Binding StampaCommand}" >
-            <Image Source="/Ikone/print.png" Stretch="Uniform"/>
-            <Button.ToolTip>
-                <ToolTip Content="Print"/>
-            </Button.ToolTip>
-        </Button>
+        <RadioButton Grid.Row="1"  Grid.Column="4" Content="Ukljucen" Margin="0,60,0,46" Grid.RowSpan="2"/>
 
-        <ListView Grid.Row="2" FontSize="18" Grid.RowSpan="4" Grid.Column="1" Grid.ColumnSpan="4" Name="GrKomitenti" ItemsSource="{Binding SifarnikMaterijalaList}" SelectedValue="{Binding SelectedSifarnikMaterijala}">
+
+        <ListView Grid.Row="2" Grid.RowSpan="4" Grid.Column="1" Grid.ColumnSpan="4" Name="GrKomitenti" ItemsSource="{Binding SifarnikMaterijalaList}" SelectedValue="{Binding SelectedSifarnikMaterijala}">
 
             <ListView.View>
                 <GridView>
-                    <GridViewColumn  Width="50">
-                        <GridViewColumn.CellTemplate>
-                            <DataTemplate>
-                                <Button Background="White" Command="{Binding DataContext.IzmjenaSifarnikMaterijalaFormCommand, RelativeSource={RelativeSource AncestorType={x:Type ListView}}}" HorizontalAlignment="Center">
-                                    <Image Source="/Ikone/uredi3.png" Width="35" Height="34"/>
-                                    <Button.ToolTip>
-                                        <ToolTip Content="Uredi"/>
-                                    </Button.ToolTip>
-                                </Button>
-                            </DataTemplate>
-                        </GridViewColumn.CellTemplate>
-                    </GridViewColumn>
                     <GridViewColumn Header="Ident" DisplayMemberBinding="{Binding Ident}" 
                                     Width="80"></GridViewColumn>
                     <GridViewColumn Header="Nazmat" DisplayMemberBinding="{Binding Nazmat}" 
@@ -94,36 +67,16 @@
             </ListView.View>
         </ListView>
 
-        <Grid Grid.Row="6" Grid.Column="3" Grid.ColumnSpan="4" HorizontalAlignment="Center" VerticalAlignment="Center">
+        <Grid Grid.Row="6" Grid.Column="1" Grid.ColumnSpan="4" HorizontalAlignment="Center" VerticalAlignment="Center">
+
             <StackPanel Orientation="Horizontal" VerticalAlignment="Top" Grid.ColumnSpan="1">
-                <Button Background="White" x:Name="btnIzmjena" Command="{Binding IzmjenaSifarnikMaterijalaFormCommand}" FontSize="18" Width="50"  Margin="0,0,20,0" Grid.Column="1" HorizontalAlignment="Left">
-                    <Image Source="/Ikone/uredi3.png" Stretch="Uniform"/>
-                    <Button.ToolTip>
-                        <ToolTip Content="Uredi"/>
-                    </Button.ToolTip>
-                </Button>
-
-                <Button Background="White" x:Name="btnBrisanje" FontSize="18" Width="50" Margin="0,0,20,0" HorizontalAlignment="Left" Command="{Binding ObrisiSifarnikMaterijalaCommand}" >
-                    <Image Source="/Ikone/obrisi.png" Stretch="Uniform"/>
-                    <Button.ToolTip>
-                        <ToolTip Content="Obriši"/>
-                    </Button.ToolTip>
-                </Button>
-
-                <Button Background="White" x:Name="btnUnos" FontSize="18" Width="50"  Margin="0,0,-45,0" HorizontalAlignment="Left" Command="{Binding UnosSifarnikMaterijalaCommand, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" >
-                    <Image Source="/Ikone/dodaj.png" Stretch="Uniform"/>
-                    <Button.ToolTip>
-                        <ToolTip Content="Dodaj"/>
-                    </Button.ToolTip>
-                </Button>
-            </StackPanel>
-            <!--<StackPanel Orientation="Horizontal" VerticalAlignment="Top" Grid.ColumnSpan="1">
                 <Button x:Name="btnUnos"  Content="Unos" FontSize="18" Width="110" Margin="5,5,0,5" HorizontalAlignment="Left" Command="{Binding UnosCommand, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                 <Button x:Name="btnIzmjena" FontSize="18" Content="Izmjena" Width="110" Margin="5,5,0,5" Grid.Column="1" HorizontalAlignment="Left" Command="{Binding IzmjenaCommand}" Visibility="{Binding Path=VidljivoOdabirVrsteIncidenta}"/>
                 <Button x:Name="btnBrisanje"  Content="Brisanje" FontSize="18" Width="110" Margin="5,5,0,5" HorizontalAlignment="Left" Command="{Binding ObrisiCommand}" Visibility="{Binding Path=VidljivoOdabirVrsteIncidenta}"/>
                 <Button x:Name="btnStampa"  Content="Stampa" FontSize="18" Width="110" Margin="5,5,0,5" HorizontalAlignment="Left" Command="{Binding StampaCommand}" Visibility="{Binding Path=VidljivoOdabirVrsteIncidenta}"/>
                 <Button x:Name="btnIzlaz"  Content="Izlaz" FontSize="18" Width="110" Margin="5,5,0,5" HorizontalAlignment="Left" Command="{Binding IzlazCommand}" Visibility="{Binding Path=VidljivoOdabirVrsteIncidenta}"/>
-            </StackPanel>-->
+            </StackPanel>
         </Grid>
+
     </Grid>
 </UserControl>

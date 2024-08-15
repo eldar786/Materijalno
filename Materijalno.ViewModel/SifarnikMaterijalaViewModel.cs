@@ -5,7 +5,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Data;
+//using System.Windows.Data;
 using System.Windows.Input;
 using Materijalno.Model;
 using System.Windows;
@@ -18,19 +18,17 @@ namespace Materijalno.ViewModel
     {
         private ApplicationViewModel _avm;
         private GlavniViewModel _gvm;
-
         private SifarnikMaterijala selectedSifarnikMaterijala;
         private bool isSelectedUnosSifarnik = false;
 
         public ObservableCollection<SifarnikMaterijala> SifarnikMaterijalaList { get; set; }
 
         #region Commands
-        public ICommand UnosSifarnikMaterijalaCommand { get; set; }
-        //public ICommand IzmjenaCommand { get; set; }
-        public ICommand ObrisiSifarnikMaterijalaCommand { get; set; }
+        public ICommand UnosCommand { get; set; }
+        public ICommand IzmjenaCommand { get; set; }
+        public ICommand ObrisiCommand { get; set; }
         public ICommand StampaCommand { get; set; }
         public ICommand IzlazCommand { get; set; }
-        public ICommand IzmjenaSifarnikMaterijalaFormCommand { get; set; }
 
         #endregion
 
@@ -43,27 +41,15 @@ namespace Materijalno.ViewModel
             {
                 SifarnikMaterijalaList = new ObservableCollection<SifarnikMaterijala>(dbContext.SifarnikMaterijala.ToList());
 
-                ObrisiSifarnikMaterijalaCommand = new RelayCommand(ObrisiSifarnikMaterijala);
-                UnosSifarnikMaterijalaCommand = new RelayCommand(OpenSifarnikMaterijalaForm);
-                //IzmjenaCommand = new RelayCommand(IzmjenaSifarnikMaterijala);
-                IzmjenaSifarnikMaterijalaFormCommand = new RelayCommand(IzmjenaSifarnikMaterijalaForm);
+                ObrisiCommand = new RelayCommand(ObrisiSifarnikMaterijala);
+                UnosCommand = new RelayCommand(OpenSifarnikMaterijalaForm);
+                IzmjenaCommand = new RelayCommand(IzmjenaSifarnikMaterijala);
             }
         }
 
         private void IzmjenaSifarnikMaterijala()
         {
             throw new NotImplementedException();
-        }
-
-        private void IzmjenaSifarnikMaterijalaForm()
-        {
-            if(selectedSifarnikMaterijala == null)
-            {
-                System.Windows.MessageBox.Show("Niste odabrali sifarnik", "Upozorenje", MessageBoxButton.OK, MessageBoxImage.Information);
-                return;
-
-            }
-            _gvm.OdabraniVM = new SifarnikMaterijalaFormViewModel(this, _gvm);
         }
 
         private void OpenSifarnikMaterijalaForm()
