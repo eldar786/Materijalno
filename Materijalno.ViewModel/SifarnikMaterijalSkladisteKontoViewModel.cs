@@ -5,6 +5,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+//using System.Windows.Data;
 using System.Windows.Input;
 using Materijalno.Model;
 using System.Windows;
@@ -107,6 +108,9 @@ namespace Materijalno.ViewModel
                 }
             }
         }
+                //Dodati ostale commande
+            }
+        }
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -115,9 +119,5 @@ namespace Materijalno.ViewModel
             if (PropertyChanged != null)
                 PropertyChanged(this, e);
         }
-
-
-        public SifarnikMaterijalSkladisteKonto SelectedSifarnikMaterijalSkladisteKonto { get => selectedSifarnikMaterijalSkladisteKonto; set { selectedSifarnikMaterijalSkladisteKonto = value; OnPropertyChanged("SelectedSifarnikMaterijalSkladisteKonto"); } }
-        public bool IsSelectedUnosSifarnikMaterijalSkladisteKonto { get => isSelectedUnosSifarnikMaterijalSkladisteKonto; set { isSelectedUnosSifarnikMaterijalSkladisteKonto = value; OnPropertyChanged("IsSelectedUnosSifarnikMaterijalSkladisteKonto"); } }
     }
 }
