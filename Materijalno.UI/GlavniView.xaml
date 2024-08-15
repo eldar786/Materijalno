@@ -12,7 +12,7 @@
         <BooleanToVisibilityConverter x:Key="BoolToVis" />
 
         <DataTemplate DataType="{x:Type vm:GlavniViewModel}">
-            <local:GlavniView/>
+            <local:GlavniView/> 
         </DataTemplate>
 
         <DataTemplate DataType="{x:Type vm:SifarnikSkladistaViewModel}">
