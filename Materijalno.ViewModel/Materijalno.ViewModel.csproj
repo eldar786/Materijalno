@@ -187,6 +187,7 @@
     <Compile Include="RelayCommand.cs" />
     <Compile Include="SifarnikKontaFromViewModel.cs" />
     <Compile Include="SifarnikMaterijalaFormViewModel.cs" />
+    <Compile Include="SifarnikMaterijalSkladisteKontoFormViewModel.cs" />
     <Compile Include="SifarnikMaterijalSkladisteKontoViewModel.cs" />
     <Compile Include="SifarnikMaterijalaViewModel.cs" />
     <Compile Include="SifarnikKontaViewModel.cs" />
