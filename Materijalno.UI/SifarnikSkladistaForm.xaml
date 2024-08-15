@@ -54,10 +54,10 @@
 
         <!-- TextBlocks -->
 
-        <TextBlock Grid.Row="1" Grid.Column="1" Text="Nazivorg:" FontSize="18" HorizontalAlignment="Right" Margin="0,0,-120,-10" />
-        <TextBlock Grid.Row="2" Grid.Column="1" Text="Opstina:" FontSize="18" HorizontalAlignment="Right" Margin="0,0,-120,-10" />
-        <TextBlock Grid.Row="3" Grid.Column="1" Text="NazivSdk:" FontSize="18" HorizontalAlignment="Right" Margin="0,0,-120,-10" />
-        <TextBlock Grid.Row="4" Grid.Column="1" Text="MjestoAdresa:" FontSize="18" HorizontalAlignment="Right" Margin="0,0,-120,-10" />
+        <TextBlock Grid.Row="1" Grid.Column="1" Text="Kljnaz:" FontSize="18" HorizontalAlignment="Right" Margin="0,0,-120,-10" />
+        <TextBlock Grid.Row="2" Grid.Column="1" Text="Nazivorg:" FontSize="18" HorizontalAlignment="Right" Margin="0,0,-120,-10" />
+        <TextBlock Grid.Row="3" Grid.Column="1" Text="Opstina:" FontSize="18" HorizontalAlignment="Right" Margin="0,0,-120,-10" />
+        <TextBlock Grid.Row="4" Grid.Column="1" Text="Mjesto i adresa:" FontSize="18" HorizontalAlignment="Right" Margin="0,0,-120,-10" />
 
         <!-- Header -->
         <TextBlock Text="SIFARNIK SKLADISTA FORM" FontSize="16" FontWeight="Bold" Grid.Column="0" Grid.ColumnSpan="4" VerticalAlignment="Center" HorizontalAlignment="Center" />
@@ -68,7 +68,7 @@
 
         <TextBox x:Name="textBox2" Grid.Row="1" Grid.Column="2" FontSize="18" Height="30" Margin="0,0,0,0" >
             <TextBox.Text>
-                <Binding Path="SifarnikSkladista.NazivOrg" UpdateSourceTrigger="PropertyChanged">
+                <Binding Path="SifarnikSkladista.Kljnaz" UpdateSourceTrigger="PropertyChanged">
                     <Binding.ValidationRules>
                         <validationrules:FormValidationRule />
                     </Binding.ValidationRules>
@@ -79,7 +79,7 @@
 
         <TextBox x:Name="textBox3" Grid.Row="2" Grid.Column="2" FontSize="18" Height="30" Margin="0,0,0,-20">
             <TextBox.Text>
-                <Binding Path="SifarnikSkladista.ZiroRacun" UpdateSourceTrigger="PropertyChanged">
+                <Binding Path="SifarnikSkladista.NazivOrg" UpdateSourceTrigger="PropertyChanged">
                     <Binding.ValidationRules>
                         <validationrules:FormValidationRule />
                     </Binding.ValidationRules>
@@ -90,7 +90,7 @@
 
         <TextBox x:Name="textBox4" Grid.Row="3" Grid.Column="2" FontSize="18" Height="30" Margin="0,0,0,-20">
             <TextBox.Text>
-                <Binding Path="SifarnikSkladista.PozBr" UpdateSourceTrigger="PropertyChanged">
+                <Binding Path="SifarnikSkladista.Opstina" UpdateSourceTrigger="PropertyChanged">
                     <Binding.ValidationRules>
                         <validationrules:FormValidationRule />
                     </Binding.ValidationRules>
@@ -101,7 +101,7 @@
 
         <TextBox x:Name="textBox5" Grid.Row="4" Grid.Column="2" FontSize="18" Height="30" Margin="0,0,0,-20">
             <TextBox.Text>
-                <Binding Path="SifarnikSkladista.DevizniRacun" UpdateSourceTrigger="PropertyChanged">
+                <Binding Path="SifarnikSkladista.MjestoAdresa" UpdateSourceTrigger="PropertyChanged">
                     <Binding.ValidationRules>
                         <validationrules:FormValidationRule />
                     </Binding.ValidationRules>

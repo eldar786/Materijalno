@@ -62,7 +62,6 @@ namespace Materijalno.ViewModel
                 //!SifarnikSkladista.DevizniRacun.HasValue ||
                 //!SifarnikSkladista.PozBrD.HasValue ||
                 string.IsNullOrEmpty(SifarnikSkladista.Opstina) ||
-                string.IsNullOrEmpty(SifarnikSkladista.NazivSdk) ||
                 string.IsNullOrEmpty(SifarnikSkladista.MjestoAdresa))
             {
                 return false;

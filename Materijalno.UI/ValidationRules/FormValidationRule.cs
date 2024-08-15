@@ -15,7 +15,7 @@ namespace Materijalno.UI.ValidationRules
         public override ValidationResult Validate(object value, CultureInfo cultureInfo)
         {
             //Ukoliko zelimo validaciju po tipu propertija (string ili int)
-            Regex regex = new Regex("^[A_Za-z0-9!@#$%^&]{0,40}$");
+            Regex regex = new Regex("^[A-Za-z0-9 !@#$%^&]{0,40}$");
 
             if (!regex.IsMatch(value.ToString()))
             {
