@@ -11,39 +11,34 @@ using Materijalno.Model.EntityModels;
 
 namespace Materijalno.ViewModel
 {
-    public class SifarnikMaterijalaFormViewModel : INotifyPropertyChanged
+    public class SifarnikKontaFormViewModel : INotifyPropertyChanged
     {
         private GlavniViewModel _gvm;
         private bool isSelectedUnosSifarnik;
 
-        SifarnikMaterijala sifarnikMaterijala = new SifarnikMaterijala();
+        SifarnikKonta sifarnikKonta = new SifarnikKonta();
 
-        public ICommand SaveSifarnikMaterijalaCommand { get; set; }
-        public ICommand CancelSifarnikMaterijalaCommand { get; set; }
+        public ICommand SaveSifarnikKontaCommand { get; set; }
+        public ICommand CancelSifarnikKontaCommand { get; set; }
 
-
-        public SifarnikMaterijalaFormViewModel(SifarnikMaterijalaViewModel sifarnikMaterijalaViewModel, GlavniViewModel glavniViewModel)
+        public SifarnikKontaFormViewModel(SifarnikKontaViewModel sifarnikKontaViewModel, GlavniViewModel glavniViewModel)
         {
             _gvm = glavniViewModel;
-            isSelectedUnosSifarnik = sifarnikMaterijalaViewModel.IsSelectedUnosSifarnikMaterijala;
-            SaveSifarnikMaterijalaCommand = new RelayCommand(SaveSifarnikMterijala);
-            CancelSifarnikMaterijalaCommand = new RelayCommand(CancelSifarnikMaterijala);
-            if (sifarnikMaterijalaViewModel.IsSelectedUnosSifarnikMaterijala == false)
+            isSelectedUnosSifarnik = sifarnikKontaViewModel.IsSelectedUnosSifarnik;
+            SaveSifarnikKontaCommand = new RelayCommand(SaveSifarnikKonta);
+            CancelSifarnikKontaCommand = new RelayCommand(CancelSifarnikKonta);
+            if (sifarnikKontaViewModel.IsSelectedUnosSifarnik == false)
             {
-                sifarnikMaterijala = sifarnikMaterijalaViewModel.SelectedSifarnikMaterijala;
+                sifarnikKonta = sifarnikKontaViewModel.SelectedSifarnikKonta;
             }
         }
 
-
-        private bool ValidationSifarnikMaterijala()
+        private bool ValidationSifarnikKonta()
         {
-            if (!SifarnikMaterijala.Ident.HasValue ||
-                string.IsNullOrWhiteSpace(sifarnikMaterijala.Nazmat) ||
-                string.IsNullOrWhiteSpace(sifarnikMaterijala.Jedm) ||
-                !SifarnikMaterijala.Siftar.HasValue ||
-                !SifarnikMaterijala.Konto1.HasValue ||
-                !SifarnikMaterijala.Konto2.HasValue )
-
+            if (!SifarnikKonta.Sifkonta.HasValue ||
+                string.IsNullOrWhiteSpace(sifarnikKonta.Nazkont) ||
+                !SifarnikKonta.Stakont.HasValue ||
+                !SifarnikKonta.Stamt.HasValue)
             {
                 return false;
             }
@@ -53,46 +48,46 @@ namespace Materijalno.ViewModel
             }
         }
 
-        private void SaveSifarnikMterijala()
+        private void SaveSifarnikKonta()
         {
             using (var dbContext = new materijalno_knjigovodstvoContext())
             {
                 //Ako je odabrana izmjena Button da radi Update na bazi
                 if (isSelectedUnosSifarnik == false)
                 {
-                    if (ValidationSifarnikMaterijala() == false)
+                    if (ValidationSifarnikKonta() == false)
                     {
                         System.Windows.MessageBox.Show("Molimo unesite sva polja", "Greška", MessageBoxButton.OK, MessageBoxImage.Error);
                         return;
                     }
-                    dbContext.Update(SifarnikMaterijala);
+                    dbContext.Update(SifarnikKonta);
                     dbContext.SaveChanges();
 
                     System.Windows.MessageBox.Show("Uspješno ste izmijenili šifarnik", "Potvrda", MessageBoxButton.OK, MessageBoxImage.Information);
 
                     //NAKON STO KLIKNEMO NA OK DA SE VRATI NA LISTU ŠIFARNIK SKLADIŠTA
-                    _gvm.OdabraniVM = new SifarnikSkladistaViewModel(_gvm);
+                    _gvm.OdabraniVM = new SifarnikKontaViewModel(_gvm);
                 }
                 else
                 {
-                    if (ValidationSifarnikMaterijala() == false)
+                    if (ValidationSifarnikKonta() == false)
                     {
                         System.Windows.MessageBox.Show("Molimo unesite sva polja", "Greška", MessageBoxButton.OK, MessageBoxImage.Error);
                         return;
                     }
-                    dbContext.Add(SifarnikMaterijala);
+                    dbContext.Add(SifarnikKonta);
                     dbContext.SaveChanges();
 
                     System.Windows.MessageBox.Show("Uspješno ste unijeli novi šifarnik", "Potvrda", MessageBoxButton.OK, MessageBoxImage.Information);
 
-                    _gvm.OdabraniVM = new SifarnikSkladistaViewModel(_gvm);
+                    _gvm.OdabraniVM = new SifarnikKontaViewModel(_gvm);
                 }
             }
         }
 
-        private void CancelSifarnikMaterijala()
+        private void CancelSifarnikKonta()
         {
-            _gvm.OdabraniVM = new SifarnikSkladistaViewModel(_gvm);
+            _gvm.OdabraniVM = new SifarnikKontaViewModel(_gvm);
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -102,7 +97,6 @@ namespace Materijalno.ViewModel
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        public SifarnikMaterijala SifarnikMaterijala { get => sifarnikMaterijala; set { sifarnikMaterijala = value; OnPropertyChanged("SifarnikMaterijala"); } }
-    
+        public SifarnikKonta SifarnikKonta { get => sifarnikKonta; set { sifarnikKonta = value; OnPropertyChanged("SifarnikKonta"); } }
     }
 }

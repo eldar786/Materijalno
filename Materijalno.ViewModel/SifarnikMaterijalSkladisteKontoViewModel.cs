@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -19,16 +19,13 @@ namespace Materijalno.ViewModel
         private GlavniViewModel _gvm;
         public ObservableCollection<SifarnikMaterijalSkladisteKonto> SifarnikMaterijalSkladisteKontoList { get; set; }
 
-
         private SifarnikMaterijalSkladisteKonto selectedSifarnikMaterijalSkladisteKonto;
         private bool isSelectedUnosSifarnikMaterijalSkladisteKonto = false;
-
 
         public ICommand DeleteSifarnikMaterijalSkladisteKontoCommand { get; set; }
         public ICommand AddSifarnikMaterijalSkladisteKontoCommand { get; set; }
         public ICommand OpenSifarnikMaterijalSkladisteKontoFormCommand { get; set; }
         public ICommand IzmjenaSifarnikMaterijalSkladisteKontoFormCommand { get; set; }
-
 
         public SifarnikMaterijalSkladisteKontoViewModel(GlavniViewModel gvm)
         {
@@ -38,7 +35,6 @@ namespace Materijalno.ViewModel
             {
                 SifarnikMaterijalSkladisteKontoList = new ObservableCollection<SifarnikMaterijalSkladisteKonto>(dbContext.SifarnikMaterijalSkladisteKonto.ToList());
 
-
                 DeleteSifarnikMaterijalSkladisteKontoCommand = new RelayCommand(DeleteSifarnikMaterijalSkladisteKonto);
                 AddSifarnikMaterijalSkladisteKontoCommand = new RelayCommand(AddSifarnikMaterijalSkladisteKonto);
                 OpenSifarnikMaterijalSkladisteKontoFormCommand = new RelayCommand(OpenSifarnikMaterijalSkladisteKontoForm);
@@ -46,7 +42,7 @@ namespace Materijalno.ViewModel
                 //Dodati ostale commande
             }
         }
-
+        
         private void OpenSifarnikMaterijalSkladisteKontoForm()
         {
             isSelectedUnosSifarnikMaterijalSkladisteKonto = true;
@@ -96,7 +92,6 @@ namespace Materijalno.ViewModel
             }
         }
 
-
         private void AddSifarnikMaterijalSkladisteKonto()
         {
             if (SelectedSifarnikMaterijalSkladisteKonto != null)
@@ -109,13 +104,11 @@ namespace Materijalno.ViewModel
                     SifarnikMaterijalSkladisteKontoList.Add(SelectedSifarnikMaterijalSkladisteKonto);
 
                     System.Windows.MessageBox.Show("Sifra skladista uspješno unesena", "Potvrda", MessageBoxButton.OK, MessageBoxImage.Information);
-
                 }
             }
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
-
 
         public void OnpropertyChanged(PropertyChangedEventArgs e)
         {
