@@ -12,7 +12,7 @@
         <BooleanToVisibilityConverter x:Key="BoolToVis" />
 
         <DataTemplate DataType="{x:Type vm:GlavniViewModel}">
-            <local:GlavniView/>
+            <local:GlavniView/> 
         </DataTemplate>
 
         <DataTemplate DataType="{x:Type vm:SifarnikSkladistaViewModel}">
@@ -21,6 +21,10 @@
 
         <DataTemplate DataType="{x:Type vm:SifarnikSkladistaFormViewModel}">
             <local:SifarnikSkladistaForm/>
+        </DataTemplate>
+
+        <DataTemplate DataType="{x:Type vm:SifarnikMaterijalSkladisteKontoFormViewModel}">
+            <local:SifarnikMaterijalSkladisteKontoForm/>
         </DataTemplate>
 
         <DataTemplate DataType="{x:Type vm:UnosInventurnogStanjaViewModel}">
