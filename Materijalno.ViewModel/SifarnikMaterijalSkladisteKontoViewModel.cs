@@ -32,7 +32,7 @@ namespace Materijalno.ViewModel
                 //Dodati ostale commande
             }
         }
-
+         
         public event PropertyChangedEventHandler PropertyChanged;
 
 
