@@ -76,7 +76,7 @@
                 </Binding>
             </TextBox.Text>
         </TextBox>
-        <TextBlock Text="{Binding ElementName=textBox1, Path=(Validation.Errors)/ErrorContent}" Foreground="Red" Grid.Row="2" Grid.Column="2" VerticalAlignment="Top" HorizontalAlignment="Left" />
+        <TextBlock Text="{Binding ElementName=textBox2, Path=(Validation.Errors)/ErrorContent}" Foreground="Red" Grid.Row="2" Grid.Column="2" VerticalAlignment="Top" HorizontalAlignment="Left" />
 
         <TextBox x:Name="textBox2" Grid.Row="2" Grid.Column="2" FontSize="18" Height="30" Margin="0,20,0,0">
             <TextBox.Text>
@@ -87,7 +87,7 @@
                 </Binding>
             </TextBox.Text>
         </TextBox>
-        <TextBlock Text="{Binding ElementName=textBox2, Path=(Validation.Errors)/ErrorContent}" Foreground="Red" Grid.Row="3" Grid.Column="2" VerticalAlignment="Top" HorizontalAlignment="Left" />
+        <TextBlock Text="{Binding ElementName=textBox3, Path=(Validation.Errors)/ErrorContent}" Foreground="Red" Grid.Row="3" Grid.Column="2" VerticalAlignment="Top" HorizontalAlignment="Left" />
 
         <TextBox x:Name="textBox3" Grid.Row="3" Grid.Column="2" FontSize="18" Height="30" Margin="0,20,0,0">
             <TextBox.Text>
@@ -101,7 +101,7 @@
         
         <TextBlock Text="{Binding ElementName=textBox4, Path=(Validation.Errors)/ErrorContent}" Foreground="Red" Grid.Row="4" Grid.Column="2" VerticalAlignment="Top" HorizontalAlignment="Left" />
 
-        <TextBox x:Name="textBox5" Grid.Row="4" Grid.Column="2" FontSize="18" Height="30" Margin="0,-30,0,10">
+        <TextBox x:Name="textBox4" Grid.Row="4" Grid.Column="2" FontSize="18" Height="30" Margin="0,-30,0,10">
             <TextBox.Text>
                 <Binding Path="SifarnikSkladista.DevizniRacun" UpdateSourceTrigger="PropertyChanged">
                     <Binding.ValidationRules>
@@ -112,7 +112,7 @@
         </TextBox>
         <TextBlock Text="{Binding ElementName=textBox5, Path=(Validation.Errors)/ErrorContent}" Foreground="Red" Grid.Row="5" Grid.Column="2" VerticalAlignment="Top" HorizontalAlignment="Left" />
 
-        <TextBox x:Name="textBox6" Grid.Row="5" Grid.Column="2" FontSize="18" Height="30" Margin="0,-140,0,10">
+        <TextBox x:Name="textBox5" Grid.Row="5" Grid.Column="2" FontSize="18" Height="30" Margin="0,-140,0,10">
             <TextBox.Text>
                 <Binding Path="SifarnikSkladista.PozBrD" UpdateSourceTrigger="PropertyChanged">
                     <Binding.ValidationRules>
