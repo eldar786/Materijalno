@@ -36,9 +36,7 @@ namespace Materijalno.ViewModel
         private bool ValidationSifarnikKonta()
         {
             if (!SifarnikKonta.Sifkonta.HasValue ||
-                string.IsNullOrWhiteSpace(sifarnikKonta.Nazkont) ||
-                !SifarnikKonta.Stakont.HasValue ||
-                !SifarnikKonta.Stamt.HasValue)
+                string.IsNullOrWhiteSpace(sifarnikKonta.Nazkont))
             {
                 return false;
             }

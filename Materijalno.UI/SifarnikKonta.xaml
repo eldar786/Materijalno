@@ -83,10 +83,6 @@
                                     Width="150"></GridViewColumn>
                     <GridViewColumn Header="Nazkonta" DisplayMemberBinding="{Binding Nazkont}" 
                                     Width="300"></GridViewColumn>
-                    <GridViewColumn Header="Stakont" DisplayMemberBinding="{Binding Stakont}"
-                                    Width="140"></GridViewColumn>
-                    <GridViewColumn Header="Stamt" DisplayMemberBinding="{Binding Stamt}"
-                                    Width="80"></GridViewColumn>
                 </GridView>
             </ListView.View>
         </ListView>

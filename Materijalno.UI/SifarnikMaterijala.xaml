@@ -84,8 +84,6 @@
                                     Width="250"></GridViewColumn>
                     <GridViewColumn Header="Jedm" DisplayMemberBinding="{Binding Jedm}"
                                     Width="140"></GridViewColumn>
-                    <GridViewColumn Header="Siftar" DisplayMemberBinding="{Binding Siftar}"
-                                    Width="80"></GridViewColumn>
                     <GridViewColumn Header="Konto1" DisplayMemberBinding="{Binding Konto1}"
                                     Width="80"></GridViewColumn>
                     <GridViewColumn Header="Konto2" DisplayMemberBinding="{Binding Konto2}"

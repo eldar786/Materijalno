@@ -40,7 +40,6 @@ namespace Materijalno.ViewModel
             if (!SifarnikMaterijala.Ident.HasValue ||
                 string.IsNullOrWhiteSpace(sifarnikMaterijala.Nazmat) ||
                 string.IsNullOrWhiteSpace(sifarnikMaterijala.Jedm) ||
-                !SifarnikMaterijala.Siftar.HasValue ||
                 !SifarnikMaterijala.Konto1.HasValue ||
                 !SifarnikMaterijala.Konto2.HasValue )
 
