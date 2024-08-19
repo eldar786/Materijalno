@@ -66,7 +66,7 @@ namespace Materijalno.ViewModel
             {
                 using (var dbContext = new materijalno_knjigovodstvoContext())
                 {
-                    var resultMessageBox = System.Windows.MessageBox.Show("Da li ste sigurni da želite obrisati sifarnik 'Kljnaz' ", "Upozorenje", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                    var resultMessageBox = System.Windows.MessageBox.Show("Da li ste sigurni da želite obrisati sifarnik ", "Upozorenje", MessageBoxButton.YesNo, MessageBoxImage.Question);
 
                     if (resultMessageBox == MessageBoxResult.Yes)
                     {

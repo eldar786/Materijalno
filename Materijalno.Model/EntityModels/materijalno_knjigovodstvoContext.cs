@@ -46,7 +46,7 @@ namespace Materijalno.Model.EntityModels
 
             modelBuilder.Entity<SifarnikMaterijalSkladisteKonto>(entity =>
             {
-                entity.HasNoKey();
+                entity.Property(e => e.Id).HasColumnName("Id");
 
                 entity.ToTable("sifarnik_materijal_skladiste_konto");
             });
