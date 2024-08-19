@@ -119,6 +119,10 @@
             <local:AnalitickaKartica/>
         </DataTemplate>
 
+        <DataTemplate DataType="{x:Type vm:PregledUlazaPoKontimaiKalkulacijamaViewModel}">
+            <local:PregledUlazaPoKontimaiKalkulacijama/>
+        </DataTemplate>
+
 
     </UserControl.Resources>
     <DockPanel LastChildFill="True">
