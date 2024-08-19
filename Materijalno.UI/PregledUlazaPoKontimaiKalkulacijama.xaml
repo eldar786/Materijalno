@@ -38,7 +38,7 @@
 
         <Label Grid.Row="1" Grid.Column="1" Margin="80,0,0,0"  VerticalAlignment="Center" FontSize="18">Od</Label>
         <DatePicker Grid.Row="1" Margin="125,0,0,0" KeyDown="TextBox_KeyDown" Grid.Column="1" HorizontalAlignment="Left" Height="30" FontSize="18" Width="120" SelectedDate="{Binding Od, UpdateSourceTrigger=PropertyChanged}" SelectedDateChanged="datOd_SelectedDateChanged"  Name="dtpOd" />
-
+        <!--    TEST -->
 
         <Label Grid.Row="1" Grid.Column="2" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="-290,0,0,0" FontSize="18">Do</Label>
         <DatePicker Grid.Row="1" KeyDown="TextBox_KeyDown" Grid.Column="2" HorizontalAlignment="Left" Margin="-250,0,0,0" Height="30" FontSize="18" Width="120" SelectedDate="{Binding Od, UpdateSourceTrigger=PropertyChanged}" SelectedDateChanged="datDo_SelectedDateChanged"  Name="dtpDo" />
