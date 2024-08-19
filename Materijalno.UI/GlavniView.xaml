@@ -121,6 +121,9 @@
 
         <DataTemplate DataType="{x:Type vm:PregledUlazaZaJednuKalkulacijuViewModel}">
             <local:PregledUlazaZaJednuKalkulaciju/>
+      
+        <DataTemplate DataType="{x:Type vm:PregledUlazaZaSveKalkulacijeViewModel}">
+            <local:PregledUlazaZaSveKalkulacije/>
         </DataTemplate>
 
 
