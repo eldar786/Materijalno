@@ -37,8 +37,7 @@ namespace Materijalno.ViewModel
 
         private bool ValidationSifarnikMaterijala()
         {
-            if (!SifarnikMaterijala.Ident.HasValue ||
-                string.IsNullOrWhiteSpace(sifarnikMaterijala.Nazmat) ||
+            if (string.IsNullOrWhiteSpace(sifarnikMaterijala.Nazmat) ||
                 string.IsNullOrWhiteSpace(sifarnikMaterijala.Jedm) ||
                 !SifarnikMaterijala.Konto1.HasValue ||
                 !SifarnikMaterijala.Konto2.HasValue )
@@ -69,8 +68,8 @@ namespace Materijalno.ViewModel
 
                     System.Windows.MessageBox.Show("Uspješno ste izmijenili šifarnik", "Potvrda", MessageBoxButton.OK, MessageBoxImage.Information);
 
-                    //NAKON STO KLIKNEMO NA OK DA SE VRATI NA LISTU ŠIFARNIK SKLADIŠTA
-                    _gvm.OdabraniVM = new SifarnikSkladistaViewModel(_gvm);
+                    //NAKON STO KLIKNEMO NA OK DA SE VRATI NA LISTU ŠIFARNIK MATERIJALA
+                    _gvm.OdabraniVM = new SifarnikMaterijalaViewModel(_gvm);
                 }
                 else
                 {
@@ -84,14 +83,14 @@ namespace Materijalno.ViewModel
 
                     System.Windows.MessageBox.Show("Uspješno ste unijeli novi šifarnik", "Potvrda", MessageBoxButton.OK, MessageBoxImage.Information);
 
-                    _gvm.OdabraniVM = new SifarnikSkladistaViewModel(_gvm);
+                    _gvm.OdabraniVM = new SifarnikMaterijalaViewModel(_gvm);
                 }
             }
         }
 
         private void CancelSifarnikMaterijala()
         {
-            _gvm.OdabraniVM = new SifarnikSkladistaViewModel(_gvm);
+            _gvm.OdabraniVM = new SifarnikMaterijalaViewModel(_gvm);
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

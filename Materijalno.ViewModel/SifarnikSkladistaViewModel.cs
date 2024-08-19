@@ -93,11 +93,6 @@ namespace Materijalno.ViewModel
                     {
                         return;
                     }
-
-                    // Uraditi message box provjeru da li zelimo da obrisemo
-                    //SifarnikSkladistaList.Remove(SelectedSifarnikSkladista);
-
-                    //SelectedSifarnikSkladista = null;
                 }
             }
             else if (SelectedSifarnikSkladista == null)
