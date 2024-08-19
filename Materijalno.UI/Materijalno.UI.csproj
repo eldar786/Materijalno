@@ -230,6 +230,12 @@
     <Compile Include="PregledUlazaPoKontimaiKalkulacijama.xaml.cs">
       <DependentUpon>PregledUlazaPoKontimaiKalkulacijama.xaml</DependentUpon>
     </Compile>
+    <Compile Include="PregledUlazaZaJednuKalkulaciju.xaml.cs">
+      <DependentUpon>PregledUlazaZaJednuKalkulaciju.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="PregledUlazaZaSveKalkulacije.xaml.cs">
+      <DependentUpon>PregledUlazaZaSveKalkulacije.xaml</DependentUpon>
+    </Compile>
     <Compile Include="RekapitulacijaTroskova.xaml.cs">
       <DependentUpon>RekapitulacijaTroskova.xaml</DependentUpon>
     </Compile>
@@ -335,6 +341,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="PregledUlazaPoKontimaiKalkulacijama.xaml">
+    <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="PregledUlazaZaJednuKalkulaciju.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="PregledUlazaZaSveKalkulacije.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

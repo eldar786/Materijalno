@@ -123,6 +123,14 @@
             <local:PregledUlazaPoKontimaiKalkulacijama/>
         </DataTemplate>
 
+        <DataTemplate DataType="{x:Type vm:PregledUlazaZaJednuKalkulacijuViewModel}">
+            <local:PregledUlazaZaJednuKalkulaciju/>
+        </DataTemplate>
+      
+        <DataTemplate DataType="{x:Type vm:PregledUlazaZaSveKalkulacijeViewModel}">
+            <local:PregledUlazaZaSveKalkulacije/>
+        </DataTemplate>
+
 
     </UserControl.Resources>
     <DockPanel LastChildFill="True">

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -41,6 +41,9 @@ namespace Materijalno.ViewModel
         public ICommand RekapitulacijaZalihaCommand { get; set; }
         public ICommand RekapitulacijaTroskovaCommand { get; set; }
         public ICommand PoKontimaIKalkulacijamaCommand { get; set; }
+        public ICommand ZaJednuKalkulacijuPregledUlazaCommand { get; set; }
+        public ICommand ZaSveKalkulacijePregledUlazaCommand { get; set; }
+
 
         public GlavniViewModel(ApplicationViewModel avm)
         {
@@ -77,6 +80,8 @@ namespace Materijalno.ViewModel
             RekapitulacijaZalihaCommand = new RelayCommand(OtvoriRekapitulacijaZaliha);
             RekapitulacijaTroskovaCommand = new RelayCommand(OtvoriRekapitulacijaTroskova);
             PoKontimaIKalkulacijamaCommand = new RelayCommand(OtvoriPoKontimaIKalkulacijama);
+            ZaJednuKalkulacijuPregledUlazaCommand = new RelayCommand(OtvoriZaJednuKalkulacijuPregledUlaza);
+            ZaSveKalkulacijePregledUlazaCommand = new RelayCommand(OtvoriZaSveKalkulacijePregledUlaza);
 
         }
 
@@ -193,6 +198,16 @@ namespace Materijalno.ViewModel
         public void OtvoriZaduzenjeProdavnice()
         {
             OdabraniVM = new ZaduzenjeProdavniceViewModel(this);
+        } 
+        
+        public void OtvoriZaJednuKalkulacijuPregledUlaza()
+        {
+            OdabraniVM = new PregledUlazaZaJednuKalkulacijuViewModel(this);
+        }
+
+        public void OtvoriZaSveKalkulacijePregledUlaza()
+        {
+            OdabraniVM = new PregledUlazaZaSveKalkulacijeViewModel(this);
         }
         
         public void OtvoriPoKontimaIKalkulacijama()
