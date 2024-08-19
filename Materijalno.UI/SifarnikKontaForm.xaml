@@ -37,8 +37,6 @@
             <RowDefinition Height="100"/>
             <RowDefinition Height="50"/>
             <RowDefinition Height="50"/>
-            <RowDefinition Height="50"/>
-            <RowDefinition Height="50"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
@@ -57,8 +55,6 @@
 
         <TextBlock Grid.Row="1" Grid.Column="1" Text="Sifkonta:" FontSize="18" HorizontalAlignment="Right" Margin="0,0,-120,-10" />
         <TextBlock Grid.Row="2" Grid.Column="1" Text="Nazkont:" FontSize="18" HorizontalAlignment="Right" Margin="0,0,-120,-10" />
-        <TextBlock Grid.Row="3" Grid.Column="1" Text="Stakont:" FontSize="18" HorizontalAlignment="Right" Margin="0,0,-120,-10" />
-        <TextBlock Grid.Row="4" Grid.Column="1" Text="Stamt:" FontSize="18" HorizontalAlignment="Right" Margin="0,0,-120,-10" />
 
         <!-- Header -->
         <TextBlock Text="SIFARNIK KONTA FORM" FontSize="16" FontWeight="Bold" Grid.Column="0" Grid.ColumnSpan="4" VerticalAlignment="Center" HorizontalAlignment="Center" />
@@ -67,7 +63,7 @@
 
         <TextBlock Text="{Binding ElementName=textBox1, Path=(Validation.Errors)/ErrorContent}" Foreground="Red" Grid.Row="1" Grid.Column="2" VerticalAlignment="Top" HorizontalAlignment="Left" />
 
-        <TextBox x:Name="textBox2" Grid.Row="1" Grid.Column="2" FontSize="18" Height="30" Margin="0,0,0,0" >
+        <TextBox x:Name="textBox1" Grid.Row="1" Grid.Column="2" FontSize="18" Height="30" Margin="0,0,0,0" >
             <TextBox.Text>
                 <Binding Path="SifarnikKonta.Sifkonta" UpdateSourceTrigger="PropertyChanged">
                     <Binding.ValidationRules>
@@ -78,7 +74,7 @@
         </TextBox>
         <TextBlock Text="{Binding ElementName=textBox2, Path=(Validation.Errors)/ErrorContent}" Foreground="Red" Grid.Row="2" Grid.Column="2" VerticalAlignment="Top" HorizontalAlignment="Left" />
 
-        <TextBox x:Name="textBox3" Grid.Row="2" Grid.Column="2" FontSize="18" Height="30" Margin="0,0,0,-20">
+        <TextBox x:Name="textBox2" Grid.Row="2" Grid.Column="2" FontSize="18" Height="30" Margin="0,0,0,-20">
             <TextBox.Text>
                 <Binding Path="SifarnikKonta.Nazkont" UpdateSourceTrigger="PropertyChanged">
                     <Binding.ValidationRules>
@@ -87,30 +83,6 @@
                 </Binding>
             </TextBox.Text>
         </TextBox>
-        <TextBlock Text="{Binding ElementName=textBox3, Path=(Validation.Errors)/ErrorContent}" Foreground="Red" Grid.Row="3" Grid.Column="2" VerticalAlignment="Top" HorizontalAlignment="Left" />
-
-        <TextBox x:Name="textBox4" Grid.Row="3" Grid.Column="2" FontSize="18" Height="30" Margin="0,0,0,-20">
-            <TextBox.Text>
-                <Binding Path="SifarnikKonta.Stakont" UpdateSourceTrigger="PropertyChanged">
-                    <Binding.ValidationRules>
-                        <validationrules:FormValidationRule />
-                    </Binding.ValidationRules>
-                </Binding>
-            </TextBox.Text>
-        </TextBox>
-        <TextBlock Text="{Binding ElementName=textBox4, Path=(Validation.Errors)/ErrorContent}" Foreground="Red" Grid.Row="4" Grid.Column="2" VerticalAlignment="Top" HorizontalAlignment="Left" />
-
-        <TextBox x:Name="textBox5" Grid.Row="4" Grid.Column="2" FontSize="18" Height="30" Margin="0,0,0,-20">
-            <TextBox.Text>
-                <Binding Path="SifarnikKonta.Stamt" UpdateSourceTrigger="PropertyChanged">
-                    <Binding.ValidationRules>
-                        <validationrules:FormValidationRule />
-                    </Binding.ValidationRules>
-                </Binding>
-            </TextBox.Text>
-        </TextBox>
-        <TextBlock Text="{Binding ElementName=textBox5, Path=(Validation.Errors)/ErrorContent}" Foreground="Red" Grid.Row="5" Grid.Column="2" VerticalAlignment="Top" HorizontalAlignment="Left" />
-
 
         <!--<Button Content="Save" Command="{Binding SaveSifarnikSkladistaCommand}" HorizontalAlignment="Right" Margin="20" Width="100" Grid.Column="0" Grid.Row="11" />-->
         <Button  Background="White" Command="{Binding SaveSifarnikKontaCommand}" HorizontalAlignment="Right" Margin="50,0,50,0" Height="60" Width="60" Grid.Column="1" Grid.Row="5">
@@ -122,10 +94,8 @@
                         <MultiDataTrigger>
                             <MultiDataTrigger.Conditions>
 
+                                <Condition Binding="{Binding Path=(Validation.HasError), ElementName=textBox1}" Value="False"/>
                                 <Condition Binding="{Binding Path=(Validation.HasError), ElementName=textBox2}" Value="False"/>
-                                <Condition Binding="{Binding Path=(Validation.HasError), ElementName=textBox3}" Value="False"/>
-                                <Condition Binding="{Binding Path=(Validation.HasError), ElementName=textBox4}" Value="False"/>
-                                <Condition Binding="{Binding Path=(Validation.HasError), ElementName=textBox5}" Value="False"/>
 
                             </MultiDataTrigger.Conditions>
                             <Setter Property="IsEnabled" Value="True"/>

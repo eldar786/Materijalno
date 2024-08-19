@@ -11,7 +11,7 @@
     <UserControl.Resources>
 
         <DataTemplate DataType="{x:Type vm:SifarnikSkladistaFormViewModel}">
-            
+
         </DataTemplate>
 
         <Style TargetType="TextBlock">
@@ -32,19 +32,19 @@
 
     <Grid>
         <Grid.RowDefinitions>
-            
+
             <RowDefinition Height="100"/>
             <RowDefinition Height="50"/>
             <RowDefinition Height="50"/>
             <RowDefinition Height="50"/>
             <RowDefinition Height="50"/>
-            <RowDefinition Height="*"/> 
+            <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/> 
+            <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
@@ -63,8 +63,8 @@
         <TextBlock Text="SIFARNIK SKLADISTA FORM" FontSize="16" FontWeight="Bold" Grid.Column="0" Grid.ColumnSpan="4" VerticalAlignment="Center" HorizontalAlignment="Center" />
 
         <!-- TextBoxes -->
-            
-            <TextBlock Text="{Binding ElementName=textBox1, Path=(Validation.Errors)/ErrorContent}" Foreground="Red" Grid.Row="1" Grid.Column="2" VerticalAlignment="Top" HorizontalAlignment="Left" />
+
+        <TextBlock Text="{Binding ElementName=textBox1, Path=(Validation.Errors)/ErrorContent}" Foreground="Red" Grid.Row="1" Grid.Column="2" VerticalAlignment="Top" HorizontalAlignment="Left" />
 
         <TextBox x:Name="textBox2" Grid.Row="1" Grid.Column="2" FontSize="18" Height="30" Margin="0,0,0,0" >
             <TextBox.Text>
@@ -110,7 +110,7 @@
         </TextBox>
         <TextBlock Text="{Binding ElementName=textBox5, Path=(Validation.Errors)/ErrorContent}" Foreground="Red" Grid.Row="5" Grid.Column="2" VerticalAlignment="Top" HorizontalAlignment="Left" />
 
-        
+
 
         <!--<TextBox Grid.Row="1" Grid.Column="2" Text="{Binding SifarnikSkladista.Kljnaz, UpdateSourceTrigger=PropertyChanged}"/>-->
         <!--<TextBox Grid.Row="2" Grid.Column="2" Text="{Binding SifarnikSkladista.NazivOrg, UpdateSourceTrigger=PropertyChanged}"/>-->
@@ -131,12 +131,12 @@
                     <Style.Triggers>
                         <MultiDataTrigger>
                             <MultiDataTrigger.Conditions>
-                                
+
                                 <Condition Binding="{Binding Path=(Validation.HasError), ElementName=textBox2}" Value="False"/>
                                 <Condition Binding="{Binding Path=(Validation.HasError), ElementName=textBox3}" Value="False"/>
                                 <Condition Binding="{Binding Path=(Validation.HasError), ElementName=textBox4}" Value="False"/>
                                 <Condition Binding="{Binding Path=(Validation.HasError), ElementName=textBox5}" Value="False"/>
-                                
+
                             </MultiDataTrigger.Conditions>
                             <Setter Property="IsEnabled" Value="True"/>
                         </MultiDataTrigger>

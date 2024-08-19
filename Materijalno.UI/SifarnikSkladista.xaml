@@ -18,8 +18,8 @@
         </DataTemplate>
 
     </UserControl.Resources>
-    
-            <Grid>
+
+    <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="*"/>
@@ -111,7 +111,7 @@
                                     Width="200"></GridViewColumn>
                     <GridViewColumn Header="Mjeadr" DisplayMemberBinding="{Binding MjestoAdresa}"
                                     Width="200"></GridViewColumn>
-                    
+
                 </GridView>
             </ListView.View>
             <!--<ListView.ItemContainerStyle>

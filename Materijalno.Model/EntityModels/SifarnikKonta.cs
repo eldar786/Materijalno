@@ -9,6 +9,7 @@ namespace Materijalno.Model.EntityModels
 {
     public partial class SifarnikKonta
     {
+        public int Id { get; set; }
         public int? Sifkonta { get; set; }
         public string Nazkont { get; set; }
         public int? Stakont { get; set; }
