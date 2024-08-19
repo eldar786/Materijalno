@@ -227,6 +227,12 @@
     <Compile Include="PovratUSkladiste.xaml.cs">
       <DependentUpon>PovratUSkladiste.xaml</DependentUpon>
     </Compile>
+    <Compile Include="PregledUlazaPoKontimaiKalkulacijama.xaml.cs">
+      <DependentUpon>PregledUlazaPoKontimaiKalkulacijama.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="PregledUlazaZaJednuKalkulaciju.xaml.cs">
+      <DependentUpon>PregledUlazaZaJednuKalkulaciju.xaml</DependentUpon>
+    </Compile>
     <Compile Include="PregledUlazaZaSveKalkulacije.xaml.cs">
       <DependentUpon>PregledUlazaZaSveKalkulacije.xaml</DependentUpon>
     </Compile>
@@ -331,6 +337,14 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="PovratUSkladiste.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="PregledUlazaPoKontimaiKalkulacijama.xaml">
+    <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="PregledUlazaZaJednuKalkulaciju.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
