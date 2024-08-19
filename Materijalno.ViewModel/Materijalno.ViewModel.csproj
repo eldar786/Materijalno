@@ -180,6 +180,7 @@
     <Compile Include="IzlazMaterijalaViewModel.cs" />
     <Compile Include="MedjuskladisnicaViewModel.cs" />
     <Compile Include="PovratUSkladisteViewModel.cs" />
+    <Compile Include="PregledUlazaZaSveKalkulacijeViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RekapitulacijaTroskovaViewModel.cs" />
     <Compile Include="RekapitulacijaZalihaViewModel.cs" />
@@ -187,7 +188,7 @@
     <Compile Include="RelayCommand.cs" />
     <Compile Include="SifarnikKontaFromViewModel.cs" />
     <Compile Include="SifarnikMaterijalaFormViewModel.cs" />
-	<Compile Include="SifarnikMaterijalSkladisteKontoFormViewModel.cs" />
+    <Compile Include="SifarnikMaterijalSkladisteKontoFormViewModel.cs" />
     <Compile Include="SifarnikMaterijalSkladisteKontoViewModel.cs" />
     <Compile Include="SifarnikMaterijalaViewModel.cs" />
     <Compile Include="SifarnikKontaViewModel.cs" />
