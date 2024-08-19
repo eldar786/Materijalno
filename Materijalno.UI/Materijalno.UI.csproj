@@ -227,6 +227,9 @@
     <Compile Include="PovratUSkladiste.xaml.cs">
       <DependentUpon>PovratUSkladiste.xaml</DependentUpon>
     </Compile>
+    <Compile Include="PregledUlazaZaSveKalkulacije.xaml.cs">
+      <DependentUpon>PregledUlazaZaSveKalkulacije.xaml</DependentUpon>
+    </Compile>
     <Compile Include="RekapitulacijaTroskova.xaml.cs">
       <DependentUpon>RekapitulacijaTroskova.xaml</DependentUpon>
     </Compile>
@@ -328,6 +331,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="PovratUSkladiste.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="PregledUlazaZaSveKalkulacije.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
