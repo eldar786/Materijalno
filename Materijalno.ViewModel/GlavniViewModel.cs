@@ -43,6 +43,7 @@ namespace Materijalno.ViewModel
         public ICommand PoKontimaIKalkulacijamaCommand { get; set; }
         public ICommand ZaJednuKalkulacijuPregledUlazaCommand { get; set; }
         public ICommand ZaSveKalkulacijePregledUlazaCommand { get; set; }
+        public ICommand ZaSveKalkulacijePregledIzlazaCommand { get; set; }
 
 
         public GlavniViewModel(ApplicationViewModel avm)
@@ -82,6 +83,7 @@ namespace Materijalno.ViewModel
             PoKontimaIKalkulacijamaCommand = new RelayCommand(OtvoriPoKontimaIKalkulacijama);
             ZaJednuKalkulacijuPregledUlazaCommand = new RelayCommand(OtvoriZaJednuKalkulacijuPregledUlaza);
             ZaSveKalkulacijePregledUlazaCommand = new RelayCommand(OtvoriZaSveKalkulacijePregledUlaza);
+            ZaSveKalkulacijePregledIzlazaCommand = new RelayCommand(OtvoriZaSveKalkulacijePregledIzlaza);
 
         }
 
@@ -213,6 +215,11 @@ namespace Materijalno.ViewModel
         public void OtvoriPoKontimaIKalkulacijama()
         {
             OdabraniVM = new PregledUlazaPoKontimaiKalkulacijamaViewModel(this);
+        }
+        
+        public void OtvoriZaSveKalkulacijePregledIzlaza()
+        {
+            OdabraniVM = new PregledIzlazaZaSveKalkulacijeViewModel(this);
         }
 
         public object OdabraniVM

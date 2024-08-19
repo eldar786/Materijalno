@@ -131,6 +131,10 @@
             <local:PregledUlazaZaSveKalkulacije/>
         </DataTemplate>
 
+        <DataTemplate DataType="{x:Type vm:PregledIzlazaZaSveKalkulacijeViewModel}">
+            <local:PregledIzlazaZaSveKalkulacije/>
+        </DataTemplate>
+
 
     </UserControl.Resources>
     <DockPanel LastChildFill="True">
