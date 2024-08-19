@@ -229,6 +229,7 @@
     </Compile>
     <Compile Include="PregledUlazaZaJednuKalkulaciju.xaml.cs">
       <DependentUpon>PregledUlazaZaJednuKalkulaciju.xaml</DependentUpon>
+    </Compile>
     <Compile Include="PregledUlazaZaSveKalkulacije.xaml.cs">
       <DependentUpon>PregledUlazaZaSveKalkulacije.xaml</DependentUpon>
     </Compile>
