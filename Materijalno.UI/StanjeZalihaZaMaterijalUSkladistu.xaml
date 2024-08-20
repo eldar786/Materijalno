@@ -29,7 +29,7 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/><RowDefinition Height="*"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
 
@@ -57,10 +57,17 @@
 
         <Label Grid.Row="3" Grid.Column="2" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="-350,0,0,0" FontSize="18">Do datuma:</Label>
         <DatePicker Grid.Row="3" KeyDown="TextBox_KeyDown" Grid.Column="2" HorizontalAlignment="Left" Margin="-250,0,0,0" Height="30" FontSize="18" Width="120" SelectedDate="{Binding Od, UpdateSourceTrigger=PropertyChanged}" SelectedDateChanged="datDo_SelectedDateChanged"  Name="dtpDo" />
+       
+        <Label Grid.Row="4" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,60,300,0" FontSize="18">Kolicina</Label>
+        <Label Grid.Row="4" Grid.Column="2" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="-300,60,0,0" FontSize="18">Cijena</Label>
+        <Label Grid.Row="4" Grid.Column="2" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="-150,60,0,0" FontSize="18">Vrijednost</Label>
+        
+        <TextBox Grid.Row="5" KeyDown="TextBox_KeyDown" Name="kolicina" Grid.Column="1" HorizontalAlignment="Left" Margin="50,0,0,70" VerticalAlignment="Center" FontSize="18" Width="120"/>
+        <TextBox Grid.Row="5" KeyDown="TextBox_KeyDown" Name="cijena" Grid.Column="2" HorizontalAlignment="Left" Margin="-320,0,0,70" VerticalAlignment="Center" FontSize="18" Width="120"/>
+        <TextBox Grid.Row="5" KeyDown="TextBox_KeyDown" Name="vrijednost" Grid.Column="2" HorizontalAlignment="Left" Margin="-160,0,0,70" VerticalAlignment="Center" FontSize="18" Width="120"/>
 
 
-
-        <Grid Grid.Row="4" Grid.Column="1"  >
+        <Grid Grid.Row="6" Grid.Column="1"  >
             <WrapPanel HorizontalAlignment="Center" VerticalAlignment="Top" ItemWidth="100" ItemHeight="50" >
                 <WrapPanel.Resources>
                 <Style TargetType="Button">
@@ -100,7 +107,7 @@
                 </Style>
             </WrapPanel.Resources>
 
-                <Button x:Name="btnPrikazi" Grid.Row="4" Grid.Column="1" Content="Prikaži" Command="{Binding PrikaziCommand}" Visibility="{Binding Path=VidljivoOdabirVrsteIncidenta}" Height="50" Width="60"/>
+                <Button x:Name="btnPrikazi" Content="Prikaži" Command="{Binding PrikaziCommand}" Visibility="{Binding Path=VidljivoOdabirVrsteIncidenta}" Height="50" Width="60"/>
             <Button x:Name="btnOtkaz" Content="Otkaz" Command="{Binding OtkazCommand}" Visibility="{Binding Path=VidljivoOdabirVrsteIncidenta}" Height="50" Width="60"/>
             </WrapPanel>
         </Grid>
