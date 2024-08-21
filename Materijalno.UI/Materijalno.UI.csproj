@@ -242,6 +242,9 @@
     <Compile Include="PregledIzlazaZaSveKalkulacije.xaml.cs">
       <DependentUpon>PregledIzlazaZaSveKalkulacije.xaml</DependentUpon>
     </Compile>
+    <Compile Include="PregledTroskovaPoKontima.xaml.cs">
+      <DependentUpon>PregledTroskovaPoKontima.xaml</DependentUpon>
+    </Compile>
     <Compile Include="PregledUlazaPoKontimaiKalkulacijama.xaml.cs">
       <DependentUpon>PregledUlazaPoKontimaiKalkulacijama.xaml</DependentUpon>
     </Compile>
@@ -381,6 +384,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="PregledIzlazaZaSveKalkulacije.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="PregledTroskovaPoKontima.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
