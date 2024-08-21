@@ -137,6 +137,9 @@
 
         <DataTemplate DataType="{x:Type vm:MedjuskladisniceJednaViewModel}">
             <local:MedjuskladisniceJedna/>
+
+        <DataTemplate DataType="{x:Type vm:PregledIzlazaZaJednuKalkulacijuViewModel}">
+            <local:PregledIzlazaZaJednuKalkulaciju/>
         </DataTemplate>
 
 
