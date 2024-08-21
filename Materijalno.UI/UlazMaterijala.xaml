@@ -154,7 +154,7 @@
 
 
         <Grid Grid.Row="9" Grid.Column="0" Grid.ColumnSpan="6" HorizontalAlignment="Center" VerticalAlignment="Center">
-            <WrapPanel HorizontalAlignment="Center" VerticalAlignment="Top" ItemWidth="140" ItemHeight="50" Margin="0,5,0,5">
+            <WrapPanel HorizontalAlignment="Center" VerticalAlignment="Top" ItemWidth="150" ItemHeight="60" Margin="0,-5,0,5">
                 <WrapPanel.Resources>
                     <Style TargetType="Button">
                         <Setter Property="FontSize" Value="16"/>
@@ -162,9 +162,10 @@
                         <Setter Property="Margin" Value="10,0"/>
                         <Setter Property="MinWidth" Value="140"/>
                         <Setter Property="HorizontalAlignment" Value="Center"/>
-                        <Setter Property="Background" Value="#333"/>
-                        <Setter Property="Foreground" Value="White"/>
-                        <Setter Property="BorderBrush" Value="Transparent"/>
+                        <Setter Property="Background" Value="#DDEAFB"/>
+                        <Setter Property="Foreground" Value="#2D2D2D"/>
+                        <Setter Property="BorderBrush" Value="#B0C7E3"/>
+                        <Setter Property="BorderThickness" Value="1.5"/>
                         <Setter Property="FontWeight" Value="SemiBold"/>
                         <Setter Property="Height" Value="45"/>
                         <Setter Property="Template">
@@ -172,8 +173,8 @@
                                 <ControlTemplate TargetType="Button">
                                     <Border Background="{TemplateBinding Background}" 
                                     BorderBrush="{TemplateBinding BorderBrush}" 
-                                    BorderThickness="0" 
-                                    CornerRadius="3">
+                                    BorderThickness="{TemplateBinding BorderThickness}" 
+                                    CornerRadius="10">
                                         <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                     </Border>
                                 </ControlTemplate>
@@ -182,7 +183,8 @@
 
                         <Style.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
-                                <Setter Property="Background" Value="#555"/>
+                                <Setter Property="Background" Value="#C5DFFA"/>
+                                <Setter Property="BorderBrush" Value="#A5BDD7"/>
                                 <Setter Property="Cursor" Value="Hand"/>
                             </Trigger>
                         </Style.Triggers>
@@ -190,28 +192,16 @@
                 </WrapPanel.Resources>
 
                 <Button x:Name="btnPrvi" Content="Prvi" FontSize="18" Width="110" Margin="5,5,0,5" HorizontalAlignment="Left" Command="{Binding PrviCommand}" Visibility="{Binding Path=VidljivoOdabirVrsteIncidenta}"/>
-                <Button x:Name="btnZadnji" FontSize="18" Content="Zadnji" Width="110" Margin="5,5,0,5" Grid.Column="1" HorizontalAlignment="Left" Command="{Binding ZadnjiCommand}" Visibility="{Binding Path=VidljivoOdabirVrsteIncidenta}"/>
+                <Button x:Name="btnZadnji" FontSize="18" Content="Zadnji" Width="110" Margin="5,5,0,5" HorizontalAlignment="Left" Command="{Binding ZadnjiCommand}" Visibility="{Binding Path=VidljivoOdabirVrsteIncidenta}"/>
                 <Button x:Name="btnTrazi" Content="Traži" FontSize="18" Width="110" Margin="5,5,0,5" HorizontalAlignment="Left" Command="{Binding TraziCommand}" Visibility="{Binding Path=VidljivoOdabirVrsteIncidenta}"/>
                 <Button x:Name="btnNovaKalkulacija" Content="Nova kalkulacija" FontSize="18" Width="140" Margin="5,5,-2,5" HorizontalAlignment="Left" Command="{Binding NovaKalkulacijaCommand}" Visibility="{Binding Path=VidljivoOdabirVrsteIncidenta}"/>
-                <!--<Button x:Name="btnSnimi" Content="Snimi" FontSize="18" Width="110" Margin="5,5,0,5" HorizontalAlignment="Left" Command="{Binding IzlazCommand}" Visibility="{Binding Path=VidljivoOdabirVrsteIncidenta}"/>-->
-                <!--<Button x:Name="btnStampa" Content="Štampa" FontSize="18" Width="110" Margin="5,5,0,5" HorizontalAlignment="Left" Command="{Binding IzlazCommand}" Visibility="{Binding Path=VidljivoOdabirVrsteIncidenta}"/>-->
                 <Button x:Name="btnKrajFakture" Content="Kraj fakture" FontSize="18" Width="130" Margin="5,5,0,5" HorizontalAlignment="Left" Command="{Binding KrajFaktureCommand}" Visibility="{Binding Path=VidljivoOdabirVrsteIncidenta}"/>
             </WrapPanel>
-            <!--<StackPanel Orientation="Horizontal" VerticalAlignment="Top" Grid.ColumnSpan="1">
-                <Button x:Name="btnPrvi" Content="Prvi" FontSize="18" Width="110" Margin="5,5,0,5" HorizontalAlignment="Left" Command="{Binding PrviCommand}" Visibility="{Binding Path=VidljivoOdabirVrsteIncidenta}"/>
-                <Button x:Name="btnZadnji" FontSize="18" Content="Zadnji" Width="110" Margin="5,5,0,5" Grid.Column="1" HorizontalAlignment="Left" Command="{Binding ZadnjiCommand}" Visibility="{Binding Path=VidljivoOdabirVrsteIncidenta}"/>
-                <Button x:Name="btnTrazi" Content="Traži" FontSize="18" Width="110" Margin="5,5,0,5" HorizontalAlignment="Left" Command="{Binding TraziCommand}" Visibility="{Binding Path=VidljivoOdabirVrsteIncidenta}"/>
-                <Button x:Name="btnNovaKalkulacija" Content="Nova kalkulacija" FontSize="18" Width="140" Margin="5,5,0,5" HorizontalAlignment="Left" Command="{Binding NovaKalkulacijaCommand}" Visibility="{Binding Path=VidljivoOdabirVrsteIncidenta}"/>
-                -->
-            <!--<Button x:Name="btnSnimi" Content="Snimi" FontSize="18" Width="110" Margin="5,5,0,5" HorizontalAlignment="Left" Command="{Binding IzlazCommand}" Visibility="{Binding Path=VidljivoOdabirVrsteIncidenta}"/>-->
-            <!--<Button x:Name="btnStampa" Content="Štampa" FontSize="18" Width="110" Margin="5,5,0,5" HorizontalAlignment="Left" Command="{Binding IzlazCommand}" Visibility="{Binding Path=VidljivoOdabirVrsteIncidenta}"/>-->
-            <!--
-                <Button x:Name="btnKrajFakture" Content="Kraj fakture" FontSize="18" Width="130" Margin="5,5,0,5" HorizontalAlignment="Left" Command="{Binding KrajFaktureCommand}" Visibility="{Binding Path=VidljivoOdabirVrsteIncidenta}"/>
-            </StackPanel>-->
         </Grid>
 
+
         <Grid Grid.Row="10" Grid.Column="0" Grid.ColumnSpan="6" HorizontalAlignment="Center" VerticalAlignment="Center">
-            <WrapPanel HorizontalAlignment="Center" VerticalAlignment="Top" ItemWidth="140" ItemHeight="50" Margin="0,5,0,5">
+            <WrapPanel HorizontalAlignment="Center" VerticalAlignment="Top" ItemWidth="165" ItemHeight="50" Margin="0,5,0,5">
                 <WrapPanel.Resources>
                     <Style TargetType="Button">
                         <Setter Property="FontSize" Value="16"/>
@@ -219,9 +209,10 @@
                         <Setter Property="Margin" Value="10,0"/>
                         <Setter Property="MinWidth" Value="140"/>
                         <Setter Property="HorizontalAlignment" Value="Center"/>
-                        <Setter Property="Background" Value="#333"/>
-                        <Setter Property="Foreground" Value="White"/>
-                        <Setter Property="BorderBrush" Value="Transparent"/>
+                        <Setter Property="Background" Value="#DDEAFB"/>
+                        <Setter Property="Foreground" Value="#2D2D2D"/>
+                        <Setter Property="BorderBrush" Value="#B0C7E3"/>
+                        <Setter Property="BorderThickness" Value="1.5"/>
                         <Setter Property="FontWeight" Value="SemiBold"/>
                         <Setter Property="Height" Value="45"/>
                         <Setter Property="Template">
@@ -229,8 +220,8 @@
                                 <ControlTemplate TargetType="Button">
                                     <Border Background="{TemplateBinding Background}" 
                                     BorderBrush="{TemplateBinding BorderBrush}" 
-                                    BorderThickness="0" 
-                                    CornerRadius="3">
+                                    BorderThickness="{TemplateBinding BorderThickness}" 
+                                    CornerRadius="10">
                                         <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                     </Border>
                                 </ControlTemplate>
@@ -239,7 +230,8 @@
 
                         <Style.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
-                                <Setter Property="Background" Value="#555"/>
+                                <Setter Property="Background" Value="#C5DFFA"/>
+                                <Setter Property="BorderBrush" Value="#A5BDD7"/>
                                 <Setter Property="Cursor" Value="Hand"/>
                             </Trigger>
                         </Style.Triggers>
