@@ -225,10 +225,11 @@ namespace Materijalno.ViewModel
         {
             OdabraniVM = new PregledIzlazaZaSveKalkulacijeViewModel(this);
         }
-        
+
         public void OtvoriMedjuskladisniceJedna()
         {
             OdabraniVM = new MedjuskladisniceJednaViewModel(this);
+        }
             
         public void OtvoriZaJednuKalkulacijuPregledIzlaza()
         {
