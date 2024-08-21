@@ -135,6 +135,9 @@
             <local:PregledIzlazaZaSveKalkulacije/>
         </DataTemplate>
 
+        <DataTemplate DataType="{x:Type vm:MedjuskladisniceJednaViewModel}">
+            <local:MedjuskladisniceJedna/>
+
         <DataTemplate DataType="{x:Type vm:PregledIzlazaZaJednuKalkulacijuViewModel}">
             <local:PregledIzlazaZaJednuKalkulaciju/>
         </DataTemplate>
@@ -577,7 +580,7 @@
 
                             <Expander Header="Međuskladisnice" Grid.Column="0" Grid.Row="1" Grid.RowSpan="10" FontSize="16" IsExpanded="False" BorderBrush="{x:Null}" Background="White" VerticalAlignment="Top">
                                 <StackPanel Orientation="Vertical">
-                                    <Button x:Name="jedna" Width="Auto" Height="30" HorizontalAlignment="Left" BorderBrush="{x:Null}" Command="{Binding JednaCommand}" Margin="20,0,0,0" >
+                                    <Button x:Name="jedna" Width="Auto" Height="30" HorizontalAlignment="Left" BorderBrush="{x:Null}" Command="{Binding MedjuskladisniceJednaCommand}" Margin="20,0,0,0" >
                                         <Button.Style>
                                             <Style TargetType="{x:Type Button}">
                                                 <Setter Property="Background" Value="White"/>
