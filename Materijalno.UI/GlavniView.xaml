@@ -138,6 +138,38 @@
         <DataTemplate DataType="{x:Type vm:PregledTroskovaPoKontimaIRadnimNalozimaViewModel}">
             <local:PregledTroskovaPoKontimaIRadnimNalozima/>
         </DataTemplate>
+  
+        <DataTemplate DataType="{x:Type vm:PregledTroskovaPoKontimaViewModel}">
+            <local:PregledTroskovaPoKontima/>
+        </DataTemplate>
+  
+        <DataTemplate DataType="{x:Type vm:StanjeZalihaZaSvaSkladistaViewModel}">
+            <local:StanjeZalihaZaSvaSkladista/>
+        </DataTemplate>
+  
+        <DataTemplate DataType="{x:Type vm:StanjeZalihaZaSkladisteViewModel}">
+            <local:StanjeZalihaZaSkladiste/>
+        </DataTemplate>
+  
+        <DataTemplate DataType="{x:Type vm:StanjeZalihaZaMaterijalUSkladistuViewModel}">
+            <local:StanjeZalihaZaMaterijalUSkladistu/>
+        </DataTemplate>
+  
+        <DataTemplate DataType="{x:Type vm:MedjuskladisniceZaSkladisteViewModel}">
+            <local:MedjuskladisniceZaSkladiste/>
+        </DataTemplate>
+  
+        <DataTemplate DataType="{x:Type vm:MedjuskladisniceSveViewModel}">
+            <local:MedjuskladisniceSve/>
+        </DataTemplate>
+  
+        <DataTemplate DataType="{x:Type vm:MedjuskladisniceJednaViewModel}">
+            <local:MedjuskladisniceJedna/>
+        </DataTemplate>
+
+        <DataTemplate DataType="{x:Type vm:PregledIzlazaZaJednuKalkulacijuViewModel}">
+            <local:PregledIzlazaZaJednuKalkulaciju/>
+        </DataTemplate>
 
 
     </UserControl.Resources>
@@ -577,7 +609,7 @@
 
                             <Expander Header="Međuskladisnice" Grid.Column="0" Grid.Row="1" Grid.RowSpan="10" FontSize="16" IsExpanded="False" BorderBrush="{x:Null}" Background="White" VerticalAlignment="Top">
                                 <StackPanel Orientation="Vertical">
-                                    <Button x:Name="jedna" Width="Auto" Height="30" HorizontalAlignment="Left" BorderBrush="{x:Null}" Command="{Binding JednaCommand}" Margin="20,0,0,0" >
+                                    <Button x:Name="jedna" Width="Auto" Height="30" HorizontalAlignment="Left" BorderBrush="{x:Null}" Command="{Binding MedjuskladisniceJednaCommand}" Margin="20,0,0,0" >
                                         <Button.Style>
                                             <Style TargetType="{x:Type Button}">
                                                 <Setter Property="Background" Value="White"/>
@@ -602,7 +634,7 @@
                                         </Grid>
                                     </Button>
 
-                                    <Button x:Name="sve" Width="Auto" Height="30" HorizontalAlignment="Left" BorderBrush="{x:Null}" Margin="20,0,0,0" Command="{Binding SveCommand}">
+                                    <Button x:Name="sve" Width="Auto" Height="30" HorizontalAlignment="Left" BorderBrush="{x:Null}" Margin="20,0,0,0" Command="{Binding MedjuskladisniceSveCommand}">
                                         <Button.Style>
                                             <Style TargetType="{x:Type Button}">
                                                 <Setter Property="Background" Value="White" />
