@@ -135,6 +135,10 @@
             <local:PregledIzlazaZaSveKalkulacije/>
         </DataTemplate>
 
+        <DataTemplate DataType="{x:Type vm:PregledTroskovaPoKontimaIRadnimNalozimaViewModel}">
+            <local:PregledTroskovaPoKontimaIRadnimNalozima/>
+        </DataTemplate>
+
 
     </UserControl.Resources>
     <DockPanel LastChildFill="True">
