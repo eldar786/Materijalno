@@ -181,6 +181,7 @@
     <Compile Include="MedjuskladisnicaViewModel.cs" />
     <Compile Include="PovratUSkladisteViewModel.cs" />
     <Compile Include="PregledIzlazaZaSveKalkulacijeViewModel.cs" />
+    <Compile Include="PregledTroskovaPoKontimaINalozimaZaSvaSkladistaViewModel.cs" />
     <Compile Include="PregledUlazaPoKontimaiKalkulacijamaViewModel.cs" />
     <Compile Include="PregledUlazaZaJednuKalkulacijuViewModel.cs" />
     <Compile Include="PregledUlazaZaSveKalkulacijeViewModel.cs" />
