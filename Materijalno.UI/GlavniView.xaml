@@ -135,6 +135,10 @@
             <local:PregledIzlazaZaSveKalkulacije/>
         </DataTemplate>
 
+        <DataTemplate DataType="{x:Type vm:MedjuskladisniceSveViewModel}">
+            <local:MedjuskladisniceSve/>
+        </DataTemplate>
+  
         <DataTemplate DataType="{x:Type vm:MedjuskladisniceJednaViewModel}">
             <local:MedjuskladisniceJedna/>
         </DataTemplate>
@@ -606,7 +610,7 @@
                                         </Grid>
                                     </Button>
 
-                                    <Button x:Name="sve" Width="Auto" Height="30" HorizontalAlignment="Left" BorderBrush="{x:Null}" Margin="20,0,0,0" Command="{Binding SveCommand}">
+                                    <Button x:Name="sve" Width="Auto" Height="30" HorizontalAlignment="Left" BorderBrush="{x:Null}" Margin="20,0,0,0" Command="{Binding MedjuskladisniceSveCommand}">
                                         <Button.Style>
                                             <Style TargetType="{x:Type Button}">
                                                 <Setter Property="Background" Value="White" />

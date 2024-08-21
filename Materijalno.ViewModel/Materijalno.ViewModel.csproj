@@ -172,6 +172,7 @@
     <Compile Include="CentralniMagacinViewModel.cs" />
     <Compile Include="DnevnikViewModel.cs" />
     <Compile Include="GlavniViewModel.cs" />
+    <Compile Include="MedjuskladisniceSveViewModel.cs" />
     <Compile Include="MedjuskladisniceJednaViewModel.cs" />
     <Compile Include="NaloziMedjuskladisnicaViewModel.cs" />
     <Compile Include="NaloziZaFinansijePrintanjeNalogaViewModel.cs" />
