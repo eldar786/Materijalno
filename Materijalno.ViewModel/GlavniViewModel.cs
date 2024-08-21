@@ -44,6 +44,7 @@ namespace Materijalno.ViewModel
         public ICommand ZaJednuKalkulacijuPregledUlazaCommand { get; set; }
         public ICommand ZaSveKalkulacijePregledUlazaCommand { get; set; }
         public ICommand ZaSveKalkulacijePregledIzlazaCommand { get; set; }
+        public ICommand PoKontimaINalozimaZaSvaSkladistaCommand { get; set; }
         public ICommand PoKontimaIRadnimNalozimaCommand { get; set; }
         public ICommand PoKontimaCommand { get; set; }
         public ICommand ZaSvaSkladistaCommand { get; set; }
@@ -92,6 +93,7 @@ namespace Materijalno.ViewModel
             ZaJednuKalkulacijuPregledUlazaCommand = new RelayCommand(OtvoriZaJednuKalkulacijuPregledUlaza);
             ZaSveKalkulacijePregledUlazaCommand = new RelayCommand(OtvoriZaSveKalkulacijePregledUlaza);
             ZaSveKalkulacijePregledIzlazaCommand = new RelayCommand(OtvoriZaSveKalkulacijePregledIzlaza);
+            PoKontimaINalozimaZaSvaSkladistaCommand = new RelayCommand(OtvoriPoKontimaINalozimaZaSvaSkladista);
             PoKontimaIRadnimNalozimaCommand = new RelayCommand(OtvoriPoKontimaIRadnimNalozima);
             PoKontimaCommand = new RelayCommand(OtvoriPoKontima);
             ZaSvaSkladistaCommand = new RelayCommand(OtvoriZaSvaSkladista);
@@ -239,6 +241,10 @@ namespace Materijalno.ViewModel
             OdabraniVM = new PregledIzlazaZaSveKalkulacijeViewModel(this);
         }
         
+        public void OtvoriPoKontimaINalozimaZaSvaSkladista()
+        {
+            OdabraniVM = new PregledTroskovaPoKontimaINalozimaZaSvaSkladistaViewModel(this);
+        }
         public void OtvoriPoKontimaIRadnimNalozima()
         {
             OdabraniVM = new PregledTroskovaPoKontimaIRadnimNalozimaViewModel(this);
