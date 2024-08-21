@@ -44,6 +44,7 @@ namespace Materijalno.ViewModel
         public ICommand ZaJednuKalkulacijuPregledUlazaCommand { get; set; }
         public ICommand ZaSveKalkulacijePregledUlazaCommand { get; set; }
         public ICommand ZaSveKalkulacijePregledIzlazaCommand { get; set; }
+        public ICommand ZaSkladisteStanjeZalihaCommand { get; set; }
         public ICommand ZaMaterijalUSkladistuCommand { get; set; }
         public ICommand ZaSkladisteMedjuskladisniceCommand { get; set; }
         public ICommand MedjuskladisniceSveCommand { get; set; }
@@ -89,6 +90,7 @@ namespace Materijalno.ViewModel
             ZaJednuKalkulacijuPregledUlazaCommand = new RelayCommand(OtvoriZaJednuKalkulacijuPregledUlaza);
             ZaSveKalkulacijePregledUlazaCommand = new RelayCommand(OtvoriZaSveKalkulacijePregledUlaza);
             ZaSveKalkulacijePregledIzlazaCommand = new RelayCommand(OtvoriZaSveKalkulacijePregledIzlaza);
+            ZaSkladisteStanjeZalihaCommand = new RelayCommand(OtvoriZaSkladisteStanjeZaliha);
             ZaMaterijalUSkladistuCommand = new RelayCommand(OtvoriZaMaterijalUSkladistu);
             ZaSkladisteMedjuskladisniceCommand = new RelayCommand(OtvoriZaSkladisteMedjuskladisnice);
             MedjuskladisniceSveCommand = new RelayCommand(OtvoriMedjuskladisniceSve);
@@ -230,6 +232,11 @@ namespace Materijalno.ViewModel
         public void OtvoriZaSveKalkulacijePregledIzlaza()
         {
             OdabraniVM = new PregledIzlazaZaSveKalkulacijeViewModel(this);
+        }
+        
+        public void OtvoriZaSkladisteStanjeZaliha()
+        {
+            OdabraniVM = new StanjeZalihaZaSkladisteViewModel(this);
         }
         
         public void OtvoriZaMaterijalUSkladistu()
