@@ -290,6 +290,9 @@
     <Compile Include="StampanjeInventurnihZaliha.xaml.cs">
       <DependentUpon>StampanjeInventurnihZaliha.xaml</DependentUpon>
     </Compile>
+    <Compile Include="StanjeZalihaZaMaterijalUSkladistu.xaml.cs">
+      <DependentUpon>StanjeZalihaZaMaterijalUSkladistu.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UlazMaterijala.xaml.cs">
       <DependentUpon>UlazMaterijala.xaml</DependentUpon>
     </Compile>
@@ -436,6 +439,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="StampanjeInventurnihZaliha.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="StanjeZalihaZaMaterijalUSkladistu.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
