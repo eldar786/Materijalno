@@ -172,6 +172,9 @@
     <Compile Include="CentralniMagacinViewModel.cs" />
     <Compile Include="DnevnikViewModel.cs" />
     <Compile Include="GlavniViewModel.cs" />
+    <Compile Include="MedjuskladisniceZaSkladisteViewModel.cs" />
+    <Compile Include="MedjuskladisniceSveViewModel.cs" />
+    <Compile Include="MedjuskladisniceJednaViewModel.cs" />
     <Compile Include="NaloziMedjuskladisnicaViewModel.cs" />
     <Compile Include="NaloziZaFinansijePrintanjeNalogaViewModel.cs" />
     <Compile Include="PocetnoStanjePrviPutViewModel.cs" />
@@ -180,6 +183,7 @@
     <Compile Include="IzlazMaterijalaViewModel.cs" />
     <Compile Include="MedjuskladisnicaViewModel.cs" />
     <Compile Include="PovratUSkladisteViewModel.cs" />
+    <Compile Include="PregledIzlazaZaJednuKalkulacijuViewModel.cs" />
     <Compile Include="PregledIzlazaZaSveKalkulacijeViewModel.cs" />
     <Compile Include="PregledUlazaPoKontimaiKalkulacijamaViewModel.cs" />
     <Compile Include="PregledUlazaZaJednuKalkulacijuViewModel.cs" />
