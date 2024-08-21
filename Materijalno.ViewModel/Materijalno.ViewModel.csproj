@@ -203,6 +203,7 @@
     <Compile Include="SifarnikSkladistaViewModel.cs" />
     <Compile Include="StampanjeInventurnihListicaViewModel.cs" />
     <Compile Include="StampanjeInventurnihZalihaViewModel.cs" />
+    <Compile Include="StanjeZalihaZaSvaSkladistaViewModel.cs" />
     <Compile Include="StanjeZalihaZaSkladisteViewModel.cs" />
     <Compile Include="StanjeZalihaZaMaterijalUSkladistuViewModel.cs" />
     <Compile Include="UlazMaterijalaViewModel.cs" />

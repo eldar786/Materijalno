@@ -135,6 +135,10 @@
             <local:PregledIzlazaZaSveKalkulacije/>
         </DataTemplate>
 
+        <DataTemplate DataType="{x:Type vm:StanjeZalihaZaSvaSkladistaViewModel}">
+            <local:StanjeZalihaZaSvaSkladista/>
+        </DataTemplate>
+  
         <DataTemplate DataType="{x:Type vm:StanjeZalihaZaSkladisteViewModel}">
             <local:StanjeZalihaZaSkladiste/>
         </DataTemplate>
