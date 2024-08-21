@@ -206,6 +206,12 @@
     <Compile Include="MedjuskladisniceZaSkladiste.xaml.cs">
       <DependentUpon>MedjuskladisniceZaSkladiste.xaml</DependentUpon>
     </Compile>
+    <Compile Include="MedjuskladisniceSve.xaml.cs">
+      <DependentUpon>MedjuskladisniceSve.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MedjuskladisniceJedna.xaml.cs">
+      <DependentUpon>MedjuskladisniceJedna.xaml</DependentUpon>
+    </Compile>
     <Compile Include="NaloziMedjuskladisnica.xaml.cs">
       <DependentUpon>NaloziMedjuskladisnica.xaml</DependentUpon>
     </Compile>
@@ -229,6 +235,9 @@
     </Compile>
     <Compile Include="PovratUSkladiste.xaml.cs">
       <DependentUpon>PovratUSkladiste.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="PregledIzlazaZaJednuKalkulaciju.xaml.cs">
+      <DependentUpon>PregledIzlazaZaJednuKalkulaciju.xaml</DependentUpon>
     </Compile>
     <Compile Include="PregledIzlazaZaSveKalkulacije.xaml.cs">
       <DependentUpon>PregledIzlazaZaSveKalkulacije.xaml</DependentUpon>
@@ -318,6 +327,14 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="MedjuskladisniceSve.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="MedjuskladisniceJedna.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="NaloziMedjuskladisnica.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -347,6 +364,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="PovratUSkladiste.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="PregledIzlazaZaJednuKalkulaciju.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
