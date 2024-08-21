@@ -203,6 +203,15 @@
     <Compile Include="Dnevnik.xaml.cs">
       <DependentUpon>Dnevnik.xaml</DependentUpon>
     </Compile>
+    <Compile Include="MedjuskladisniceZaSkladiste.xaml.cs">
+      <DependentUpon>MedjuskladisniceZaSkladiste.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MedjuskladisniceSve.xaml.cs">
+      <DependentUpon>MedjuskladisniceSve.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MedjuskladisniceJedna.xaml.cs">
+      <DependentUpon>MedjuskladisniceJedna.xaml</DependentUpon>
+    </Compile>
     <Compile Include="NaloziMedjuskladisnica.xaml.cs">
       <DependentUpon>NaloziMedjuskladisnica.xaml</DependentUpon>
     </Compile>
@@ -227,11 +236,20 @@
     <Compile Include="PovratUSkladiste.xaml.cs">
       <DependentUpon>PovratUSkladiste.xaml</DependentUpon>
     </Compile>
+    <Compile Include="PregledIzlazaZaJednuKalkulaciju.xaml.cs">
+      <DependentUpon>PregledIzlazaZaJednuKalkulaciju.xaml</DependentUpon>
+    </Compile>
     <Compile Include="PregledIzlazaZaSveKalkulacije.xaml.cs">
       <DependentUpon>PregledIzlazaZaSveKalkulacije.xaml</DependentUpon>
     </Compile>
     <Compile Include="PregledTroskovaPoKontimaINalozimaZaSvaSkladista.xaml.cs">
       <DependentUpon>PregledTroskovaPoKontimaINalozimaZaSvaSkladista.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="PregledTroskovaPoKontimaIRadnimNalozima.xaml.cs">
+      <DependentUpon>PregledTroskovaPoKontimaIRadnimNalozima.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="PregledTroskovaPoKontima.xaml.cs">
+      <DependentUpon>PregledTroskovaPoKontima.xaml</DependentUpon>
     </Compile>
     <Compile Include="PregledUlazaPoKontimaiKalkulacijama.xaml.cs">
       <DependentUpon>PregledUlazaPoKontimaiKalkulacijama.xaml</DependentUpon>
@@ -281,6 +299,15 @@
     <Compile Include="StampanjeInventurnihZaliha.xaml.cs">
       <DependentUpon>StampanjeInventurnihZaliha.xaml</DependentUpon>
     </Compile>
+    <Compile Include="StanjeZalihaZaSvaSkladista.xaml.cs">
+      <DependentUpon>StanjeZalihaZaSvaSkladista.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="StanjeZalihaZaSkladiste.xaml.cs">
+      <DependentUpon>StanjeZalihaZaSkladiste.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="StanjeZalihaZaMaterijalUSkladistu.xaml.cs">
+      <DependentUpon>StanjeZalihaZaMaterijalUSkladistu.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UlazMaterijala.xaml.cs">
       <DependentUpon>UlazMaterijala.xaml</DependentUpon>
     </Compile>
@@ -314,6 +341,18 @@
     <Compile Include="GlavniView.xaml.cs">
       <DependentUpon>GlavniView.xaml</DependentUpon>
     </Compile>
+    <Page Include="MedjuskladisniceZaSkladiste.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="MedjuskladisniceSve.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="MedjuskladisniceJedna.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="NaloziMedjuskladisnica.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -346,11 +385,23 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="PregledIzlazaZaJednuKalkulaciju.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="PregledIzlazaZaSveKalkulacije.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="PregledTroskovaPoKontimaINalozimaZaSvaSkladista.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="PregledTroskovaPoKontimaIRadnimNalozima.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="PregledTroskovaPoKontima.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -415,6 +466,18 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="StampanjeInventurnihZaliha.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="StanjeZalihaZaSvaSkladista.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="StanjeZalihaZaSkladiste.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="StanjeZalihaZaMaterijalUSkladistu.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
