@@ -563,6 +563,18 @@
   <ItemGroup>
     <Resource Include="Ikone\obrisi.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Ikone\backleft.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Ikone\nextright.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Ikone\obrisi2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Ikone\save.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
