@@ -6,7 +6,7 @@
               xmlns:vm="clr-namespace:Materijalno.ViewModel;assembly=Materijalno.ViewModel"
              xmlns:local="clr-namespace:Materijalno.UI"
              mc:Ignorable="d" 
-             d:DesignHeight="500" d:DesignWidth="900">
+             d:DesignHeight="1000" d:DesignWidth="1900">
 
     <UserControl.Resources>
         <DataTemplate DataType="{x:Type vm:UlazMaterijalaViewModel}">
@@ -78,10 +78,17 @@
                 <ToolTip Content="Sljedeci"/>
             </Button.ToolTip>
         </Button>
+        <!--<ListBox ItemsSource="{Binding MatList}">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding Kljnaz}" />
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>-->
 
         <Label Grid.Row="1" Grid.Column="0" Margin="0,0,0,0" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="18">Skladište</Label>
-        <TextBox Name="OpBroj" KeyDown="TextBox_KeyDown"  Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left" Text="{Binding OdabraniKomitent.STARA_SIFRA}" FontWeight="Bold"  Width="170" FontSize="18"/>
-        <TextBox Grid.Row="1" KeyDown="TextBox_KeyDown" Name="tabelaSifarnikSkladista" Margin="-300,0,600,0" Grid.Column="2" Grid.ColumnSpan="4" VerticalAlignment="Center"  FontSize="18"  Width="300" >
+        <TextBox Text="{Binding CurrentItem.Kljnaz}" Name="OpBroj" KeyDown="TextBox_KeyDown"  Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left" FontWeight="Bold"  Width="170" FontSize="18"/>
+        <TextBox Grid.Row="1" KeyDown="TextBox_KeyDown" Name="tabelaSifarnikSkladista" Margin="-300,0,600,0" Grid.Column="2" Grid.ColumnSpan="4" VerticalAlignment="Center"  FontSize="18"  Width="400" Text="LUTRIJA BIH-CENTRALNI MAGACIN INTERNO" IsEnabled="False">
 
             <TextBox.InputBindings>
                 <MouseBinding Gesture="LeftClick" Command="{Binding UlazMaterijalaSifarnikSkladistaCommand}" />
@@ -91,8 +98,8 @@
 
 
         <Label Grid.Row="2" Grid.Column="0" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="18">Datum kalkulacije</Label>
-
-        <DatePicker Grid.Row="2" KeyDown="TextBox_KeyDown" Grid.Column="1" HorizontalAlignment="Left" Height="30" FontSize="18" Width="120" SelectedDate="{Binding Od, UpdateSourceTrigger=PropertyChanged}" SelectedDateChanged="datOd_SelectedDateChanged"  Name="dtpOd" />
+        <!--Text="{Binding CurrentItem.Datun}"-->
+        <DatePicker SelectedDate="{Binding CurrentItem.Datun}"  Grid.Row="2" KeyDown="TextBox_KeyDown" Grid.Column="1" HorizontalAlignment="Left" Height="30" FontSize="18" Width="120" SelectedDateChanged="datOd_SelectedDateChanged"  Name="dtpOd" />
 
         <Label Grid.Row="2" Grid.Column="3" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="18" >Broj kalkulacije:</Label>
         <TextBox Grid.Row="2" KeyDown="TextBox_KeyDown" Grid.Column="4" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="18"  Width="120"/>
@@ -239,7 +246,7 @@
                 </WrapPanel.Resources>
 
                 <Button x:Name="btnNovaStavka" Content="Nova stavka" Command="{Binding NovaStavkaCommand}" Visibility="{Binding Path=VidljivoOdabirVrsteIncidenta}"/>
-                <Button x:Name="btnSlijedecaStavka" Content="Slij. stavka" Command="{Binding SlijedeciCommand}" Visibility="{Binding Path=VidljivoOdabirVrsteIncidenta}"/>
+                <Button x:Name="btnSlijedecaStavka" Content="Slij. stavka" Command="{Binding NextButtonCommand}" Visibility="{Binding Path=VidljivoOdabirVrsteIncidenta}"/>
                 <Button x:Name="btnOdustani" Content="Odustani" Command="{Binding OdustaniCommand}" Visibility="{Binding Path=VidljivoOdabirVrsteIncidenta}"/>
                 <Button x:Name="btnBrisanje" Content="Brisanje" Command="{Binding BrisanjeCommand}" Visibility="{Binding Path=VidljivoOdabirVrsteIncidenta}"/>
                 <Button x:Name="btnIzlaz" Content="Izlaz" Command="{Binding IzlazCommand}" Visibility="{Binding Path=VidljivoOdabirVrsteIncidenta}"/>
