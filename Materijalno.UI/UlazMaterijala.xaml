@@ -74,14 +74,14 @@
             </Button.ToolTip>
         </Button>
 
-        <Button Background="White" x:Name="btnPrethodni"  Grid.Row="0" Grid.Column="5" FontSize="18" Width="50"  Margin="120,5,0,10" HorizontalAlignment="Left" Command="{Binding PrethodniCommand, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" >
+        <Button Background="White" x:Name="btnPrethodni"  Grid.Row="0" Grid.Column="5" FontSize="18" Width="50"  Margin="120,5,0,10" HorizontalAlignment="Left" Command="{Binding PrethodniButtonCommand}" >
             <Image Source="/Ikone/backleft.png" Stretch="Uniform"/>
             <Button.ToolTip>
                 <ToolTip Content="Prethodni"/>
             </Button.ToolTip>
         </Button>
 
-        <Button Background="White" x:Name="btnSljedeci"  Grid.Row="0" Grid.Column="5" FontSize="18" Width="50"  Margin="180,5,0,10" HorizontalAlignment="Left" Command="{Binding SljedeciCommand, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" >
+        <Button Background="White" x:Name="btnSljedeci"  Grid.Row="0" Grid.Column="5" FontSize="18" Width="50"  Margin="180,5,0,10" HorizontalAlignment="Left" Command="{Binding NextButtonCommand}" >
             <Image Source="/Ikone/nextright.png" Stretch="Uniform"/>
             <Button.ToolTip>
                 <ToolTip Content="Sljedeci"/>

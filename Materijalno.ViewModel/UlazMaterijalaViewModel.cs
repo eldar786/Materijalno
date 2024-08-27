@@ -35,7 +35,8 @@ namespace Materijalno.ViewModel
         public Mat CurrentItem
         {
             get { return currentItem; }
-            set { 
+            set
+            {
                 currentItem = value;
                 OnPropertyChanged(nameof(CurrentItem));
             }
@@ -53,12 +54,14 @@ namespace Materijalno.ViewModel
         public ObservableCollection<TabelaMaterijala> TebelaMaterijalaList { get; set; }
         public ObservableCollection<Mat> MatList { get; set; }
 
-
         #endregion
 
         #region Commands
 
         public ICommand NextButtonCommand { get; set; }
+        public ICommand PrethodniButtonCommand { get; set; }
+        public ICommand PrviButtonCommand { get; set; }
+        public ICommand ZadnjiButtonCommand { get; set; }
 
         #endregion
 
@@ -69,9 +72,14 @@ namespace Materijalno.ViewModel
             using (var dbContext = new materijalno_knjigovodstvoContext())
             {
                 NextButtonCommand = new RelayCommand(NextButton);
+                PrethodniButtonCommand = new RelayCommand(PrethodniButton);
 
-                //Dodaj u listu gdje je kljnaz == 1000
-                MatList = new ObservableCollection<Mat>(dbContext.Mat.Where(row => row.Kljnaz == 1000).ToList());
+                //Dodaj u listu gdje je kljnaz == 1000 i sortiraj po datumu iz kolone (datun)
+                //Neki datum preskoci, treba napraviti dobar data type za kolonu (datun) u sql bazi
+                MatList = new ObservableCollection<Mat>(dbContext.Mat
+                    .Where(row => row.Kljnaz == 1000)
+                    .OrderBy(row => row.Datun)
+                    .ToList());
 
                 UpdateCurrentItemData(dbContext);
             }
@@ -90,6 +98,21 @@ namespace Materijalno.ViewModel
                 UpdateCurrentItemData(dbContext);
             }
         }
+        private void PrethodniButton()
+        {
+            using (var dbContext = new materijalno_knjigovodstvoContext())
+            {
+                if (CurrentIndex == 0)
+                {
+                    System.Windows.MessageBox.Show("Došli ste do prvog podatka", "Upozorenje", MessageBoxButton.OK, MessageBoxImage.Information);
+                    return;
+                }
+
+                CurrentIndex = (CurrentIndex - 1) % MatList.Count;
+
+                UpdateCurrentItemData(dbContext);
+            }
+        }
 
         // Ova metoda radi update CurrentItem i CurrentItemTabMaterijala based on the current index
         private void UpdateCurrentItemData(materijalno_knjigovodstvoContext dbContext)
@@ -98,7 +121,7 @@ namespace Materijalno.ViewModel
 
             //Nadji listu svih po *Ident* iz *TabelaMaterijala* i *CurrentItem* (Mat) i stavi u listu
             TebelaMaterijalaList = new ObservableCollection<TabelaMaterijala>(dbContext.TabelaMaterijala.Where(row => row.Ident == CurrentItem.Ident).ToList());
-            
+
             //Nadji jednu vrijednost po *Ident* iz *TabelaMaterijala* i po Sifri materijala iz tabele *Mat*(col:*Ident*) i stavi u jedan property
             CurrentItemTabMaterijala = dbContext.TabelaMaterijala.Where(row => row.Ident == CurrentItem.Ident).FirstOrDefault();
         }
