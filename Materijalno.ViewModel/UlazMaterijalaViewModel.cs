@@ -17,17 +17,20 @@ namespace Materijalno.ViewModel
 {
     public class UlazMaterijalaViewModel : INotifyPropertyChanged
     {
-        #region Fields, Lists and Property
+        #region Fields
 
         private ApplicationViewModel _avm;
         private GlavniViewModel _gvm;
-        public int CurrentIndex = 0;
-
-        public ObservableCollection<Mat> MatList { get; set; }
-        public ObservableCollection<TabelaMaterijala> TebelaMaterijalaList { get; set; }
-
         private Mat currentItem;
         private TabelaMaterijala currentItemTabMaterijala;
+
+        public int CurrentIndex = 0;
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        #endregion
+
+        #region Properties and Lists
 
         public Mat CurrentItem
         {
@@ -37,7 +40,6 @@ namespace Materijalno.ViewModel
                 OnPropertyChanged(nameof(CurrentItem));
             }
         }
-
         public TabelaMaterijala CurrentItemTabMaterijala
         {
             get { return currentItemTabMaterijala; }
@@ -47,6 +49,10 @@ namespace Materijalno.ViewModel
                 OnPropertyChanged(nameof(currentItemTabMaterijala));
             }
         }
+
+        public ObservableCollection<TabelaMaterijala> TebelaMaterijalaList { get; set; }
+        public ObservableCollection<Mat> MatList { get; set; }
+
 
         #endregion
 
@@ -67,19 +73,20 @@ namespace Materijalno.ViewModel
                 //Dodaj u listu gdje je kljnaz == 1000
                 MatList = new ObservableCollection<Mat>(dbContext.Mat.Where(row => row.Kljnaz == 1000).ToList());
 
-                
-
                 UpdateCurrentItemData(dbContext);
-
             }
         }
+
+        #endregion
+
+        #region Methods
 
         private void NextButton()
         {
             using (var dbContext = new materijalno_knjigovodstvoContext())
             {
                 CurrentIndex = (CurrentIndex + 1) % MatList.Count;
-                //CurrentItem = MatList[CurrentIndex];
+
                 UpdateCurrentItemData(dbContext);
             }
         }
@@ -94,18 +101,14 @@ namespace Materijalno.ViewModel
             
             //Nadji jednu vrijednost po *Ident* iz *TabelaMaterijala* i po Sifri materijala iz tabele *Mat*(col:*Ident*) i stavi u jedan property
             CurrentItemTabMaterijala = dbContext.TabelaMaterijala.Where(row => row.Ident == CurrentItem.Ident).FirstOrDefault();
-
         }
-
-        #endregion
-
-        public event PropertyChangedEventHandler PropertyChanged;
 
         protected virtual void OnPropertyChanged(string propertyName)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
+        #endregion
 
     }
 }
