@@ -21,7 +21,7 @@ namespace Materijalno.ViewModel
 
         private ApplicationViewModel _avm;
         private GlavniViewModel _gvm;
-        private Mat currentItem;
+        private Mat currentItemMat;
         private TabelaMaterijala currentItemTabMaterijala;
 
         public int CurrentIndex = 0;
@@ -32,13 +32,14 @@ namespace Materijalno.ViewModel
 
         #region Properties and Lists
 
-        public Mat CurrentItem
+        //Staviti bolji naziv CurrentItemMat
+        public Mat CurrentItemMat
         {
-            get { return currentItem; }
+            get { return currentItemMat; }
             set
             {
-                currentItem = value;
-                OnPropertyChanged(nameof(CurrentItem));
+                currentItemMat = value;
+                OnPropertyChanged(nameof(CurrentItemMat));
             }
         }
         public TabelaMaterijala CurrentItemTabMaterijala
@@ -141,13 +142,13 @@ namespace Materijalno.ViewModel
         // Ova metoda radi update CurrentItem i CurrentItemTabMaterijala based on the current index
         private void UpdateCurrentItemData(materijalno_knjigovodstvoContext dbContext)
         {
-            CurrentItem = MatList[CurrentIndex];
+            CurrentItemMat = MatList[CurrentIndex];
 
             //Nadji listu svih po *Ident* iz *TabelaMaterijala* i *CurrentItem* (Mat) i stavi u listu
-            TebelaMaterijalaList = new ObservableCollection<TabelaMaterijala>(dbContext.TabelaMaterijala.Where(row => row.Ident == CurrentItem.Ident).ToList());
+            TebelaMaterijalaList = new ObservableCollection<TabelaMaterijala>(dbContext.TabelaMaterijala.Where(row => row.Ident == CurrentItemMat.Ident).ToList());
 
             //Nadji jednu vrijednost po *Ident* iz *TabelaMaterijala* i po Sifri materijala iz tabele *Mat*(col:*Ident*) i stavi u jedan property
-            CurrentItemTabMaterijala = dbContext.TabelaMaterijala.Where(row => row.Ident == CurrentItem.Ident).FirstOrDefault();
+            CurrentItemTabMaterijala = dbContext.TabelaMaterijala.Where(row => row.Ident == CurrentItemMat.Ident).FirstOrDefault();
         }
 
         protected virtual void OnPropertyChanged(string propertyName)
