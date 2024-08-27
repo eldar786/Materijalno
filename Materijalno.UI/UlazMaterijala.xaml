@@ -209,7 +209,7 @@
                 </WrapPanel.Resources>
 
                 <Button x:Name="btnPrvi" Content="Prvi" FontSize="18" Width="110" Margin="5,5,0,5" HorizontalAlignment="Left" Command="{Binding PrviButtonCommand}" Visibility="{Binding Path=VidljivoOdabirVrsteIncidenta}"/>
-                <Button x:Name="btnZadnji" FontSize="18" Content="Zadnji" Width="110" Margin="5,5,0,5" HorizontalAlignment="Left" Command="{Binding ZadnjiCommand}" Visibility="{Binding Path=VidljivoOdabirVrsteIncidenta}"/>
+                <Button x:Name="btnZadnji" FontSize="18" Content="Zadnji" Width="110" Margin="5,5,0,5" HorizontalAlignment="Left" Command="{Binding ZadnjiButtonCommand}" Visibility="{Binding Path=VidljivoOdabirVrsteIncidenta}"/>
                 <Button x:Name="btnTrazi" Content="Traži" FontSize="18" Width="110" Margin="5,5,0,5" HorizontalAlignment="Left" Command="{Binding TraziCommand}" Visibility="{Binding Path=VidljivoOdabirVrsteIncidenta}"/>
                 <Button x:Name="btnNovaKalkulacija" Content="Nova kalkulacija" FontSize="18" Width="140" Margin="5,5,-2,5" HorizontalAlignment="Left" Command="{Binding NovaKalkulacijaCommand}" Visibility="{Binding Path=VidljivoOdabirVrsteIncidenta}"/>
                 <Button x:Name="btnKrajFakture" Content="Kraj fakture" FontSize="18" Width="130" Margin="5,5,0,5" HorizontalAlignment="Left" Command="{Binding KrajFaktureCommand}" Visibility="{Binding Path=VidljivoOdabirVrsteIncidenta}"/>

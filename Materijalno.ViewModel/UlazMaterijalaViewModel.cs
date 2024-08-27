@@ -74,6 +74,7 @@ namespace Materijalno.ViewModel
                 NextButtonCommand = new RelayCommand(NextButton);
                 PrethodniButtonCommand = new RelayCommand(PrethodniButton);
                 PrviButtonCommand = new RelayCommand(PrviButton);
+                ZadnjiButtonCommand = new RelayCommand(ZadnjiButton);
 
                 //Dodaj u listu gdje je kljnaz == 1000 i sortiraj po datumu iz kolone (datun)
                 //Neki datum preskoci, treba napraviti dobar data type za kolonu (datun) u sql bazi
@@ -123,6 +124,17 @@ namespace Materijalno.ViewModel
                 UpdateCurrentItemData(dbContext);
 
                 System.Windows.MessageBox.Show("Došli ste do prvog podatka", "Upozorenje", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+        }
+        private void ZadnjiButton()
+        {
+            using (var dbContext = new materijalno_knjigovodstvoContext())
+            {
+                CurrentIndex = MatList.Count - 1;
+
+                UpdateCurrentItemData(dbContext);
+
+                System.Windows.MessageBox.Show("Došli ste do zadnjeg podatka", "Upozorenje", MessageBoxButton.OK, MessageBoxImage.Information);
             }
         }
 
