@@ -24,6 +24,7 @@ namespace Materijalno.Model.EntityModels
         public virtual DbSet<SifarnikMaterijala> SifarnikMaterijala { get; set; }
         public virtual DbSet<SifarnikSkladista> SifarnikSkladista { get; set; }
         public virtual DbSet<Mat> Mat { get; set; }
+        public virtual DbSet<TabelaMaterijala> TabelaMaterijala { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -230,6 +231,32 @@ namespace Materijalno.Model.EntityModels
                     .HasColumnName("zavtro")
                     .HasMaxLength(50)
                     .IsUnicode(false);
+            });
+
+            modelBuilder.Entity<TabelaMaterijala>(entity =>
+            {
+                entity.HasKey(e => e.Ident);
+
+                entity.ToTable("tabela_materijala");
+
+                entity.Property(e => e.Ident).HasColumnName("ident");
+
+                entity.Property(e => e.Jedm)
+                    .HasColumnName("jedm")
+                    .HasMaxLength(3)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Konto1).HasColumnName("konto1");
+
+                entity.Property(e => e.Konto2)
+                    .HasColumnName("konto2")
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Nazmat)
+                    .HasColumnName("nazmat")
+                    .HasMaxLength(38);
+
+                entity.Property(e => e.Siftar).HasColumnName("siftar");
             });
 
             OnModelCreatingPartial(modelBuilder);
