@@ -6,13 +6,22 @@
               xmlns:vm="clr-namespace:Materijalno.ViewModel;assembly=Materijalno.ViewModel"
              xmlns:local="clr-namespace:Materijalno.UI"
              mc:Ignorable="d" 
-             d:DesignHeight="500" d:DesignWidth="900">
+             d:DesignHeight="1000" d:DesignWidth="1900">
 
     <UserControl.Resources>
         <DataTemplate DataType="{x:Type vm:UlazMaterijalaViewModel}">
             <local:UlazMaterijala/>
         </DataTemplate>
+
+        <!-- Set the Culture for DatePicker globally -->
+        <Style TargetType="{x:Type DatePicker}">
+            <Setter Property="Language" Value="de-DE" />
+        </Style>
+
     </UserControl.Resources>
+
+    
+
 
     <Grid>
         <Grid.ColumnDefinitions>
@@ -78,10 +87,17 @@
                 <ToolTip Content="Sljedeci"/>
             </Button.ToolTip>
         </Button>
+        <!--<ListBox ItemsSource="{Binding MatList}">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding Kljnaz}" />
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>-->
 
         <Label Grid.Row="1" Grid.Column="0" Margin="0,0,0,0" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="18">Skladište</Label>
-        <TextBox Name="OpBroj" KeyDown="TextBox_KeyDown"  Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left" Text="{Binding OdabraniKomitent.STARA_SIFRA}" FontWeight="Bold"  Width="170" FontSize="18"/>
-        <TextBox Grid.Row="1" KeyDown="TextBox_KeyDown" Name="tabelaSifarnikSkladista" Margin="-300,0,600,0" Grid.Column="2" Grid.ColumnSpan="4" VerticalAlignment="Center"  FontSize="18"  Width="300" >
+        <TextBox Text="{Binding CurrentItem.Kljnaz}" Name="OpBroj" KeyDown="TextBox_KeyDown"  Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left" FontWeight="Bold"  Width="170" FontSize="18"/>
+        <TextBox Grid.Row="1" KeyDown="TextBox_KeyDown" Name="tabelaSifarnikSkladista" Margin="-300,0,600,0" Grid.Column="2" Grid.ColumnSpan="4" VerticalAlignment="Center"  FontSize="18"  Width="400" Text="LUTRIJA BIH-CENTRALNI MAGACIN INTERNO" IsEnabled="False">
 
             <TextBox.InputBindings>
                 <MouseBinding Gesture="LeftClick" Command="{Binding UlazMaterijalaSifarnikSkladistaCommand}" />
@@ -91,15 +107,14 @@
 
 
         <Label Grid.Row="2" Grid.Column="0" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="18">Datum kalkulacije</Label>
-
-        <DatePicker Grid.Row="2" KeyDown="TextBox_KeyDown" Grid.Column="1" HorizontalAlignment="Left" Height="30" FontSize="18" Width="120" SelectedDate="{Binding Od, UpdateSourceTrigger=PropertyChanged}" SelectedDateChanged="datOd_SelectedDateChanged"  Name="dtpOd" />
+        <DatePicker SelectedDate="{Binding CurrentItem.Datun, UpdateSourceTrigger=PropertyChanged}"  Grid.Row="2" KeyDown="TextBox_KeyDown" Grid.Column="1" HorizontalAlignment="Left" Height="30" FontSize="18" Width="120" SelectedDateChanged="datOd_SelectedDateChanged" />
 
         <Label Grid.Row="2" Grid.Column="3" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="18" >Broj kalkulacije:</Label>
-        <TextBox Grid.Row="2" KeyDown="TextBox_KeyDown" Grid.Column="4" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="18"  Width="120"/>
+        <TextBox Text="{Binding CurrentItem.Brfak}" Grid.Row="2" KeyDown="TextBox_KeyDown" Grid.Column="4" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="18"  Width="120"/>
 
         <Label Grid.Row="3" Grid.Column="0" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="18">Šifra komitenta</Label>
         <!--treba otvorit tabelu-->
-        <TextBox Grid.Row="3" KeyDown="TextBox_KeyDown" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="18"  Width="120"/>
+        <TextBox Text="{Binding CurrentItem.Analst}" Grid.Row="3" KeyDown="TextBox_KeyDown" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="18"  Width="120"/>
         <TextBox Grid.Row="3" KeyDown="TextBox_KeyDown" Grid.Column="2" Grid.ColumnSpan="3" VerticalAlignment="Center"  Margin="-200,0,500,0" FontSize="18"  Width="300" Name="SifraKomitenta">
 
             <TextBox.Text>
@@ -118,24 +133,26 @@
 
         <Label Grid.Row="4" Grid.Column="0" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="18">Broj dokumenta</Label>
         <!--treba otvorit tabelu-->
-        <TextBox Grid.Row="4" KeyDown="TextBox_KeyDown" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="18"  Width="120"/>
+        <TextBox Text="{Binding CurrentItem.Brdok}" Grid.Row="4" KeyDown="TextBox_KeyDown" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="18"  Width="120"/>
 
         <Label Grid.Row="4" Grid.Column="3" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="18">Datum dokumenta</Label>
-        <DatePicker Grid.Row="4" Grid.Column="4" HorizontalAlignment="Left" Height="30" FontSize="18" Width="120" SelectedDate="{Binding Od, UpdateSourceTrigger=PropertyChanged}" SelectedDateChanged="datOd_SelectedDateChanged"  Name="dtpOd1" />
+        <DatePicker SelectedDate="{Binding CurrentItem.Datnar, UpdateSourceTrigger=PropertyChanged}" Grid.Row="4" Grid.Column="4" HorizontalAlignment="Left" Height="30" FontSize="18" Width="120" SelectedDateChanged="datOd_SelectedDateChanged"  Name="dtpOd1" />
 
         <Label Grid.Row="5" Grid.Column="0" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="18">Red.br</Label>
-        <TextBox Grid.Row="5" KeyDown="TextBox_KeyDown" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="18"  Width="120"/>
+        <TextBox Text="{Binding CurrentItem.Redbr}" Grid.Row="5" KeyDown="TextBox_KeyDown" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="18"  Width="120"/>
 
         <Label Grid.Row="5" Grid.Column="2" Margin="-105,0,0,0"  VerticalAlignment="Center" FontSize="18">Šifra materijala</Label>
         <!--treba otvorit tabelu-->
-        <TextBox Grid.Row="5" KeyDown="TextBox_KeyDown" Grid.Column="3" VerticalAlignment="Center" Margin="-400,0,250,0" FontSize="18"  Width="120"/>
-        <TextBox Grid.Row="5" Grid.Column="4" Margin="-430,0,0,0" VerticalAlignment="Center" FontSize="18"  Width="400"/>
+        <TextBox Text="{Binding CurrentItem.Ident}" Grid.Row="5" KeyDown="TextBox_KeyDown" Grid.Column="3" VerticalAlignment="Center" Margin="-400,0,250,0" FontSize="18"  Width="120"/>
+        
+        <!--Na osnovu sifre materijala dati naziv iz druge tabele "tabela materijala"-->
+        <TextBox Text="{Binding CurrentItemTabMaterijala.Nazmat}" Grid.Row="5" Grid.Column="4" Margin="-430,0,0,0" VerticalAlignment="Center" FontSize="18"  Width="400"/>
 
         <Label Grid.Row="6" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="18">Količina</Label>
-        <TextBox Grid.Row="6" KeyDown="TextBox_KeyDown" Grid.Column="2" Margin="0,0,105,0" VerticalAlignment="Center"  FontSize="18"  Width="120"/>
+        <TextBox Text="{Binding CurrentItem.Kolic}" Grid.Row="6" KeyDown="TextBox_KeyDown" Grid.Column="2" Margin="0,0,105,0" VerticalAlignment="Center"  FontSize="18"  Width="120"/>
 
         <Label Grid.Row="6" Grid.Column="3" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="18">Fakturna vrijednost</Label>
-        <TextBox Grid.Row="6" KeyDown="TextBox_KeyDown" Grid.Column="4" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="18"  Width="120"/>
+        <TextBox Text="{Binding CurrentItem.Vrijed}" Grid.Row="6" KeyDown="TextBox_KeyDown" Grid.Column="4" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="18"  Width="120"/>
 
         <Label Grid.Row="7" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="18">Iznos PDV-a</Label>
         <TextBox Grid.Row="7" KeyDown="TextBox_KeyDown" Grid.Column="2" VerticalAlignment="Center"  Margin="0,0,105,0" FontSize="18"  Width="120"/>
@@ -144,13 +161,13 @@
         <TextBox Grid.Row="7" KeyDown="TextBox_KeyDown" Grid.Column="4" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="18"  Width="120"/>
 
         <Label Grid.Row="8" Grid.Column="0" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="18">Carina</Label>
-        <TextBox Grid.Row="8" KeyDown="TextBox_KeyDown" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="18"  Width="120"/>
+        <TextBox Text="{Binding CurrentItem.Cartro}" Grid.Row="8" KeyDown="TextBox_KeyDown" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="18"  Width="120"/>
 
         <Label Grid.Row="8" Grid.Column="2" Margin="-110,0,200,0" VerticalAlignment="Center" FontSize="18">Ostali troškovi</Label>
-        <TextBox Grid.Row="8" KeyDown="TextBox_KeyDown" Grid.Column="3" VerticalAlignment="Center" Margin="-250,0,400,0" FontSize="18"  Width="120"/>
+        <TextBox Text="{Binding CurrentItem.Troskovi}" Grid.Row="8" KeyDown="TextBox_KeyDown" Grid.Column="3" VerticalAlignment="Center" Margin="-250,0,400,0" FontSize="18"  Width="120"/>
 
         <Label Grid.Row="8" Grid.Column="4" Margin="-150,0,50,0" VerticalAlignment="Center" FontSize="18">NC</Label>
-        <TextBox Grid.Row="8" Grid.Column="5" VerticalAlignment="Center" Margin="-450,0,250,0" FontSize="18"  Width="120"/>
+        <TextBox Text="{Binding CurrentItem.Nc}" Grid.Row="8" Grid.Column="5" VerticalAlignment="Center" Margin="-450,0,250,0" FontSize="18"  Width="120"/>
 
 
         <Grid Grid.Row="9" Grid.Column="0" Grid.ColumnSpan="6" HorizontalAlignment="Center" VerticalAlignment="Center">
@@ -239,7 +256,7 @@
                 </WrapPanel.Resources>
 
                 <Button x:Name="btnNovaStavka" Content="Nova stavka" Command="{Binding NovaStavkaCommand}" Visibility="{Binding Path=VidljivoOdabirVrsteIncidenta}"/>
-                <Button x:Name="btnSlijedecaStavka" Content="Slij. stavka" Command="{Binding SlijedeciCommand}" Visibility="{Binding Path=VidljivoOdabirVrsteIncidenta}"/>
+                <Button x:Name="btnSlijedecaStavka" Content="Slij. stavka" Command="{Binding NextButtonCommand}" Visibility="{Binding Path=VidljivoOdabirVrsteIncidenta}"/>
                 <Button x:Name="btnOdustani" Content="Odustani" Command="{Binding OdustaniCommand}" Visibility="{Binding Path=VidljivoOdabirVrsteIncidenta}"/>
                 <Button x:Name="btnBrisanje" Content="Brisanje" Command="{Binding BrisanjeCommand}" Visibility="{Binding Path=VidljivoOdabirVrsteIncidenta}"/>
                 <Button x:Name="btnIzlaz" Content="Izlaz" Command="{Binding IzlazCommand}" Visibility="{Binding Path=VidljivoOdabirVrsteIncidenta}"/>
