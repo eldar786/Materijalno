@@ -12,6 +12,8 @@ using System.Windows;
 using System.Windows.Forms;
 using Materijalno.Model.EntityModels;
 using Microsoft.EntityFrameworkCore;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
+using System.Data.SqlClient;
 
 namespace Materijalno.ViewModel
 {
@@ -23,9 +25,12 @@ namespace Materijalno.ViewModel
         private GlavniViewModel _gvm;
         private Mat currentItemMat;
         private TabelaMaterijala currentItemTabMaterijala;
+        string connectionString = "Server= 192.168.1.213;Trusted_Connection=False;" +
+            "MultipleActiveResultSets=true;User Id=sa;Password=Lutrija1;";
 
+        string queryStringStaraSifra_Ime = "SELECT STARA_SIFRA, IME FROM [DB_FINANSIJE]..[IBS].[GR_KOMITENTI]";
+        string currentNazivZaSifruKomitenta;
         public int CurrentIndex = 0;
-
         public event PropertyChangedEventHandler PropertyChanged;
 
         #endregion
@@ -52,8 +57,19 @@ namespace Materijalno.ViewModel
             }
         }
 
+        public string CurrentNazivZaSifruKomitenta
+        {
+            get { return currentNazivZaSifruKomitenta; }
+            set
+            {
+                currentNazivZaSifruKomitenta = value;
+                OnPropertyChanged(nameof(CurrentNazivZaSifruKomitenta));
+            }
+        }
+
         public ObservableCollection<TabelaMaterijala> TebelaMaterijalaList { get; set; }
         public ObservableCollection<Mat> MatList { get; set; }
+        public List<Komitenti> StaraSifra_Ime_List { get; set; }
 
         #endregion
 
@@ -85,6 +101,8 @@ namespace Materijalno.ViewModel
                     .ToList());
 
                 UpdateCurrentItemData(dbContext);
+
+                StaraSifra_Ime_List = DohvatiNazivKomitenta();
             }
         }
 
@@ -92,13 +110,57 @@ namespace Materijalno.ViewModel
 
         #region Methods
 
+        public List<Komitenti> DohvatiNazivKomitenta()
+        {
+            List<Komitenti> StaraSifra_Ime_List = new List<Komitenti>();
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+
+                using (SqlCommand command = new SqlCommand(queryStringStaraSifra_Ime, connection))
+                {
+                    using (SqlDataReader reader = command.ExecuteReader())
+                    {
+                        //List<Komitenti> StaraSifra_Ime_List = new List<Komitenti>();
+
+                        while (reader.Read())
+                        {
+                            //nazivZaSifruKomitenta = (reader[1].ToString());
+
+                            //Pravi za svaki red novi objekat i dodaje u listu
+                            Komitenti komitent = new Komitenti()
+                            {
+                                STARA_SIFRA = reader["STARA_SIFRA"].ToString(),
+                                IME = reader["IME"].ToString()
+                            };
+
+                            StaraSifra_Ime_List.Add(komitent);
+                        }
+                        //Daj mi ime na osnovu jednakosti i stavi ga u property string
+                        CurrentNazivZaSifruKomitenta = string.IsNullOrEmpty(CurrentItemMat.Analst) ? ""
+                            : StaraSifra_Ime_List.FirstOrDefault(row => row.STARA_SIFRA == CurrentItemMat.Analst)?.IME;
+                    }
+                }
+            }
+            return StaraSifra_Ime_List;
+        }
+
         private void NextButton()
         {
             using (var dbContext = new materijalno_knjigovodstvoContext())
             {
-                CurrentIndex = (CurrentIndex + 1) % MatList.Count;
+                //kada se dodje do zadnjeg reda da obavijesti korisnika i vrati metodu
+                if (CurrentIndex == MatList.Count - 1)
+                {
+                    System.Windows.MessageBox.Show("Došli ste do zadnjeg podatka", "Upozorenje", MessageBoxButton.OK, MessageBoxImage.Information);
+
+                    return;
+                }
 
                 UpdateCurrentItemData(dbContext);
+
+                CurrentIndex = (CurrentIndex + 1) % MatList.Count;
             }
         }
         private void PrethodniButton()
@@ -123,7 +185,6 @@ namespace Materijalno.ViewModel
                 CurrentIndex = 0;
 
                 UpdateCurrentItemData(dbContext);
-
                 System.Windows.MessageBox.Show("Došli ste do prvog podatka", "Upozorenje", MessageBoxButton.OK, MessageBoxImage.Information);
             }
         }
@@ -149,6 +210,14 @@ namespace Materijalno.ViewModel
 
             //Nadji jednu vrijednost po *Ident* iz *TabelaMaterijala* i po Sifri materijala iz tabele *Mat*(col:*Ident*) i stavi u jedan property
             CurrentItemTabMaterijala = dbContext.TabelaMaterijala.Where(row => row.Ident == CurrentItemMat.Ident).FirstOrDefault();
+
+            //Ako lista nije popunjena iz linked server (oracle baza), onda ce preskociti i pozivati u konstruktoru preko druge metode i
+            //popuniti CurrentNazivZaSifruKomitenta. Ovo radimo da ne bi ponovo popunjavali listu iz oracle baze, zbog brzeg rada aplikacije
+            if (StaraSifra_Ime_List != null)
+            {
+                CurrentNazivZaSifruKomitenta = string.IsNullOrEmpty(CurrentItemMat.Analst) ? ""
+                    : StaraSifra_Ime_List.FirstOrDefault(row => row.STARA_SIFRA == CurrentItemMat.Analst)?.IME;
+            }
         }
 
         protected virtual void OnPropertyChanged(string propertyName)

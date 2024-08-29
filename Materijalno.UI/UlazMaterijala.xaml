@@ -115,15 +115,15 @@
         <Label Grid.Row="3" Grid.Column="0" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="18">Šifra komitenta</Label>
         <!--treba otvorit tabelu-->
         <TextBox Text="{Binding CurrentItemMat.Analst}" Grid.Row="3" KeyDown="TextBox_KeyDown" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="18"  Width="120"/>
-        <TextBox Grid.Row="3" KeyDown="TextBox_KeyDown" Grid.Column="2" Grid.ColumnSpan="3" VerticalAlignment="Center"  Margin="-200,0,500,0" FontSize="18"  Width="300" Name="SifraKomitenta">
+        <TextBox Text="{Binding CurrentNazivZaSifruKomitenta, UpdateSourceTrigger=PropertyChanged}" Grid.Row="3" KeyDown="TextBox_KeyDown" Grid.Column="2" Grid.ColumnSpan="3" VerticalAlignment="Center"  Margin="-200,0,500,0" FontSize="18"  Width="300" Name="SifraKomitenta">
 
-            <TextBox.Text>
+            <!--<TextBox.Text>
                 <MultiBinding StringFormat="{}{0} {1}">
 
                     <Binding Path="OdabraniKomitent.IME" Mode="OneWay" UpdateSourceTrigger="PropertyChanged" />
                     <Binding Path="OdabraniKomitent.PREZIME" Mode="OneWay" UpdateSourceTrigger="PropertyChanged" />
                 </MultiBinding>
-            </TextBox.Text>
+            </TextBox.Text>-->
 
             <TextBox.InputBindings>
                 <MouseBinding Gesture="LeftClick" Command="{Binding KomitentiCommand}" />
