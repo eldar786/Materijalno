@@ -174,6 +174,7 @@
     <Compile Include="EntityModels\SifarnikSkladista.cs" />
     <Compile Include="EntityModels\TabelaMaterijala.cs" />
     <Compile Include="GlavniRepository.cs" />
+    <Compile Include="Komitenti.cs" />
     <Compile Include="ObservableObject.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
