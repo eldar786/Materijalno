@@ -28,7 +28,7 @@ namespace Materijalno.ViewModel
         string connectionString = "Server= 192.168.1.213;Trusted_Connection=False;" +
             "MultipleActiveResultSets=true;User Id=sa;Password=Lutrija1;";
 
-        string queryStringStaraSifra_Ime = "SELECT STARA_SIFRA, IME FROM [DB_FINANSIJE]..[IBS].[GR_KOMITENTI]";
+        string queryStringStaraSifra_Ime = "SELECT STARA_SIFRA, IME FROM [FINANSIJE2-LINKED SERVER]..[IBS].[GR_KOMITENTI]";
         string currentNazivZaSifruKomitenta;
         public int CurrentIndex = 0;
         public event PropertyChangedEventHandler PropertyChanged;
@@ -148,19 +148,22 @@ namespace Materijalno.ViewModel
 
         private void NextButton()
         {
+
             using (var dbContext = new materijalno_knjigovodstvoContext())
             {
                 //kada se dodje do zadnjeg reda da obavijesti korisnika i vrati metodu
                 if (CurrentIndex == MatList.Count - 1)
                 {
+                    UpdateCurrentItemData(dbContext);
                     System.Windows.MessageBox.Show("Došli ste do zadnjeg podatka", "Upozorenje", MessageBoxButton.OK, MessageBoxImage.Information);
 
                     return;
                 }
 
+                CurrentIndex = (CurrentIndex + 1) % MatList.Count;
+
                 UpdateCurrentItemData(dbContext);
 
-                CurrentIndex = (CurrentIndex + 1) % MatList.Count;
             }
         }
         private void PrethodniButton()
