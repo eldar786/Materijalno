@@ -82,6 +82,15 @@ namespace Materijalno.ViewModel
         public ICommand BrisanjeCommand { get; set; }
         public ICommand UpdateCommand { get; set; }
 
+        //Potrebno uraditi ???
+        public ICommand StampaCommand { get; set; }
+        public ICommand TraziSkladisteCommand { get; set; }
+        public ICommand TraziSifruMaterijalaCommand { get; set; }
+        public ICommand NovaKalkulacijaCommand { get; set; }
+        
+        //Možemo iskoristiti ovaj button prilikom kreiranja nove stavke
+        public ICommand OdustaniCommand { get; set; }
+
         #endregion
 
         #region Constructor
@@ -96,6 +105,7 @@ namespace Materijalno.ViewModel
                 ZadnjiButtonCommand = new RelayCommand(ZadnjiButton);
                 BrisanjeCommand = new RelayCommand(Brisanje);
                 UpdateCommand = new RelayCommand(Update);
+                NovaKalkulacijaCommand = new RelayCommand(NovaKalkulacija);
 
                 //Dodaj u listu gdje je kljnaz == 1000 i sortiraj po datumu iz kolone (datun)
                 //Neki datum preskoci, treba napraviti dobar data type za kolonu (datun) u sql bazi
@@ -246,6 +256,37 @@ namespace Materijalno.ViewModel
                 UpdateCurrentItemData(dbContext);
                 
             }
+        }
+
+        private void ObrisiTextBox()
+        {
+
+        }
+
+        //obrise sva polja
+        private void NovaKalkulacija()
+        {
+            //using (var dbContext = new materijalno_knjigovodstvoContext())
+            //{
+            //    //napravi novi index-red
+            //    dbContext.Add(CurrentItemMat);
+            //    dbContext.SaveChanges();
+
+            //    System.Windows.MessageBox.Show("Uspješno ste unijeli novi šifarnik", "Potvrda", MessageBoxButton.OK, MessageBoxImage.Information);
+
+
+            //    //staviti svaki text box prazan i snimiti
+
+
+            //    dbContext.Update(CurrentItemMat);
+            //    dbContext.SaveChanges();
+
+            //    System.Windows.MessageBox.Show("Uspješno ste izmijenili", "Potvrda", MessageBoxButton.OK, MessageBoxImage.Information);
+
+            //    //NAKON STO KLIKNEMO NA OK DA SE VRATI NA LISTU ŠIFARNIK SKLADIŠTA
+            //    UpdateCurrentItemData(dbContext);
+
+            //}
         }
 
         // Ova metoda radi update CurrentItem i CurrentItemTabMaterijala based on the current index
