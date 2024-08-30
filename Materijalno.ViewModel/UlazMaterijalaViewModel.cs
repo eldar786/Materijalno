@@ -79,6 +79,7 @@ namespace Materijalno.ViewModel
         public ICommand PrethodniButtonCommand { get; set; }
         public ICommand PrviButtonCommand { get; set; }
         public ICommand ZadnjiButtonCommand { get; set; }
+        public ICommand BrisanjeCommand { get; set; }
 
         #endregion
 
@@ -92,6 +93,7 @@ namespace Materijalno.ViewModel
                 PrethodniButtonCommand = new RelayCommand(PrethodniButton);
                 PrviButtonCommand = new RelayCommand(PrviButton);
                 ZadnjiButtonCommand = new RelayCommand(ZadnjiButton);
+                BrisanjeCommand = new RelayCommand(Brisanje);
 
                 //Dodaj u listu gdje je kljnaz == 1000 i sortiraj po datumu iz kolone (datun)
                 //Neki datum preskoci, treba napraviti dobar data type za kolonu (datun) u sql bazi
@@ -200,6 +202,28 @@ namespace Materijalno.ViewModel
                 UpdateCurrentItemData(dbContext);
 
                 System.Windows.MessageBox.Show("Došli ste do zadnjeg podatka", "Upozorenje", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+        }
+        private void Brisanje()
+        {
+            using (var dbContext = new materijalno_knjigovodstvoContext())
+            {
+                CurrentItemMat = MatList[CurrentIndex];
+
+                var resultMessageBox = System.Windows.MessageBox.Show("Želite li obrisati tekući podatak? ", "Upozorenje", MessageBoxButton.YesNo, MessageBoxImage.Question);
+
+                if (resultMessageBox == MessageBoxResult.Yes)
+                {
+                    dbContext.Mat.Remove(CurrentItemMat);
+                    dbContext.SaveChanges();
+
+                    MatList.Remove(CurrentItemMat);
+                }
+                else if (resultMessageBox == MessageBoxResult.No)
+                {
+                    return;
+                }
+                UpdateCurrentItemData(dbContext);
             }
         }
 
