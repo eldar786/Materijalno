@@ -80,6 +80,7 @@ namespace Materijalno.ViewModel
         public ICommand PrviButtonCommand { get; set; }
         public ICommand ZadnjiButtonCommand { get; set; }
         public ICommand BrisanjeCommand { get; set; }
+        public ICommand UpdateCommand { get; set; }
 
         #endregion
 
@@ -94,6 +95,7 @@ namespace Materijalno.ViewModel
                 PrviButtonCommand = new RelayCommand(PrviButton);
                 ZadnjiButtonCommand = new RelayCommand(ZadnjiButton);
                 BrisanjeCommand = new RelayCommand(Brisanje);
+                UpdateCommand = new RelayCommand(Update);
 
                 //Dodaj u listu gdje je kljnaz == 1000 i sortiraj po datumu iz kolone (datun)
                 //Neki datum preskoci, treba napraviti dobar data type za kolonu (datun) u sql bazi
@@ -224,6 +226,25 @@ namespace Materijalno.ViewModel
                     return;
                 }
                 UpdateCurrentItemData(dbContext);
+            }
+        }
+
+        //Update forme sa novim unesenim vrijednostima
+        private void Update()
+        {
+            using (var dbContext = new materijalno_knjigovodstvoContext())
+            {
+                //Ako je odabrana izmjena Button da radi Update na bazi
+                
+                    
+                    dbContext.Update(CurrentItemMat);
+                    dbContext.SaveChanges();
+
+                    System.Windows.MessageBox.Show("Uspješno ste izmijenili", "Potvrda", MessageBoxButton.OK, MessageBoxImage.Information);
+
+                //NAKON STO KLIKNEMO NA OK DA SE VRATI NA LISTU ŠIFARNIK SKLADIŠTA
+                UpdateCurrentItemData(dbContext);
+                
             }
         }
 

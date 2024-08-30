@@ -256,6 +256,7 @@
                 </WrapPanel.Resources>
 
                 <Button x:Name="btnNovaStavka" Content="Nova stavka" Command="{Binding NovaStavkaCommand}" Visibility="{Binding Path=VidljivoOdabirVrsteIncidenta}"/>
+                <Button x:Name="btnIzmjenaStavka" Content="Izmjena" Command="{Binding UpdateCommand}" Visibility="{Binding Path=VidljivoOdabirVrsteIncidenta}"/>
                 <Button x:Name="btnSlijedecaStavka" Content="Slij. stavka" Command="{Binding NextButtonCommand}" Visibility="{Binding Path=VidljivoOdabirVrsteIncidenta}"/>
                 <Button x:Name="btnOdustani" Content="Odustani" Command="{Binding OdustaniCommand}" Visibility="{Binding Path=VidljivoOdabirVrsteIncidenta}"/>
                 <Button x:Name="btnBrisanje" Content="Brisanje" Command="{Binding BrisanjeCommand}" Visibility="{Binding Path=VidljivoOdabirVrsteIncidenta}"/>
