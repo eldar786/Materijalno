@@ -33,6 +33,7 @@ namespace Materijalno.ViewModel
         string queryStringStaraSifra_Ime = "SELECT STARA_SIFRA, IME FROM [FINANSIJE2-LINKED SERVER]..[IBS].[GR_KOMITENTI]";
         string currentNazivZaSifruKomitenta;
         public int CurrentIndex = 0;
+        public bool isNovaKalkulacijaClicked = false;
         public event PropertyChangedEventHandler PropertyChanged;
 
         #endregion
@@ -103,7 +104,7 @@ namespace Materijalno.ViewModel
         public ICommand TraziSkladisteCommand { get; set; }
         public ICommand TraziSifruMaterijalaCommand { get; set; }
 
-        //Možemo iskoristiti ovaj button prilikom kreiranja nove stavke
+        //Možemo iskoristiti ovaj button prilikom kreiranja nove stavke da bude dostupno?
         public ICommand OdustaniCommand { get; set; }
 
         #endregion
@@ -122,6 +123,7 @@ namespace Materijalno.ViewModel
                 UpdateCommand = new RelayCommand(Update);
                 NovaKalkulacijaCommand = new RelayCommand(NovaKalkulacija);
                 SpasiNovukulacijuCommand = new RelayCommand(SpasiNovuKalkulaciju);
+                OdustaniCommand = new RelayCommand(Odustani);
 
                 //Dodaj u listu gdje je kljnaz == 1000 i sortiraj po datumu iz kolone (datun)
                 //Neki datum preskoci, treba napraviti dobar data type za kolonu (datun) u sql bazi
@@ -273,6 +275,9 @@ namespace Materijalno.ViewModel
         //obrise sva polja i ostavlja opciju za SNIMI i ODUSTANI
         private void NovaKalkulacija()
         {
+            //Ovo nam treba zbog ODUSTANI button (u ovom slučaju će biti button enable)
+            isNovaKalkulacijaClicked = true;
+
             using (var dbContext = new materijalno_knjigovodstvoContext())
             {
                 MatList.Add(new Mat
@@ -299,8 +304,27 @@ namespace Materijalno.ViewModel
                 dbContext.SaveChanges();
 
                 System.Windows.MessageBox.Show("Uspješno ste unijeli novi šifarnik", "Potvrda", MessageBoxButton.OK, MessageBoxImage.Information);
+
+                //Ovo nam treba zbog ODUSTANI button (u ovom slučaju će biti button disabled, jer je spašena nova stavka)
+                isNovaKalkulacijaClicked = false;
             }
         }
+
+        private void Odustani()
+        {
+            using (var dbContext = new materijalno_knjigovodstvoContext())
+            {
+                if (isNovaKalkulacijaClicked == true)
+                {
+                    //U ovom slučaju uradi ODUSTANI button ebable
+                }
+                else
+                {
+                    //u protivnom ODUSTANI button disabled
+                }
+            }
+        }
+
 
         // Ova metoda radi update CurrentItem i CurrentItemTabMaterijala based on the current index
         private void UpdateCurrentItemData(materijalno_knjigovodstvoContext dbContext)
