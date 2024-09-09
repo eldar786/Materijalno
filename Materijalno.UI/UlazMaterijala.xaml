@@ -60,7 +60,7 @@
                 <ToolTip Content="Print"/>
             </Button.ToolTip>
         </Button>
-        <Button Background="White" Grid.Row="0" Grid.Column="5" x:Name="btnSave"  FontSize="18" Width="50" Margin="-10,5,0,10" HorizontalAlignment="Left" Command="{Binding SaveCommand}" >
+        <Button Background="White" Grid.Row="0" Grid.Column="5" x:Name="btnSave"  FontSize="18" Width="50" Margin="-10,5,0,10" HorizontalAlignment="Left" Command="{Binding SpasiNovukulacijuCommand}" >
             <Image Source="/Ikone/save.png" Stretch="Uniform"/>
             <Button.ToolTip>
                 <ToolTip Content="Sačuvaj"/>

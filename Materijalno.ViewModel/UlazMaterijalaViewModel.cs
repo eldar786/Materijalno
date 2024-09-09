@@ -14,6 +14,7 @@ using Materijalno.Model.EntityModels;
 using Microsoft.EntityFrameworkCore;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 using System.Data.SqlClient;
+using System.Runtime.Remoting.Contexts;
 
 namespace Materijalno.ViewModel
 {
@@ -24,6 +25,7 @@ namespace Materijalno.ViewModel
         private ApplicationViewModel _avm;
         private GlavniViewModel _gvm;
         private Mat currentItemMat;
+        private Mat itemMat;
         private TabelaMaterijala currentItemTabMaterijala;
         string connectionString = "Server= 192.168.1.213;Trusted_Connection=False;" +
             "MultipleActiveResultSets=true;User Id=sa;Password=Lutrija1;";
@@ -47,6 +49,17 @@ namespace Materijalno.ViewModel
                 OnPropertyChanged(nameof(CurrentItemMat));
             }
         }
+
+        public Mat ItemMat
+        {
+            get { return itemMat; }
+            set
+            {
+                itemMat = value;
+                OnPropertyChanged(nameof(ItemMat));
+            }
+        }
+
         public TabelaMaterijala CurrentItemTabMaterijala
         {
             get { return currentItemTabMaterijala; }
@@ -81,13 +94,15 @@ namespace Materijalno.ViewModel
         public ICommand ZadnjiButtonCommand { get; set; }
         public ICommand BrisanjeCommand { get; set; }
         public ICommand UpdateCommand { get; set; }
+        public ICommand NovaKalkulacijaCommand { get; set; }
+        public ICommand SpasiNovukulacijuCommand { get; set; }
+
 
         //Potrebno uraditi ???
         public ICommand StampaCommand { get; set; }
         public ICommand TraziSkladisteCommand { get; set; }
         public ICommand TraziSifruMaterijalaCommand { get; set; }
-        public ICommand NovaKalkulacijaCommand { get; set; }
-        
+
         //Možemo iskoristiti ovaj button prilikom kreiranja nove stavke
         public ICommand OdustaniCommand { get; set; }
 
@@ -106,6 +121,7 @@ namespace Materijalno.ViewModel
                 BrisanjeCommand = new RelayCommand(Brisanje);
                 UpdateCommand = new RelayCommand(Update);
                 NovaKalkulacijaCommand = new RelayCommand(NovaKalkulacija);
+                SpasiNovukulacijuCommand = new RelayCommand(SpasiNovuKalkulaciju);
 
                 //Dodaj u listu gdje je kljnaz == 1000 i sortiraj po datumu iz kolone (datun)
                 //Neki datum preskoci, treba napraviti dobar data type za kolonu (datun) u sql bazi
@@ -244,49 +260,46 @@ namespace Materijalno.ViewModel
         {
             using (var dbContext = new materijalno_knjigovodstvoContext())
             {
-                //Ako je odabrana izmjena Button da radi Update na bazi
-                
-                    
-                    dbContext.Update(CurrentItemMat);
-                    dbContext.SaveChanges();
+                dbContext.Update(CurrentItemMat);
+                dbContext.SaveChanges();
 
-                    System.Windows.MessageBox.Show("Uspješno ste izmijenili", "Potvrda", MessageBoxButton.OK, MessageBoxImage.Information);
+                System.Windows.MessageBox.Show("Uspješno ste izmijenili", "Potvrda", MessageBoxButton.OK, MessageBoxImage.Information);
 
-                //NAKON STO KLIKNEMO NA OK DA SE VRATI NA LISTU ŠIFARNIK SKLADIŠTA
+                //NAKON STO KLIKNEMO NA OK DA SE VRATI NA IZMIJENJENI ŠIFARNIK
                 UpdateCurrentItemData(dbContext);
-                
             }
         }
 
-        private void ObrisiTextBox()
-        {
-
-        }
-
-        //obrise sva polja
+        //obrise sva polja i ostavlja opciju za SNIMI i ODUSTANI
         private void NovaKalkulacija()
         {
-            //using (var dbContext = new materijalno_knjigovodstvoContext())
-            //{
-            //    //napravi novi index-red
-            //    dbContext.Add(CurrentItemMat);
-            //    dbContext.SaveChanges();
+            using (var dbContext = new materijalno_knjigovodstvoContext())
+            {
+                MatList.Add(new Mat
+                {
+                    //Za ulaz materijala broj skladišta je uvijek 1000
+                    Kljnaz = 1000
 
-            //    System.Windows.MessageBox.Show("Uspješno ste unijeli novi šifarnik", "Potvrda", MessageBoxButton.OK, MessageBoxImage.Information);
+                }) ;
 
+                CurrentIndex = MatList.Count - 1;
+                CurrentItemMat = MatList[CurrentIndex];
 
-            //    //staviti svaki text box prazan i snimiti
+                UpdateCurrentItemData(dbContext);
+            }
+        }
 
+        //Pokupi sva polja trenutna i spasi. Trebalo bi napraviti disabled SAVE button ako nije odabrana nova kalkulacija
+        private void SpasiNovuKalkulaciju()
+        {
+            using (var dbContext = new materijalno_knjigovodstvoContext())
+            {
 
-            //    dbContext.Update(CurrentItemMat);
-            //    dbContext.SaveChanges();
+                dbContext.Add(CurrentItemMat);
+                dbContext.SaveChanges();
 
-            //    System.Windows.MessageBox.Show("Uspješno ste izmijenili", "Potvrda", MessageBoxButton.OK, MessageBoxImage.Information);
-
-            //    //NAKON STO KLIKNEMO NA OK DA SE VRATI NA LISTU ŠIFARNIK SKLADIŠTA
-            //    UpdateCurrentItemData(dbContext);
-
-            //}
+                System.Windows.MessageBox.Show("Uspješno ste unijeli novi šifarnik", "Potvrda", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
         }
 
         // Ova metoda radi update CurrentItem i CurrentItemTabMaterijala based on the current index
