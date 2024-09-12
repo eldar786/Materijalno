@@ -93,10 +93,10 @@ namespace Materijalno.ViewModel
                 PrviButtonCommand = new RelayCommand(PrviButton);
                 ZadnjiButtonCommand = new RelayCommand(ZadnjiButton);
 
-                //Dodaj u listu gdje je kljnaz == 1000 i sortiraj po datumu iz kolone (datun)
+                //Dodaj u listu gdje je kljnaz između 1000 i 1012 i sortiraj po datumu iz kolone (datun)
                 //Neki datum preskoci, treba napraviti dobar data type za kolonu (datun) u sql bazi
                 MatList = new ObservableCollection<Mat>(dbContext.Mat
-                    .Where(row => row.Kljnaz >= 1000 && row.Kljnaz <= 1012)
+                    .Where(row => row.Kljnaz >= 1001 && row.Kljnaz <= 1012)
                     .OrderBy(row => row.Datun)
                     .ToList());
 
