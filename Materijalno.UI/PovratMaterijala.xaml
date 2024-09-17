@@ -90,7 +90,7 @@
 
 
         <Label Grid.Row="2" Grid.Column="0" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="18">Datum međuskl.</Label>
-        <DatePicker SelectedDate="{Binding CurrentItemPovrat.Datun, UpdateSourceTrigger=PropertyChanged}" Grid.Row="2" Grid.Column="1" KeyDown="TextBox_KeyDown" HorizontalAlignment="Left" Height="30" FontSize="18" Width="168" Name="dtpOd" />
+        <DatePicker SelectedDate="{Binding CurrentItemPovrat.Datun}" Grid.Row="2" Grid.Column="1" KeyDown="TextBox_KeyDown" HorizontalAlignment="Left" Height="30" FontSize="18" Width="168" Name="dtpOd" />
 
         <Label Grid.Row="2" Grid.Column="2" Margin="-60,0,0,0" VerticalAlignment="Center" FontSize="18">Broj kalkulacije</Label>
         <TextBox Grid.Row="2" Text="{Binding CurrentItemPovrat.Brfak}" KeyDown="TextBox_KeyDown" Grid.Column="3" VerticalAlignment="Center" Margin="-150,0,200,0" FontSize="18"  Width="220"/>
