@@ -23,6 +23,7 @@ namespace Materijalno.ViewModel
 
         private ApplicationViewModel _avm;
         private GlavniViewModel _gvm;
+        private Mat currentItemMat;
         private Mat currentItemMed;
         private TabelaMaterijala currentItemTabMaterijala;
         private SifarnikSkladista currentItemTabSkladista;
@@ -40,6 +41,16 @@ namespace Materijalno.ViewModel
         #region Properties and Lists
 
         //Staviti bolji naziv CurrentItemMat
+        public Mat CurrentItemMat
+        {
+            get { return currentItemMat; }
+            set
+            {
+                currentItemMat = value;
+                OnPropertyChanged(nameof(CurrentItemMat));
+            }
+        }
+
         public Mat CurrentItemMed
         {
             get { return currentItemMed; }
@@ -114,6 +125,7 @@ namespace Materijalno.ViewModel
                      .ToList());
 
                 UpdateCurrentItemData(dbContext);
+                UpdateCurrentItemDataPovrat(dbContext);
 
                 StaraSifra_Ime_List = DohvatiNazivKomitenta();
             }
@@ -170,12 +182,16 @@ namespace Materijalno.ViewModel
                     UpdateCurrentItemData(dbContext);
                     System.Windows.MessageBox.Show("Došli ste do zadnjeg podatka", "Upozorenje", MessageBoxButton.OK, MessageBoxImage.Information);
 
+                    UpdateCurrentItemDataPovrat(dbContext);
+                    System.Windows.MessageBox.Show("Došli ste do zadnjeg podatka", "Upozorenje", MessageBoxButton.OK, MessageBoxImage.Information);
+
                     return;
                 }
 
                 CurrentIndex = (CurrentIndex + 1) % MatList.Count;
 
                 UpdateCurrentItemData(dbContext);
+                UpdateCurrentItemDataPovrat(dbContext);
 
             }
         }
@@ -192,6 +208,7 @@ namespace Materijalno.ViewModel
                 CurrentIndex = (CurrentIndex - 1) % MatList.Count;
 
                 UpdateCurrentItemData(dbContext);
+                UpdateCurrentItemDataPovrat(dbContext);
             }
         }
         private void PrviButton()
@@ -201,6 +218,9 @@ namespace Materijalno.ViewModel
                 CurrentIndex = 0;
 
                 UpdateCurrentItemData(dbContext);
+                System.Windows.MessageBox.Show("Došli ste do prvog podatka", "Upozorenje", MessageBoxButton.OK, MessageBoxImage.Information);
+
+                UpdateCurrentItemDataPovrat(dbContext);
                 System.Windows.MessageBox.Show("Došli ste do prvog podatka", "Upozorenje", MessageBoxButton.OK, MessageBoxImage.Information);
             }
         }
@@ -213,6 +233,9 @@ namespace Materijalno.ViewModel
                 UpdateCurrentItemData(dbContext);
 
                 System.Windows.MessageBox.Show("Došli ste do zadnjeg podatka", "Upozorenje", MessageBoxButton.OK, MessageBoxImage.Information);
+
+                UpdateCurrentItemDataPovrat(dbContext);
+                System.Windows.MessageBox.Show("Došli ste do prvog podatka", "Upozorenje", MessageBoxButton.OK, MessageBoxImage.Information);
             }
         }
 
@@ -234,6 +257,25 @@ namespace Materijalno.ViewModel
             {
                 CurrentNazivZaSifruKomitenta = string.IsNullOrEmpty(CurrentItemMed.Analst) ? ""
                     : StaraSifra_Ime_List.FirstOrDefault(row => row.STARA_SIFRA == CurrentItemMed.Analst)?.IME;
+            }
+        }
+
+        private void UpdateCurrentItemDataPovrat(materijalno_knjigovodstvoContext dbContext)
+        {
+            CurrentItemMat = MatList[CurrentIndex];
+
+            //Nadji listu svih po *Ident* iz *TabelaMaterijala* i *CurrentItem* (Mat) i stavi u listu
+            TebelaMaterijalaList = new ObservableCollection<TabelaMaterijala>(dbContext.TabelaMaterijala.Where(row => row.Ident == CurrentItemMat.Ident).ToList());
+
+            //Nadji jednu vrijednost po *Ident* iz *TabelaMaterijala* i po Sifri materijala iz tabele *Mat*(col:*Ident*) i stavi u jedan property
+            CurrentItemTabMaterijala = dbContext.TabelaMaterijala.Where(row => row.Ident == CurrentItemMat.Ident).FirstOrDefault();
+
+            //Ako lista nije popunjena iz linked server (oracle baza), onda ce preskociti i pozivati u konstruktoru preko druge metode i
+            //popuniti CurrentNazivZaSifruKomitenta. Ovo radimo da ne bi ponovo popunjavali listu iz oracle baze, zbog brzeg rada aplikacije
+            if (StaraSifra_Ime_List != null)
+            {
+                CurrentNazivZaSifruKomitenta = string.IsNullOrEmpty(CurrentItemMat.Analst) ? ""
+                    : StaraSifra_Ime_List.FirstOrDefault(row => row.STARA_SIFRA == CurrentItemMat.Analst)?.IME;
             }
         }
 
