@@ -88,12 +88,12 @@
         </Button>
 
         <Label Grid.Row="1" Grid.Column="0" Margin="0,0,0,0" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="18">Skladište</Label>
-        <TextBox Text="{Binding CurrentItemMat.Kljnaz}" Name="OpBroj" Grid.Row="1" KeyDown="TextBox_KeyDown"  Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left" FontWeight="Bold"  Width="120" FontSize="18"/>
-        <TextBox Grid.Row="1" Grid.Column="2" KeyDown="TextBox_KeyDown"  Grid.ColumnSpan="3" Margin="-120,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="18"  Width="300" Name="KomitentImePrez">
+        <TextBox Text="{Binding CurrentItemPovrat.Kljnaz1}" Name="OpBroj" Grid.Row="1" KeyDown="TextBox_KeyDown"  Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left" FontWeight="Bold"  Width="120" FontSize="18"/>
+        <TextBox Grid.Row="1" Text="{Binding CurrentItemTabSkladista.NazivOrg, UpdateSourceTrigger=PropertyChanged}"  Grid.Column="2" KeyDown="TextBox_KeyDown"  Grid.ColumnSpan="3" Margin="-120,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="18"  Width="300" Name="KomitentImePrez">
 
-            <TextBox.InputBindings>
+            <!--<TextBox.InputBindings>
                 <MouseBinding Gesture="LeftClick" Command="{Binding UlazMaterijalaSifarnikSkladistaCommand}" />
-            </TextBox.InputBindings>
+            </TextBox.InputBindings>-->
             
         </TextBox>
 
