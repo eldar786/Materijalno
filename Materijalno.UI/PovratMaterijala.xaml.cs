@@ -24,5 +24,25 @@ namespace Materijalno.UI
         {
             InitializeComponent();
         }
+        
+        private void TextBox_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                MoveFocusToNextControl(sender as TextBox);
+                e.Handled = true;
+            }
+        }
+
+        private void MoveFocusToNextControl(TextBox currentTextBox)
+        {
+            currentTextBox.MoveFocus(new TraversalRequest(FocusNavigationDirection.Next));
+        }
+
+        private void datOd_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
     }
+
 }
