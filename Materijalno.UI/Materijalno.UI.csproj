@@ -203,6 +203,9 @@
     <Compile Include="Dnevnik.xaml.cs">
       <DependentUpon>Dnevnik.xaml</DependentUpon>
     </Compile>
+    <Compile Include="KomitentiLista.xaml.cs">
+      <DependentUpon>KomitentiLista.xaml</DependentUpon>
+    </Compile>
     <Compile Include="MedjuskladisniceZaSkladiste.xaml.cs">
       <DependentUpon>MedjuskladisniceZaSkladiste.xaml</DependentUpon>
     </Compile>
@@ -341,6 +344,10 @@
     <Compile Include="GlavniView.xaml.cs">
       <DependentUpon>GlavniView.xaml</DependentUpon>
     </Compile>
+    <Page Include="KomitentiLista.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MedjuskladisniceZaSkladiste.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
