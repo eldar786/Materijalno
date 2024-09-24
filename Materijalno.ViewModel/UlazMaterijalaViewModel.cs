@@ -351,6 +351,8 @@ namespace Materijalno.ViewModel
                     dbContext.SaveChanges();
 
                     MatList.Remove(CurrentItemMat);
+
+                    currentItemMat = null;
                 }
                 else if (resultMessageBox == MessageBoxResult.No)
                 {
