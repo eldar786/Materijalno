@@ -23,7 +23,9 @@ namespace Materijalno.ViewModel
         private ApplicationViewModel _avm;
         private GlavniViewModel _gvm;
         private Mat currentItemMat;
+        private Mat currentItemPovrat;
         private TabelaMaterijala currentItemTabMaterijala;
+        private SifarnikSkladista currentItemTabSkladista;
         string connectionString = "Server= 192.168.1.213;Trusted_Connection=False;" +
             "MultipleActiveResultSets=true;User Id=sa;Password=Lutrija1;";
 
@@ -47,6 +49,17 @@ namespace Materijalno.ViewModel
                 OnPropertyChanged(nameof(CurrentItemMat));
             }
         }
+
+        public Mat CurrentItemPovrat
+        {
+            get { return currentItemPovrat; }
+            set
+            {
+                currentItemPovrat = value;
+                OnPropertyChanged(nameof(currentItemPovrat));
+            }
+        }
+
         public TabelaMaterijala CurrentItemTabMaterijala
         {
             get { return currentItemTabMaterijala; }
@@ -54,6 +67,16 @@ namespace Materijalno.ViewModel
             {
                 currentItemTabMaterijala = value;
                 OnPropertyChanged(nameof(currentItemTabMaterijala));
+            }
+        }
+
+        public SifarnikSkladista CurrentItemTabSkladista
+        {
+            get { return currentItemTabSkladista; }
+            set
+            {
+                currentItemTabSkladista = value;
+                OnPropertyChanged(nameof(currentItemTabSkladista));
             }
         }
 
@@ -68,6 +91,7 @@ namespace Materijalno.ViewModel
         }
 
         public ObservableCollection<TabelaMaterijala> TebelaMaterijalaList { get; set; }
+        public ObservableCollection<SifarnikSkladista> TebelaSkladistaList { get; set; }
         public ObservableCollection<Mat> MatList { get; set; }
         public List<Komitenti> StaraSifra_Ime_List { get; set; }
 
@@ -96,11 +120,12 @@ namespace Materijalno.ViewModel
                 //Dodaj u listu gdje je kljnaz između 1000 i 1012 i sortiraj po datumu iz kolone (datun)
                 //Neki datum preskoci, treba napraviti dobar data type za kolonu (datun) u sql bazi
                 MatList = new ObservableCollection<Mat>(dbContext.Mat
-                    .Where(row => row.Kljnaz >= 1001 && row.Kljnaz <= 1012)
+                    .Where(row => row.Kljnaz1 >= 1001 && row.Kljnaz1 <= 1012)
                     .OrderBy(row => row.Datun)
                     .ToList());
 
                 UpdateCurrentItemData(dbContext);
+                UpdateCurrentItemDataPovrat(dbContext);
 
                 StaraSifra_Ime_List = DohvatiNazivKomitenta();
             }
@@ -138,8 +163,8 @@ namespace Materijalno.ViewModel
                             StaraSifra_Ime_List.Add(komitent);
                         }
                         //Daj mi ime na osnovu jednakosti i stavi ga u property string
-                        CurrentNazivZaSifruKomitenta = string.IsNullOrEmpty(CurrentItemMat.Analst) ? ""
-                            : StaraSifra_Ime_List.FirstOrDefault(row => row.STARA_SIFRA == CurrentItemMat.Analst)?.IME;
+                        CurrentNazivZaSifruKomitenta = string.IsNullOrEmpty(CurrentItemPovrat.Analst) ? ""
+                            : StaraSifra_Ime_List.FirstOrDefault(row => row.STARA_SIFRA == CurrentItemPovrat.Analst)?.IME;
                     }
                 }
             }
@@ -157,12 +182,16 @@ namespace Materijalno.ViewModel
                     UpdateCurrentItemData(dbContext);
                     System.Windows.MessageBox.Show("Došli ste do zadnjeg podatka", "Upozorenje", MessageBoxButton.OK, MessageBoxImage.Information);
 
+                    UpdateCurrentItemDataPovrat(dbContext);
+                    System.Windows.MessageBox.Show("Došli ste do zadnjeg podatka", "Upozorenje", MessageBoxButton.OK, MessageBoxImage.Information);
+
                     return;
                 }
 
                 CurrentIndex = (CurrentIndex + 1) % MatList.Count;
 
                 UpdateCurrentItemData(dbContext);
+                UpdateCurrentItemDataPovrat(dbContext);
 
             }
         }
@@ -179,6 +208,7 @@ namespace Materijalno.ViewModel
                 CurrentIndex = (CurrentIndex - 1) % MatList.Count;
 
                 UpdateCurrentItemData(dbContext);
+                UpdateCurrentItemDataPovrat(dbContext);
             }
         }
         private void PrviButton()
@@ -188,6 +218,9 @@ namespace Materijalno.ViewModel
                 CurrentIndex = 0;
 
                 UpdateCurrentItemData(dbContext);
+                System.Windows.MessageBox.Show("Došli ste do prvog podatka", "Upozorenje", MessageBoxButton.OK, MessageBoxImage.Information);
+
+                UpdateCurrentItemDataPovrat(dbContext);
                 System.Windows.MessageBox.Show("Došli ste do prvog podatka", "Upozorenje", MessageBoxButton.OK, MessageBoxImage.Information);
             }
         }
@@ -200,11 +233,34 @@ namespace Materijalno.ViewModel
                 UpdateCurrentItemData(dbContext);
 
                 System.Windows.MessageBox.Show("Došli ste do zadnjeg podatka", "Upozorenje", MessageBoxButton.OK, MessageBoxImage.Information);
+
+                UpdateCurrentItemDataPovrat(dbContext);
+                System.Windows.MessageBox.Show("Došli ste do prvog podatka", "Upozorenje", MessageBoxButton.OK, MessageBoxImage.Information);
             }
         }
 
         // Ova metoda radi update CurrentItem i CurrentItemTabMaterijala based on the current index
         private void UpdateCurrentItemData(materijalno_knjigovodstvoContext dbContext)
+        {
+            CurrentItemPovrat = MatList[CurrentIndex];
+
+            //Nadji listu svih po *Ident* iz *TabelaMaterijala* i *CurrentItem* (Mat) i stavi u listu
+            TebelaSkladistaList = new ObservableCollection<SifarnikSkladista>(dbContext.SifarnikSkladista.Where(row => row.Kljnaz == CurrentItemPovrat.Kljnaz1).ToList());
+
+            //Nadji jednu vrijednost po *Ident* iz *TabelaMaterijala* i po Sifri materijala iz tabele *Mat*(col:*Ident*) i stavi u jedan property
+
+            CurrentItemTabSkladista = dbContext.SifarnikSkladista.Where(row => row.Kljnaz == CurrentItemPovrat.Kljnaz1).FirstOrDefault();
+
+            //Ako lista nije popunjena iz linked server (oracle baza), onda ce preskociti i pozivati u konstruktoru preko druge metode i
+            //popuniti CurrentNazivZaSifruKomitenta. Ovo radimo da ne bi ponovo popunjavali listu iz oracle baze, zbog brzeg rada aplikacije
+            if (StaraSifra_Ime_List != null)
+            {
+                CurrentNazivZaSifruKomitenta = string.IsNullOrEmpty(CurrentItemPovrat.Analst) ? ""
+                    : StaraSifra_Ime_List.FirstOrDefault(row => row.STARA_SIFRA == CurrentItemPovrat.Analst)?.IME;
+            }
+        }
+
+        private void UpdateCurrentItemDataPovrat(materijalno_knjigovodstvoContext dbContext)
         {
             CurrentItemMat = MatList[CurrentIndex];
 
