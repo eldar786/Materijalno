@@ -426,11 +426,11 @@ namespace Materijalno.ViewModel
                 dbContext.Update(CurrentItemMat);
                 dbContext.SaveChanges();
 
-                //Staviti po datumu da sortira i da li nam ovo ucitavanje ponovno treba??
-                //MatList = new ObservableCollection<Mat>(dbContext.Mat
-                //    .Where(row => row.Kljnaz == 1000)
-                //    .OrderBy(row => row.Datun)
-                //    .ToList());
+                //Staviti po datumu da sortira i dodaj u listu da bi se vidjele promjene
+                MatList = new ObservableCollection<Mat>(dbContext.Mat
+                    .Where(row => row.Kljnaz == 1000)
+                    .OrderBy(row => row.Datun)
+                    .ToList());
 
                 System.Windows.MessageBox.Show("Uspješno ste unijeli novi šifarnik", "Potvrda", MessageBoxButton.OK, MessageBoxImage.Information);
 
