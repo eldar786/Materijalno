@@ -111,7 +111,7 @@ namespace Materijalno.Model.EntityModels
 
             modelBuilder.Entity<Mat>(entity =>
             {
-                entity.HasNoKey();
+                entity.HasKey(e => e.Id);
 
                 entity.ToTable("mat");
 

@@ -87,6 +87,10 @@
             <local:UlazMaterijala/>
         </DataTemplate>
 
+        <DataTemplate DataType="{x:Type vm:KomitentiListaViewModel}">
+            <local:KomitentiLista/>
+        </DataTemplate>
+
         <DataTemplate DataType="{x:Type vm:SifarnikMaterijalSkladisteKontoViewModel}">
             <local:SifarnikMaterijalSkladisteKonto/>
         </DataTemplate>

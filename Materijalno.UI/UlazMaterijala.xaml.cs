@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Materijalno.ViewModel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -37,11 +38,6 @@ namespace Materijalno.UI
         private void MoveFocusToNextControl(TextBox currentTextBox)
         {
             currentTextBox.MoveFocus(new TraversalRequest(FocusNavigationDirection.Next));
-        }
-
-        private void datOd_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
-        {
-
         }
     }
 }
