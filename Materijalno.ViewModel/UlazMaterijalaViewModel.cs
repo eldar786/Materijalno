@@ -114,13 +114,11 @@ namespace Materijalno.ViewModel
         public RelayCommand NovaKalkulacijaCommand { get; set; }
         public RelayCommand SpasiNovuKalkulacijuCommand { get; set; }
 
-
         //Potrebno uraditi ???
         public RelayCommand StampaCommand { get; set; }
         public RelayCommand OtvoriKomitentListuCommand { get; set; }
         public RelayCommand TraziSifruMaterijalaCommand { get; set; }
 
-        //Možemo iskoristiti ovaj button prilikom kreiranja nove stavke da bude dostupno?
         public RelayCommand OdustaniCommand { get; set; }
 
         #endregion
@@ -169,10 +167,6 @@ namespace Materijalno.ViewModel
             }
         }
 
-
-        //Vidjeti ima li neki drugi nacin za prebacivanje podataka za selectedKomitent(da ne ide preko konstruktora?)
-        //jer mora da se ponovo isto implementira kao u prethodnom konstruktoru i onda imamo duplikaciju koda
-        //trenutno je rijeseno preko static polja
         public UlazMaterijalaViewModel(GlavniViewModel gvm, Mat CurrentItemMat)
         {
             _gvm = gvm;
@@ -210,8 +204,6 @@ namespace Materijalno.ViewModel
                 #region Custom UpdateCurrentItemData
                 //***Prilagodjena metoda UpdateCurrentItemData()***
 
-                //Kod prethodnog buttona treba da ovo preskoci???
-                //Ovo se moze iskoristiti mozda i za metodu UpdateCurrentItemData()??
                 for (int i = 0; i < MatList.Count(); i++)
                 {
                     if (MatList[i].Id == CurrentItemMat.Id)
@@ -220,12 +212,8 @@ namespace Materijalno.ViewModel
                     }
                 }
 
-                //CurrentIndex = MatList.Count - 1;
-                //CurrentIndex = MatList.ElementAt(0).Id == CurrentItemMat.Id ? 0 : 1;
                 CurrentItemMat = (Mat)MatList.FirstOrDefault(row => row.Id == CurrentItemMat.Id);
                 
-                //CurrentItemMat = MatList[CurrentIndex];
-
                 //Nadji listu svih po *Ident* iz *TabelaMaterijala* i *CurrentItem* (Mat) i stavi u listu
                 TebelaMaterijalaList = new ObservableCollection<TabelaMaterijala>(dbContext.TabelaMaterijala.Where(row => row.Ident == CurrentItemMat.Ident).ToList());
 
@@ -437,10 +425,10 @@ namespace Materijalno.ViewModel
                 dbContext.SaveChanges();
 
                 //Staviti po datumu da sortira i da li nam ovo ucitavanje ponovno treba??
-                MatList = new ObservableCollection<Mat>(dbContext.Mat
-                    .Where(row => row.Kljnaz == 1000)
-                    .OrderBy(row => row.Datun)
-                    .ToList());
+                //MatList = new ObservableCollection<Mat>(dbContext.Mat
+                //    .Where(row => row.Kljnaz == 1000)
+                //    .OrderBy(row => row.Datun)
+                //    .ToList());
 
                 System.Windows.MessageBox.Show("Uspješno ste unijeli novi šifarnik", "Potvrda", MessageBoxButton.OK, MessageBoxImage.Information);
 
@@ -505,7 +493,6 @@ namespace Materijalno.ViewModel
 
                     MatList.Remove(CurrentItemMat);
 
-                    //Fali da vrati na prethodni materijal???Skontati logiku??
                     isNovaKalkulacijaClicked = false;
 
                     CurrentItemMat = null;
