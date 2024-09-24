@@ -107,7 +107,7 @@
 
 
         <Label Grid.Row="2" Grid.Column="0" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="18">Datum kalkulacije</Label>
-        <DatePicker SelectedDate="{Binding CurrentItemMat.Datun, UpdateSourceTrigger=PropertyChanged}"  Grid.Row="2" KeyDown="TextBox_KeyDown" Grid.Column="1" HorizontalAlignment="Left" Height="30" FontSize="18" Width="120" SelectedDateChanged="datOd_SelectedDateChanged" />
+        <DatePicker SelectedDate="{Binding CurrentItemMat.Datun, UpdateSourceTrigger=PropertyChanged}"  Grid.Row="2" KeyDown="TextBox_KeyDown" Grid.Column="1" HorizontalAlignment="Left" Height="30" FontSize="18" Width="120" />
 
         <Label Grid.Row="2" Grid.Column="3" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="18" >Broj kalkulacije:</Label>
         <TextBox Text="{Binding CurrentItemMat.Brfak}" Grid.Row="2" KeyDown="TextBox_KeyDown" Grid.Column="4" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="18"  Width="120"/>
@@ -132,7 +132,7 @@
         <TextBox Text="{Binding CurrentItemMat.Brdok}" Grid.Row="4" KeyDown="TextBox_KeyDown" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="18"  Width="120"/>
 
         <Label Grid.Row="4" Grid.Column="3" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="18">Datum dokumenta</Label>
-        <DatePicker SelectedDate="{Binding CurrentItemMat.Datnar, UpdateSourceTrigger=PropertyChanged}" Grid.Row="4" Grid.Column="4" HorizontalAlignment="Left" Height="30" FontSize="18" Width="120" SelectedDateChanged="datOd_SelectedDateChanged"  Name="dtpOd1" />
+        <DatePicker SelectedDate="{Binding CurrentItemMat.Datnar, UpdateSourceTrigger=PropertyChanged}" Grid.Row="4" Grid.Column="4" HorizontalAlignment="Left" Height="30" FontSize="18" Width="120" Name="dtpOd1" />
 
         <Label Grid.Row="5" Grid.Column="0" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="18">Red.br</Label>
         <TextBox Text="{Binding CurrentItemMat.Redbr}" Grid.Row="5" KeyDown="TextBox_KeyDown" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="18"  Width="120"/>
@@ -212,10 +212,10 @@
                 <Button x:Name="btnPrvi" Content="Prvi" FontSize="18" Width="110" Margin="5,5,0,5" HorizontalAlignment="Left" Command="{Binding PrviButtonCommand}" />
                 
                 <Button x:Name="btnZadnji" FontSize="18" Content="Zadnji" Width="110" Margin="5,5,0,5" HorizontalAlignment="Left" Command="{Binding ZadnjiButtonCommand}" />
-                <Button x:Name="btnTrazi" Content="Traži" FontSize="18" Width="110" Margin="5,5,0,5" HorizontalAlignment="Left" Command="{Binding TraziCommand}" />
-                <Button x:Name="btnNovaKalkulacija" Content="Nova kalkulacija" FontSize="18" Width="140" Margin="5,5,-2,5" HorizontalAlignment="Left" Command="{Binding NovaKalkulacijaCommand}" Click="btnNovaKalkulacija_Click"/>
-                <Button x:Name="btnSnimi" Content="Snimi" FontSize="18" Width="140" Margin="5,5,-2,5" HorizontalAlignment="Left" Command="{Binding SpasiNovuKalkulacijuCommand}" Click="btnSnimi_Click" />
-                <Button x:Name="btnStampa1" Content="Štampa" FontSize="18" Width="140" Margin="5,5,-2,5" HorizontalAlignment="Left" Command="{Binding SpasiNovukulacijuCommand}" Click="btnSnimi_Click"/>
+                <Button x:Name="btnTrazi" Content="Traži" FontSize="18" Width="110" Margin="5,5,0,5" HorizontalAlignment="Left" Command="{Binding TraziSifruMaterijalaCommand}" />
+                <Button x:Name="btnNovaKalkulacija" Content="Nova kalkulacija" FontSize="18" Width="140" Margin="5,5,-2,5" HorizontalAlignment="Left" Command="{Binding NovaKalkulacijaCommand}" />
+                <Button x:Name="btnSnimi" Content="Snimi" FontSize="18" Width="140" Margin="5,5,-2,5" HorizontalAlignment="Left" Command="{Binding SpasiNovuKalkulacijuCommand}" />
+                <Button x:Name="btnStampa1" Content="Štampa" FontSize="18" Width="140" Margin="5,5,-2,5" HorizontalAlignment="Left" Command="{Binding StampaCommand}" />
                 <Button x:Name="btnKrajFakture" Content="Kraj fakture" FontSize="18" Width="130" Margin="5,5,0,5" HorizontalAlignment="Left" Command="{Binding KrajFaktureCommand}" IsEnabled="False"/>
             </WrapPanel>
         </Grid>
@@ -267,9 +267,8 @@
                 <Button x:Name="btnNovaStavka" Content="Nova stavka" Command="{Binding NovaStavkaCommand}" IsEnabled="False"/>
                 <Button x:Name="btnIzmjenaStavka" Content="Izmjena" Command="{Binding UpdateCommand}" />
                 <Button x:Name="btnSlijedecaStavka" Content="Slij. stavka" Command="{Binding NextButtonCommand}" IsEnabled="False"/>
-                <Button x:Name="btnOdustani" Content="Odustani" Command="{Binding OdustaniCommand}" Click="btnOdustani_Click" />
+                <Button x:Name="btnOdustani" Content="Odustani" Command="{Binding OdustaniCommand}" />
                 <Button x:Name="btnBrisanje" Content="Brisanje" Command="{Binding BrisanjeCommand}" />
-                <Button x:Name="btnIzlaz" Content="Izlaz" Command="{Binding IzlazCommand}" />
             </WrapPanel>
         </Grid>
     </Grid>
