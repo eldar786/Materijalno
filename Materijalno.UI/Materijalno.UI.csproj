@@ -206,6 +206,9 @@
     <Compile Include="KomitentiLista.xaml.cs">
       <DependentUpon>KomitentiLista.xaml</DependentUpon>
     </Compile>
+    <Compile Include="MatLista.xaml.cs">
+      <DependentUpon>MatLista.xaml</DependentUpon>
+    </Compile>
     <Compile Include="MedjuskladisniceZaSkladiste.xaml.cs">
       <DependentUpon>MedjuskladisniceZaSkladiste.xaml</DependentUpon>
     </Compile>
@@ -345,6 +348,10 @@
       <DependentUpon>GlavniView.xaml</DependentUpon>
     </Compile>
     <Page Include="KomitentiLista.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="MatLista.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

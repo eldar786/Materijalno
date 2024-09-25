@@ -146,10 +146,10 @@
         <TextBox Text="{Binding CurrentItemMat.Vrijed}" Grid.Row="6" KeyDown="TextBox_KeyDown" Grid.Column="4" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="18"  Width="120"/>
 
         <Label Grid.Row="7" Grid.Column="2" Margin="-60,0,0,0" VerticalAlignment="Center" FontSize="18">Iznos PDV-a</Label>
-        <TextBox Grid.Row="7" KeyDown="TextBox_KeyDown" Grid.Column="2" VerticalAlignment="Center"  Margin="45,0,0,0" FontSize="18"  Width="180"/>
+        <TextBox Text="{Binding CurrentItemMat.Porppp}" Grid.Row="7" KeyDown="TextBox_KeyDown" Grid.Column="2" VerticalAlignment="Center"  Margin="45,0,0,0" FontSize="18"  Width="180"/>
 
         <Label Grid.Row="7" Grid.Column="3" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="18">Troškovi špeditera</Label>
-        <TextBox Grid.Row="7" KeyDown="TextBox_KeyDown" Grid.Column="4" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="18"  Width="120"/>
+        <TextBox Text="{Binding CurrentItemMat.Trospe}" Grid.Row="7" KeyDown="TextBox_KeyDown" Grid.Column="4" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="18"  Width="120"/>
 
         <Label Grid.Row="8" Grid.Column="0" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="18">Carina</Label>
         <TextBox Text="{Binding CurrentItemMat.Cartro}" Grid.Row="8" KeyDown="TextBox_KeyDown" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="18"  Width="170"/>

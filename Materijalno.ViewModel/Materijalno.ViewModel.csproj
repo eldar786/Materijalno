@@ -185,6 +185,7 @@
     <Compile Include="DnevnikViewModel.cs" />
     <Compile Include="GlavniViewModel.cs" />
     <Compile Include="KomitentiListaViewModel.cs" />
+    <Compile Include="MatListaViewModel.cs" />
     <Compile Include="MedjuskladisniceZaSkladisteViewModel.cs" />
     <Compile Include="MedjuskladisniceSveViewModel.cs" />
     <Compile Include="MedjuskladisniceJednaViewModel.cs" />

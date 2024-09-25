@@ -30,6 +30,7 @@ namespace Materijalno.ViewModel
         private Mat itemMat;
         private TabelaMaterijala currentItemTabMaterijala;
         public static Komitenti selectedKomitent;
+        public static Mat selectedMat;
         string connectionString = "Server= 192.168.1.213;Trusted_Connection=False;" +
             "MultipleActiveResultSets=true;User Id=sa;Password=Lutrija1;";
 
@@ -37,6 +38,7 @@ namespace Materijalno.ViewModel
         string currentNazivZaSifruKomitenta;
         public int CurrentIndex = 0;
         public static bool isNovaKalkulacijaClicked = false;
+        public static bool isTraziClicked = false;
         public event PropertyChangedEventHandler PropertyChanged;
 
         #endregion
@@ -162,7 +164,16 @@ namespace Materijalno.ViewModel
         {
             _gvm = gvm;
             this.CurrentItemMat = CurrentItemMat;
-            isNovaKalkulacijaClicked = true;
+
+            //Kada vraca iz Trazi Mat liste, treba da ostane isNovaKalkulacijaClicked = false; zbog buttona
+            if (isTraziClicked == true)
+            {
+                isNovaKalkulacijaClicked = false;
+            }
+            else
+            {
+                isNovaKalkulacijaClicked = true;
+            }
 
             #region Commands
             PrviButtonCommand = new RelayCommand(PrviButton, () => !isNovaKalkulacijaClicked);
@@ -370,7 +381,7 @@ namespace Materijalno.ViewModel
 
         private void Trazi()
         {
-
+            _gvm.OdabraniVM = new MatListaViewModel(this, _gvm);
         }
 
         private void Stampa()
