@@ -29,10 +29,6 @@ namespace Materijalno.ViewModel
         private Mat currentItemMat;
         private Mat itemMat;
         private TabelaMaterijala currentItemTabMaterijala;
-        private bool prethodniButtonIsExecuted = false;
-        private bool nextButtonIsExecuted = false;
-        private bool prvoUcitavanje = false;
-        private bool spasi = false;
         public static Komitenti selectedKomitent;
         string connectionString = "Server= 192.168.1.213;Trusted_Connection=False;" +
             "MultipleActiveResultSets=true;User Id=sa;Password=Lutrija1;";
@@ -96,7 +92,6 @@ namespace Materijalno.ViewModel
                 OnPropertyChanged(nameof(SelectedKomitent));
             }
         }
-
         public ObservableCollection<TabelaMaterijala> TebelaMaterijalaList { get; set; }
         public ObservableCollection<Mat> MatList { get; set; }
         public List<Komitenti> StaraSifra_Ime_List { get; set; }
@@ -157,12 +152,8 @@ namespace Materijalno.ViewModel
                     .OrderBy(row => row.Datun)
                     .ToList());
 
-                prvoUcitavanje = true;
-
                 UpdateCurrentItemData(dbContext);
 
-
-                isNovaKalkulacijaClicked = false;
                 StaraSifra_Ime_List = DohvatiNazivKomitenta();
             }
         }
