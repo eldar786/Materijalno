@@ -186,17 +186,11 @@ namespace Materijalno.Model.EntityModels
 
                 entity.Property(e => e.Mjtst).HasColumnName("mjtst");
 
-                entity.Property(e => e.Nc)
-                    .HasColumnName("nc")
-                    .HasMaxLength(50)
-                    .IsUnicode(false);
+                entity.Property(e => e.Nc).HasColumnName("nc");
 
                 entity.Property(e => e.Ourst).HasColumnName("ourst");
 
-                entity.Property(e => e.Porppp)
-                    .HasColumnName("porppp")
-                    .HasMaxLength(50)
-                    .IsUnicode(false);
+                entity.Property(e => e.Porppp).HasColumnName("porppp");
 
                 entity.Property(e => e.Ppp)
                     .HasColumnName("ppp")
@@ -215,17 +209,11 @@ namespace Materijalno.Model.EntityModels
                     .HasMaxLength(50)
                     .IsUnicode(false);
 
-                entity.Property(e => e.Troskovi)
-                    .HasColumnName("troskovi")
-                    .HasMaxLength(50)
-                    .IsUnicode(false);
+                entity.Property(e => e.Troskovi).HasColumnName("troskovi");
 
                 entity.Property(e => e.Trospe).HasColumnName("trospe");
 
-                entity.Property(e => e.Vrijed)
-                    .HasColumnName("vrijed")
-                    .HasMaxLength(50)
-                    .IsUnicode(false);
+                entity.Property(e => e.Vrijed).HasColumnName("vrijed");
 
                 entity.Property(e => e.Zavtro)
                     .HasColumnName("zavtro")
