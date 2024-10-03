@@ -170,6 +170,7 @@
       <HintPath>..\packages\System.ValueTuple.4.5.0\lib\net47\System.ValueTuple.dll</HintPath>
     </Reference>
     <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xaml" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -185,6 +186,7 @@
     <Compile Include="DnevnikViewModel.cs" />
     <Compile Include="GlavniViewModel.cs" />
     <Compile Include="KomitentiListaViewModel.cs" />
+    <Compile Include="MatListaViewModel.cs" />
     <Compile Include="MedjuskladisniceZaSkladisteViewModel.cs" />
     <Compile Include="MedjuskladisniceSveViewModel.cs" />
     <Compile Include="MedjuskladisniceJednaViewModel.cs" />
