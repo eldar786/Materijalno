@@ -4,7 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
               xmlns:vm="clr-namespace:Materijalno.ViewModel;assembly=Materijalno.ViewModel"
-             xmlns:local="clr-namespace:Materijalno.UI"
+             xmlns:local="clr-namespace:Materijalno.UI" xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
              mc:Ignorable="d" 
              d:DesignHeight="1000" d:DesignWidth="1900">
 
@@ -105,7 +105,7 @@
         <DatePicker SelectedDate="{Binding CurrentItemMat.Datun, UpdateSourceTrigger=PropertyChanged}"  Grid.Row="2" KeyDown="TextBox_KeyDown" Grid.Column="1" HorizontalAlignment="Left" Height="30" FontSize="18" Width="170" />
 
         <Label Grid.Row="2" Grid.Column="3" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="18" >Broj kalkulacije:</Label>
-        <TextBox Text="{Binding CurrentItemMat.Brfak}" Grid.Row="2" KeyDown="TextBox_KeyDown" Grid.Column="4" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="18"  Width="120"/>
+        <TextBox Text="{Binding CurrentItemMat.Brfak}" Grid.Row="2" KeyDown="TextBox_KeyDown" Grid.Column="4" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="18"  Width="120" IsEnabled="False"/>
 
         <Label Grid.Row="3" Grid.Column="0" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="18">Šifra komitenta</Label>
 
@@ -137,28 +137,58 @@
         <TextBox Text="{Binding CurrentItemMat.Ident}" Grid.Row="5" KeyDown="TextBox_KeyDown" Grid.Column="3" VerticalAlignment="Center" Margin="-250,0,250,0" FontSize="18"  Width="180"/>
 
         <!--Na osnovu sifre materijala dati naziv iz druge tabele "tabela materijala"-->
-        <TextBox Text="{Binding CurrentItemTabMaterijala.Nazmat}" Grid.Row="5" Grid.Column="4" Margin="-430,0,0,0" VerticalAlignment="Center" FontSize="18"  Width="400"/>
+        <TextBox Text="{Binding CurrentItemTabMaterijala.Nazmat}" Grid.Row="5" Grid.Column="4" Margin="-430,0,0,0" VerticalAlignment="Center" FontSize="18"  Width="400" IsEnabled="False"/>
 
         <Label Grid.Row="6" Grid.Column="2" VerticalAlignment="Center" Margin="-60,0,0,0" FontSize="18">Količina</Label>
-        <TextBox Text="{Binding CurrentItemMat.Kolic}" Grid.Row="6" KeyDown="TextBox_KeyDown" Grid.Column="2" Margin="45,0,0,0" VerticalAlignment="Center"  FontSize="18"  Width="180"/>
+        <TextBox Text="{Binding CurrentItemMat.Kolic, StringFormat=N2, ConverterCulture='de-DE', UpdateSourceTrigger=PropertyChanged}" Grid.Row="6" KeyDown="TextBox_KeyDown" Grid.Column="2" Margin="45,0,0,0" VerticalAlignment="Center"  FontSize="18"  Width="180">
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="LostFocus">
+                    <i:InvokeCommandAction Command="{Binding NabavnaCijenaCommand}" />
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+        </TextBox>
 
         <Label Grid.Row="6" Grid.Column="3" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="18">Fakturna vrijednost</Label>
-        <TextBox Text="{Binding CurrentItemMat.Vrijed}" Grid.Row="6" KeyDown="TextBox_KeyDown" Grid.Column="4" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="18"  Width="120"/>
+        <TextBox Text="{Binding CurrentItemMat.Vrijed, StringFormat=N2, ConverterCulture='de-DE', UpdateSourceTrigger=PropertyChanged}" Grid.Row="6" KeyDown="TextBox_KeyDown" Grid.Column="4" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="18"  Width="120">
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="LostFocus">
+                    <i:InvokeCommandAction Command="{Binding NabavnaCijenaCommand}" />
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+        </TextBox>
 
         <Label Grid.Row="7" Grid.Column="2" Margin="-60,0,0,0" VerticalAlignment="Center" FontSize="18">Iznos PDV-a</Label>
-        <TextBox Text="{Binding CurrentItemMat.Porppp}" Grid.Row="7" KeyDown="TextBox_KeyDown" Grid.Column="2" VerticalAlignment="Center"  Margin="45,0,0,0" FontSize="18"  Width="180"/>
+        <TextBox Text="{Binding CurrentItemMat.Porppp, StringFormat=N2, ConverterCulture='de-DE', UpdateSourceTrigger=PropertyChanged}" Grid.Row="7" KeyDown="TextBox_KeyDown" Grid.Column="2" VerticalAlignment="Center"  Margin="45,0,0,0" FontSize="18"  Width="180">
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="LostFocus">
+                    <i:InvokeCommandAction Command="{Binding NabavnaCijenaCommand}" />
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+        </TextBox>
 
         <Label Grid.Row="7" Grid.Column="3" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="18">Troškovi špeditera</Label>
-        <TextBox Text="{Binding CurrentItemMat.Trospe}" Grid.Row="7" KeyDown="TextBox_KeyDown" Grid.Column="4" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="18"  Width="120"/>
+        <TextBox Text="{Binding CurrentItemMat.Trospe, StringFormat=N2, ConverterCulture='de-DE', UpdateSourceTrigger=PropertyChanged}" Grid.Row="7" KeyDown="TextBox_KeyDown" Grid.Column="4" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="18"  Width="120">
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="LostFocus">
+                    <i:InvokeCommandAction Command="{Binding NabavnaCijenaCommand}" />
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+        </TextBox>
 
         <Label Grid.Row="8" Grid.Column="0" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="18">Carina</Label>
         <TextBox Text="{Binding CurrentItemMat.Cartro}" Grid.Row="8" KeyDown="TextBox_KeyDown" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="18"  Width="170"/>
 
         <Label Grid.Row="8" Grid.Column="2" Margin="-60,0,200,0" VerticalAlignment="Center" FontSize="18">Ostali troškovi</Label>
-        <TextBox Text="{Binding CurrentItemMat.Troskovi}" Grid.Row="8" KeyDown="TextBox_KeyDown" Grid.Column="3" VerticalAlignment="Center" Margin="-300,0,200,0" FontSize="18"  Width="180"/>
+        <TextBox Text="{Binding CurrentItemMat.Troskovi, StringFormat=N2, ConverterCulture='de-DE', UpdateSourceTrigger=PropertyChanged}" Grid.Row="8" KeyDown="TextBox_KeyDown" Grid.Column="3" VerticalAlignment="Center" Margin="-300,0,200,0" FontSize="18"  Width="180">
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="LostFocus">
+                    <i:InvokeCommandAction Command="{Binding NabavnaCijenaCommand}" />
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+        </TextBox>
 
         <Label Grid.Row="8" Grid.Column="4" Margin="-150,0,50,0" VerticalAlignment="Center" FontSize="18">NC</Label>
-        <TextBox Text="{Binding CurrentItemMat.Nc}" Grid.Row="8" Grid.Column="5" VerticalAlignment="Center" Margin="-450,0,250,0" FontSize="18"  Width="120"/>
+        <TextBox Text="{Binding CurrentItemMat.Nc, StringFormat=N9, ConverterCulture='de-DE', UpdateSourceTrigger=PropertyChanged}" Grid.Row="8" Grid.Column="5" VerticalAlignment="Center" Margin="-450,0,250,0" FontSize="18"  Width="160" IsEnabled="False"/>
 
 
         <Grid Grid.Row="9" Grid.Column="0" Grid.ColumnSpan="6" HorizontalAlignment="Center" VerticalAlignment="Center">
@@ -210,7 +240,7 @@
                 <Button x:Name="btnTrazi" Content="Traži" FontSize="18" Width="110" Margin="5,5,0,5" HorizontalAlignment="Left" Command="{Binding TraziSifruMaterijalaCommand}" />
                 <Button x:Name="btnNovaKalkulacija" Content="Nova kalkulacija" FontSize="18" Width="140" Margin="5,5,-2,5" HorizontalAlignment="Left" Command="{Binding NovaKalkulacijaCommand}" />
                 <Button x:Name="btnSnimi" Content="Snimi" FontSize="18" Width="140" Margin="5,5,-2,5" HorizontalAlignment="Left" Command="{Binding SpasiNovuKalkulacijuCommand}" />
-                <Button x:Name="btnStampa1" Content="Štampa" FontSize="18" Width="140" Margin="5,5,-2,5" HorizontalAlignment="Left" Command="{Binding StampaCommand}" />
+                <Button x:Name="btnStampa1" Content="Štampa" FontSize="18" Width="140" Margin="5,5,-2,5" HorizontalAlignment="Left" Command="{Binding PrintCommand}" />
                 <Button x:Name="btnKrajFakture" Content="Kraj fakture" FontSize="18" Width="130" Margin="5,5,0,5" HorizontalAlignment="Left" Command="{Binding KrajFaktureCommand}" IsEnabled="False"/>
             </WrapPanel>
         </Grid>

@@ -17,6 +17,10 @@ using System.Data.SqlClient;
 using System.Runtime.Remoting.Contexts;
 using System.Diagnostics.Eventing.Reader;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using System.Windows.Controls;
+using System.Windows.Documents;
+using System.Windows.Markup;
+using System.Globalization;
 
 namespace Materijalno.ViewModel
 {
@@ -33,7 +37,6 @@ namespace Materijalno.ViewModel
         public static Mat selectedMat;
         string connectionString = "Server= 192.168.1.213;Trusted_Connection=False;" +
             "MultipleActiveResultSets=true;User Id=sa;Password=Lutrija1;";
-
         string queryStringStaraSifra_Ime = "SELECT STARA_SIFRA, IME FROM [FINANSIJE2-LINKED SERVER]..[IBS].[GR_KOMITENTI]";
         string currentNazivZaSifruKomitenta;
         public int CurrentIndex = 0;
@@ -110,9 +113,10 @@ namespace Materijalno.ViewModel
         public RelayCommand UpdateCommand { get; set; }
         public RelayCommand NovaKalkulacijaCommand { get; set; }
         public RelayCommand SpasiNovuKalkulacijuCommand { get; set; }
+        public RelayCommand NabavnaCijenaCommand { get; set; }
 
         //Potrebno uraditi ???
-        public RelayCommand StampaCommand { get; set; }
+        public RelayCommand PrintCommand { get; set; }
         public RelayCommand OtvoriKomitentListuCommand { get; set; }
         public RelayCommand TraziSifruMaterijalaCommand { get; set; }
 
@@ -140,7 +144,8 @@ namespace Materijalno.ViewModel
             OdustaniCommand = new RelayCommand(Odustani, () => isNovaKalkulacijaClicked);
 
             TraziSifruMaterijalaCommand = new RelayCommand(Trazi, () => !isNovaKalkulacijaClicked);
-            StampaCommand = new RelayCommand(Stampa, () => !isNovaKalkulacijaClicked);
+            PrintCommand = new RelayCommand(Print, () => !isNovaKalkulacijaClicked);
+            NabavnaCijenaCommand = new RelayCommand(NabavnaCijena);
 
             OtvoriKomitentListuCommand = new RelayCommand(OtvoriKomitentListu);
             #endregion
@@ -187,7 +192,7 @@ namespace Materijalno.ViewModel
             OdustaniCommand = new RelayCommand(Odustani, () => isNovaKalkulacijaClicked);
 
             TraziSifruMaterijalaCommand = new RelayCommand(Trazi, () => !isNovaKalkulacijaClicked);
-            StampaCommand = new RelayCommand(Stampa, () => !isNovaKalkulacijaClicked);
+            PrintCommand = new RelayCommand(Print, () => !isNovaKalkulacijaClicked);
 
             OtvoriKomitentListuCommand = new RelayCommand(OtvoriKomitentListu);
             #endregion
@@ -247,6 +252,50 @@ namespace Materijalno.ViewModel
         #endregion
 
         #region Methods
+
+        public void NabavnaCijena()
+        {
+            decimal? inputValue1 = CurrentItemMat.Vrijed;
+            decimal? inputValue2 = CurrentItemMat.Trospe;
+            decimal? inputValue3 = CurrentItemMat.Porppp;
+            decimal? inputValue4 = CurrentItemMat.Troskovi;
+
+            var culture = new CultureInfo("de-DE");
+
+            decimal? value1 = inputValue1.HasValue ? (decimal?)inputValue1.Value : 0;
+
+            //decimal? value1 = decimal.Parse(inputValue1, NumberStyles.AllowThousands | NumberStyles.AllowDecimalPoint, culture);
+            decimal? value2 = inputValue2.HasValue ? (decimal?)inputValue2.Value : 0;
+
+            decimal? value3 = inputValue3.HasValue ? (decimal?)inputValue3.Value : 0;
+
+            decimal? value4 = inputValue4.HasValue ? (decimal?)inputValue4.Value : 0;
+
+            decimal? sum = value1 + value2 + value3 + value4;
+            //CurrentItemMat.Nc = (sum / (decimal)CurrentItemMat.Kolic).ToString();
+            if (CurrentItemMat.Kolic.HasValue && CurrentItemMat.Kolic.Value != 0)
+            {
+                decimal? nc = (sum / (decimal)CurrentItemMat.Kolic);
+                CurrentItemMat.Nc = (sum / (decimal)CurrentItemMat.Kolic.Value);
+            }
+            else
+            {
+                // U slucaju da je Kolic null ili nula, da bi izbjegli dijeljenje sa nulom
+                CurrentItemMat.Nc = 0;
+            }
+
+            var dbContext = new materijalno_knjigovodstvoContext();
+            dbContext.Update(CurrentItemMat);
+            dbContext.SaveChanges();
+
+            //Staviti po datumu da sortira i dodaj u listu da bi se vidjele promjene
+            MatList = new ObservableCollection<Mat>(dbContext.Mat
+                .Where(row => row.Kljnaz == 1000)
+                .OrderBy(row => row.Datun)
+                .ToList());
+
+            UpdateCurrentItemData(dbContext);
+        }
 
         public List<Komitenti> DohvatiNazivKomitenta()
         {
@@ -384,15 +433,13 @@ namespace Materijalno.ViewModel
             _gvm.OdabraniVM = new MatListaViewModel(this, _gvm);
         }
 
-        private void Stampa()
+        private void Print()
         {
-
+            OnPrintEvent?.Invoke();
         }
 
-        private void Izlaz()
-        {
-
-        }
+        // An event that will be raised to notify the view to open the PrintWindow
+        public event Action OnPrintEvent;
 
         //obrise sva polja i ostavlja opciju za SNIMI i ODUSTANI
         private void NovaKalkulacija()
@@ -425,6 +472,7 @@ namespace Materijalno.ViewModel
         {
             using (var dbContext = new materijalno_knjigovodstvoContext())
             {
+                NabavnaCijena();
                 dbContext.Update(CurrentItemMat);
                 dbContext.SaveChanges();
 
@@ -435,7 +483,7 @@ namespace Materijalno.ViewModel
                     .ToList());
 
                 System.Windows.MessageBox.Show("Uspješno ste unijeli novi šifarnik", "Potvrda", MessageBoxButton.OK, MessageBoxImage.Information);
-
+                
                 //Ovo kada je true, onda ce buttoni biti dostupni
                 isNovaKalkulacijaClicked = false;
 
@@ -470,7 +518,7 @@ namespace Materijalno.ViewModel
             BrisanjeCommand.RaiseCanExecuteChanged();
             UpdateCommand.RaiseCanExecuteChanged();
             TraziSifruMaterijalaCommand.RaiseCanExecuteChanged();
-            StampaCommand.RaiseCanExecuteChanged();
+            PrintCommand.RaiseCanExecuteChanged();
 
             SpasiNovuKalkulacijuCommand.RaiseCanExecuteChanged();
             OdustaniCommand.RaiseCanExecuteChanged();

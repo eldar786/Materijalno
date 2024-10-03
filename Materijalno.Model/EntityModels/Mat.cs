@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 
 // Code scaffolded by EF Core assumes nullable reference types (NRTs) are not used or disabled.
 // If you have enabled NRTs for your project, then un-comment the following line:
@@ -7,7 +8,7 @@ using System.Collections.Generic;
 
 namespace Materijalno.Model.EntityModels
 {
-    public partial class Mat
+    public class Mat
     {
         public int Id { get; set; }
         public int? Kljnaz { get; set; }
@@ -20,24 +21,24 @@ namespace Materijalno.Model.EntityModels
         public string Datnar { get; set; }
         public string Brfak { get; set; }
         public int? Kolic { get; set; }
-        public string Nc { get; set; }
-        public string Vrijed { get; set; }
+        public decimal? Nc { get; set; }
+        public decimal? Vrijed { get; set; }
         public int? Redbr { get; set; }
         public string Status { get; set; }
         public int? Konto1 { get; set; }
         public string Konto2 { get; set; }
         public string Fcj { get; set; }
-        public string Troskovi { get; set; }
+        public decimal? Troskovi { get; set; }
         public string Cartro { get; set; }
         public string Zavtro { get; set; }
         public string Ppp { get; set; }
         public string Tarifa { get; set; }
         public string Fvrijed { get; set; }
-        public string Porppp { get; set; }
+        public decimal? Porppp { get; set; }
         public string Medus { get; set; }
         public int? Kontosklad { get; set; }
         public int? Kontosklad1 { get; set; }
-        public int? Trospe { get; set; }
+        public decimal? Trospe { get; set; }
         public int? Ourst { get; set; }
         public int? Mjtst { get; set; }
     }
