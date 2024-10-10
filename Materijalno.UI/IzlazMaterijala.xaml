@@ -17,7 +17,7 @@
         <Style TargetType="{x:Type DatePicker}">
             <Setter Property="Language" Value="de-DE" />
         </Style>
-        
+
     </UserControl.Resources>
 
     <Grid>
@@ -65,7 +65,7 @@
                 <ToolTip Content="Sačuvaj"/>
             </Button.ToolTip>
         </Button>
-        
+
         <Button Background="White" x:Name="btnIzmjena"  Grid.Row="0" Grid.Column="5" FontSize="18" Width="50"  Margin="55,5,0,10" HorizontalAlignment="Left" Command="{Binding IzmjenaCommand, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" >
             <Image Source="/Ikone/uredi3.png" Stretch="Uniform"/>
             <Button.ToolTip>
@@ -88,22 +88,16 @@
         </Button>
 
         <Label Grid.Row="1" Grid.Column="0" Margin="0,0,0,0" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="18">Skladište</Label>
-        <TextBox Text="{Binding CurrentItemPovrat.Kljnaz1}" Name="OpBroj" Grid.Row="1" KeyDown="TextBox_KeyDown"  Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left" FontWeight="Bold"  Width="120" FontSize="18"/>
-        <TextBox Grid.Row="1" Text="{Binding CurrentItemTabSkladista.NazivOrg, UpdateSourceTrigger=PropertyChanged}"  Grid.Column="2" KeyDown="TextBox_KeyDown"  Grid.ColumnSpan="3" Margin="-120,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="18"  Width="300" Name="KomitentImePrez">
-
-            <!--<TextBox.InputBindings>
-                <MouseBinding Gesture="LeftClick" Command="{Binding UlazMaterijalaSifarnikSkladistaCommand}" />
-            </TextBox.InputBindings>-->
-            
+        <TextBox Text="{Binding CurrentItemMat.Kljnaz}" Name="OpBroj" Grid.Row="1" KeyDown="TextBox_KeyDown"  Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left" FontWeight="Bold"  Width="120" FontSize="18"/>
+        <TextBox Grid.Row="1" Text="{Binding CurrentItemTabSkladista.NazivOrg, UpdateSourceTrigger=PropertyChanged}" IsEnabled="False" Grid.Column="2" KeyDown="TextBox_KeyDown"  Grid.ColumnSpan="3" Margin="-155,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="18"  Width="335" Name="KomitentImePrez">
         </TextBox>
-
 
         <Label Grid.Row="2" Grid.Column="0" KeyDown="TextBox_KeyDown"  HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="18">Datum kalkulacije</Label>
 
         <DatePicker Grid.Row="2" SelectedDate="{Binding CurrentItemMat.Datun, UpdateSourceTrigger=PropertyChanged}" Grid.Column="1" KeyDown="TextBox_KeyDown"  HorizontalAlignment="Left" Height="30" FontSize="18" Width="120" Name="dtpOd" />
 
-        <Label Grid.Row="2" Grid.Column="2" Margin="0,0,-35,0" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="18" >Broj kalkulacije</Label>
-        <TextBox Grid.Row="2" Text="{Binding CurrentItemMat.Brfak}" Grid.Column="3" Margin="130,0,0,0" KeyDown="TextBox_KeyDown"  VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="18"  Width="120"/>
+        <Label Grid.Row="2" Grid.Column="3" Margin="0,0,100,0" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="18" >Broj kalkulacije</Label>
+        <TextBox Grid.Row="2" Text="{Binding CurrentItemMat.Brfak}" Grid.Column="4" Margin="-90,0,0,0" IsEnabled="False" KeyDown="TextBox_KeyDown"  VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="18"  Width="120"/>
 
         <Label Grid.Row="3" Grid.Column="0"  HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="18">Broj otpremnice</Label>
         <TextBox Grid.Row="3" Text="{Binding CurrentItemMat.Brdok}" Grid.Column="1" KeyDown="TextBox_KeyDown" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="18"  Width="120"/>
@@ -111,8 +105,8 @@
         <!--<Label Grid.Row="4" Grid.Column="0" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="18">Broj dokumenta</Label>-->
         <!--treba otvorit tabelu-->
 
-        <Label Grid.Row="3" Grid.Column="2" Margin="0,0,-65,0" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="18">Datum otpremnice</Label>
-        <DatePicker SelectedDate="{Binding CurrentItemMat.Datnar, UpdateSourceTrigger=PropertyChanged}" Grid.Row="3" Grid.Column="3" Margin="130,0,0,0" KeyDown="TextBox_KeyDown"  HorizontalAlignment="Left" Height="30" FontSize="18" Width="120" Name="dtpOd1" />
+        <Label Grid.Row="3" Grid.Column="3" Margin="0,0,100,0" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="18">Datum otpremnice</Label>
+        <DatePicker SelectedDate="{Binding CurrentItemMat.Datnar, UpdateSourceTrigger=PropertyChanged}" Grid.Row="3" Grid.Column="4" Margin="-90,0,0,0" KeyDown="TextBox_KeyDown"  HorizontalAlignment="Left" Height="30" FontSize="18" Width="120" Name="dtpOd1" />
 
         <Label Grid.Row="5" Grid.Column="0" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="18">Red.br</Label>
         <TextBox Text="{Binding CurrentItemMat.Redbr}" Grid.Row="5" Grid.Column="1" KeyDown="TextBox_KeyDown"  VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="18"  Width="120"/>
@@ -120,22 +114,22 @@
         <Label Grid.Row="5" Grid.Column="2" Margin="-125,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="18">Šifra materijala</Label>
         <!--treba otvorit tabelu-->
         <TextBox Grid.Row="5" Text="{Binding CurrentItemMat.Ident}" Grid.Column="3" Margin="-270,0,0,0" KeyDown="TextBox_KeyDown"  VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="18"  Width="120"/>
-        <TextBox Grid.Row="5" Text="{Binding CurrentItemTabMaterijala.Nazmat}" Grid.Column="4" Margin="-370,0,0,0" KeyDown="TextBox_KeyDown"  VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="18"  Width="340"/>
+        <TextBox Grid.Row="5" Text="{Binding CurrentItemTabMaterijala.Nazmat}" IsReadOnly="True" Grid.Column="4" Margin="-370,0,0,0" KeyDown="TextBox_KeyDown"  VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="18"  Width="400"/>
 
         <Label Grid.Row="6" Grid.Column="1" KeyDown="TextBox_KeyDown"  HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="18">Ekonomska jedinica</Label>
         <TextBox Grid.Row="6" Text="{Binding CurrentItemMat.Ourst}" Grid.Column="2" KeyDown="TextBox_KeyDown"  VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="18"  Width="120"/>
 
-        <Label Grid.Row="6" Grid.Column="3" Margin="-120,0,250,0"  HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="18">Mjesto troška</Label>
-        <TextBox Grid.Row="6" Text="{Binding CurrentItemMat.Mjtst}" Grid.Column="4" Margin="-150,0,0,0" KeyDown="TextBox_KeyDown"  VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="18"  Width="120"/>
+        <Label Grid.Row="6" Grid.Column="3" Margin="0,0,100,0" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="18">Mjesto troška</Label>
+        <TextBox Grid.Row="6" Text="{Binding CurrentItemMat.Mjtst}" Grid.Column="4" Margin="-90,0,0,0" KeyDown="TextBox_KeyDown"  VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="18"  Width="120"/>
 
         <Label Grid.Row="7" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="18">Količina</Label>
         <TextBox Grid.Row="7" Text="{Binding CurrentItemMat.Kolic}" Grid.Column="2" KeyDown="TextBox_KeyDown"  VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="18"  Width="120"/>
 
-        <Label Grid.Row="7" Grid.Column="3" Margin="-100,0,160,0" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="18">Prosječna nabavna cijena</Label>
-        <TextBox Grid.Row="7" Text="{Binding CurrentItemMat.Nc}" Grid.Column="4" Margin="-150,0,0,0" KeyDown="TextBox_KeyDown"  VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="18"  Width="120"/>
+        <Label Grid.Row="7" Grid.Column="3" Margin="-40,0,100,0" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="18">Prosječna nabavna cijena</Label>
+        <TextBox Grid.Row="7" Text="{Binding CurrentItemMat.Nc}" Grid.Column="4" Margin="-90,0,0,0" IsEnabled="False" KeyDown="TextBox_KeyDown"  VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="18"  Width="120"/>
 
-        <Label Grid.Row="8" Grid.Column="3" Margin="-100,0,278,0" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="18">Vrijednost</Label>
-        <TextBox Grid.Row="8" Text="{Binding CurrentItemMat.Vrijed}" Grid.Column="4" Margin="-150,0,180,0" KeyDown="TextBox_KeyDown" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="18"  Width="120"/>
+        <Label Grid.Row="8" Grid.Column="3" Margin="0,0,100,0" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="18">Vrijednost</Label>
+        <TextBox Grid.Row="8" Text="{Binding CurrentItemMat.Vrijed}" Grid.Column="4" Margin="-90,0,0,0" KeyDown="TextBox_KeyDown" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="18"  Width="120"/>
 
         <!--<Label Grid.Row="8" Grid.Column="0" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="18">Carina</Label>
         <TextBox Grid.Row="8" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="18"  Width="120"/>
@@ -181,16 +175,21 @@
                                 <Setter Property="BorderBrush" Value="#A5BDD7"/>
                                 <Setter Property="Cursor" Value="Hand"/>
                             </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter Property="Foreground" Value="DarkGray"/>
+                                <Setter Property="Background" Value="Gray"/>
+                                <Setter Property="BorderBrush" Value="DarkGray"/>
+                            </Trigger>
                         </Style.Triggers>
                     </Style>
                 </StackPanel.Resources>
 
-                <Button x:Name="btnPrvi" Content="Prethodni" FontSize="18" Width="110" Margin="5,5,0,5" HorizontalAlignment="Left" Command="{Binding PrethodniButtonCommand}" Visibility="{Binding Path=VidljivoOdabirVrsteIncidenta}"/>
-                <Button x:Name="btnZadnji" FontSize="18" Content="Traži" Width="110" Margin="5,5,0,5" Grid.Column="1" HorizontalAlignment="Left" Command="{Binding IzmjenaCommand}" Visibility="{Binding Path=VidljivoOdabirVrsteIncidenta}"/>
-                <Button x:Name="btnNovaKalkulacija" Content="Novo zaduženje" FontSize="18" Width="140" Margin="5,5,0,5" HorizontalAlignment="Left" Command="{Binding StampaCommand}" Visibility="{Binding Path=VidljivoOdabirVrsteIncidenta}"/>
-                <!--<Button x:Name="btnSnimi" Content="Snimi" FontSize="18" Width="110" Margin="5,5,0,5" HorizontalAlignment="Left" Command="{Binding IzlazCommand}" Visibility="{Binding Path=VidljivoOdabirVrsteIncidenta}"/>-->
-                <!--<Button x:Name="btnStampa" Content="Štampa Zaduženja" FontSize="18" Width="180" Margin="5,5,0,5" HorizontalAlignment="Left" Command="{Binding IzlazCommand}" Visibility="{Binding Path=VidljivoOdabirVrsteIncidenta}"/>-->
-                <Button x:Name="btnKrajFakture" Content="Kraj Izlaza" FontSize="18" Width="130" Margin="5,5,0,5" HorizontalAlignment="Left" Command="{Binding IzlazCommand}" Visibility="{Binding Path=VidljivoOdabirVrsteIncidenta}"/>
+                <!--<Button x:Name="btnPrvi" Content="Prethodni" FontSize="18" Width="110" Margin="5,5,0,5" HorizontalAlignment="Left" Command="{Binding PrethodniButtonCommand}" />-->
+                <Button x:Name="btnZadnji" FontSize="18" Content="Traži" Width="110" Margin="5,5,0,5" Grid.Column="1" HorizontalAlignment="Left" Command="{Binding TraziSifruMaterijalaCommand}" />
+                <Button x:Name="btnNovaKalkulacija" Content="Novo zaduženje" FontSize="18" Width="140" Margin="5,5,0,5" HorizontalAlignment="Left"  Command="{Binding NovoZaduzenjeCommand}"/>
+                <Button x:Name="btnSnimi" Content="Snimi" FontSize="18" Width="140" Margin="5,5,-2,5" HorizontalAlignment="Left" Command="{Binding SpasiNovuKalkulacijuCommand}" />
+                <Button x:Name="btnStampa1" Content="Štampa zaduženja" FontSize="18" Width="155" Margin="5,5,-2,5" HorizontalAlignment="Left" Command="{Binding PrintCommand}" />
+                <!--<Button x:Name="btnKrajFakture" Content="Kraj Izlaza" FontSize="18" Width="130" Margin="5,5,0,5" HorizontalAlignment="Left" Command="{Binding KrajFaktureCommand}"/>-->
             </StackPanel>
         </Grid>
 
@@ -228,19 +227,21 @@
                                 <Setter Property="BorderBrush" Value="#A5BDD7"/>
                                 <Setter Property="Cursor" Value="Hand"/>
                             </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter Property="Foreground" Value="DarkGray"/>
+                                <Setter Property="Background" Value="Gray"/>
+                                <Setter Property="BorderBrush" Value="DarkGray"/>
+                            </Trigger>
                         </Style.Triggers>
                     </Style>
                 </StackPanel.Resources>
-                <!--<Button x:Name="btnPrethodni" Content="Sljedeći" FontSize="18" Width="110" Margin="5,5,0,5" HorizontalAlignment="Left" Command="{Binding UnosCommand}" Visibility="{Binding Path=VidljivoOdabirVrsteIncidenta}"/>-->
-                <Button x:Name="btnNovaStavka" Content="Nova stavka" FontSize="18" Width="130" Margin="5,5,0,5" HorizontalAlignment="Left" Command="{Binding ObrisiCommand}" Visibility="{Binding Path=VidljivoOdabirVrsteIncidenta}"/>
-                <!--<Button x:Name="btnIzmjena" Content="Izmjena" FontSize="18" Width="100" Margin="5,5,0,5" HorizontalAlignment="Left" Command="{Binding IzmjenaCommand, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>-->
-                <!--<Button x:Name="btnSlijedecaStavka" Content="Slij. stavka" FontSize="18" Width="130" Margin="5,5,0,5" HorizontalAlignment="Left" Command="{Binding IzlazCommand}" Visibility="{Binding Path=VidljivoOdabirVrsteIncidenta}"/>-->
-                <Button x:Name="btnOdustani" Content="Odustani" FontSize="18" Width="110" Margin="5,5,0,5" HorizontalAlignment="Left" Command="{Binding IzlazCommand}" Visibility="{Binding Path=VidljivoOdabirVrsteIncidenta}"/>
-                <Button x:Name="btnBrisanje" Content="Brisanje" FontSize="18" Width="100" Margin="5,5,0,5" HorizontalAlignment="Left" Command="{Binding IzlazCommand}" Visibility="{Binding Path=VidljivoOdabirVrsteIncidenta}"/>
-                <Button x:Name="btnIzlaz" Content="Izlaz" FontSize="18" Width="110" Margin="5,5,0,5" HorizontalAlignment="Left" Command="{Binding IzlazCommand}" Visibility="{Binding Path=VidljivoOdabirVrsteIncidenta}"/>
+                <Button x:Name="btnSlijedecaStavka" FontSize="18" Width="130" Margin="5,5,0,5" HorizontalAlignment="Left" Content="Slij. stavka"  Command="{Binding NextButtonCommand}" IsEnabled="False"/>
+                <Button x:Name="btnNovaStavka" Content="Nova stavka" FontSize="18" Width="130" Margin="5,5,0,5" HorizontalAlignment="Left" Command="{Binding NovaStavkaCommand}" IsEnabled="False" />
+                <Button x:Name="btnIzmjenaStavka" FontSize="18" Width="130" Margin="5,5,0,5" HorizontalAlignment="Left"  Content="Izmjena" Command="{Binding UpdateCommand}" />
+                <Button x:Name="btnOdustani" Content="Odustani" FontSize="18" Width="110" Margin="5,5,0,5" HorizontalAlignment="Left" Command="{Binding OdustaniCommand}" />
+                <Button x:Name="btnBrisanje" Content="Brisanje" FontSize="18" Width="100" Margin="5,5,0,5" HorizontalAlignment="Left" Command="{Binding BrisanjeCommand}"/>
+                <Button x:Name="btnIzlaz" Content="Izlaz" FontSize="18" Width="110" Margin="5,5,0,5" HorizontalAlignment="Left" Command="{Binding IzlazCommand}" />
             </StackPanel>
         </Grid>
-
-
     </Grid>
 </UserControl>
