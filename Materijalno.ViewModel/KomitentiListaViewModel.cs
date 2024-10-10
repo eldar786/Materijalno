@@ -44,6 +44,18 @@ namespace Materijalno.ViewModel
             OdustaniCommand = new RelayCommand(Odustani);
         }
 
+        public KomitentiListaViewModel(IzlazMaterijalaViewModel izlazMaterijalaViewModel, GlavniViewModel glavniViewModel)
+        {
+            StaraSifra_Ime_List = izlazMaterijalaViewModel.StaraSifra_Ime_List;
+            CurrentItemMat = izlazMaterijalaViewModel.CurrentItemMat;
+            _gvm = glavniViewModel;
+
+
+
+            OdaberiKomitentCommand = new RelayCommand(OdaberiKomitentIzlaz);
+            OdustaniCommand = new RelayCommand(Odustani);
+        }
+
         private void OdaberiKomitent()
         {
             using (var dbContext = new materijalno_knjigovodstvoContext())
@@ -59,6 +71,23 @@ namespace Materijalno.ViewModel
                 _gvm.OdabraniVM = new UlazMaterijalaViewModel(_gvm, CurrentItemMat);
             }
         }
+
+        private void OdaberiKomitentIzlaz()
+        {
+            using (var dbContext = new materijalno_knjigovodstvoContext())
+            {
+                if (SelectedKomitent != null)
+                {
+                    CurrentItemMat.Analst = selectedKomitent.STARA_SIFRA;
+                    dbContext.Update(this.currentItemMat);
+                    dbContext.SaveChanges();
+                }
+
+                IzlazMaterijalaViewModel.selectedKomitent = selectedKomitent;
+                _gvm.OdabraniVM = new IzlazMaterijalaViewModel(_gvm, CurrentItemMat);
+            }
+        }
+
         private void Odustani()
         {
             _gvm.OdabraniVM = new UlazMaterijalaViewModel(_gvm, CurrentItemMat);
