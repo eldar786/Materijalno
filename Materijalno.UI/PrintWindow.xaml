@@ -5,12 +5,13 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Materijalno.UI"
         mc:Ignorable="d"
-        Title="PrintWindow" Height="650" Width="800">
+        Title="PrintWindow" Height="650" Width="900"
+        Language="de-DE">
 
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="200"/>
+            <ColumnDefinition Width="200"/>
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="*"/>
@@ -21,17 +22,17 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="80"/>
-            <RowDefinition Height="80"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
@@ -57,7 +58,7 @@
         <Label Content="{Binding CurrentItemMat.Brfak}" Grid.Row="3" Grid.Column="1" HorizontalContentAlignment="Left" VerticalAlignment="Center"/>
 
         <!--<Label Content="Datum:" Grid.Row="3" Grid.Column="2" HorizontalContentAlignment="Left" VerticalAlignment="Center"/>-->
-        <TextBlock Text="{Binding CurrentItemMat.Datun, StringFormat='Datum: {0}'}" Grid.Row="3" Grid.Column="2" HorizontalAlignment="Left" VerticalAlignment="Center" />
+        <TextBlock Text="{Binding CurrentItemMat.Datun, StringFormat='Datum: {0}'}" Grid.Row="3" Grid.Column="2" Grid.ColumnSpan="2" HorizontalAlignment="Left" VerticalAlignment="Center" />
 
         <Label Content="Broj dokumenta:" Grid.Row="3" Grid.Column="4" HorizontalContentAlignment="Left" VerticalAlignment="Center"/>
         <TextBlock Text="{Binding CurrentItemMat.Brdok}" Grid.Row="3" Grid.Column="5" HorizontalAlignment="Left" VerticalAlignment="Center" />
@@ -66,7 +67,7 @@
         <Label Content="{Binding CurrentItemMat.Analst}" Grid.Row="5" Grid.Column="1" HorizontalContentAlignment="Left" VerticalAlignment="Center"/>
 
         <Label Content="- TROŠ.IZR." Grid.Row="5" Grid.Column="2" HorizontalContentAlignment="Right" VerticalAlignment="Center"/>
-        <Label Content="{Binding CurrentNazivZaSifruKomitenta, UpdateSourceTrigger=PropertyChanged}" Grid.Row="5" Grid.Column="3" HorizontalContentAlignment="Left" VerticalAlignment="Center"/>
+        <Label Content="{Binding CurrentNazivZaSifruKomitenta, UpdateSourceTrigger=PropertyChanged}" Grid.Row="5" Grid.Column="3" Grid.ColumnSpan="2" HorizontalContentAlignment="Left" VerticalAlignment="Center"/>
 
         <Label Content="Dobavljač:" Grid.Row="4" Grid.Column="0" HorizontalContentAlignment="Right" VerticalAlignment="Center"/>
         <Label Content="{Binding CurrentItemMat.Analst}" Grid.Row="4" Grid.Column="1" HorizontalContentAlignment="Left" VerticalAlignment="Center"/>
@@ -77,7 +78,7 @@
            xmlns:sys="clr-namespace:System;assembly=mscorlib"
            HorizontalAlignment="Left" VerticalAlignment="Center" />
         
-        <Border BorderBrush="Black" BorderThickness="0,0,0,1" Grid.Row="5" Grid.Column="0" Margin="80,0,50,0" Grid.ColumnSpan="7" />
+        <Border BorderBrush="Black" BorderThickness="0,0,0,1" Grid.Row="5" Grid.Column="0" Margin="20,0,10,0" Grid.ColumnSpan="7" />
 
         <Label Content="Red. br.&#x0a;Tarifa" Grid.Row="6" Grid.Column="0" HorizontalContentAlignment="Center" VerticalAlignment="Center"/>
         <Label Content="Šifra/Naziv&#x0a;robe" Grid.Row="6" Grid.Column="1" HorizontalContentAlignment="Center" VerticalAlignment="Center"/>
@@ -87,50 +88,52 @@
         <Label Content="PDV%" Grid.Row="6" Grid.Column="5" HorizontalContentAlignment="Center" VerticalAlignment="Center"/>
         <Label Content="Nabavna cijena&#x0a;Vrijednost" Grid.Row="6" Grid.Column="6" HorizontalContentAlignment="Center" VerticalAlignment="Center"/>
 
-        <Border BorderBrush="Black" BorderThickness="0,0,0,1" Grid.Row="6" Grid.Column="0" Margin="80,0,50,0" Grid.ColumnSpan="7" />
+        <Border BorderBrush="Black" BorderThickness="0,0,0,1" Grid.Row="6" Grid.Column="0" Margin="20,0,10,0" Grid.ColumnSpan="7" />
 
         <Label Content="{Binding CurrentItemMat.Redbr}" Grid.Row="7" Grid.Column="0" HorizontalContentAlignment="Center" VerticalAlignment="Top"/>
-        <Label Content="{Binding CurrentItemMat.Redbr}" Grid.Row="7" Grid.Column="0" HorizontalContentAlignment="Center" VerticalAlignment="Bottom"/>
+        <Label Content="{Binding CurrentItemMat.Tarifa}" Grid.Row="7" Grid.Column="0" HorizontalContentAlignment="Center" VerticalAlignment="Center"/>
 
         <Label Content="{Binding CurrentItemMat.Ident}" Grid.Row="7" Grid.Column="1" HorizontalContentAlignment="Center" VerticalAlignment="Top"/>
-        <Label Content="{Binding CurrentNazivZaSifruKomitenta, UpdateSourceTrigger=PropertyChanged}" Grid.Row="7" Grid.Column="1" HorizontalContentAlignment="Center" VerticalAlignment="Bottom"/>
+        <Label Content="{Binding CurrentNazivZaSifruKomitenta, UpdateSourceTrigger=PropertyChanged}" Grid.Row="7" Grid.Column="1" HorizontalContentAlignment="Center" VerticalAlignment="Center"/>
 
         <Label Content="KOM" Grid.Row="7" Grid.Column="2" HorizontalContentAlignment="Center" VerticalAlignment="Top"/>
-        <Label Content="{Binding CurrentNazivZaSifruKomitenta, UpdateSourceTrigger=PropertyChanged}" Grid.Row="7" Grid.Column="2" HorizontalContentAlignment="Center" VerticalAlignment="Center"/>
-        <Label Content="{Binding CurrentItemMat.Vrijed}" Grid.Row="7" Grid.Column="2" HorizontalContentAlignment="Center" VerticalAlignment="Bottom"/>
-        
-        <Label Content="{Binding CurrentItemMat.Kolic}" Grid.Row="7" Grid.Column="3" HorizontalContentAlignment="Center" VerticalAlignment="Center"/>
-        
-        <Label Content="1,26 %" Grid.Row="7" Grid.Column="4" HorizontalContentAlignment="Center" VerticalAlignment="Center"/>
-        <Label Content="1,26 %??" Grid.Row="8" Grid.Column="4" HorizontalContentAlignment="Center" VerticalAlignment="Center"/>
+        <Label Content="{Binding CurrentItemMat.Nc, UpdateSourceTrigger=PropertyChanged}" ContentStringFormat="N4" Grid.Row="7" Grid.Column="2" HorizontalContentAlignment="Center" VerticalAlignment="Center"/>
+        <Label Content="{Binding CurrentItemMat.Vrijed}" ContentStringFormat="N2" Grid.Row="7" Grid.Column="2" HorizontalContentAlignment="Center" VerticalAlignment="Bottom"/>
 
-        <Label Content="17,00%" Grid.Row="7" Grid.Column="5" HorizontalContentAlignment="Center" VerticalAlignment="Center"/>
-        <Label Content="17,00%??" Grid.Row="8" Grid.Column="5" HorizontalContentAlignment="Center" VerticalAlignment="Center"/>
+        <Label Content="{Binding CurrentItemMat.Kolic}" Language="de-DE" ContentStringFormat="N0" Grid.Row="7" Grid.Column="3" HorizontalContentAlignment="Center" VerticalAlignment="Top"/>
+        
+        <Label Content="1,26 %" Grid.Row="7" Grid.Column="4" HorizontalContentAlignment="Center" VerticalAlignment="Top"/>
+        <Label Content="{Binding UkupnoTroskovi, UpdateSourceTrigger=PropertyChanged}" ContentStringFormat="N2" Grid.Row="8" Grid.Column="4" HorizontalContentAlignment="Center" VerticalAlignment="Center"/>
 
-        <Label Content="{Binding CurrentItemMat.Nc}" Grid.Row="7" Grid.Column="6" HorizontalContentAlignment="Center" VerticalAlignment="Center"/>
-        <Label Content="??" Grid.Row="8" Grid.Column="6" HorizontalContentAlignment="Center" VerticalAlignment="Center"/>
+        <Label Content="17,00%" Grid.Row="7" Grid.Column="5" HorizontalContentAlignment="Center" VerticalAlignment="Top"/>
+        <Label Content="{Binding CurrentItemMat.Porppp, UpdateSourceTrigger=PropertyChanged}" ContentStringFormat="N2" Grid.Row="8" Grid.Column="5" HorizontalContentAlignment="Center" VerticalAlignment="Center"/>
+
+        <Label Content="{Binding CurrentItemMat.Nc}" ContentStringFormat="F9" Grid.Row="7" Grid.Column="6" HorizontalContentAlignment="Center" VerticalAlignment="Top"/>
+        <Label Content="{Binding UkupnoNc}" ContentStringFormat="N2" Grid.Row="8" Grid.Column="6" HorizontalContentAlignment="Center" VerticalAlignment="Center"/>
         
         
-        <Label Content="??" Grid.Row="8" Grid.Column="1" HorizontalContentAlignment="Center" VerticalAlignment="Center"/>
+        <Label Content="0" Grid.Row="8" Grid.Column="1" HorizontalContentAlignment="Left" VerticalAlignment="Center"/>
         <Label Content="Troškovi (analitički):" Grid.Row="8" Grid.Column="0" HorizontalContentAlignment="Center" VerticalAlignment="Center"/>
         <Label Content="Carinski troškovi:" Grid.Row="9" Grid.Column="0" HorizontalContentAlignment="Center" VerticalAlignment="Center"/>
-        <Label Content="{Binding CurrentItemMat.Cartro}" Grid.Row="9" Grid.Column="1" HorizontalContentAlignment="Left" VerticalAlignment="Center"/>
+        <Label Content="{Binding CurrentItemMat.Cartro}" ContentStringFormat="N2" Grid.Row="9" Grid.Column="1" HorizontalContentAlignment="Left" VerticalAlignment="Center"/>
         <Label Content="Špediterski troškovi:" Grid.Row="10" Grid.Column="0" HorizontalContentAlignment="Center" VerticalAlignment="Center"/>
-        <Label Content="{Binding CurrentItemMat.Trospe}" Grid.Row="10" Grid.Column="1" HorizontalContentAlignment="Left" VerticalAlignment="Center"/>
+        <Label Content="{Binding CurrentItemMat.Trospe}" ContentStringFormat="N2" Grid.Row="10" Grid.Column="1" HorizontalContentAlignment="Left" VerticalAlignment="Center"/>
         <Label Content="Ostali troškovi" Grid.Row="11" Grid.Column="0" HorizontalContentAlignment="Center" VerticalAlignment="Center"/>
-        <Label Content="{Binding CurrentItemMat.Troskovi}" Grid.Row="11" Grid.Column="1" HorizontalContentAlignment="Left" VerticalAlignment="Center"/>
+        <Label Content="{Binding CurrentItemMat.Troskovi}" ContentStringFormat="N2" Grid.Row="11" Grid.Column="1" HorizontalContentAlignment="Left" VerticalAlignment="Center"/>
 
-        <Border BorderBrush="Black" BorderThickness="0,0,0,1" Grid.Row="11" Grid.Column="0" Margin="80,0,50,0" Grid.ColumnSpan="7" />
+        <Border BorderBrush="Black" BorderThickness="0,0,0,1" Grid.Row="11" Grid.Column="0" Margin="20,0,10,0" Grid.ColumnSpan="7" />
 
         <Label Content="Ukupni troškovi:" Grid.Row="12" Grid.Column="0" HorizontalContentAlignment="Center" VerticalAlignment="Center"/>
-        <Label Content="???" Grid.Row="12" Grid.Column="1" HorizontalContentAlignment="Left" VerticalAlignment="Center"/>
+        <Label Content="{Binding UkupnoTroskovi, UpdateSourceTrigger=PropertyChanged}" ContentStringFormat="N2" Grid.Row="12" Grid.Column="1" HorizontalContentAlignment="Left" VerticalAlignment="Center"/>
         
         <Label Content="Ukupno:" Grid.Row="13" Grid.Column="0" HorizontalContentAlignment="Center" VerticalAlignment="Center"/>
-        <Label Content="{Binding CurrentItemMat.Vrijed}" Grid.Row="13" Grid.Column="1" HorizontalContentAlignment="Left" VerticalAlignment="Center"/>
-        
-        <Label Content="??" Grid.Row="13" Grid.Column="4" HorizontalContentAlignment="Left" VerticalAlignment="Center"/>
-        <Label Content="??" Grid.Row="13" Grid.Column="5" HorizontalContentAlignment="Left" VerticalAlignment="Center"/>
-        <Label Content="??" Grid.Row="13" Grid.Column="6" HorizontalContentAlignment="Left" VerticalAlignment="Center"/>
+        <Label Content="{Binding CurrentItemMat.Vrijed}" ContentStringFormat="N2" Grid.Row="13" Grid.Column="1" HorizontalContentAlignment="Left" VerticalAlignment="Center"/>
+
+        <Label Content="{Binding UkupnoTroskovi, UpdateSourceTrigger=PropertyChanged}" ContentStringFormat="N2" Grid.Row="13" Grid.Column="4" HorizontalContentAlignment="Center" VerticalAlignment="Center"/>
+
+        <Label Content="{Binding CurrentItemMat.Porppp, UpdateSourceTrigger=PropertyChanged}" ContentStringFormat="N2" Grid.Row="13" Grid.Column="5" HorizontalContentAlignment="Center" VerticalAlignment="Center"/>
+
+        <Label Content="{Binding UkupnoNc}" ContentStringFormat="N2" Grid.Row="13" Grid.Column="6" HorizontalContentAlignment="Center" VerticalAlignment="Center"/>
 
     </Grid>
 </Window>

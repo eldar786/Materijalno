@@ -21,6 +21,7 @@ using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Markup;
 using System.Globalization;
+using Newtonsoft.Json.Linq;
 
 namespace Materijalno.ViewModel
 {
@@ -97,6 +98,28 @@ namespace Materijalno.ViewModel
                 OnPropertyChanged(nameof(SelectedKomitent));
             }
         }
+        decimal? ukupnoTroskovi;
+        public decimal? UkupnoTroskovi
+        {
+            get { return ukupnoTroskovi; }
+            set
+            {
+                ukupnoTroskovi = value;
+                OnPropertyChanged(nameof(UkupnoTroskovi));
+            }
+        }
+
+        decimal? ukupnoNc;
+        public decimal? UkupnoNc
+        {
+            get { return ukupnoNc; }
+            set
+            {
+                ukupnoTroskovi = value;
+                OnPropertyChanged(nameof(UkupnoNc));
+            }
+        }
+
         public ObservableCollection<TabelaMaterijala> TebelaMaterijalaList { get; set; }
         public ObservableCollection<Mat> MatList { get; set; }
         public List<Komitenti> StaraSifra_Ime_List { get; set; }
@@ -260,6 +283,9 @@ namespace Materijalno.ViewModel
             decimal? inputValue3 = CurrentItemMat.Porppp;
             decimal? inputValue4 = CurrentItemMat.Troskovi;
 
+            //Dodati da vrijednost ne moze biti null
+            decimal? inputCarina = decimal.Parse(CurrentItemMat.Cartro);
+
             var culture = new CultureInfo("de-DE");
 
             decimal? value1 = inputValue1.HasValue ? (decimal?)inputValue1.Value : 0;
@@ -270,8 +296,15 @@ namespace Materijalno.ViewModel
             decimal? value3 = inputValue3.HasValue ? (decimal?)inputValue3.Value : 0;
 
             decimal? value4 = inputValue4.HasValue ? (decimal?)inputValue4.Value : 0;
+            
 
             decimal? sum = value1 + value2 + value3 + value4;
+
+            //Ovo je za Ukupno troškovi u PrintWindow
+            decimal? carinaValue = inputCarina.HasValue ? (decimal?)inputCarina.Value : 0;
+            ukupnoTroskovi = value2 + value4 + carinaValue;
+
+
             //CurrentItemMat.Nc = (sum / (decimal)CurrentItemMat.Kolic).ToString();
             if (CurrentItemMat.Kolic.HasValue && CurrentItemMat.Kolic.Value != 0)
             {
@@ -435,6 +468,16 @@ namespace Materijalno.ViewModel
 
         private void Print()
         {
+            //Pozivano ovu metodu zbog ukupnoTroskovi, da bi prilikom printa izracunao, da ne bi morali ponovo racunati
+            NabavnaCijena();
+            var culture = new CultureInfo("de-DE");
+            
+            decimal? ukupnoNcValue = CurrentItemMat.Kolic * CurrentItemMat.Nc;
+            //treba vidjeti kako da prebaci na DE culture???
+            ukupnoNc = Math.Round((decimal)ukupnoNcValue, 9);
+            decimal? formmatedNc = decimal.Parse(ukupnoNc.ToString(), NumberStyles.AllowThousands | NumberStyles.AllowDecimalPoint, culture);
+            ukupnoNc = formmatedNc;
+
             OnPrintEvent?.Invoke();
         }
 

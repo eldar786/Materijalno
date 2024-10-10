@@ -158,7 +158,7 @@
         </TextBox>
 
         <Label Grid.Row="7" Grid.Column="2" Margin="-60,0,0,0" VerticalAlignment="Center" FontSize="18">Iznos PDV-a</Label>
-        <TextBox Text="{Binding CurrentItemMat.Porppp, StringFormat=N2, ConverterCulture='de-DE', UpdateSourceTrigger=PropertyChanged}" Grid.Row="7" KeyDown="TextBox_KeyDown" Grid.Column="2" VerticalAlignment="Center"  Margin="45,0,0,0" FontSize="18"  Width="180">
+        <TextBox Text="{Binding CurrentItemMat.Porppp, TargetNullValue='0,00', StringFormat=N2, ConverterCulture='de-DE', UpdateSourceTrigger=PropertyChanged}" Grid.Row="7" KeyDown="TextBox_KeyDown" Grid.Column="2" VerticalAlignment="Center"  Margin="45,0,0,0" FontSize="18"  Width="180">
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="LostFocus">
                     <i:InvokeCommandAction Command="{Binding NabavnaCijenaCommand}" />
