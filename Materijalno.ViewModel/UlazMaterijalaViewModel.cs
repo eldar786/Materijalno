@@ -98,16 +98,6 @@ namespace Materijalno.ViewModel
                 OnPropertyChanged(nameof(SelectedKomitent));
             }
         }
-        decimal? ukupnoTroskovi;
-        public decimal? UkupnoTroskovi
-        {
-            get { return ukupnoTroskovi; }
-            set
-            {
-                ukupnoTroskovi = value;
-                OnPropertyChanged(nameof(UkupnoTroskovi));
-            }
-        }
 
         decimal? ukupnoNc;
         public decimal? UkupnoNc
@@ -115,7 +105,7 @@ namespace Materijalno.ViewModel
             get { return ukupnoNc; }
             set
             {
-                ukupnoTroskovi = value;
+                ukupnoNc = value;
                 OnPropertyChanged(nameof(UkupnoNc));
             }
         }
@@ -282,30 +272,30 @@ namespace Materijalno.ViewModel
             decimal? inputValue2 = CurrentItemMat.Trospe;
             decimal? inputValue3 = CurrentItemMat.Porppp;
             decimal? inputValue4 = CurrentItemMat.Troskovi;
+            decimal carinaValue = 0.00m;
 
-            //Dodati da vrijednost ne moze biti null
-            decimal? inputCarina = decimal.Parse(CurrentItemMat.Cartro);
+            // Ovo radimo zato sto je "Cartro" string i vraca null kada se ne dodijeli vrijednost (trenutno rjesenje)
+            if (CurrentItemMat.Cartro == null)
+            {
+                CurrentItemMat.Cartro = "0,00";
+            }
+            else
+            {
+                carinaValue = decimal.Parse(CurrentItemMat.Cartro);
+            }
 
             var culture = new CultureInfo("de-DE");
 
             decimal? value1 = inputValue1.HasValue ? (decimal?)inputValue1.Value : 0;
 
-            //decimal? value1 = decimal.Parse(inputValue1, NumberStyles.AllowThousands | NumberStyles.AllowDecimalPoint, culture);
             decimal? value2 = inputValue2.HasValue ? (decimal?)inputValue2.Value : 0;
 
             decimal? value3 = inputValue3.HasValue ? (decimal?)inputValue3.Value : 0;
 
             decimal? value4 = inputValue4.HasValue ? (decimal?)inputValue4.Value : 0;
+
+            decimal? sum = value1 + value2 + value3 + value4 + carinaValue;
             
-
-            decimal? sum = value1 + value2 + value3 + value4;
-
-            //Ovo je za Ukupno troškovi u PrintWindow
-            decimal? carinaValue = inputCarina.HasValue ? (decimal?)inputCarina.Value : 0;
-            ukupnoTroskovi = value2 + value4 + carinaValue;
-
-
-            //CurrentItemMat.Nc = (sum / (decimal)CurrentItemMat.Kolic).ToString();
             if (CurrentItemMat.Kolic.HasValue && CurrentItemMat.Kolic.Value != 0)
             {
                 decimal? nc = (sum / (decimal)CurrentItemMat.Kolic);

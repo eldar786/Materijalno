@@ -140,7 +140,7 @@
         <TextBox Text="{Binding CurrentItemTabMaterijala.Nazmat}" Grid.Row="5" Grid.Column="4" Margin="-430,0,0,0" VerticalAlignment="Center" FontSize="18"  Width="400" IsEnabled="False"/>
 
         <Label Grid.Row="6" Grid.Column="2" VerticalAlignment="Center" Margin="-60,0,0,0" FontSize="18">Količina</Label>
-        <TextBox Text="{Binding CurrentItemMat.Kolic, StringFormat=N2, ConverterCulture='de-DE', UpdateSourceTrigger=PropertyChanged}" Grid.Row="6" KeyDown="TextBox_KeyDown" Grid.Column="2" Margin="45,0,0,0" VerticalAlignment="Center"  FontSize="18"  Width="180">
+        <TextBox Text="{Binding CurrentItemMat.Kolic, StringFormat=N2, TargetNullValue='0', ConverterCulture='de-DE', UpdateSourceTrigger=PropertyChanged}" Grid.Row="6" KeyDown="TextBox_KeyDown" Grid.Column="2" Margin="45,0,0,0" VerticalAlignment="Center"  FontSize="18"  Width="180">
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="LostFocus">
                     <i:InvokeCommandAction Command="{Binding NabavnaCijenaCommand}" />
@@ -149,7 +149,7 @@
         </TextBox>
 
         <Label Grid.Row="6" Grid.Column="3" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="18">Fakturna vrijednost</Label>
-        <TextBox Text="{Binding CurrentItemMat.Vrijed, StringFormat=N2, ConverterCulture='de-DE', UpdateSourceTrigger=PropertyChanged}" Grid.Row="6" KeyDown="TextBox_KeyDown" Grid.Column="4" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="18"  Width="120">
+        <TextBox Text="{Binding CurrentItemMat.Vrijed, TargetNullValue='0,00', StringFormat=N2, ConverterCulture='de-DE', UpdateSourceTrigger=PropertyChanged}" Grid.Row="6" KeyDown="TextBox_KeyDown" Grid.Column="4" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="18"  Width="120">
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="LostFocus">
                     <i:InvokeCommandAction Command="{Binding NabavnaCijenaCommand}" />
@@ -167,7 +167,7 @@
         </TextBox>
 
         <Label Grid.Row="7" Grid.Column="3" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="18">Troškovi špeditera</Label>
-        <TextBox Text="{Binding CurrentItemMat.Trospe, StringFormat=N2, ConverterCulture='de-DE', UpdateSourceTrigger=PropertyChanged}" Grid.Row="7" KeyDown="TextBox_KeyDown" Grid.Column="4" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="18"  Width="120">
+        <TextBox Text="{Binding CurrentItemMat.Trospe, TargetNullValue='0,00', StringFormat=N2, ConverterCulture='de-DE', UpdateSourceTrigger=PropertyChanged}" Grid.Row="7" KeyDown="TextBox_KeyDown" Grid.Column="4" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="18"  Width="120">
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="LostFocus">
                     <i:InvokeCommandAction Command="{Binding NabavnaCijenaCommand}" />
@@ -176,10 +176,16 @@
         </TextBox>
 
         <Label Grid.Row="8" Grid.Column="0" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="18">Carina</Label>
-        <TextBox Text="{Binding CurrentItemMat.Cartro}" Grid.Row="8" KeyDown="TextBox_KeyDown" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="18"  Width="170"/>
+        <TextBox Text="{Binding CurrentItemMat.Cartro, TargetNullValue='0,00', StringFormat=N2, ConverterCulture='de-DE', UpdateSourceTrigger=PropertyChanged}" Grid.Row="8" KeyDown="TextBox_KeyDown" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="18"  Width="170">
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="LostFocus">
+                    <i:InvokeCommandAction Command="{Binding NabavnaCijenaCommand}" />
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+        </TextBox>
 
         <Label Grid.Row="8" Grid.Column="2" Margin="-60,0,200,0" VerticalAlignment="Center" FontSize="18">Ostali troškovi</Label>
-        <TextBox Text="{Binding CurrentItemMat.Troskovi, StringFormat=N2, ConverterCulture='de-DE', UpdateSourceTrigger=PropertyChanged}" Grid.Row="8" KeyDown="TextBox_KeyDown" Grid.Column="3" VerticalAlignment="Center" Margin="-300,0,200,0" FontSize="18"  Width="180">
+        <TextBox Text="{Binding CurrentItemMat.Troskovi, TargetNullValue='0,00', StringFormat=N2, ConverterCulture='de-DE', UpdateSourceTrigger=PropertyChanged}" Grid.Row="8" KeyDown="TextBox_KeyDown" Grid.Column="3" VerticalAlignment="Center" Margin="-300,0,200,0" FontSize="18"  Width="180">
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="LostFocus">
                     <i:InvokeCommandAction Command="{Binding NabavnaCijenaCommand}" />
@@ -188,7 +194,7 @@
         </TextBox>
 
         <Label Grid.Row="8" Grid.Column="4" Margin="-150,0,50,0" VerticalAlignment="Center" FontSize="18">NC</Label>
-        <TextBox Text="{Binding CurrentItemMat.Nc, StringFormat=N9, ConverterCulture='de-DE', UpdateSourceTrigger=PropertyChanged}" Grid.Row="8" Grid.Column="5" VerticalAlignment="Center" Margin="-450,0,250,0" FontSize="18"  Width="160" IsEnabled="False"/>
+        <TextBox Text="{Binding CurrentItemMat.Nc, StringFormat=N9, TargetNullValue='0,00', ConverterCulture='de-DE', UpdateSourceTrigger=PropertyChanged}" Grid.Row="8" Grid.Column="5" VerticalAlignment="Center" Margin="-450,0,250,0" FontSize="18"  Width="160" IsEnabled="False"/>
 
 
         <Grid Grid.Row="9" Grid.Column="0" Grid.ColumnSpan="6" HorizontalAlignment="Center" VerticalAlignment="Center">
