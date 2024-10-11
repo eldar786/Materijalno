@@ -29,7 +29,7 @@ namespace Materijalno.Model.EntityModels
         public string Konto2 { get; set; }
         public string Fcj { get; set; }
         public decimal? Troskovi { get; set; }
-        public string Cartro { get; set; } = "0";
+        public string Cartro { get; set; }
         public string Zavtro { get; set; }
         public string Ppp { get; set; }
         public string Tarifa { get; set; }
