@@ -273,6 +273,9 @@
     <Compile Include="PrintWindow.xaml.cs">
       <DependentUpon>PrintWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="PrintWindowPovrat.xaml.cs">
+      <DependentUpon>PrintWindowPovrat.xaml</DependentUpon>
+    </Compile>
     <Compile Include="RekapitulacijaTroskova.xaml.cs">
       <DependentUpon>RekapitulacijaTroskova.xaml</DependentUpon>
     </Compile>
@@ -439,6 +442,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="PrintWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="PrintWindowPovrat.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
