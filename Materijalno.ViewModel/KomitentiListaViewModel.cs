@@ -55,6 +55,18 @@ namespace Materijalno.ViewModel
             OdaberiKomitentCommand = new RelayCommand(OdaberiKomitentIzlaz);
             OdustaniCommand = new RelayCommand(Odustani);
         }
+        
+        public KomitentiListaViewModel(MedjuskladisnicaViewModel medjuskladisnicaViewModel, GlavniViewModel glavniViewModel)
+        {
+            StaraSifra_Ime_List = medjuskladisnicaViewModel.StaraSifra_Ime_List;
+            CurrentItemMat = medjuskladisnicaViewModel.CurrentItemMat;
+            _gvm = glavniViewModel;
+
+
+
+            OdaberiKomitentCommand = new RelayCommand(OdaberiKomitentIzlaz);
+            OdustaniCommand = new RelayCommand(Odustani);
+        }
 
         private void OdaberiKomitent()
         {
