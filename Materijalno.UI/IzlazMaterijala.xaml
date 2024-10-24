@@ -53,27 +53,86 @@
         <TextBlock Text="IZLAZ MATERIJALA" FontSize="18" Margin="450,0,0,0" FontWeight="Bold" Grid.Column="0" Grid.ColumnSpan="4" VerticalAlignment="Center" HorizontalAlignment="Center" />
 
 
-        <Button Background="White" Grid.Row="0" Grid.Column="4" x:Name="btnStampa"  FontSize="18" Width="50" Margin="200,5,0,10" HorizontalAlignment="Left" Command="{Binding StampaCommand}" >
-            <Image Source="/Ikone/print.png" Stretch="Uniform"/>
+        <Button Background="White" Grid.Row="0" Grid.Column="5" x:Name="btnStampa"  FontSize="18" Width="50" Margin="70,5,0,10" HorizontalAlignment="Left" Command="{Binding PrintCommand}" >
+            <Image Source="/Ikone/printer.png" Stretch="Uniform"/>
             <Button.ToolTip>
                 <ToolTip Content="Print"/>
             </Button.ToolTip>
         </Button>
-        <Button Background="White" Grid.Row="0" Grid.Column="5" x:Name="btnSave"  FontSize="18" Width="50" Margin="-10,5,0,10" HorizontalAlignment="Left" Command="{Binding SaveCommand}" >
+        <!--<Button Background="White" Grid.Row="0" Grid.Column="5" x:Name="btnSave"  FontSize="18" Width="50" Margin="-10,5,0,10" HorizontalAlignment="Left" Command="{Binding SaveCommand}" >
             <Image Source="/Ikone/save.png" Stretch="Uniform"/>
             <Button.ToolTip>
                 <ToolTip Content="Sačuvaj"/>
             </Button.ToolTip>
-        </Button>
+        </Button>-->
 
-        <Button Background="White" x:Name="btnIzmjena"  Grid.Row="0" Grid.Column="5" FontSize="18" Width="50"  Margin="55,5,0,10" HorizontalAlignment="Left" Command="{Binding IzmjenaCommand, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" >
+        <!--<Button Background="White" x:Name="btnIzmjena"  Grid.Row="0" Grid.Column="5" FontSize="18" Width="50"  Margin="55,5,0,10" HorizontalAlignment="Left" Command="{Binding IzmjenaCommand, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" >
             <Image Source="/Ikone/uredi3.png" Stretch="Uniform"/>
             <Button.ToolTip>
                 <ToolTip Content="Izmjena"/>
             </Button.ToolTip>
-        </Button>
+        </Button>-->
+        
+        <Grid Grid.Row="0" Grid.Column="5" Grid.ColumnSpan="6" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <StackPanel>
+                <StackPanel.Resources>
+                    <Style TargetType="Button">
+                        <Setter Property="FontSize" Value="16"/>
+                        <Setter Property="Padding" Value="10,5"/>
+                        <Setter Property="Margin" Value="10,0"/>
+                        <Setter Property="MinWidth" Value="50"/>
+                        <Setter Property="HorizontalAlignment" Value="Center"/>
+                        <Setter Property="Background" Value="#DDEAFB"/>
+                        <Setter Property="Foreground" Value="#2D2D2D"/>
+                        <Setter Property="BorderBrush" Value="#B0C7E3"/>
+                        <Setter Property="BorderThickness" Value="1.5"/>
+                        <Setter Property="FontWeight" Value="SemiBold"/>
+                        <Setter Property="Height" Value="45"/>
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="Button">
+                                    <Border Background="{TemplateBinding Background}" 
+                                BorderBrush="{TemplateBinding BorderBrush}" 
+                                BorderThickness="{TemplateBinding BorderThickness}" 
+                                CornerRadius="10">
+                                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    </Border>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#C5DFFA"/>
+                                <Setter Property="BorderBrush" Value="#A5BDD7"/>
+                                <Setter Property="Cursor" Value="Hand"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter Property="Foreground" Value="DarkGray"/>
+                                <Setter Property="Background" Value="Gray"/>
+                                <Setter Property="BorderBrush" Value="DarkGray"/>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </StackPanel.Resources>
 
-        <Button Background="White" x:Name="btnPrethodni"  Grid.Row="0" Grid.Column="5" FontSize="18" Width="50"  Margin="120,5,0,10" HorizontalAlignment="Left" Command="{Binding PrethodniButtonCommand}" >
+                <!-- Button for "Previous" using text "<" -->
+                <Button Background="White" x:Name="btnSljedeci" FontSize="18" Width="50" Margin="170,5,0,10" HorizontalAlignment="Left" Command="{Binding NextButtonCommand}">
+                    <Button.ToolTip>
+                        <ToolTip Content="Sljedeci"/>
+                    </Button.ToolTip>
+                    <TextBlock Text=">" FontSize="24"/>
+                </Button>
+                <Button Background="White" x:Name="btnPrethodni" FontSize="18" Margin="110,-65,0,0" Width="50"  HorizontalAlignment="Left" Command="{Binding PrethodniButtonCommand}">
+                    <Button.ToolTip>
+                        <ToolTip Content="Prethodni"/>
+                    </Button.ToolTip>
+                    <TextBlock Text="&lt;" FontSize="24"/>
+                </Button>
+
+                <!-- Button for "Next" using text ">" -->
+            </StackPanel>
+        </Grid>
+        <!--<Button Background="White" x:Name="btnPrethodni"  Grid.Row="0" Grid.Column="5" FontSize="18" Width="50"  Margin="120,5,0,10" HorizontalAlignment="Left" Command="{Binding PrethodniButtonCommand}" >
             <Image Source="/Ikone/backleft.png" Stretch="Uniform"/>
             <Button.ToolTip>
                 <ToolTip Content="Prethodni"/>
@@ -85,7 +144,7 @@
             <Button.ToolTip>
                 <ToolTip Content="Sljedeci"/>
             </Button.ToolTip>
-        </Button>
+        </Button>-->
 
         <Label Grid.Row="1" Grid.Column="0" Margin="0,0,0,0" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="18">Skladište</Label>
         <TextBox Text="{Binding CurrentItemMat.Kljnaz}" Name="OpBroj" Grid.Row="1" KeyDown="TextBox_KeyDown"  Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left" FontWeight="Bold"  Width="120" FontSize="18"/>
@@ -97,13 +156,10 @@
         <DatePicker Grid.Row="2" SelectedDate="{Binding CurrentItemMat.Datun, UpdateSourceTrigger=PropertyChanged}" Grid.Column="1" KeyDown="TextBox_KeyDown"  HorizontalAlignment="Left" Height="30" FontSize="18" Width="120" Name="dtpOd" />
 
         <Label Grid.Row="2" Grid.Column="3" Margin="0,0,100,0" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="18" >Broj kalkulacije</Label>
-        <TextBox Grid.Row="2" Text="{Binding CurrentItemMat.Brfak}" Grid.Column="4" Margin="-90,0,0,0" IsEnabled="False" KeyDown="TextBox_KeyDown"  VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="18"  Width="120"/>
+        <TextBox Grid.Row="2" Text="{Binding CurrentItemMat.Brfak}" Grid.Column="4" Margin="-90,0,0,0"  KeyDown="TextBox_KeyDown"  VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="18"  Width="120"/>
 
         <Label Grid.Row="3" Grid.Column="0"  HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="18">Broj otpremnice</Label>
         <TextBox Grid.Row="3" Text="{Binding CurrentItemMat.Brdok}" Grid.Column="1" KeyDown="TextBox_KeyDown" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="18"  Width="120"/>
-
-        <!--<Label Grid.Row="4" Grid.Column="0" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="18">Broj dokumenta</Label>-->
-        <!--treba otvorit tabelu-->
 
         <Label Grid.Row="3" Grid.Column="3" Margin="0,0,100,0" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="18">Datum otpremnice</Label>
         <DatePicker SelectedDate="{Binding CurrentItemMat.Datnar, UpdateSourceTrigger=PropertyChanged}" Grid.Row="3" Grid.Column="4" Margin="-90,0,0,0" KeyDown="TextBox_KeyDown"  HorizontalAlignment="Left" Height="30" FontSize="18" Width="120" Name="dtpOd1" />
@@ -112,21 +168,21 @@
         <TextBox Text="{Binding CurrentItemMat.Redbr}" Grid.Row="5" Grid.Column="1" KeyDown="TextBox_KeyDown"  VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="18"  Width="120"/>
 
         <Label Grid.Row="5" Grid.Column="2" Margin="-125,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="18">Šifra materijala</Label>
-        <!--treba otvorit tabelu-->
+
         <TextBox Grid.Row="5" Text="{Binding CurrentItemMat.Ident}" Grid.Column="3" Margin="-270,0,0,0" KeyDown="TextBox_KeyDown"  VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="18"  Width="120"/>
         <TextBox Grid.Row="5" Text="{Binding CurrentItemTabMaterijala.Nazmat}" IsReadOnly="True" Grid.Column="4" Margin="-370,0,0,0" KeyDown="TextBox_KeyDown"  VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="18"  Width="400"/>
 
         <Label Grid.Row="6" Grid.Column="1" KeyDown="TextBox_KeyDown"  HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="18">Ekonomska jedinica</Label>
-        <TextBox Grid.Row="6" Text="{Binding CurrentItemMat.Ourst}" Grid.Column="2" KeyDown="TextBox_KeyDown"  VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="18"  Width="120"/>
+        <TextBox Grid.Row="6" Text="{Binding CurrentItemMat.Ourst, TargetNullValue='0,00'}" Grid.Column="2" KeyDown="TextBox_KeyDown"  VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="18"  Width="120"/>
 
         <Label Grid.Row="6" Grid.Column="3" Margin="0,0,100,0" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="18">Mjesto troška</Label>
-        <TextBox Grid.Row="6" Text="{Binding CurrentItemMat.Mjtst}" Grid.Column="4" Margin="-90,0,0,0" KeyDown="TextBox_KeyDown"  VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="18"  Width="120"/>
+        <TextBox Grid.Row="6" Text="{Binding CurrentItemMat.Mjtst,TargetNullValue='0,00'}" Grid.Column="4" Margin="-90,0,0,0" KeyDown="TextBox_KeyDown"  VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="18"  Width="120"/>
 
         <Label Grid.Row="7" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="18">Količina</Label>
         <TextBox Grid.Row="7" Text="{Binding CurrentItemMat.Kolic}" Grid.Column="2" KeyDown="TextBox_KeyDown"  VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="18"  Width="120"/>
 
         <Label Grid.Row="7" Grid.Column="3" Margin="-40,0,100,0" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="18">Prosječna nabavna cijena</Label>
-        <TextBox Grid.Row="7" Text="{Binding CurrentItemMat.Nc}" Grid.Column="4" Margin="-90,0,0,0" IsEnabled="False" KeyDown="TextBox_KeyDown"  VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="18"  Width="120"/>
+        <TextBox Grid.Row="7" Text="{Binding CurrentItemMat.Nc, StringFormat=N9, TargetNullValue='0,00', ConverterCulture='de-DE', UpdateSourceTrigger=PropertyChanged}" Grid.Column="4" Margin="-90,0,0,0" KeyDown="TextBox_KeyDown"  VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="18"  Width="120"/>
 
         <Label Grid.Row="8" Grid.Column="3" Margin="0,0,100,0" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="18">Vrijednost</Label>
         <TextBox Grid.Row="8" Text="{Binding CurrentItemMat.Vrijed}" Grid.Column="4" Margin="-90,0,0,0" KeyDown="TextBox_KeyDown" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="18"  Width="120"/>
