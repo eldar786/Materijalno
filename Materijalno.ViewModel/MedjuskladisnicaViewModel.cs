@@ -5,7 +5,6 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-//using System.Windows.Data;
 using System.Windows.Input;
 using Materijalno.Model;
 using System.Windows;
@@ -38,6 +37,7 @@ namespace Materijalno.ViewModel
         public static Mat selectedMat;
         private TabelaMaterijala currentItemTabMaterijala;
         private SifarnikSkladista currentItemTabSkladista;
+        private SifarnikSkladista currentItemTabSkladistaUlaza;
         string connectionString = "Server= 192.168.1.213;Trusted_Connection=False;" +
              "MultipleActiveResultSets=true;User Id=sa;Password=Lutrija1;";
 
@@ -92,6 +92,16 @@ namespace Materijalno.ViewModel
                 OnPropertyChanged(nameof(currentItemTabSkladista));
             }
         }
+        
+        public SifarnikSkladista CurrentItemTabSkladistaUlaza
+        {
+            get { return currentItemTabSkladista; }
+            set
+            {
+                currentItemTabSkladista = value;
+                OnPropertyChanged(nameof(currentItemTabSkladista));
+            }
+        }
 
         public string CurrentNazivZaSifruKomitenta
         {
@@ -125,7 +135,8 @@ namespace Materijalno.ViewModel
         }
 
         public ObservableCollection<TabelaMaterijala> TebelaMaterijalaList { get; set; }
-        public ObservableCollection<SifarnikSkladista> TebelaSkladistaList { get; set; }
+        public ObservableCollection<SifarnikSkladista> TebelaSkladistaList { get; set; } 
+        public ObservableCollection<SifarnikSkladista> TebelaSkladistaUlazaList { get; set; }
         public ObservableCollection<Mat> MatList { get; set; }
         public List<Komitenti> StaraSifra_Ime_List { get; set; }
 
@@ -190,12 +201,12 @@ namespace Materijalno.ViewModel
                 //Dodaj u listu gdje je kljnaz == 1000 i sortiraj po datumu iz kolone (datun)
                 //Neki datum preskoci, treba napraviti dobar data type za kolonu (datun) u sql bazi
                 MatList = new ObservableCollection<Mat>(dbContext.Mat
-                     .Where(row => row.Kljnaz1 >= 1001 && row.Kljnaz1 <= 1012 && row.Kljnaz==1000)
+                     .Where(row => row.Kljnaz1 >= 1000 && row.Kljnaz1 <= 1012 && row.Kljnaz>= 1000 && row.Kljnaz <= 1012)
                      .OrderBy(row => row.Datun)
                      .ToList());
 
                 UpdateCurrentItemData(dbContext);
-                UpdateCurrentItemDataPovrat(dbContext);
+                //UpdateCurrentItemDataPovrat(dbContext);
 
                 StaraSifra_Ime_List = DohvatiNazivKomitenta();
             }
@@ -240,7 +251,7 @@ namespace Materijalno.ViewModel
                 //Dodaj u listu gdje je kljnaz == 1000 i sortiraj po datumu iz kolone (datun)
                 //Neki datum preskoci, treba napraviti dobar data type za kolonu (datun) u sql bazi
                 MatList = new ObservableCollection<Mat>(dbContext.Mat
-                    .Where(row => row.Kljnaz == 1000)
+                    .Where(row => row.Kljnaz1 >= 1000 && row.Kljnaz1 <= 1012 && row.Kljnaz >= 1000 && row.Kljnaz <= 1012)
                     .OrderBy(row => row.Datun)
                     .ToList());
 
@@ -257,12 +268,15 @@ namespace Materijalno.ViewModel
 
                 CurrentItemMat = (Mat)MatList.FirstOrDefault(row => row.Id == CurrentItemMat.Id);
 
-                //Nadji listu svih po *Ident* iz *TabelaMaterijala* i *CurrentItem* (Mat) i stavi u listu
                 TebelaMaterijalaList = new ObservableCollection<TabelaMaterijala>(dbContext.TabelaMaterijala.Where(row => row.Ident == CurrentItemMat.Ident).ToList());
 
+                TebelaSkladistaList = new ObservableCollection<SifarnikSkladista>(dbContext.SifarnikSkladista.Where(row => row.Kljnaz == CurrentItemMat.Kljnaz).ToList());
+
+                TebelaSkladistaUlazaList = new ObservableCollection<SifarnikSkladista>(dbContext.SifarnikSkladista.Where(row => row.Kljnaz == CurrentItemMat.Kljnaz1).ToList());
                 //Nadji jednu vrijednost po *Ident* iz *TabelaMaterijala* i po Sifri materijala iz tabele *Mat*(col:*Ident*) i stavi u jedan property
                 CurrentItemTabMaterijala = dbContext.TabelaMaterijala.Where(row => row.Ident == CurrentItemMat.Ident).FirstOrDefault();
-
+                CurrentItemTabSkladista = dbContext.SifarnikSkladista.Where(row => row.Kljnaz == CurrentItemMat.Kljnaz).FirstOrDefault();
+                CurrentItemTabSkladistaUlaza = dbContext.SifarnikSkladista.Where(row => row.Kljnaz == CurrentItemMat.Kljnaz1).FirstOrDefault();
                 //Ako lista nije popunjena iz linked server (oracle baza), onda ce preskociti i pozivati u konstruktoru preko druge metode i
                 //popuniti CurrentNazivZaSifruKomitenta. Ovo radimo da ne bi ponovo popunjavali listu iz oracle baze, zbog brzeg rada aplikacije
                 if (StaraSifra_Ime_List != null)
@@ -290,10 +304,10 @@ namespace Materijalno.ViewModel
 
         public void NabavnaCijena()
         {
-            decimal? inputValue1 = CurrentItemMat.Vrijed;
-            decimal? inputValue2 = CurrentItemMat.Trospe;
-            decimal? inputValue3 = CurrentItemMat.Porppp;
-            decimal? inputValue4 = CurrentItemMat.Troskovi;
+            decimal? inputValue1 = CurrentItemMat.Kolic;
+            //decimal? inputValue2 = CurrentItemMat.Trospe;
+            //decimal? inputValue3 = CurrentItemMat.Porppp;
+            //decimal? inputValue4 = CurrentItemMat.Troskovi;
             decimal carinaValue = 0.00m;
 
             // Ovo radimo zato sto je "Cartro" string i vraca null kada se ne dodijeli vrijednost (trenutno rjesenje)
@@ -310,18 +324,18 @@ namespace Materijalno.ViewModel
 
             decimal? value1 = inputValue1.HasValue ? (decimal?)inputValue1.Value : 0;
 
-            decimal? value2 = inputValue2.HasValue ? (decimal?)inputValue2.Value : 0;
+            //decimal? value2 = inputValue2.HasValue ? (decimal?)inputValue2.Value : 0;
 
-            decimal? value3 = inputValue3.HasValue ? (decimal?)inputValue3.Value : 0;
+            //decimal? value3 = inputValue3.HasValue ? (decimal?)inputValue3.Value : 0;
 
-            decimal? value4 = inputValue4.HasValue ? (decimal?)inputValue4.Value : 0;
+            //decimal? value4 = inputValue4.HasValue ? (decimal?)inputValue4.Value : 0;
 
-            decimal? sum = value1 + value2 + value3 + value4 + carinaValue;
+            //decimal? sum = value1 + value2 + value3 + value4 + carinaValue;
 
             if (CurrentItemMat.Kolic.HasValue && CurrentItemMat.Kolic.Value != 0)
             {
-                decimal? nc = (sum / (decimal)CurrentItemMat.Kolic);
-                CurrentItemMat.Nc = (sum / (decimal)CurrentItemMat.Kolic.Value);
+                //decimal? nc = (sum / (decimal)CurrentItemMat.Kolic);
+                //CurrentItemMat.Nc = (sum / (decimal)CurrentItemMat.Kolic.Value);
             }
             else
             {
@@ -335,7 +349,7 @@ namespace Materijalno.ViewModel
 
             //Staviti po datumu da sortira i dodaj u listu da bi se vidjele promjene
             MatList = new ObservableCollection<Mat>(dbContext.Mat
-                .Where(row => row.Kljnaz == 1000)
+                .Where(row => row.Kljnaz1 >= 1000 && row.Kljnaz1 <= 1012 && row.Kljnaz >= 1000 && row.Kljnaz <= 1012)
                 .OrderBy(row => row.Datun)
                 .ToList());
 
@@ -371,8 +385,8 @@ namespace Materijalno.ViewModel
                             StaraSifra_Ime_List.Add(komitent);
                         }
                         //Daj mi ime na osnovu jednakosti i stavi ga u property string
-                        CurrentNazivZaSifruKomitenta = string.IsNullOrEmpty(CurrentItemMed.Analst) ? ""
-                            : StaraSifra_Ime_List.FirstOrDefault(row => row.STARA_SIFRA == CurrentItemMed.Analst)?.IME;
+                        CurrentNazivZaSifruKomitenta = string.IsNullOrEmpty(currentItemMat.Analst) ? ""
+                            : StaraSifra_Ime_List.FirstOrDefault(row => row.STARA_SIFRA == currentItemMat.Analst)?.IME;
                     }
                 }
             }
@@ -381,7 +395,6 @@ namespace Materijalno.ViewModel
 
         private void NextButton()
         {
-
             using (var dbContext = new materijalno_knjigovodstvoContext())
             {
                 //kada se dodje do zadnjeg reda da obavijesti korisnika i vrati metodu
@@ -390,18 +403,20 @@ namespace Materijalno.ViewModel
                     UpdateCurrentItemData(dbContext);
                     System.Windows.MessageBox.Show("Došli ste do zadnjeg podatka", "Upozorenje", MessageBoxButton.OK, MessageBoxImage.Information);
 
-                    UpdateCurrentItemDataPovrat(dbContext);
+                    //UpdateCurrentItemDataPovrat(dbContext);
                     System.Windows.MessageBox.Show("Došli ste do zadnjeg podatka", "Upozorenje", MessageBoxButton.OK, MessageBoxImage.Information);
 
                     return;
                 }
 
                 CurrentIndex = (CurrentIndex + 1) % MatList.Count;
-
+                CurrentItemMat = MatList[CurrentIndex];
+                //CurrentItemPovrat = MatList[CurrentIndex];
                 UpdateCurrentItemData(dbContext);
-                UpdateCurrentItemDataPovrat(dbContext);
+                //UpdateCurrentItemDataPovrat(dbContext);
 
             }
+
         }
         private void PrethodniButton()
         {
@@ -410,13 +425,13 @@ namespace Materijalno.ViewModel
                 if (CurrentIndex == 0)
                 {
                     System.Windows.MessageBox.Show("Došli ste do prvog podatka", "Upozorenje", MessageBoxButton.OK, MessageBoxImage.Information);
+
                     return;
                 }
 
                 CurrentIndex = (CurrentIndex - 1) % MatList.Count;
-
+                CurrentItemMat = MatList[CurrentIndex];
                 UpdateCurrentItemData(dbContext);
-                UpdateCurrentItemDataPovrat(dbContext);
             }
         }
         private void PrviButton()
@@ -428,8 +443,7 @@ namespace Materijalno.ViewModel
                 UpdateCurrentItemData(dbContext);
                 System.Windows.MessageBox.Show("Došli ste do prvog podatka", "Upozorenje", MessageBoxButton.OK, MessageBoxImage.Information);
 
-                UpdateCurrentItemDataPovrat(dbContext);
-                System.Windows.MessageBox.Show("Došli ste do prvog podatka", "Upozorenje", MessageBoxButton.OK, MessageBoxImage.Information);
+                
             }
         }
         private void ZadnjiButton()
@@ -442,8 +456,7 @@ namespace Materijalno.ViewModel
 
                 System.Windows.MessageBox.Show("Došli ste do zadnjeg podatka", "Upozorenje", MessageBoxButton.OK, MessageBoxImage.Information);
 
-                UpdateCurrentItemDataPovrat(dbContext);
-                System.Windows.MessageBox.Show("Došli ste do prvog podatka", "Upozorenje", MessageBoxButton.OK, MessageBoxImage.Information);
+               
             }
         }
 
@@ -521,7 +534,7 @@ namespace Materijalno.ViewModel
                 MatList.Add(new Mat
                 {
                     //Za ulaz materijala broj skladišta je uvijek 1000
-                    Kljnaz = 1000
+                   Kljnaz = 1000
                 });
 
                 CurrentIndex = MatList.Count - 1;
@@ -545,7 +558,7 @@ namespace Materijalno.ViewModel
 
                 //Staviti po datumu da sortira i dodaj u listu da bi se vidjele promjene
                 MatList = new ObservableCollection<Mat>(dbContext.Mat
-                    .Where(row => row.Kljnaz == 1000)
+                    .Where(row => row.Kljnaz1 >= 1000 && row.Kljnaz1 <= 1012 && row.Kljnaz >= 1000 && row.Kljnaz <= 1012)
                     .OrderBy(row => row.Datun)
                     .ToList());
 
@@ -616,7 +629,7 @@ namespace Materijalno.ViewModel
 
                     CurrentItemMat = null;
 
-                    _gvm.OdabraniVM = new UlazMaterijalaViewModel(_gvm);
+                    _gvm.OdabraniVM = new MedjuskladisnicaViewModel(_gvm);
                 }
                 else if (resultMessageBox == MessageBoxResult.No)
                 {
@@ -649,17 +662,20 @@ namespace Materijalno.ViewModel
             {
                 CurrentItemMat = MatList[CurrentIndex];
             }
-            
 
-            CurrentItemMat = MatList[CurrentIndex];
 
+            //CurrentItemMat = MatList[CurrentIndex];
 
             //Nadji listu svih po *Ident* iz *TabelaMaterijala* i *CurrentItem* (Mat) i stavi u listu
             TebelaMaterijalaList = new ObservableCollection<TabelaMaterijala>(dbContext.TabelaMaterijala.Where(row => row.Ident == CurrentItemMat.Ident).ToList());
 
+            TebelaSkladistaList = new ObservableCollection<SifarnikSkladista>(dbContext.SifarnikSkladista.Where(row => row.Kljnaz == CurrentItemMat.Kljnaz).ToList());
+
+            TebelaSkladistaUlazaList = new ObservableCollection<SifarnikSkladista>(dbContext.SifarnikSkladista.Where(row => row.Kljnaz== CurrentItemMat.Kljnaz1).ToList());
             //Nadji jednu vrijednost po *Ident* iz *TabelaMaterijala* i po Sifri materijala iz tabele *Mat*(col:*Ident*) i stavi u jedan property
             CurrentItemTabMaterijala = dbContext.TabelaMaterijala.Where(row => row.Ident == CurrentItemMat.Ident).FirstOrDefault();
-
+            CurrentItemTabSkladista = dbContext.SifarnikSkladista.Where(row => row.Kljnaz == CurrentItemMat.Kljnaz).FirstOrDefault();
+            CurrentItemTabSkladistaUlaza = dbContext.SifarnikSkladista.Where(row => row.Kljnaz == CurrentItemMat.Kljnaz1).FirstOrDefault();
             //Ako lista nije popunjena iz linked server (oracle baza), onda ce preskociti i pozivati u konstruktoru preko druge metode i
             //popuniti CurrentNazivZaSifruKomitenta. Ovo radimo da ne bi ponovo popunjavali listu iz oracle baze, zbog brzeg rada aplikacije
             if (StaraSifra_Ime_List != null)
@@ -667,6 +683,14 @@ namespace Materijalno.ViewModel
                 CurrentNazivZaSifruKomitenta = string.IsNullOrEmpty(CurrentItemMat.Analst) ? ""
                     : StaraSifra_Ime_List.FirstOrDefault(row => row.STARA_SIFRA == CurrentItemMat.Analst)?.IME;
             }
+
+            if (selectedKomitent != null)
+            {
+                CurrentItemMat.Analst = selectedKomitent.STARA_SIFRA;
+                CurrentNazivZaSifruKomitenta = selectedKomitent.IME;
+            }
+
+            selectedKomitent = null;
         }
 
         private void UpdateCurrentItemDataPovrat(materijalno_knjigovodstvoContext dbContext)
