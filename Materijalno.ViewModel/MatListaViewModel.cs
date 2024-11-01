@@ -41,7 +41,7 @@ namespace Materijalno.ViewModel
             OdaberiMatCommand = new RelayCommand(OdaberiMat);
             OdustaniODdabirCommand = new RelayCommand(Odustani);
         }
-        
+
         public MatListaViewModel(IzlazMaterijalaViewModel ilazMaterijalaViewModel, GlavniViewModel glavniViewModel)
         {
             MatList = ilazMaterijalaViewModel.MatList;
@@ -59,13 +59,28 @@ namespace Materijalno.ViewModel
             OdaberiMatCommand = new RelayCommand(OdaberiMatMedjuskladisnica);
             OdustaniODdabirCommand = new RelayCommand(OdustaniMedjuskladisnica);
         }
-        
+
         public MatListaViewModel(PovratMaterijalaViewModel povratMaterijalaViewModel, GlavniViewModel glavniViewModel)
         {
             MatList = povratMaterijalaViewModel.MatList;
             _gvm = glavniViewModel;
             CurrentItemMat = povratMaterijalaViewModel.CurrentItemMat;
             OdaberiMatCommand = new RelayCommand(OdaberiMatPovrat);
+        }
+
+        private void OdaberiMatPovrat()
+        {
+            using (var dbContext = new materijalno_knjigovodstvoContext())
+            {
+                if (SelectedMat != null)
+                {
+                    CurrentItemMat = SelectedMat;
+                }
+
+                PovratMaterijalaViewModel.isTraziClicked = true;
+                PovratMaterijalaViewModel.selectedMat = selectedMat;
+                _gvm.OdabraniVM = new PovratMaterijalaViewModel(_gvm, CurrentItemMat);
+            }
         }
 
         private void OdaberiMat()
@@ -97,7 +112,7 @@ namespace Materijalno.ViewModel
                 _gvm.OdabraniVM = new IzlazMaterijalaViewModel(_gvm, CurrentItemMat);
             }
         }
-        
+
         private void OdaberiMatMedjuskladisnica()
         {
             using (var dbContext = new materijalno_knjigovodstvoContext())
@@ -118,22 +133,16 @@ namespace Materijalno.ViewModel
         {
             _gvm.OdabraniVM = new UlazMaterijalaViewModel(_gvm, CurrentItemMat);
         }
-        
+
         private void OdustaniIzlaz()
         {
             _gvm.OdabraniVM = new IzlazMaterijalaViewModel(_gvm, CurrentItemMat);
         }
-        
+
         private void OdustaniMedjuskladisnica()
         {
             _gvm.OdabraniVM = new MedjuskladisnicaViewModel(_gvm, CurrentItemMat);
         }
-
-                PovratMaterijalaViewModel.isTraziClicked = true;
-                PovratMaterijalaViewModel.selectedMat = selectedMat;
-                _gvm.OdabraniVM = new PovratMaterijalaViewModel(_gvm, CurrentItemMat);
-            }
-
-        }
     }
+
 }
