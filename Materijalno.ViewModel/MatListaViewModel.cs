@@ -59,6 +59,14 @@ namespace Materijalno.ViewModel
             OdaberiMatCommand = new RelayCommand(OdaberiMatMedjuskladisnica);
             OdustaniODdabirCommand = new RelayCommand(OdustaniMedjuskladisnica);
         }
+        
+        public MatListaViewModel(PovratMaterijalaViewModel povratMaterijalaViewModel, GlavniViewModel glavniViewModel)
+        {
+            MatList = povratMaterijalaViewModel.MatList;
+            _gvm = glavniViewModel;
+            CurrentItemMat = povratMaterijalaViewModel.CurrentItemMat;
+            OdaberiMatCommand = new RelayCommand(OdaberiMatPovrat);
+        }
 
         private void OdaberiMat()
         {
@@ -88,7 +96,6 @@ namespace Materijalno.ViewModel
                 IzlazMaterijalaViewModel.selectedMat = selectedMat;
                 _gvm.OdabraniVM = new IzlazMaterijalaViewModel(_gvm, CurrentItemMat);
             }
-
         }
         
         private void OdaberiMatMedjuskladisnica()
@@ -122,6 +129,11 @@ namespace Materijalno.ViewModel
             _gvm.OdabraniVM = new MedjuskladisnicaViewModel(_gvm, CurrentItemMat);
         }
 
+                PovratMaterijalaViewModel.isTraziClicked = true;
+                PovratMaterijalaViewModel.selectedMat = selectedMat;
+                _gvm.OdabraniVM = new PovratMaterijalaViewModel(_gvm, CurrentItemMat);
+            }
 
+        }
     }
 }
