@@ -1,6 +1,8 @@
-﻿using System;
+﻿using Materijalno.ViewModel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Printing;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -23,8 +25,72 @@ namespace Materijalno.UI
         public PovratMaterijala()
         {
             InitializeComponent();
+
+            this.DataContextChanged += MainWindow_DataContextChanged;
         }
-        
+
+        private void MainWindow_DataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            // Check if the DataContext is of type 
+            if (e.NewValue is PovratMaterijalaViewModel povratMaterijalaViewModel)
+            {
+                // Subscribe to the print event from the ViewModel
+                povratMaterijalaViewModel.OnPrintEvent += HandlePrintRequest;
+            }
+        }
+
+
+        private void HandlePrintRequest()
+        {
+            // Kreiranje Window za print
+            PrintWindowPovrat printWindow = new PrintWindowPovrat();
+
+            // Postavljanje DataContext za PrintWindow (uzeli smo )
+            if (DataContext is PovratMaterijalaViewModel povratMaterijalaViewModel)
+            {
+                // Dodajemo trenutni ViewModel u PrintWindow
+                printWindow.DataContext = povratMaterijalaViewModel;
+
+                // Prikazi prozor za print
+                printWindow.Show();
+
+                // Koristimo PrintDialog za ispis zadrzaja prozora
+                PrintDialog printDialog = new PrintDialog();
+
+                if (printDialog.ShowDialog() == true)
+                {
+                    // Postavljamo velicinu na A4 i vodoravna orijentacija
+                    printDialog.PrintTicket.PageMediaSize = new PageMediaSize(PageMediaSizeName.ISOA4);
+                    printDialog.PrintTicket.PageOrientation = PageOrientation.Landscape;
+
+                    //  Izračunamo faktor skaliranja kako bi sadržaj odgovarao formatu A4
+                    double scaleX = printDialog.PrintableAreaWidth / printWindow.ActualWidth;
+                    double scaleY = printDialog.PrintableAreaHeight / printWindow.ActualHeight;
+                    double scale = Math.Min(scaleX, scaleY);
+
+                    // Save the original transform
+                    Transform originalTransform = printWindow.LayoutTransform;
+
+                    // Apply scaling transform to the PrintWindow
+                    printWindow.LayoutTransform = new ScaleTransform(scale, scale);
+
+                    // Measure and arrange the page to the size of the printable area
+                    Size pageSize = new Size(printDialog.PrintableAreaWidth, printDialog.PrintableAreaHeight);
+                    printWindow.Measure(pageSize);
+                    printWindow.Arrange(new Rect(0, 0, pageSize.Width, pageSize.Height));
+
+                    // Print the window's visual
+                    printDialog.PrintVisual(printWindow, "Print DataGrid");
+
+                    // Restore the original transform
+                    printWindow.LayoutTransform = originalTransform;
+                }
+
+                // Close the print window after printing
+                printWindow.Close();
+            }
+        }
+
         private void TextBox_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Enter)
