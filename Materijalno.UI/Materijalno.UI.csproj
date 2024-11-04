@@ -600,6 +600,9 @@
   <ItemGroup>
     <Resource Include="Ikone\save.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Ikone\printer.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
