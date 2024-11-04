@@ -533,7 +533,7 @@ namespace Materijalno.ViewModel
             //Prolazi ponovo provjeru CanExecute
             isNovaKalkulacijaClicked = true;
 
-            UpdateCommands();
+            UpdateCommands(); 
 
             using (var dbContext = new materijalno_knjigovodstvoContext())
             {
