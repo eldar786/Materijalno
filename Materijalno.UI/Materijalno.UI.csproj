@@ -273,6 +273,8 @@
     <Compile Include="PrintWindow.xaml.cs">
       <DependentUpon>PrintWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="PrintWindowIzlazMaterijala.xaml.cs">
+      <DependentUpon>PrintWindowIzlazMaterijala.xaml</DependentUpon>
     <Compile Include="PrintWindowMedjuskladisnica.xaml.cs">
       <DependentUpon>PrintWindowMedjuskladisnica.xaml</DependentUpon>
     </Compile>
@@ -445,6 +447,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="PrintWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="PrintWindowIzlazMaterijala.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
