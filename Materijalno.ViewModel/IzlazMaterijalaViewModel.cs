@@ -117,6 +117,17 @@ namespace Materijalno.ViewModel
             }
         }
 
+        decimal? ukupnoNc;
+        public decimal? UkupnoNc
+        {
+            get { return ukupnoNc; }
+            set
+            {
+                ukupnoNc = value;
+                OnPropertyChanged(nameof(UkupnoNc));
+            }
+        }
+
         public ObservableCollection<TabelaMaterijala> TebelaMaterijalaList { get; set; }
         public ObservableCollection<SifarnikSkladista> TebelaSkladistaList { get; set; }
         public ObservableCollection<Mat> MatList { get; set; }
@@ -186,11 +197,6 @@ namespace Materijalno.ViewModel
 
             using (var dbContext = new materijalno_knjigovodstvoContext())
             {
-                //NextButtonCommand = new RelayCommand(NextButton);
-                //PrethodniButtonCommand = new RelayCommand(PrethodniButton);
-                //PrviButtonCommand = new RelayCommand(PrviButton);
-                //ZadnjiButtonCommand = new RelayCommand(ZadnjiButton);
-
                 //Dodaj u listu gdje je kljnaz između 1000 i 1012 i sortiraj po datumu iz kolone (datun)
                 //Neki datum preskoci, treba napraviti dobar data type za kolonu (datun) u sql bazi
                 MatList = new ObservableCollection<Mat>(dbContext.Mat
@@ -300,19 +306,31 @@ namespace Materijalno.ViewModel
             decimal? inputValue2 = CurrentItemMat.Trospe;
             decimal? inputValue3 = CurrentItemMat.Porppp;
             decimal? inputValue4 = CurrentItemMat.Troskovi;
+            decimal carinaValue = 0.00m;
+
+            // Ovo radimo zato sto je "Cartro" string i vraca null kada se ne dodijeli vrijednost (trenutno rjesenje)
+            if (CurrentItemMat.Cartro == null)
+            {
+                CurrentItemMat.Cartro = "0,00";
+            }
+            else
+            {
+                carinaValue = decimal.Parse(CurrentItemMat.Cartro);
+            }
 
             var culture = new CultureInfo("de-DE");
 
             decimal? value1 = inputValue1.HasValue ? (decimal?)inputValue1.Value : 0;
 
-            //decimal? value1 = decimal.Parse(inputValue1, NumberStyles.AllowThousands | NumberStyles.AllowDecimalPoint, culture);
             decimal? value2 = inputValue2.HasValue ? (decimal?)inputValue2.Value : 0;
 
             decimal? value3 = inputValue3.HasValue ? (decimal?)inputValue3.Value : 0;
 
             decimal? value4 = inputValue4.HasValue ? (decimal?)inputValue4.Value : 0;
 
-            decimal? sum = value1 + value2 + value3 + value4;
+            decimal? sum = value1 + value2 + value3 + value4 + carinaValue;
+
+
             //CurrentItemMat.Nc = (sum / (decimal)CurrentItemMat.Kolic).ToString();
             if (CurrentItemMat.Kolic.HasValue && CurrentItemMat.Kolic.Value != 0)
             {
@@ -492,6 +510,16 @@ namespace Materijalno.ViewModel
 
         private void Print()
         {
+            //Pozivano ovu metodu zbog ukupnoTroskovi, da bi prilikom printa izracunao, da ne bi morali ponovo racunati
+            NabavnaCijena();
+            var culture = new CultureInfo("de-DE");
+
+            decimal? ukupnoNcValue = CurrentItemMat.Kolic * CurrentItemMat.Nc;
+            //treba vidjeti kako da prebaci na DE culture???
+            ukupnoNc = Math.Round((decimal)ukupnoNcValue, 9);
+            decimal? formmatedNc = decimal.Parse(ukupnoNc.ToString(), NumberStyles.AllowThousands | NumberStyles.AllowDecimalPoint, culture);
+            ukupnoNc = formmatedNc;
+
             OnPrintEvent?.Invoke();
         }
 

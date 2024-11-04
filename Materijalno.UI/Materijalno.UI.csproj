@@ -273,6 +273,15 @@
     <Compile Include="PrintWindow.xaml.cs">
       <DependentUpon>PrintWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="PrintWindowIzlazMaterijala.xaml.cs">
+      <DependentUpon>PrintWindowIzlazMaterijala.xaml</DependentUpon>
+	</Compile>
+    <Compile Include="PrintWindowMedjuskladisnica.xaml.cs">
+      <DependentUpon>PrintWindowMedjuskladisnica.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="PrintWindowPovrat.xaml.cs">
+      <DependentUpon>PrintWindowPovrat.xaml</DependentUpon>
+    </Compile>
     <Compile Include="RekapitulacijaTroskova.xaml.cs">
       <DependentUpon>RekapitulacijaTroskova.xaml</DependentUpon>
     </Compile>
@@ -442,6 +451,18 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="PrintWindowIzlazMaterijala.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="PrintWindowMedjuskladisnica.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="PrintWindowPovrat.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="RekapitulacijaTroskova.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -599,6 +620,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Ikone\save.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Ikone\printer.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
