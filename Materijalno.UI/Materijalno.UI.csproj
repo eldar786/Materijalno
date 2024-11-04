@@ -275,6 +275,7 @@
     </Compile>
     <Compile Include="PrintWindowIzlazMaterijala.xaml.cs">
       <DependentUpon>PrintWindowIzlazMaterijala.xaml</DependentUpon>
+	</Compile>
     <Compile Include="PrintWindowMedjuskladisnica.xaml.cs">
       <DependentUpon>PrintWindowMedjuskladisnica.xaml</DependentUpon>
     </Compile>
