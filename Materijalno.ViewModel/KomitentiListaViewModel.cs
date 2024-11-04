@@ -1,4 +1,4 @@
-﻿using Materijalno.Model;
+using Materijalno.Model;
 using Materijalno.Model.EntityModels;
 using System;
 using System.Collections.Generic;
@@ -56,29 +56,19 @@ namespace Materijalno.ViewModel
             OdustaniCommand = new RelayCommand(Odustani);
         }
         
-        public KomitentiListaViewModel(MedjuskladisnicaViewModel medjuskladisnicaViewModel, GlavniViewModel glavniViewModel)
+        public KomitentiListaViewModel(MedjuskladisnicaViewModel medjuskladnisnicaViewModel, GlavniViewModel glavniViewModel)
         {
-            StaraSifra_Ime_List = medjuskladisnicaViewModel.StaraSifra_Ime_List;
-            CurrentItemMat = medjuskladisnicaViewModel.CurrentItemMat;
+            StaraSifra_Ime_List = medjuskladnisnicaViewModel.StaraSifra_Ime_List;
+            CurrentItemMat = medjuskladnisnicaViewModel.CurrentItemMat;
             _gvm = glavniViewModel;
 
 
 
-            OdaberiKomitentCommand = new RelayCommand(OdaberiKomitentIzlaz);
+            OdaberiKomitentCommand = new RelayCommand(OdaberiKomitentMedjuskladnisnica);
             OdustaniCommand = new RelayCommand(Odustani);
         }
 
-        public KomitentiListaViewModel(PovratMaterijalaViewModel povratMaterijalaViewModel, GlavniViewModel glavniViewModel)
-        {
-            StaraSifra_Ime_List = povratMaterijalaViewModel.StaraSifra_Ime_List;
-            CurrentItemMat = povratMaterijalaViewModel.CurrentItemMat;
-            _gvm = glavniViewModel;
 
-
-
-            OdaberiKomitentCommand = new RelayCommand(OdaberiKomitentPovrat);
-            OdustaniCommand = new RelayCommand(Odustani);
-        }
 
         private void OdaberiKomitent()
         {
@@ -111,8 +101,8 @@ namespace Materijalno.ViewModel
                 _gvm.OdabraniVM = new IzlazMaterijalaViewModel(_gvm, CurrentItemMat);
             }
         }
-
-        private void OdaberiKomitentPovrat()
+        
+        private void OdaberiKomitentMedjuskladnisnica()
         {
             using (var dbContext = new materijalno_knjigovodstvoContext())
             {
@@ -123,8 +113,8 @@ namespace Materijalno.ViewModel
                     dbContext.SaveChanges();
                 }
 
-                PovratMaterijalaViewModel.selectedKomitent = selectedKomitent;
-                _gvm.OdabraniVM = new PovratMaterijalaViewModel(_gvm, CurrentItemMat);
+                MedjuskladisnicaViewModel.selectedKomitent = selectedKomitent;
+                _gvm.OdabraniVM = new MedjuskladisnicaViewModel(_gvm, CurrentItemMat);
             }
         }
 
