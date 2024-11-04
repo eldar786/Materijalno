@@ -168,7 +168,7 @@
         <Grid Grid.Row="9" Grid.Column="3" Grid.ColumnSpan="4" HorizontalAlignment="Center" VerticalAlignment="Center">
             <StackPanel Orientation="Horizontal" VerticalAlignment="Top" Grid.ColumnSpan="1">
                 <Button Content="ODABERI" FontSize="18" Width="110" Margin="5,5,0,5" HorizontalAlignment="Left" Command="{Binding OdaberiMatCommand}" Visibility="{Binding Path=VidljivoOdabirVrsteIncidenta}"/>
-                <Button Content="ODUSTANI" FontSize="18" Width="110" Margin="5,5,0,5" HorizontalAlignment="Left" Command="{Binding OdustaniCommand}" Visibility="{Binding Path=VidljivoOdabirVrsteIncidenta}"/>
+                <Button Content="ODUSTANI" FontSize="18" Width="110" Margin="5,5,0,5" HorizontalAlignment="Left" Command="{Binding OdustaniODdabirCommand}" Visibility="{Binding Path=VidljivoOdabirVrsteIncidenta}"/>
             </StackPanel>
         </Grid>
     </Grid>

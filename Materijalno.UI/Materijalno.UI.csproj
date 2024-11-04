@@ -275,6 +275,11 @@
     </Compile>
     <Compile Include="PrintWindowIzlazMaterijala.xaml.cs">
       <DependentUpon>PrintWindowIzlazMaterijala.xaml</DependentUpon>
+    <Compile Include="PrintWindowMedjuskladisnica.xaml.cs">
+      <DependentUpon>PrintWindowMedjuskladisnica.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="PrintWindowPovrat.xaml.cs">
+      <DependentUpon>PrintWindowPovrat.xaml</DependentUpon>
     </Compile>
     <Compile Include="RekapitulacijaTroskova.xaml.cs">
       <DependentUpon>RekapitulacijaTroskova.xaml</DependentUpon>
@@ -446,6 +451,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="PrintWindowIzlazMaterijala.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="PrintWindowMedjuskladisnica.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="PrintWindowPovrat.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

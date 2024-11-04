@@ -31,7 +31,7 @@ namespace Materijalno.ViewModel
         public Mat SelectedMat { get => selectedMat; set { selectedMat = value; OnPropertyChanged("SelectedMat"); } }
 
         public ICommand OdaberiMatCommand { get; set; }
-        public ICommand OdustaniCommand { get; set; }
+        public ICommand OdustaniODdabirCommand { get; set; }
 
         public MatListaViewModel(UlazMaterijalaViewModel ulazMaterijalaViewModel, GlavniViewModel glavniViewModel)
         {
@@ -39,17 +39,49 @@ namespace Materijalno.ViewModel
             _gvm = glavniViewModel;
             CurrentItemMat = ulazMaterijalaViewModel.CurrentItemMat;
             OdaberiMatCommand = new RelayCommand(OdaberiMat);
+            OdustaniODdabirCommand = new RelayCommand(Odustani);
         }
-        
+
         public MatListaViewModel(IzlazMaterijalaViewModel ilazMaterijalaViewModel, GlavniViewModel glavniViewModel)
         {
             MatList = ilazMaterijalaViewModel.MatList;
             _gvm = glavniViewModel;
             CurrentItemMat = ilazMaterijalaViewModel.CurrentItemMat;
             OdaberiMatCommand = new RelayCommand(OdaberiMatIzlaz);
+            OdustaniODdabirCommand = new RelayCommand(OdustaniIzlaz);
         }
 
+        public MatListaViewModel(MedjuskladisnicaViewModel medjuskladisnicaViewModel, GlavniViewModel glavniViewModel)
+        {
+            MatList = medjuskladisnicaViewModel.MatList;
+            _gvm = glavniViewModel;
+            CurrentItemMat = medjuskladisnicaViewModel.CurrentItemMat;
+            OdaberiMatCommand = new RelayCommand(OdaberiMatMedjuskladisnica);
+            OdustaniODdabirCommand = new RelayCommand(OdustaniMedjuskladisnica);
+        }
 
+        public MatListaViewModel(PovratMaterijalaViewModel povratMaterijalaViewModel, GlavniViewModel glavniViewModel)
+        {
+            MatList = povratMaterijalaViewModel.MatList;
+            _gvm = glavniViewModel;
+            CurrentItemMat = povratMaterijalaViewModel.CurrentItemMat;
+            OdaberiMatCommand = new RelayCommand(OdaberiMatPovrat);
+        }
+
+        private void OdaberiMatPovrat()
+        {
+            using (var dbContext = new materijalno_knjigovodstvoContext())
+            {
+                if (SelectedMat != null)
+                {
+                    CurrentItemMat = SelectedMat;
+                }
+
+                PovratMaterijalaViewModel.isTraziClicked = true;
+                PovratMaterijalaViewModel.selectedMat = selectedMat;
+                _gvm.OdabraniVM = new PovratMaterijalaViewModel(_gvm, CurrentItemMat);
+            }
+        }
 
         private void OdaberiMat()
         {
@@ -79,7 +111,38 @@ namespace Materijalno.ViewModel
                 IzlazMaterijalaViewModel.selectedMat = selectedMat;
                 _gvm.OdabraniVM = new IzlazMaterijalaViewModel(_gvm, CurrentItemMat);
             }
+        }
+
+        private void OdaberiMatMedjuskladisnica()
+        {
+            using (var dbContext = new materijalno_knjigovodstvoContext())
+            {
+                if (SelectedMat != null)
+                {
+                    CurrentItemMat = SelectedMat;
+                }
+
+                MedjuskladisnicaViewModel.isTraziClicked = true;
+                MedjuskladisnicaViewModel.selectedMat = selectedMat;
+                _gvm.OdabraniVM = new MedjuskladisnicaViewModel(_gvm, CurrentItemMat);
+            }
 
         }
+
+        private void Odustani()
+        {
+            _gvm.OdabraniVM = new UlazMaterijalaViewModel(_gvm, CurrentItemMat);
+        }
+
+        private void OdustaniIzlaz()
+        {
+            _gvm.OdabraniVM = new IzlazMaterijalaViewModel(_gvm, CurrentItemMat);
+        }
+
+        private void OdustaniMedjuskladisnica()
+        {
+            _gvm.OdabraniVM = new MedjuskladisnicaViewModel(_gvm, CurrentItemMat);
+        }
     }
+
 }
