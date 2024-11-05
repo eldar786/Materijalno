@@ -68,7 +68,33 @@ namespace Materijalno.ViewModel
             OdustaniCommand = new RelayCommand(Odustani);
         }
 
+        public KomitentiListaViewModel(PovratMaterijalaViewModel povratMaterijalaViewModel, GlavniViewModel glavniViewModel)
+        {
+            StaraSifra_Ime_List = povratMaterijalaViewModel.StaraSifra_Ime_List;
+            CurrentItemMat = povratMaterijalaViewModel.CurrentItemMat;
+            _gvm = glavniViewModel;
 
+
+
+            OdaberiKomitentCommand = new RelayCommand(OdaberiPovrat);
+            OdustaniCommand = new RelayCommand(Odustani);
+        }
+
+        private void OdaberiPovrat()
+        {
+            using (var dbContext = new materijalno_knjigovodstvoContext())
+            {
+                if (SelectedKomitent != null)
+                {
+                    CurrentItemMat.Analst = selectedKomitent.STARA_SIFRA;
+                    dbContext.Update(this.currentItemMat);
+                    dbContext.SaveChanges();
+                }
+
+                PovratMaterijalaViewModel.selectedKomitent = selectedKomitent;
+                _gvm.OdabraniVM = new PovratMaterijalaViewModel(_gvm, CurrentItemMat);
+            }
+        }
 
         private void OdaberiKomitent()
         {
