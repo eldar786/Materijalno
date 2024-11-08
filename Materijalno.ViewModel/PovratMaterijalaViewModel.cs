@@ -158,6 +158,7 @@ namespace Materijalno.ViewModel
         public RelayCommand OdustaniCommand { get; set; }
         public RelayCommand NabavnaCijenaCommand { get; set; }
         public RelayCommand IzlazCommand { get; set; }
+        public RelayCommand OsvjeziCommand { get; set; }
 
         #endregion
 
@@ -188,6 +189,7 @@ namespace Materijalno.ViewModel
 
             PrintCommand = new RelayCommand(Print, () => !isNovaKalkulacijaClicked);
             NabavnaCijenaCommand = new RelayCommand(NabavnaCijena);
+            OsvjeziCommand = new RelayCommand(Osvjezi);
 
             OtvoriKomitentListuCommand = new RelayCommand(OtvoriKomitentListu);
 
@@ -246,6 +248,8 @@ namespace Materijalno.ViewModel
             PrintCommand = new RelayCommand(Print, () => !isNovaKalkulacijaClicked);
 
             OtvoriKomitentListuCommand = new RelayCommand(OtvoriKomitentListu);
+            NabavnaCijenaCommand = new RelayCommand(NabavnaCijena);
+            OsvjeziCommand = new RelayCommand(Osvjezi);
             #endregion
 
             UpdateCommands();
@@ -304,39 +308,16 @@ namespace Materijalno.ViewModel
 
         public void NabavnaCijena()
         {
-            decimal? inputValue1 = CurrentItemMat.Vrijed;
-            decimal? inputValue2 = CurrentItemMat.Trospe;
-            decimal? inputValue3 = CurrentItemMat.Porppp;
-            decimal? inputValue4 = CurrentItemMat.Troskovi;
-            decimal carinaValue = 0.00m;
+            var dbContext = new materijalno_knjigovodstvoContext();
 
-            // Ovo radimo zato sto je "Cartro" string i vraca null kada se ne dodijeli vrijednost (trenutno rjesenje)
-            if (CurrentItemMat.Cartro == null)
-            {
-                CurrentItemMat.Cartro = "0,00";
-            }
-            else
-            {
-                carinaValue = decimal.Parse(CurrentItemMat.Cartro);
-            }
-
-            var culture = new CultureInfo("de-DE");
-
-
-            decimal? value1 = inputValue1.HasValue ? (decimal?)inputValue1.Value : 0;
-
-            decimal? value2 = inputValue2.HasValue ? (decimal?)inputValue2.Value : 0;
-
-            decimal? value3 = inputValue3.HasValue ? (decimal?)inputValue3.Value : 0;
-
-            decimal? value4 = inputValue4.HasValue ? (decimal?)inputValue4.Value : 0;
-
-            decimal? sum = value1 + value2 + value3 + value4 + carinaValue;
+            CurrentItemMat.Nc = dbContext.Mat
+                .Where(row => row.Ident == CurrentItemMat.Ident)
+                .Select(row => row.Nc).FirstOrDefault();
 
             if (CurrentItemMat.Kolic.HasValue && CurrentItemMat.Kolic.Value != 0)
             {
-                decimal? nc = (sum / (decimal)CurrentItemMat.Kolic);
-                CurrentItemMat.Nc = (sum / (decimal)CurrentItemMat.Kolic.Value);
+                CurrentItemMat.Vrijed = (decimal)CurrentItemMat.Kolic.Value * CurrentItemMat.Nc;
+
             }
             else
             {
@@ -344,7 +325,6 @@ namespace Materijalno.ViewModel
                 CurrentItemMat.Nc = 0;
             }
 
-            var dbContext = new materijalno_knjigovodstvoContext();
             dbContext.Update(CurrentItemMat);
             dbContext.SaveChanges();
 
@@ -357,9 +337,48 @@ namespace Materijalno.ViewModel
             UpdateCurrentItemData(dbContext);
         }
 
-        #region Methods
+        public void Osvjezi()
+        {
+            var dbContext = new materijalno_knjigovodstvoContext();
 
-        public List<Komitenti> DohvatiNazivKomitenta()
+            // Kljnaz kolona
+            int? maxValue_Skladiste = dbContext.Mat
+                .Max(row => row.Kljnaz);
+
+            int? minValue_Skladiste = dbContext.Mat
+                .Min(row => row.Kljnaz);
+
+            // Ident kolona
+            int? maxValue_SifraMat = dbContext.Mat
+                .Max(row => row.Ident);
+
+            int? minValue_SifraMat = dbContext.Mat
+                .Min(row => row.Ident);
+
+            if (CurrentItemMat.Kljnaz == 1000)
+            {
+                System.Windows.MessageBox.Show("Ne možete praviti izlaz iz Centralnog magacina!", "Upozorenje", MessageBoxButton.OK, MessageBoxImage.Information);
+                CurrentItemMat.Kljnaz = 0;
+            }
+            else if (CurrentItemMat.Kljnaz < minValue_Skladiste || CurrentItemMat.Kljnaz > maxValue_Skladiste)
+            {
+                System.Windows.MessageBox.Show("Skladište nije prijavljeno u šifarnik!", "Upozorenje", MessageBoxButton.OK, MessageBoxImage.Information);
+
+                //TextBox Skladiste vratiti na prazno
+                CurrentItemMat.Kljnaz = 0;
+            }
+            if (CurrentItemMat.Ident < minValue_SifraMat || CurrentItemMat.Ident > maxValue_SifraMat)
+            {
+                System.Windows.MessageBox.Show("Materijal ne postoji!", "Upozorenje", MessageBoxButton.OK, MessageBoxImage.Information);
+                CurrentItemMat.Ident = 0;
+            }
+            UpdateCurrentItemData(dbContext);
+        
+        }
+
+            #region Methods
+
+            public List<Komitenti> DohvatiNazivKomitenta()
         {
             List<Komitenti> StaraSifra_Ime_List = new List<Komitenti>();
 
