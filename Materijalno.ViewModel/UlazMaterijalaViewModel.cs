@@ -134,6 +134,7 @@ namespace Materijalno.ViewModel
         public RelayCommand TraziSifruMaterijalaCommand { get; set; }
 
         public RelayCommand OdustaniCommand { get; set; }
+        public RelayCommand OsvjeziCommand { get; set; }
 
         #endregion
 
@@ -159,6 +160,7 @@ namespace Materijalno.ViewModel
             TraziSifruMaterijalaCommand = new RelayCommand(Trazi, () => !isNovaKalkulacijaClicked);
             PrintCommand = new RelayCommand(Print, () => !isNovaKalkulacijaClicked);
             NabavnaCijenaCommand = new RelayCommand(NabavnaCijena);
+            OsvjeziCommand = new RelayCommand(Osvjezi);
 
             OtvoriKomitentListuCommand = new RelayCommand(OtvoriKomitentListu);
             #endregion
@@ -206,6 +208,8 @@ namespace Materijalno.ViewModel
 
             TraziSifruMaterijalaCommand = new RelayCommand(Trazi, () => !isNovaKalkulacijaClicked);
             PrintCommand = new RelayCommand(Print, () => !isNovaKalkulacijaClicked);
+            OsvjeziCommand = new RelayCommand(Osvjezi);
+
 
             OtvoriKomitentListuCommand = new RelayCommand(OtvoriKomitentListu);
             #endregion
@@ -469,6 +473,33 @@ namespace Materijalno.ViewModel
             ukupnoNc = formmatedNc;
 
             OnPrintEvent?.Invoke();
+        }
+
+        private void Osvjezi()
+        {
+            var dbContext = new materijalno_knjigovodstvoContext();
+
+            // Kljnaz kolona
+            int? maxValue_Skladiste = dbContext.Mat
+                .Max(row => row.Kljnaz);
+
+            int? minValue_Skladiste = dbContext.Mat
+                .Min(row => row.Kljnaz);
+
+            // Ident kolona
+            int? maxValue_SifraMat = dbContext.Mat
+                .Max(row => row.Ident);
+
+            int? minValue_SifraMat = dbContext.Mat
+                .Min(row => row.Ident);
+
+            if (CurrentItemMat.Ident < minValue_SifraMat || CurrentItemMat.Ident > maxValue_SifraMat)
+            {
+                System.Windows.MessageBox.Show("Materijal ne postoji!", "Upozorenje", MessageBoxButton.OK, MessageBoxImage.Information);
+                CurrentItemMat.Ident = 0;
+            }
+
+            UpdateCurrentItemData(dbContext);
         }
 
         // An event that will be raised to notify the view to open the PrintWindow
