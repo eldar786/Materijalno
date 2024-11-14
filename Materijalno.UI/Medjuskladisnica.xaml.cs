@@ -1,4 +1,5 @@
-﻿using Materijalno.ViewModel;
+﻿using Materijalno.UI.Izvjestaji;
+using Materijalno.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,7 +26,6 @@ namespace Materijalno.UI
         public Medjuskladisnica()
         {
             InitializeComponent();
-
             this.DataContextChanged += MainWindow_DataContextChanged;
         }
 
@@ -44,7 +44,7 @@ namespace Materijalno.UI
             if (e.NewValue is MedjuskladisnicaViewModel medjuskladisnicaViewModel)
             {
                 // Subscribe to the print event from the ViewModel
-               medjuskladisnicaViewModel.OnPrintEvent += HandlePrintRequest;
+                medjuskladisnicaViewModel.OnPrintEvent += HandlePrintRequest;
             }
         }
 
@@ -109,7 +109,18 @@ namespace Materijalno.UI
         {
 
         }
+
+        private void stampa_button(object sender, RoutedEventArgs e)
+        {
+            if (DataContext is MedjuskladisnicaViewModel medjuskladisnicaViewModel)
+            {
+                MedjuskladisnicaIzvjestaj medjuskladisnicaIzvjestaj = new MedjuskladisnicaIzvjestaj(medjuskladisnicaViewModel);
+
+                // Dodajemo trenutni ViewModel u PrintWindow
+                //medjuskladisnicaIzvjestaj.DataContext = medjuskladisnicaViewModel;
+                medjuskladisnicaIzvjestaj.Show();
+            }
+        }
     }
 
 }
-    

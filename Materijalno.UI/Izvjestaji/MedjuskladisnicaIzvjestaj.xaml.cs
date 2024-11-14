@@ -1,0 +1,165 @@
+﻿using Microsoft.Reporting.WinForms;
+using Materijalno.ViewModel;
+using Materijalno.UI;
+using Materijalno.Model;
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Data;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Data;
+using System.Windows.Documents;
+using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using System.Windows.Shapes;
+using System.Globalization;
+using Materijalno.Model.EntityModels;
+using Materijalno.UI.Helpers;
+
+
+namespace Materijalno.UI.Izvjestaji
+{
+
+    public partial class MedjuskladisnicaIzvjestaj : Window
+    {
+        private MedjuskladisnicaViewModel _medjuskladisnicavm;
+        private bool _isReportViewerLoaded;
+        private DataTable reportDt;
+        private ReportMedjuskladisnica _report;
+        private List<Mat> _mat;
+        private List<TabelaMaterijala> _tabelaMaterijala;
+
+        public ObservableCollection<Mat> MatList { get; set; }
+
+        public MedjuskladisnicaIzvjestaj(MedjuskladisnicaViewModel medjuskladisnicavm)
+        {
+            InitializeComponent();
+
+            _medjuskladisnicavm = medjuskladisnicavm;
+
+            var dbContext = new materijalno_knjigovodstvoContext();
+            //MatList = dbContext.Mat.ToList();
+            MatList = new ObservableCollection<Mat>(dbContext.Mat
+                     .Where(row => row.Brfak == medjuskladisnicavm.CurrentItemMat.Brfak)
+                     .OrderBy(row => row.Datun)
+                     .ToList());
+            _tabelaMaterijala = dbContext.TabelaMaterijala.ToList();
+
+
+            _mat = MatList.ToList();
+
+            try
+            {
+                NapuniPodatke();
+                PripremiPrint();
+                _reportViewer.Load += ReportViewer_Load;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void NapuniPodatke()
+        {
+            reportDt = new DataTable("Medjuskladisnica");
+
+            reportDt.Columns.Add("Redbr").DataType = typeof(int);
+            reportDt.Columns.Add("Kljnaz1").DataType = typeof(int);
+            reportDt.Columns.Add("Ident").DataType = typeof(int);
+            reportDt.Columns.Add("Nazmat").DataType = typeof(string);
+            reportDt.Columns.Add("Kolic").DataType = typeof(int);
+            reportDt.Columns.Add("Nc").DataType = typeof(decimal);
+            reportDt.Columns.Add("Vrijed").DataType = typeof(decimal);
+            reportDt.Columns.Add("Brfak").DataType = typeof(string);
+
+            List<ReportMedjuskladisnica> lista = new List<ReportMedjuskladisnica>();
+
+            foreach (Mat mat in _mat)
+            {
+                TabelaMaterijala tabmat = (from TabelaMaterijala tabmaterijala in _tabelaMaterijala
+                                           where tabmaterijala.Ident == mat.Ident
+                                           select tabmaterijala).FirstOrDefault();
+
+
+                _report = new ReportMedjuskladisnica();
+                _report.Redbr = mat.Redbr;
+                _report.Kljnaz1 = mat.Kljnaz1;
+                _report.Ident = mat.Ident;
+                _report.NazMat = tabmat.Nazmat;
+                _report.Kolic = mat.Kolic;
+                _report.Nc = mat.Nc;
+                _report.Vrijed = mat.Vrijed;
+                _report.Brfak = mat.Brfak;
+
+                lista.Add(_report);
+
+            }
+
+            List<ReportMedjuskladisnica> listaSort = lista.OrderBy(o => o.Datun).ToList();
+
+            foreach (ReportMedjuskladisnica report in listaSort)
+            {
+                DataRow dr = reportDt.NewRow();
+
+                dr[0] = report.Redbr;
+                dr[1] = report.Kljnaz1;
+                dr[2] = report.Ident;
+                dr[3] = report.NazMat;
+                dr[4] = report.Kolic;
+                dr[5] = report.Nc;
+                dr[6] = report.Vrijed;
+                dr[7] = report.Brfak;
+
+                reportDt.Rows.Add(dr);
+            }
+
+        }
+
+        private void ReportViewer_Load(object sender, EventArgs e)
+        {
+            if (!_isReportViewerLoaded)
+            {
+                try
+                {
+                    PripremiPrint();
+
+                    _reportViewer.RefreshReport();
+                    _isReportViewerLoaded = true;
+
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+            }
+        }
+
+        private void PripremiPrint()
+        {
+            ReportDataSource ds = new ReportDataSource("DataSet1", reportDt);
+            PathHelper pathHelper = new PathHelper();
+            this._reportViewer.LocalReport.ReportPath = pathHelper.MExecutableRootDirectory + "\\Izvjestaji\\Medjuskladisnica.rdlc";
+            _reportViewer.LocalReport.DataSources.Add(ds);
+            try
+            {
+                this._reportViewer.LocalReport.ReportEmbeddedResource = "Medjuskladisnica.rdlc";
+            }
+            catch (Exception e)
+            {
+                throw new Exception("Ne postoje stavke sa ispis.");
+            }
+
+        }
+
+        private void btnOdustani_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
+        }
+    }
+}
