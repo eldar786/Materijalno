@@ -33,7 +33,9 @@ namespace Materijalno.UI.Izvjestaji
         private ReportMedjuskladisnica _report;
         private List<Mat> _mat;
         private List<TabelaMaterijala> _tabelaMaterijala;
+        private Mat ukupnavrijednost;
 
+       
         public ObservableCollection<Mat> MatList { get; set; }
 
         public MedjuskladisnicaIzvjestaj(MedjuskladisnicaViewModel medjuskladisnicavm)
@@ -41,6 +43,7 @@ namespace Materijalno.UI.Izvjestaji
             InitializeComponent();
 
             _medjuskladisnicavm = medjuskladisnicavm;
+            ukupnavrijednost = new Mat(); 
 
             var dbContext = new materijalno_knjigovodstvoContext();
             //MatList = dbContext.Mat.ToList();
@@ -52,6 +55,14 @@ namespace Materijalno.UI.Izvjestaji
 
 
             _mat = MatList.ToList();
+            decimal? totalVrijednost = 0;
+
+            foreach (var item in MatList)
+            {
+                totalVrijednost += item.Vrijed;
+            }
+
+            ukupnavrijednost.Vrijed = totalVrijednost;
 
             try
             {
@@ -77,6 +88,9 @@ namespace Materijalno.UI.Izvjestaji
             reportDt.Columns.Add("Nc").DataType = typeof(decimal);
             reportDt.Columns.Add("Vrijed").DataType = typeof(decimal);
             reportDt.Columns.Add("Brfak").DataType = typeof(string);
+            reportDt.Columns.Add("Datun").DataType = typeof(string);
+            reportDt.Columns.Add("Brdok").DataType = typeof(string);
+            reportDt.Columns.Add("Totalvrijednost").DataType = typeof(decimal);
 
             List<ReportMedjuskladisnica> lista = new List<ReportMedjuskladisnica>();
 
@@ -96,6 +110,9 @@ namespace Materijalno.UI.Izvjestaji
                 _report.Nc = mat.Nc;
                 _report.Vrijed = mat.Vrijed;
                 _report.Brfak = mat.Brfak;
+                _report.Datun = mat.Datun;
+                _report.Brdok = mat.Brdok;
+                _report.TotalVrijednost = ukupnavrijednost.Vrijed;
 
                 lista.Add(_report);
 
@@ -115,6 +132,9 @@ namespace Materijalno.UI.Izvjestaji
                 dr[5] = report.Nc;
                 dr[6] = report.Vrijed;
                 dr[7] = report.Brfak;
+                dr[8] = report.Datun;
+                dr[9] = report.Brdok;
+                dr[10] = report.TotalVrijednost;
 
                 reportDt.Rows.Add(dr);
             }

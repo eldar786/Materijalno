@@ -681,6 +681,7 @@ namespace Materijalno.ViewModel
         {
             using (var dbContext = new materijalno_knjigovodstvoContext())
             {
+                currentItemMat.Status = "M";
                 NabavnaCijena();
                 dbContext.Update(CurrentItemMat);
                 dbContext.SaveChanges();
