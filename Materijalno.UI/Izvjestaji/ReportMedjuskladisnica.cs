@@ -28,6 +28,7 @@ namespace Materijalno.UI.Izvjestaji
         public string Status { get; set; }
         public string Cartro { get; set; }
         public string Medus { get; set; }
+        public decimal? TotalVrijednost { get; set; }
 
         public ObservableCollection<Mat> MatList;
 

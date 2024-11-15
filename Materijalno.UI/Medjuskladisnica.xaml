@@ -174,7 +174,7 @@
 
 
         <Label Grid.Row="3" Grid.Column="0" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="18">Datum međuskl.</Label>
-        <DatePicker Grid.Row="3" SelectedDate="{Binding CurrentItemMat.Datun, UpdateSourceTrigger=PropertyChanged}" KeyDown="TextBox_KeyDown" Grid.Column="1" HorizontalAlignment="Left" Height="30" FontSize="18" Width="168" Name="dtpOd" />
+        <DatePicker Grid.Row="3" SelectedDate="{Binding CurrentItemMat.Datun}" KeyDown="TextBox_KeyDown" Grid.Column="1" HorizontalAlignment="Left" Height="30" FontSize="18" Width="168" Name="dtpOd" />
 
         <Label Grid.Row="3" Grid.Column="3" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="18">Broj međuskl.</Label>
         <TextBox Grid.Row="3" Text="{Binding CurrentItemMat.Brfak}" KeyDown="TextBox_KeyDown" Grid.Column="4" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="18"  Width="120"/>
@@ -206,7 +206,7 @@
         <TextBox Grid.Row="6" Text="{Binding CurrentItemMat.Konto1}" KeyDown="TextBox_KeyDown" Grid.Column="4" VerticalAlignment="Center" Margin="0,0,150,0" FontSize="18"  Width="120"/>
 
         <Label Grid.Row="7" Grid.Column="0" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="18">Količina</Label>
-        <TextBox Grid.Row="7" Text="{Binding CurrentItemMat.Kolic, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, TargetNullValue='0,00', ConverterCulture='de-DE'}" KeyDown="TextBox_KeyDown" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="18"  Width="170">
+        <TextBox Grid.Row="7" Text="{Binding CurrentItemMat.Kolic, StringFormat=N2, ConverterCulture='de-DE', UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, TargetNullValue='0,00'}" KeyDown="TextBox_KeyDown" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="18"  Width="170">
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="LostFocus">
                     <i:InvokeCommandAction Command="{Binding NabavnaCijenaCommand}" />
