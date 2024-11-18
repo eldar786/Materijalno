@@ -156,7 +156,6 @@ namespace Materijalno.ViewModel
 
         public RelayCommand OdustaniCommand { get; set; }
         public RelayCommand NabavnaCijenaCommand { get; set; }
-        public RelayCommand OsvjeziCommand { get; set; }
         public RelayCommand IzlazCommand { get; set; }
 
 
@@ -167,6 +166,10 @@ namespace Materijalno.ViewModel
 
         #region Constructor
 
+        public IzlazMaterijalaViewModel()
+        {
+
+        }
         public IzlazMaterijalaViewModel(GlavniViewModel gvm)
         {
             _gvm = gvm;
@@ -192,7 +195,6 @@ namespace Materijalno.ViewModel
 
             PrintCommand = new RelayCommand(Print, () => !isNovaKalkulacijaClicked);
             NabavnaCijenaCommand = new RelayCommand(NabavnaCijena);
-            OsvjeziCommand = new RelayCommand(Osvjezi);
 
             OtvoriKomitentListuCommand = new RelayCommand(OtvoriKomitentListu);
             #endregion
@@ -202,7 +204,7 @@ namespace Materijalno.ViewModel
                 //Dodaj u listu gdje je kljnaz između 1000 i 1012 i sortiraj po datumu iz kolone (datun)
                 //Neki datum preskoci, treba napraviti dobar data type za kolonu (datun) u sql bazi
                 MatList = new ObservableCollection<Mat>(dbContext.Mat
-                    .Where(row => row.Kljnaz >= 1001 && row.Kljnaz <= 1012)
+                    .Where(row => row.Kljnaz >= 1001 && row.Kljnaz <= 1012 && row.Status == "I")
                     .OrderBy(row => row.Datun)
                     .ToList());
 
@@ -244,8 +246,6 @@ namespace Materijalno.ViewModel
             IzlazCommand = new RelayCommand(Izlaz, () => isNovaKalkulacijaClicked);
             TraziSifruMaterijalaCommand = new RelayCommand(Trazi, () => !isNovaKalkulacijaClicked);
             PrintCommand = new RelayCommand(Print, () => !isNovaKalkulacijaClicked);
-            NabavnaCijenaCommand = new RelayCommand(NabavnaCijena);
-            OsvjeziCommand = new RelayCommand(Osvjezi);
 
             OtvoriKomitentListuCommand = new RelayCommand(OtvoriKomitentListu);
             #endregion
@@ -257,7 +257,7 @@ namespace Materijalno.ViewModel
                 //Dodaj u listu gdje je kljnaz == 1000 i sortiraj po datumu iz kolone (datun)
                 //Neki datum preskoci, treba napraviti dobar data type za kolonu (datun) u sql bazi
                 MatList = new ObservableCollection<Mat>(dbContext.Mat
-                    .Where(row => row.Kljnaz >= 1001 && row.Kljnaz <= 1012)
+                    .Where(row => row.Kljnaz >= 1001 && row.Kljnaz <= 1012 && row.Status == "I")
                     .OrderBy(row => row.Datun)
                     .ToList());
 
@@ -303,64 +303,43 @@ namespace Materijalno.ViewModel
             }
         }
 
-        public void Osvjezi()
-        {
-            var dbContext = new materijalno_knjigovodstvoContext();
-
-            // Kljnaz kolona
-            int? maxValue_Skladiste = dbContext.Mat
-                .Max(row => row.Kljnaz);
-
-            int? minValue_Skladiste = dbContext.Mat
-                .Min(row => row.Kljnaz);
-
-            // Ident kolona
-            int? maxValue_SifraMat = dbContext.Mat
-                .Max(row => row.Ident);
-            
-            int? minValue_SifraMat = dbContext.Mat
-                .Min(row => row.Ident);
-
-            if (CurrentItemMat.Kljnaz == 1000)
-            {
-                System.Windows.MessageBox.Show("Ne možete praviti izlaz iz Centralnog magacina!", "Upozorenje", MessageBoxButton.OK, MessageBoxImage.Information);
-                CurrentItemMat.Kljnaz = 0;
-            }
-            else if (CurrentItemMat.Kljnaz < minValue_Skladiste || CurrentItemMat.Kljnaz > maxValue_Skladiste)
-            {
-                System.Windows.MessageBox.Show("Skladište nije prijavljeno u šifarnik!", "Upozorenje", MessageBoxButton.OK, MessageBoxImage.Information);
-
-                //TextBox Skladiste vratiti na prazno
-                CurrentItemMat.Kljnaz = 0;
-            }
-
-            if (CurrentItemMat.Ident < minValue_SifraMat || CurrentItemMat.Ident > maxValue_SifraMat)
-            {
-                System.Windows.MessageBox.Show("Materijal ne postoji!", "Upozorenje", MessageBoxButton.OK, MessageBoxImage.Information);
-                CurrentItemMat.Ident = 0;
-            }
-
-            UpdateCurrentItemData(dbContext);
-
-            // Napraviti da stavi nule ako dodje do promjene Sifre Materijala?
-        }
 
         public void NabavnaCijena()
         {
+            decimal? inputValue1 = CurrentItemMat.Vrijed;
+            decimal? inputValue2 = CurrentItemMat.Trospe;
+            decimal? inputValue3 = CurrentItemMat.Porppp;
+            decimal? inputValue4 = CurrentItemMat.Troskovi;
+            decimal carinaValue = 0.00m;
 
-            // Ovdje treba iz liste Mat da nadje sifru materijala i po njoj nabavnu cijenu
-            //CurrentItemMat.Nc
-            var dbContext = new materijalno_knjigovodstvoContext();
-
-            CurrentItemMat.Nc = dbContext.Mat
-                .Where(row => row.Ident == CurrentItemMat.Ident)
-                .Select(row => row.Nc).FirstOrDefault();
+            // Ovo radimo zato sto je "Cartro" string i vraca null kada se ne dodijeli vrijednost (trenutno rjesenje)
+            if (CurrentItemMat.Cartro == null)
+            {
+                CurrentItemMat.Cartro = "0,00";
+            }
+            else
+            {
+                carinaValue = decimal.Parse(CurrentItemMat.Cartro);
+            }
 
             var culture = new CultureInfo("de-DE");
 
+            decimal? value1 = inputValue1.HasValue ? (decimal?)inputValue1.Value : 0;
+
+            decimal? value2 = inputValue2.HasValue ? (decimal?)inputValue2.Value : 0;
+
+            decimal? value3 = inputValue3.HasValue ? (decimal?)inputValue3.Value : 0;
+
+            decimal? value4 = inputValue4.HasValue ? (decimal?)inputValue4.Value : 0;
+
+            decimal? sum = value1 + value2 + value3 + value4 + carinaValue;
+
+
+            //CurrentItemMat.Nc = (sum / (decimal)CurrentItemMat.Kolic).ToString();
             if (CurrentItemMat.Kolic.HasValue && CurrentItemMat.Kolic.Value != 0)
             {
-                CurrentItemMat.Vrijed = (decimal)CurrentItemMat.Kolic.Value * CurrentItemMat.Nc;
+                decimal? nc = (sum / (decimal)CurrentItemMat.Kolic);
+                CurrentItemMat.Nc = (sum / (decimal)CurrentItemMat.Kolic.Value);
             }
             else
             {
@@ -368,14 +347,13 @@ namespace Materijalno.ViewModel
                 CurrentItemMat.Nc = 0;
             }
 
-            //UpdateCurrentItemData(dbContext);
-
+            var dbContext = new materijalno_knjigovodstvoContext();
             dbContext.Update(CurrentItemMat);
             dbContext.SaveChanges();
 
             //Staviti po datumu da sortira i dodaj u listu da bi se vidjele promjene
             MatList = new ObservableCollection<Mat>(dbContext.Mat
-                .Where(row => row.Kljnaz >= 1001 && row.Kljnaz <= 1012)
+                .Where(row => row.Kljnaz >= 1001 && row.Kljnaz <= 1012 && row.Status == "I")
                 .OrderBy(row => row.Datun)
                 .ToList());
 
@@ -588,12 +566,13 @@ namespace Materijalno.ViewModel
         {
             using (var dbContext = new materijalno_knjigovodstvoContext())
             {
+                CurrentItemMat.Status = "I";
                 dbContext.Update(CurrentItemMat);
                 dbContext.SaveChanges();
 
                 //Staviti po datumu da sortira i dodaj u listu da bi se vidjele promjene
                 MatList = new ObservableCollection<Mat>(dbContext.Mat
-                    .Where(row => row.Kljnaz >= 1001 && row.Kljnaz <= 1012)
+                    .Where(row => row.Kljnaz >= 1001 && row.Kljnaz <= 1012 && row.Status == "I")
                     .OrderBy(row => row.Datun)
                     .ToList());
 
