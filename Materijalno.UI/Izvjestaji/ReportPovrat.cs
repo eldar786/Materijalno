@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Materijalno.UI.Izvjestaji
 {
-    public class ReportMedjuskladisnica
+    public class ReportPovrat
     {
         public int Id { get; set; }
         public int? Kljnaz { get; set; }
@@ -29,28 +29,32 @@ namespace Materijalno.UI.Izvjestaji
         public string Cartro { get; set; }
         public string Medus { get; set; }
         public decimal? TotalVrijednost { get; set; }
+        public int? Konto1 { get; set; }
+        public string NazivOrg { get; set; }
+        public int? Kontosklad { get; set; }
+
 
         public ObservableCollection<Mat> MatList;
 
-        public MedjuskladisnicaViewModel orgViewModel = new MedjuskladisnicaViewModel();
+        public PovratMaterijalaViewModel orgViewModel = new PovratMaterijalaViewModel();
 
-        public List<MedjuskladisnicaViewModel> GetAllOrgViewModel()
+        public List<PovratMaterijalaViewModel> GetAllOrgViewModel()
         {
-            var list = new List<MedjuskladisnicaViewModel>();
+            var list = new List<PovratMaterijalaViewModel>();
 
             var dbContext = new materijalno_knjigovodstvoContext();
             MatList = new ObservableCollection<Mat>(dbContext.Mat
-                    .Where(row => row.Kljnaz1 >= 1000 && row.Kljnaz1 <= 1012 && row.Kljnaz >= 1000 && row.Kljnaz <= 1012)
+                    .Where(row => row.Kljnaz >= 1001 && row.Kljnaz <= 1012)
                     .OrderBy(row => row.Datun)
                     .ToList());
 
             //Ident = dbContext.Mat.Select(row => row.Ident);
-            foreach(Mat m in MatList)
-            {     
-            Ident = MatList.Select(row=>row.Ident).First();
-            //list.Add(new Mat { Ident = MatList.Select(row => row.Ident).First() });
-            //list.Add(new MedjuskladisnicaViewModel { Od = orgViewModel.MatList });
-            //list.Add(new MedjuskladisnicaViewModel { Do = orgViewModel.Do });
+            foreach (Mat m in MatList)
+            {
+                Ident = MatList.Select(row => row.Ident).First();
+                //list.Add(new Mat { Ident = MatList.Select(row => row.Ident).First() });
+                //list.Add(new MedjuskladisnicaViewModel { Od = orgViewModel.MatList });
+                //list.Add(new MedjuskladisnicaViewModel { Do = orgViewModel.Do });
             }
             return list;
         }

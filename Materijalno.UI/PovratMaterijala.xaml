@@ -50,7 +50,7 @@
         <Border Background="AliceBlue" BorderBrush="AliceBlue" BorderThickness="1,0,1,1" Grid.Row="1" Grid.RowSpan="10" Grid.Column="0" Grid.ColumnSpan="6"/>
         <TextBlock Text="POVRAT MATERIJALA" FontSize="18" Margin="450,0,0,0" FontWeight="Bold" Grid.Column="0" Grid.ColumnSpan="4" VerticalAlignment="Center" HorizontalAlignment="Center" />
 
-        <Button Background="White" Grid.Row="0" Grid.Column="4" x:Name="btnStampa"  FontSize="18" Width="50" Margin="200,5,0,10" HorizontalAlignment="Left" Command="{Binding StampaCommand}" >
+        <Button Background="White" Grid.Row="0" Grid.Column="4" x:Name="btnStampa"  FontSize="18" Width="50" Margin="200,5,0,10" HorizontalAlignment="Left" Click="stampa_button" >
             <Image Source="/Ikone/print.png" Stretch="Uniform"/>
             <Button.ToolTip>
                 <ToolTip Content="Print"/>

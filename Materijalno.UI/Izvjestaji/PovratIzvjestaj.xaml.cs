@@ -22,48 +22,51 @@ using Materijalno.Model.EntityModels;
 using Materijalno.UI.Helpers;
 
 
-
 namespace Materijalno.UI.Izvjestaji
 {
-
-    public partial class MedjuskladisnicaIzvjestaj : Window
+    public partial class PovratIzvjestaj : Window
     {
-        private MedjuskladisnicaViewModel _medjuskladisnicavm;
+
+        private PovratMaterijalaViewModel _povratavm;
         private bool _isReportViewerLoaded;
         private DataTable reportDt;
-        private ReportMedjuskladisnica _report;
+        private ReportPovrat _report;
         private List<Mat> _mat;
         private List<TabelaMaterijala> _tabelaMaterijala;
+        private List<Materijalno.Model.EntityModels.SifarnikSkladista> _tabelaSkladista;
         private Mat ukupnavrijednost;
+        decimal? totalVrijednost = 0;
 
-       
         public ObservableCollection<Mat> MatList { get; set; }
 
-        public MedjuskladisnicaIzvjestaj(MedjuskladisnicaViewModel medjuskladisnicavm)
+
+        public PovratIzvjestaj(PovratMaterijalaViewModel povratvm)
         {
             InitializeComponent();
 
-            _medjuskladisnicavm = medjuskladisnicavm;
-            ukupnavrijednost = new Mat(); 
+            _povratavm = povratvm;
+            ukupnavrijednost = new Mat();
 
             var dbContext = new materijalno_knjigovodstvoContext();
-            //MatList = dbContext.Mat.ToList();
+            
+
             MatList = new ObservableCollection<Mat>(dbContext.Mat
-                     .Where(row => row.Brfak == medjuskladisnicavm.CurrentItemMat.Brfak)
+                     .Where(row => row.Brfak == povratvm.CurrentItemMat.Brfak)
                      .OrderBy(row => row.Datun)
                      .ToList());
             _tabelaMaterijala = dbContext.TabelaMaterijala.ToList();
+            _tabelaSkladista = dbContext.SifarnikSkladista.ToList();
 
 
             _mat = MatList.ToList();
-            decimal? totalVrijednost = 0;
+            
 
             foreach (var item in MatList)
             {
                 totalVrijednost += item.Vrijed;
             }
 
-            ukupnavrijednost.Vrijed = totalVrijednost;
+            //ukupnavrijednost.Vrijed = totalVrijednost;
 
             try
             {
@@ -79,10 +82,10 @@ namespace Materijalno.UI.Izvjestaji
 
         private void NapuniPodatke()
         {
-            reportDt = new DataTable("Medjuskladisnica");
+            reportDt = new DataTable("Povrat");
 
             reportDt.Columns.Add("Redbr").DataType = typeof(int);
-            reportDt.Columns.Add("Kljnaz1").DataType = typeof(int);
+            reportDt.Columns.Add("Kljnaz").DataType = typeof(int);
             reportDt.Columns.Add("Ident").DataType = typeof(int);
             reportDt.Columns.Add("Nazmat").DataType = typeof(string);
             reportDt.Columns.Add("Kolic").DataType = typeof(int);
@@ -90,10 +93,16 @@ namespace Materijalno.UI.Izvjestaji
             reportDt.Columns.Add("Vrijed").DataType = typeof(decimal);
             reportDt.Columns.Add("Brfak").DataType = typeof(string);
             reportDt.Columns.Add("Datun").DataType = typeof(string);
+            reportDt.Columns.Add("Datnar").DataType = typeof(string);
             reportDt.Columns.Add("Brdok").DataType = typeof(string);
             reportDt.Columns.Add("Totalvrijednost").DataType = typeof(decimal);
+            reportDt.Columns.Add("Konto1").DataType = typeof(int);
+            reportDt.Columns.Add("NazivOrg").DataType = typeof(string);
+            reportDt.Columns.Add("Kontosklad").DataType = typeof(int);
+            
 
-            List<ReportMedjuskladisnica> lista = new List<ReportMedjuskladisnica>();
+
+        List<ReportPovrat> lista = new List<ReportPovrat>();
 
             foreach (Mat mat in _mat)
             {
@@ -101,10 +110,16 @@ namespace Materijalno.UI.Izvjestaji
                                            where tabmaterijala.Ident == mat.Ident
                                            select tabmaterijala).FirstOrDefault();
 
+                Materijalno.Model.EntityModels.SifarnikSkladista tabsklad = (from Materijalno.Model.EntityModels.SifarnikSkladista tabskladista in _tabelaSkladista
+                                                                             where tabskladista.Kljnaz == mat.Kljnaz
+                                                                             select tabskladista).FirstOrDefault();
 
-                _report = new ReportMedjuskladisnica();
+
+
+
+                _report = new ReportPovrat();
                 _report.Redbr = mat.Redbr;
-                _report.Kljnaz1 = mat.Kljnaz1;
+                _report.Kljnaz = mat.Kljnaz;
                 _report.Ident = mat.Ident;
                 _report.NazMat = tabmat.Nazmat;
                 _report.Kolic = mat.Kolic;
@@ -112,21 +127,26 @@ namespace Materijalno.UI.Izvjestaji
                 _report.Vrijed = mat.Vrijed;
                 _report.Brfak = mat.Brfak;
                 _report.Datun = mat.Datun;
+                _report.Datnar = mat.Datnar;
                 _report.Brdok = mat.Brdok;
-                _report.TotalVrijednost = ukupnavrijednost.Vrijed;
+                _report.TotalVrijednost = totalVrijednost;
+                _report.Konto1 = mat.Konto1;
+                _report.NazivOrg = tabsklad.NazivOrg;
+                _report.Kontosklad = mat.Kontosklad;
+
 
                 lista.Add(_report);
 
             }
 
-            List<ReportMedjuskladisnica> listaSort = lista.OrderBy(o => o.Datun).ToList();
+            List<ReportPovrat> listaSort = lista.OrderBy(o => o.Datun).ToList();
 
-            foreach (ReportMedjuskladisnica report in listaSort)
+            foreach (ReportPovrat report in listaSort)
             {
                 DataRow dr = reportDt.NewRow();
 
                 dr[0] = report.Redbr;
-                dr[1] = report.Kljnaz1;
+                dr[1] = report.Kljnaz;
                 dr[2] = report.Ident;
                 dr[3] = report.NazMat;
                 dr[4] = report.Kolic;
@@ -134,8 +154,13 @@ namespace Materijalno.UI.Izvjestaji
                 dr[6] = report.Vrijed;
                 dr[7] = report.Brfak;
                 dr[8] = report.Datun;
-                dr[9] = report.Brdok;
-                dr[10] = report.TotalVrijednost;
+                dr[9] = report.Datnar;
+                dr[10] = report.Brdok;
+                dr[11] = report.TotalVrijednost;
+                dr[12] = report.Konto1;
+                dr[13] = report.NazivOrg;
+                dr[14] = report.Kontosklad;
+
 
                 reportDt.Rows.Add(dr);
             }
@@ -165,11 +190,11 @@ namespace Materijalno.UI.Izvjestaji
         {
             ReportDataSource ds = new ReportDataSource("DataSet1", reportDt);
             PathHelper pathHelper = new PathHelper();
-            this._reportViewer.LocalReport.ReportPath = pathHelper.MExecutableRootDirectory + "\\Izvjestaji\\Medjuskladisnica.rdlc";
+            this._reportViewer.LocalReport.ReportPath = pathHelper.MExecutableRootDirectory + "\\Izvjestaji\\ReportPovrat.rdlc";
             _reportViewer.LocalReport.DataSources.Add(ds);
             try
             {
-                this._reportViewer.LocalReport.ReportEmbeddedResource = "Medjuskladisnica.rdlc";
+                this._reportViewer.LocalReport.ReportEmbeddedResource = "ReportPovrat.rdlc";
             }
             catch (Exception e)
             {

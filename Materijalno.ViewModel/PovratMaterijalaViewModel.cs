@@ -216,6 +216,11 @@ namespace Materijalno.ViewModel
             }
         }
 
+        public PovratMaterijalaViewModel()
+        {
+
+        }
+
         #endregion
         public PovratMaterijalaViewModel(GlavniViewModel gvm, Mat CurrentItemMat)
         {
@@ -571,6 +576,7 @@ namespace Materijalno.ViewModel
         {
             using (var dbContext = new materijalno_knjigovodstvoContext())
             {
+                currentItemMat.Status = "P";
                 dbContext.Update(CurrentItemMat);
                 dbContext.SaveChanges();
 

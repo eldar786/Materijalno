@@ -1,4 +1,5 @@
-﻿using Materijalno.ViewModel;
+﻿using Materijalno.UI.Izvjestaji;
+using Materijalno.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -108,6 +109,18 @@ namespace Materijalno.UI
         private void datOd_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
         {
 
+        }
+
+        private void stampa_button(object sender, RoutedEventArgs e)
+        {
+            if (DataContext is PovratMaterijalaViewModel povratViewModel)
+            {
+                PovratIzvjestaj povratIzvjestaj = new PovratIzvjestaj(povratViewModel);
+
+                // Dodajemo trenutni ViewModel u PrintWindow
+                //medjuskladisnicaIzvjestaj.DataContext = medjuskladisnicaViewModel;
+                povratIzvjestaj.Show();
+            }
         }
     }
 
