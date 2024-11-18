@@ -226,8 +226,14 @@
       <DependentUpon>Dnevnik.xaml</DependentUpon>
     </Compile>
     <Compile Include="Helpers\PathHelper.cs" />
+    <Compile Include="Izvjestaji\IzlazMaterijalaIzvjestaj.xaml.cs">
+      <DependentUpon>IzlazMaterijalaIzvjestaj.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Izvjestaji\MedjuskladisnicaIzvjestaj.xaml.cs">
       <DependentUpon>MedjuskladisnicaIzvjestaj.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Izvjestaji\ReportIzlazMaterijala.cs">
+      <DependentUpon>ReportIzlazMaterijala.xaml</DependentUpon>
     </Compile>
     <Compile Include="Izvjestaji\PovratIzvjestaj.xaml.cs">
       <DependentUpon>PovratIzvjestaj.xaml</DependentUpon>
@@ -391,6 +397,10 @@
     <Compile Include="GlavniView.xaml.cs">
       <DependentUpon>GlavniView.xaml</DependentUpon>
     </Compile>
+    <Page Include="Izvjestaji\IzlazMaterijalaIzvjestaj.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Izvjestaji\MedjuskladisnicaIzvjestaj.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -593,6 +603,9 @@
     <Content Include="Izvjestaji\Medjuskladisnica.rdlc">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Izvjestaji\IzlazMaterijala.rdlc">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Izvjestaji\ReportPovrat.rdlc">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -602,6 +615,10 @@
     </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\DataSources\Materijalno.UI.Izvjestaji.MedjuskladisnicaIzvjestaj.datasource" />
+    <None Include="Properties\DataSources\Materijalno.UI.Izvjestaji.ReportIzlazMaterijala.datasource" />
+    <None Include="Properties\DataSources\Materijalno.UI.Izvjestaji.ReportMedjuskladisnica.datasource" />
+    <None Include="Properties\DataSources\Materijalno.UI.Properties.Resources.datasource" />
+    <None Include="Properties\DataSources\Materijalno.UI.Properties.Settings.datasource" />
     <None Include="Properties\DataSources\Materijalno.UI.Izvjestaji.ReportPovrat.datasource" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

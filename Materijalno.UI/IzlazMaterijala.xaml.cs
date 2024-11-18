@@ -1,4 +1,5 @@
-﻿using Materijalno.ViewModel;
+﻿using Materijalno.UI.Izvjestaji;
+using Materijalno.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -108,6 +109,16 @@ namespace Materijalno.UI
         private void datOd_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
         {
 
+        }
+
+        private void btnStampa_Click(object sender, RoutedEventArgs e)
+        {
+            if (DataContext is IzlazMaterijalaViewModel izlazMaterijalaViewModel)
+            {
+                IzlazMaterijalaIzvjestaj izlazMaterijalaIzvjestaj = new IzlazMaterijalaIzvjestaj(izlazMaterijalaViewModel);
+                // Dodajemo trenutni ViewModel u PrintWindow
+                izlazMaterijalaIzvjestaj.Show();
+            }
         }
     }
 
