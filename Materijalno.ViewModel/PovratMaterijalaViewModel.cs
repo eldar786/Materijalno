@@ -216,6 +216,11 @@ namespace Materijalno.ViewModel
             }
         }
 
+        public PovratMaterijalaViewModel()
+        {
+
+        }
+
         #endregion
         public PovratMaterijalaViewModel(GlavniViewModel gvm, Mat CurrentItemMat)
         {

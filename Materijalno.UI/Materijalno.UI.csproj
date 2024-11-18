@@ -602,6 +602,7 @@
     </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\DataSources\Materijalno.UI.Izvjestaji.MedjuskladisnicaIzvjestaj.datasource" />
+    <None Include="Properties\DataSources\Materijalno.UI.Izvjestaji.ReportPovrat.datasource" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
