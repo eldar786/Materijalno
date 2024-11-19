@@ -205,7 +205,7 @@ namespace Materijalno.ViewModel
                 //Dodaj u listu gdje je kljnaz između 1000 i 1012 i sortiraj po datumu iz kolone (datun)
                 //Neki datum preskoci, treba napraviti dobar data type za kolonu (datun) u sql bazi
                 MatList = new ObservableCollection<Mat>(dbContext.Mat
-                    .Where(row => row.Kljnaz >= 1001 && row.Kljnaz <= 1012)
+                    .Where(row => row.Kljnaz >= 1001 && row.Kljnaz <= 1012 && row.Status == "P")
                     .OrderBy(row => row.Datun)
                     .ToList());
 
@@ -264,7 +264,7 @@ namespace Materijalno.ViewModel
                 //Dodaj u listu gdje je kljnaz == 1000 i sortiraj po datumu iz kolone (datun)
                 //Neki datum preskoci, treba napraviti dobar data type za kolonu (datun) u sql bazi
                 MatList = new ObservableCollection<Mat>(dbContext.Mat
-                    .Where(row => row.Kljnaz >= 1001 && row.Kljnaz <= 1012)
+                    .Where(row => row.Kljnaz >= 1001 && row.Kljnaz <= 1012 && row.Status == "P")
                     .OrderBy(row => row.Datun)
                     .ToList());
 
@@ -310,7 +310,6 @@ namespace Materijalno.ViewModel
             }
         }
 
-
         public void NabavnaCijena()
         {
             var dbContext = new materijalno_knjigovodstvoContext();
@@ -322,7 +321,6 @@ namespace Materijalno.ViewModel
             if (CurrentItemMat.Kolic.HasValue && CurrentItemMat.Kolic.Value != 0)
             {
                 CurrentItemMat.Vrijed = (decimal)CurrentItemMat.Kolic.Value * CurrentItemMat.Nc;
-
             }
             else
             {
@@ -335,7 +333,7 @@ namespace Materijalno.ViewModel
 
             //Staviti po datumu da sortira i dodaj u listu da bi se vidjele promjene
             MatList = new ObservableCollection<Mat>(dbContext.Mat
-                .Where(row => row.Kljnaz >= 1001 && row.Kljnaz <= 1012)
+                .Where(row => row.Kljnaz >= 1001 && row.Kljnaz <= 1012 && row.Status == "P")
                 .OrderBy(row => row.Datun)
                 .ToList());
 
@@ -565,6 +563,8 @@ namespace Materijalno.ViewModel
                 CurrentIndex = MatList.Count - 1;
                 CurrentItemMat = MatList[CurrentIndex];
 
+                CurrentItemMat.Status = "P";
+
                 dbContext.Add(CurrentItemMat);
                 dbContext.SaveChanges();
 
@@ -582,7 +582,7 @@ namespace Materijalno.ViewModel
 
                 //Staviti po datumu da sortira i dodaj u listu da bi se vidjele promjene
                 MatList = new ObservableCollection<Mat>(dbContext.Mat
-                    .Where(row => row.Kljnaz >= 1001 && row.Kljnaz <= 1012)
+                    .Where(row => row.Kljnaz >= 1001 && row.Kljnaz <= 1012 && row.Status == "P")
                     .OrderBy(row => row.Datun)
                     .ToList());
 
