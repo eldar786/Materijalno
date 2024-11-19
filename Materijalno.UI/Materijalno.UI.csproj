@@ -130,6 +130,24 @@
     <Reference Include="Microsoft.IdentityModel.Tokens, Version=5.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.IdentityModel.Tokens.5.5.0\lib\net461\Microsoft.IdentityModel.Tokens.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.ReportViewer.Common, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ReportingServices.ReportViewerControl.Winforms.150.1652.0\lib\net40\Microsoft.ReportViewer.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.ReportViewer.DataVisualization, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ReportingServices.ReportViewerControl.Winforms.150.1652.0\lib\net40\Microsoft.ReportViewer.DataVisualization.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.ReportViewer.Design, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ReportingServices.ReportViewerControl.Winforms.150.1652.0\lib\net40\Microsoft.ReportViewer.Design.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.ReportViewer.ProcessingObjectModel, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ReportingServices.ReportViewerControl.Winforms.150.1652.0\lib\net40\Microsoft.ReportViewer.ProcessingObjectModel.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.ReportViewer.WinForms, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ReportingServices.ReportViewerControl.Winforms.150.1652.0\lib\net40\Microsoft.ReportViewer.WinForms.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.SqlServer.Types, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.SqlServer.Types.14.0.314.76\lib\net40\Microsoft.SqlServer.Types.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Xaml.Behaviors, Version=1.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Xaml.Behaviors.Wpf.1.1.135\lib\net462\Microsoft.Xaml.Behaviors.dll</HintPath>
     </Reference>
@@ -207,6 +225,21 @@
     <Compile Include="Dnevnik.xaml.cs">
       <DependentUpon>Dnevnik.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\PathHelper.cs" />
+    <Compile Include="Izvjestaji\IzlazMaterijalaIzvjestaj.xaml.cs">
+      <DependentUpon>IzlazMaterijalaIzvjestaj.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Izvjestaji\MedjuskladisnicaIzvjestaj.xaml.cs">
+      <DependentUpon>MedjuskladisnicaIzvjestaj.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Izvjestaji\ReportIzlazMaterijala.cs">
+      <DependentUpon>ReportIzlazMaterijala.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Izvjestaji\PovratIzvjestaj.xaml.cs">
+      <DependentUpon>PovratIzvjestaj.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Izvjestaji\ReportMedjuskladisnica.cs" />
+    <Compile Include="Izvjestaji\ReportPovrat.cs" />
     <Compile Include="KomitentiLista.xaml.cs">
       <DependentUpon>KomitentiLista.xaml</DependentUpon>
     </Compile>
@@ -275,7 +308,7 @@
     </Compile>
     <Compile Include="PrintWindowIzlazMaterijala.xaml.cs">
       <DependentUpon>PrintWindowIzlazMaterijala.xaml</DependentUpon>
-	</Compile>
+    </Compile>
     <Compile Include="PrintWindowMedjuskladisnica.xaml.cs">
       <DependentUpon>PrintWindowMedjuskladisnica.xaml</DependentUpon>
     </Compile>
@@ -315,6 +348,7 @@
     <Compile Include="SifarnikSkladistaFormWindow.xaml.cs">
       <DependentUpon>SifarnikSkladistaFormWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="SqlServerTypes\Loader.cs" />
     <Compile Include="StampanjeInventurnihListica.xaml.cs">
       <DependentUpon>StampanjeInventurnihListica.xaml</DependentUpon>
     </Compile>
@@ -363,6 +397,18 @@
     <Compile Include="GlavniView.xaml.cs">
       <DependentUpon>GlavniView.xaml</DependentUpon>
     </Compile>
+    <Page Include="Izvjestaji\IzlazMaterijalaIzvjestaj.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Izvjestaji\MedjuskladisnicaIzvjestaj.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Izvjestaji\PovratIzvjestaj.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="KomitentiLista.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -554,11 +600,26 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Content Include="Izvjestaji\Medjuskladisnica.rdlc">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Izvjestaji\IzlazMaterijala.rdlc">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Izvjestaji\ReportPovrat.rdlc">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <None Include="packages.config" />
+    <None Include="Properties\DataSources\Materijalno.UI.Izvjestaji.MedjuskladisnicaIzvjestaj.datasource" />
+    <None Include="Properties\DataSources\Materijalno.UI.Izvjestaji.ReportIzlazMaterijala.datasource" />
+    <None Include="Properties\DataSources\Materijalno.UI.Izvjestaji.ReportMedjuskladisnica.datasource" />
+    <None Include="Properties\DataSources\Materijalno.UI.Properties.Resources.datasource" />
+    <None Include="Properties\DataSources\Materijalno.UI.Properties.Settings.datasource" />
+    <None Include="Properties\DataSources\Materijalno.UI.Izvjestaji.ReportPovrat.datasource" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -623,6 +684,22 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Ikone\printer.png" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <Content Include="SqlServerTypes\readme.htm" />
+    <Content Include="SqlServerTypes\x64\msvcr120.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SqlServerTypes\x64\SqlServerSpatial140.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SqlServerTypes\x86\msvcr120.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SqlServerTypes\x86\SqlServerSpatial140.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

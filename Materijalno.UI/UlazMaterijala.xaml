@@ -134,7 +134,13 @@
 
         <Label Grid.Row="5" Grid.Column="2" Margin="-60,0,0,0"  VerticalAlignment="Center" FontSize="18">Šifra materijala</Label>
         <!--treba otvorit tabelu-->
-        <TextBox Text="{Binding CurrentItemMat.Ident}" Grid.Row="5" KeyDown="TextBox_KeyDown" Grid.Column="3" VerticalAlignment="Center" Margin="-250,0,250,0" FontSize="18"  Width="180"/>
+        <TextBox Text="{Binding CurrentItemMat.Ident}" Grid.Row="5" KeyDown="TextBox_KeyDown" Grid.Column="3" VerticalAlignment="Center" Margin="-250,0,250,0" FontSize="18"  Width="180">
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="LostFocus">
+                    <i:InvokeCommandAction Command="{Binding OsvjeziCommand}" />
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+        </TextBox>
 
         <!--Na osnovu sifre materijala dati naziv iz druge tabele "tabela materijala"-->
         <TextBox Text="{Binding CurrentItemTabMaterijala.Nazmat}" Grid.Row="5" Grid.Column="4" Margin="-430,0,0,0" VerticalAlignment="Center" FontSize="18"  Width="400" IsEnabled="False"/>
