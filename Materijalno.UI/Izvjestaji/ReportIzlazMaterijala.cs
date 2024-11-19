@@ -28,6 +28,11 @@ namespace Materijalno.UI.Izvjestaji
         public string Status { get; set; }
         public string Cartro { get; set; }
         public string Medus { get; set; }
+        public decimal? TotalVrijednost { get; set; }
+        public int? Konto1 { get; set; }
+        public string NazivOrg { get; set; }
+        public int? Kontosklad { get; set; }
+
         public ObservableCollection<Mat> MatList;
 
         public IzlazMaterijalaViewModel orgViewModel = new IzlazMaterijalaViewModel();
