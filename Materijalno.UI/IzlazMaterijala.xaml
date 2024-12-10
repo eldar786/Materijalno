@@ -159,7 +159,7 @@
 
         <Label Grid.Row="2" Grid.Column="0" KeyDown="TextBox_KeyDown"  HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="18">Datum kalkulacije</Label>
 
-        <DatePicker Grid.Row="2" SelectedDate="{Binding CurrentItemMat.Datun, UpdateSourceTrigger=PropertyChanged}" Grid.Column="1" KeyDown="TextBox_KeyDown"  HorizontalAlignment="Left" Height="30" FontSize="18" Width="120" Name="dtpOd" />
+        <DatePicker Grid.Row="2" SelectedDate="{Binding CurrentItemMat.Datun, UpdateSourceTrigger=PropertyChanged}" Grid.Column="1" KeyDown="TextBox_KeyDown"  HorizontalAlignment="Left" Height="30" FontSize="18" Width="120" />
 
         <Label Grid.Row="2" Grid.Column="3" Margin="0,0,100,0" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="18" >Broj kalkulacije</Label>
         <TextBox Grid.Row="2" Text="{Binding CurrentItemMat.Brfak}" Grid.Column="4" Margin="-90,0,0,0"  KeyDown="TextBox_KeyDown"  VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="18"  Width="120"/>

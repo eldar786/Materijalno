@@ -512,6 +512,16 @@ namespace Materijalno.ViewModel
         {
             using (var dbContext = new materijalno_knjigovodstvoContext())
             {
+                // Na osnovu Ident od CurrentItemMat, daj mi Konto1 iz tabele TabelaMaterijala i dodijeli u CurrentItemMat u Mat tabeli
+                // Trenutno u If, ali treba uraditi validaciju
+                if (CurrentItemMat.Ident != null)
+                {
+                    CurrentItemMat.Konto1 = (int?)dbContext.TabelaMaterijala
+                    .Where(row => row.Ident == CurrentItemMat.Ident)
+                    .Select(row => row.Konto1)
+                    .FirstOrDefault();
+                }
+
                 dbContext.Update(CurrentItemMat);
                 dbContext.SaveChanges();
 
@@ -583,6 +593,16 @@ namespace Materijalno.ViewModel
         {
             using (var dbContext = new materijalno_knjigovodstvoContext())
             {
+                // Na osnovu Ident od CurrentItemMat, daj mi Konto1 iz tabele TabelaMaterijala i dodijeli u CurrentItemMat u Mat tabeli
+                // Trenutno u If, ali treba uraditi validaciju
+                if (CurrentItemMat.Ident != null)
+                {
+                    CurrentItemMat.Konto1 = (int?)dbContext.TabelaMaterijala
+                    .Where(row => row.Ident == CurrentItemMat.Ident)
+                    .Select(row => row.Konto1)
+                    .FirstOrDefault();
+                }
+
                 dbContext.Update(CurrentItemMat);
                 dbContext.SaveChanges();
 
