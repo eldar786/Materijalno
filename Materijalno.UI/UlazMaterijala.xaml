@@ -91,7 +91,7 @@
 
 
         <Label Grid.Row="1" Grid.Column="0" Margin="0,0,0,0" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="18">Skladište</Label>
-        <TextBox Text="{Binding CurrentItemMat.Kljnaz}" Name="OpBroj" KeyDown="TextBox_KeyDown"  Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left" FontWeight="Bold"  Width="170" FontSize="18"/>
+        <TextBox Text="1000" Name="OpBroj" KeyDown="TextBox_KeyDown"  Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left" FontWeight="Bold"  Width="170" FontSize="18" IsEnabled="False"/>
         <TextBox Grid.Row="1" KeyDown="TextBox_KeyDown" Name="tabelaSifarnikSkladista" Margin="-300,0,600,0" Grid.Column="2" Grid.ColumnSpan="4" VerticalAlignment="Center"  FontSize="18"  Width="400" Text="LUTRIJA BIH-CENTRALNI MAGACIN INTERNO" IsEnabled="False">
 
             <TextBox.InputBindings>
