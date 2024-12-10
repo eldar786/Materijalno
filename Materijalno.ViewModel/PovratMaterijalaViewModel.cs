@@ -508,6 +508,14 @@ namespace Materijalno.ViewModel
         {
             using (var dbContext = new materijalno_knjigovodstvoContext())
             {
+                if (currentItemMat.Ident != null)
+                {
+                    currentItemMat.Konto1 = (int?)dbContext.TabelaMaterijala
+                    .Where(row => row.Ident == CurrentItemMat.Ident)
+                    .Select(row => row.Konto1)
+                    .FirstOrDefault();
+                }
+
                 dbContext.Update(CurrentItemMat);
                 dbContext.SaveChanges();
 
@@ -577,6 +585,15 @@ namespace Materijalno.ViewModel
             using (var dbContext = new materijalno_knjigovodstvoContext())
             {
                 currentItemMat.Status = "P";
+
+                if (currentItemMat.Ident != null)
+                {
+                    currentItemMat.Konto1 = (int?)dbContext.TabelaMaterijala
+                    .Where(row => row.Ident == CurrentItemMat.Ident)
+                    .Select(row => row.Konto1)
+                    .FirstOrDefault();
+                }
+
                 dbContext.Update(CurrentItemMat);
                 dbContext.SaveChanges();
 
