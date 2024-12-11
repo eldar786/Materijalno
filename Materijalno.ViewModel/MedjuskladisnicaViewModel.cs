@@ -153,7 +153,7 @@ namespace Materijalno.ViewModel
         public RelayCommand NextButtonCommand { get; set; }
         public RelayCommand PrethodniButtonCommand { get; set; }
         public RelayCommand PrviButtonCommand { get; set; }
-        public RelayCommand ZadnjiButtonCommand { get; set; }
+        public RelayCommand ZadnjiButtonCommand { get; set; } 
         public RelayCommand BrisanjeCommand { get; set; }
         public RelayCommand UpdateCommand { get; set; }
         public RelayCommand NovaMedjuskladisnicaCommand { get; set; }
@@ -310,7 +310,7 @@ namespace Materijalno.ViewModel
 
                 selectedKomitent = null;
 
-                #endregion
+                #endregion 
 
                 StaraSifra_Ime_List = DohvatiNazivKomitenta();
             }
@@ -381,7 +381,7 @@ namespace Materijalno.ViewModel
             // Napraviti da stavi nule ako dodje do promjene Sifre Materijala?
         }
 
-        public void NabavnaCijena()
+        public void NabavnaCijena( )
         {
             var dbContext = new materijalno_knjigovodstvoContext();
 
