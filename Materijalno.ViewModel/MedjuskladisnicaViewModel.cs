@@ -599,6 +599,22 @@ namespace Materijalno.ViewModel
         {
             using (var dbContext = new materijalno_knjigovodstvoContext())
             {
+                if (currentItemMat.Kljnaz != null)
+                {
+                    currentItemMat.Kontosklad = dbContext.SifarnikMaterijalSkladisteKonto
+                    .Where(row => row.Sifskla == currentItemMat.Kljnaz && row.Sifmat == CurrentItemMat.Ident)
+                    .Select(row => row.Sifkonta)
+                    .FirstOrDefault();
+                }
+
+                if (currentItemMat.Kljnaz1 != null)
+                {
+                    currentItemMat.Kontosklad1 = dbContext.SifarnikMaterijalSkladisteKonto
+                    .Where(row => row.Sifskla == currentItemMat.Kljnaz1 && row.Sifmat == CurrentItemMat.Ident)
+                    .Select(row => row.Sifkonta)
+                    .FirstOrDefault();
+                }
+
                 dbContext.Update(CurrentItemMat);
                 dbContext.SaveChanges();
 
@@ -682,6 +698,23 @@ namespace Materijalno.ViewModel
             using (var dbContext = new materijalno_knjigovodstvoContext())
             {
                 currentItemMat.Status = "M";
+
+                if (currentItemMat.Kljnaz != null)
+                {
+                    currentItemMat.Kontosklad = dbContext.SifarnikMaterijalSkladisteKonto
+                    .Where(row => row.Sifskla == currentItemMat.Kljnaz && row.Sifmat == CurrentItemMat.Ident)
+                    .Select(row => row.Sifkonta)
+                    .FirstOrDefault();
+                }
+
+                if (currentItemMat.Kljnaz1 != null)
+                {
+                    currentItemMat.Kontosklad1 = dbContext.SifarnikMaterijalSkladisteKonto
+                    .Where(row => row.Sifskla == currentItemMat.Kljnaz1 && row.Sifmat == CurrentItemMat.Ident)
+                    .Select(row => row.Sifkonta)
+                    .FirstOrDefault();
+                }
+
                 NabavnaCijena();
                 dbContext.Update(CurrentItemMat);
                 dbContext.SaveChanges();
