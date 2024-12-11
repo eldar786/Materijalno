@@ -553,6 +553,9 @@ namespace Materijalno.ViewModel
         {
             using (var dbContext = new materijalno_knjigovodstvoContext())
             {
+                currentItemMat.Kontosklad = 1010100;
+                currentItemMat.Kontosklad1 = 0;
+
                 if (CurrentItemMat.Ident != null)
                 {
                     CurrentItemMat.Konto1 = (int?)dbContext.TabelaMaterijala
