@@ -135,6 +135,7 @@ namespace Materijalno.ViewModel
 
         public RelayCommand OdustaniCommand { get; set; }
         public RelayCommand OsvjeziCommand { get; set; }
+        public RelayCommand BrojKalkulacijeCommand { get; set; }
 
         #endregion
 
@@ -161,6 +162,7 @@ namespace Materijalno.ViewModel
             PrintCommand = new RelayCommand(Print, () => !isNovaKalkulacijaClicked);
             NabavnaCijenaCommand = new RelayCommand(NabavnaCijena);
             OsvjeziCommand = new RelayCommand(Osvjezi);
+            BrojKalkulacijeCommand = new RelayCommand(BrojKalkulacije);
 
             OtvoriKomitentListuCommand = new RelayCommand(OtvoriKomitentListu);
             #endregion
@@ -210,6 +212,7 @@ namespace Materijalno.ViewModel
             PrintCommand = new RelayCommand(Print, () => !isNovaKalkulacijaClicked);
             OsvjeziCommand = new RelayCommand(Osvjezi);
             NabavnaCijenaCommand = new RelayCommand(NabavnaCijena);
+            BrojKalkulacijeCommand = new RelayCommand(BrojKalkulacije);
 
             OtvoriKomitentListuCommand = new RelayCommand(OtvoriKomitentListu);
             #endregion
@@ -515,6 +518,38 @@ namespace Materijalno.ViewModel
             }
 
             UpdateCurrentItemData(dbContext);
+        }
+
+        private void BrojKalkulacije()
+        {
+            var dbContext = new materijalno_knjigovodstvoContext();
+
+            MatList = new ObservableCollection<Mat>(dbContext.Mat
+                               .Where(row => row.Status == "U")
+                               .OrderBy(row => row.Datun)
+                               .ToList());
+
+            //Proci kroz MatListu i naci posljednji "brfak" i dodati +1
+            var posljednjiBrfak = MatList
+    .OrderByDescending(x =>
+        x.Brfak != null && x.Brfak.Contains('-') // Provjeravamo da li Brfak is not null and sadrzi '-'
+            ? int.Parse(
+                x.Brfak.Substring(
+                    x.Brfak.LastIndexOf('-') + 1
+                )
+              )
+            : int.MinValue // Koristi defaultnu vrijednost za null ili ako je invalide
+    ).Select(x => x.Brfak)
+    .FirstOrDefault();
+
+            var parts = posljednjiBrfak.Split('-');
+            if (parts.Length == 2 && int.TryParse(parts[1], out int number)) // Parsiraj drugi dio (poslije -)
+            {
+                number++; // Povecaj za jedan
+                posljednjiBrfak = $"{parts[0]}-{number}"; // Dodaj dvije cjeline u posljednjiBrfak
+            }
+
+            CurrentItemMat.Brfak = posljednjiBrfak;
         }
 
         // An event that will be raised to notify the view to open the PrintWindow
