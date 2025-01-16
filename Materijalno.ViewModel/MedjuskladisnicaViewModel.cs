@@ -36,6 +36,8 @@ namespace Materijalno.ViewModel
         public static Komitenti selectedKomitent;
         public static Mat selectedMat;
         private TabelaMaterijala currentItemTabMaterijala;
+        
+        //private TabelaMaterijala currentItemTabKonto1;
         private SifarnikSkladista currentItemTabSkladista;
         private SifarnikSkladista currentItemTabSkladistaUlaza;
         string connectionString = "Server= 192.168.1.213;Trusted_Connection=False;" +
@@ -87,6 +89,16 @@ namespace Materijalno.ViewModel
                 OnPropertyChanged(nameof(currentItemTabMaterijala));
             }
         }
+        
+        //public TabelaMaterijala CurrentItemTabKonto1
+        //{
+        //    get { return currentItemTabKonto1; }
+        //    set
+        //    {
+        //        currentItemTabKonto1 = value;
+        //        OnPropertyChanged(nameof(currentItemTabKonto1));
+        //    }
+        //}
 
         public SifarnikSkladista CurrentItemTabSkladista
         {
@@ -139,7 +151,8 @@ namespace Materijalno.ViewModel
             }
         }
 
-        public ObservableCollection<TabelaMaterijala> TebelaMaterijalaList { get; set; }
+        public ObservableCollection<TabelaMaterijala> TebelaMaterijalaList { get; set; } 
+        //public ObservableCollection<TabelaMaterijala> TebelaKontaList { get; set; }
         public ObservableCollection<SifarnikSkladista> TebelaSkladistaList { get; set; }
         public ObservableCollection<SifarnikSkladista> TebelaSkladistaUlazaList { get; set; }
         public ObservableCollection<Mat> MatList { get; set; }
@@ -153,7 +166,7 @@ namespace Materijalno.ViewModel
         public RelayCommand NextButtonCommand { get; set; }
         public RelayCommand PrethodniButtonCommand { get; set; }
         public RelayCommand PrviButtonCommand { get; set; }
-        public RelayCommand ZadnjiButtonCommand { get; set; }
+        public RelayCommand ZadnjiButtonCommand { get; set; } 
         public RelayCommand BrisanjeCommand { get; set; }
         public RelayCommand UpdateCommand { get; set; }
         public RelayCommand NovaMedjuskladisnicaCommand { get; set; }
@@ -284,6 +297,8 @@ namespace Materijalno.ViewModel
                 CurrentItemMat = (Mat)MatList.FirstOrDefault(row => row.Id == CurrentItemMat.Id);
 
                 TebelaMaterijalaList = new ObservableCollection<TabelaMaterijala>(dbContext.TabelaMaterijala.Where(row => row.Ident == CurrentItemMat.Ident).ToList());
+                
+                //TebelaKontaList = new ObservableCollection<TabelaMaterijala>(dbContext.TabelaMaterijala.Where(row => row.Konto1 == CurrentItemMat.Konto1).ToList());
 
                 TebelaSkladistaList = new ObservableCollection<SifarnikSkladista>(dbContext.SifarnikSkladista.Where(row => row.Kljnaz == CurrentItemMat.Kljnaz).ToList());
 
@@ -291,7 +306,10 @@ namespace Materijalno.ViewModel
 
                 //Nadji jednu vrijednost po *Ident* iz *TabelaMaterijala* i po Sifri materijala iz tabele *Mat*(col:*Ident*) i stavi u jedan property
 
-                CurrentItemTabMaterijala = dbContext.TabelaMaterijala.Where(row => row.Ident == CurrentItemMat.Ident).FirstOrDefault();
+                CurrentItemTabMaterijala = dbContext.TabelaMaterijala.Where(row => row.Konto1 == CurrentItemMat.Konto1).FirstOrDefault();
+                
+                //CurrentItemTabKonto1 = dbContext.TabelaMaterijala.Where(row => row.Konto1 == CurrentItemMat.Konto1).FirstOrDefault();
+                
                 CurrentItemTabSkladista = dbContext.SifarnikSkladista.Where(row => row.Kljnaz == CurrentItemMat.Kljnaz).FirstOrDefault();
                 CurrentItemTabSkladistaUlaza = dbContext.SifarnikSkladista.Where(row => row.Kljnaz == CurrentItemMat.Kljnaz1).FirstOrDefault();
 
@@ -310,7 +328,7 @@ namespace Materijalno.ViewModel
 
                 selectedKomitent = null;
 
-                #endregion
+                #endregion 
 
                 StaraSifra_Ime_List = DohvatiNazivKomitenta();
             }
@@ -381,7 +399,7 @@ namespace Materijalno.ViewModel
             // Napraviti da stavi nule ako dodje do promjene Sifre Materijala?
         }
 
-        public void NabavnaCijena()
+        public void NabavnaCijena( )
         {
             var dbContext = new materijalno_knjigovodstvoContext();
 
@@ -599,6 +617,22 @@ namespace Materijalno.ViewModel
         {
             using (var dbContext = new materijalno_knjigovodstvoContext())
             {
+                if (currentItemMat.Kljnaz != null)
+                {
+                    currentItemMat.Kontosklad = dbContext.SifarnikMaterijalSkladisteKonto
+                    .Where(row => row.Sifskla == currentItemMat.Kljnaz && row.Sifmat == CurrentItemMat.Ident)
+                    .Select(row => row.Sifkonta)
+                    .FirstOrDefault();
+                }
+
+                if (currentItemMat.Kljnaz1 != null)
+                {
+                    currentItemMat.Kontosklad1 = dbContext.SifarnikMaterijalSkladisteKonto
+                    .Where(row => row.Sifskla == currentItemMat.Kljnaz1 && row.Sifmat == CurrentItemMat.Ident)
+                    .Select(row => row.Sifkonta)
+                    .FirstOrDefault();
+                }
+
                 dbContext.Update(CurrentItemMat);
                 dbContext.SaveChanges();
 
@@ -682,6 +716,25 @@ namespace Materijalno.ViewModel
             using (var dbContext = new materijalno_knjigovodstvoContext())
             {
                 currentItemMat.Status = "M";
+
+                
+
+                if (currentItemMat.Kljnaz != null)
+                {
+                    currentItemMat.Kontosklad = dbContext.SifarnikMaterijalSkladisteKonto
+                    .Where(row => row.Sifskla == currentItemMat.Kljnaz && row.Sifmat == CurrentItemMat.Ident)
+                    .Select(row => row.Sifkonta)
+                    .FirstOrDefault();
+                }
+
+                if (currentItemMat.Kljnaz1 != null)
+                {
+                    currentItemMat.Kontosklad1 = dbContext.SifarnikMaterijalSkladisteKonto
+                    .Where(row => row.Sifskla == currentItemMat.Kljnaz1 && row.Sifmat == CurrentItemMat.Ident)
+                    .Select(row => row.Sifkonta)
+                    .FirstOrDefault();
+                }
+
                 NabavnaCijena();
                 dbContext.Update(CurrentItemMat);
                 dbContext.SaveChanges();
@@ -800,6 +853,8 @@ namespace Materijalno.ViewModel
             //Nadji listu svih po *Ident* iz *TabelaMaterijala* i *CurrentItem* (Mat) i stavi u listu
             TebelaMaterijalaList = new ObservableCollection<TabelaMaterijala>(dbContext.TabelaMaterijala.Where(row => row.Ident == CurrentItemMat.Ident).ToList());
 
+            //TebelaKontaList = new ObservableCollection<TabelaMaterijala>(dbContext.TabelaMaterijala.Where(row => row.Konto1 == CurrentItemMat.Konto1).ToList());
+
             TebelaSkladistaList = new ObservableCollection<SifarnikSkladista>(dbContext.SifarnikSkladista.Where(row => row.Kljnaz == CurrentItemMat.Kljnaz).ToList());
 
             TebelaSkladistaUlazaList = new ObservableCollection<SifarnikSkladista>(dbContext.SifarnikSkladista.Where(row => row.Kljnaz == CurrentItemMat.Kljnaz1).ToList());
@@ -808,6 +863,9 @@ namespace Materijalno.ViewModel
             //Nadji jednu vrijednost po *Ident* iz *TabelaMaterijala* i po Sifri materijala iz tabele *Mat*(col:*Ident*) i stavi u jedan property
 
             CurrentItemTabMaterijala = dbContext.TabelaMaterijala.Where(row => row.Ident == CurrentItemMat.Ident).FirstOrDefault();
+
+            //CurrentItemTabKonto1 = dbContext.TabelaMaterijala.Where(row => row.Konto1 == CurrentItemMat.Konto1).FirstOrDefault();
+
             CurrentItemTabSkladista = dbContext.SifarnikSkladista.Where(row => row.Kljnaz == CurrentItemMat.Kljnaz).FirstOrDefault();
             CurrentItemTabSkladistaUlaza = dbContext.SifarnikSkladista.Where(row => row.Kljnaz == CurrentItemMat.Kljnaz1).FirstOrDefault();
 

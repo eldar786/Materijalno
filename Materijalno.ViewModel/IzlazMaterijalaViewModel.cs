@@ -522,6 +522,14 @@ namespace Materijalno.ViewModel
                     .FirstOrDefault();
                 }
 
+                if (currentItemMat.Kljnaz != null)
+                {
+                    currentItemMat.Kontosklad = dbContext.SifarnikMaterijalSkladisteKonto
+                    .Where(row => row.Sifskla == currentItemMat.Kljnaz && row.Sifmat == CurrentItemMat.Ident)
+                    .Select(row => row.Sifkonta)
+                    .FirstOrDefault();
+                }
+
                 dbContext.Update(CurrentItemMat);
                 dbContext.SaveChanges();
 
@@ -595,11 +603,23 @@ namespace Materijalno.ViewModel
             {
                 // Na osnovu Ident od CurrentItemMat, daj mi Konto1 iz tabele TabelaMaterijala i dodijeli u CurrentItemMat u Mat tabeli
                 // Trenutno u If, ali treba uraditi validaciju
+                
+                currentItemMat.Status = "I";
+                currentItemMat.Kontosklad1 = 0;
+
                 if (CurrentItemMat.Ident != null)
                 {
                     CurrentItemMat.Konto1 = (int?)dbContext.TabelaMaterijala
                     .Where(row => row.Ident == CurrentItemMat.Ident)
                     .Select(row => row.Konto1)
+                    .FirstOrDefault();
+                }
+
+                if (currentItemMat.Kljnaz != null)
+                {
+                    currentItemMat.Kontosklad = dbContext.SifarnikMaterijalSkladisteKonto
+                    .Where(row => row.Sifskla == currentItemMat.Kljnaz && row.Sifmat == CurrentItemMat.Ident)
+                    .Select(row => row.Sifkonta)
                     .FirstOrDefault();
                 }
 
