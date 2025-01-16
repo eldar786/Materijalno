@@ -531,16 +531,16 @@ namespace Materijalno.ViewModel
 
             //Proci kroz MatListu i naci posljednji "brfak" i dodati +1
             var posljednjiBrfak = MatList
-    .OrderByDescending(x =>
-        x.Brfak != null && x.Brfak.Contains('-') // Provjeravamo da li Brfak is not null and sadrzi '-'
+            .OrderByDescending(x =>
+            x.Brfak != null && x.Brfak.Contains('-') // Provjeravamo da li Brfak is not null and sadrzi '-'
             ? int.Parse(
                 x.Brfak.Substring(
                     x.Brfak.LastIndexOf('-') + 1
                 )
               )
             : int.MinValue // Koristi defaultnu vrijednost za null ili ako je invalide
-    ).Select(x => x.Brfak)
-    .FirstOrDefault();
+            ).Select(x => x.Brfak)
+            .FirstOrDefault();
 
             var parts = posljednjiBrfak.Split('-');
             if (parts.Length == 2 && int.TryParse(parts[1], out int number)) // Parsiraj drugi dio (poslije -)
@@ -548,8 +548,11 @@ namespace Materijalno.ViewModel
                 number++; // Povecaj za jedan
                 posljednjiBrfak = $"{parts[0]}-{number}"; // Dodaj dvije cjeline u posljednjiBrfak
             }
-
-            CurrentItemMat.Brfak = posljednjiBrfak;
+            //Stavili smo if, jer pada kada brisemo, CurrentItemMat.Brfak bude null
+            //if (CurrentItemMat.Brfak != null)
+            //{
+                CurrentItemMat.Brfak = posljednjiBrfak;
+            //}
         }
 
         // An event that will be raised to notify the view to open the PrintWindow
