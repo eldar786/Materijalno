@@ -156,7 +156,7 @@
             </i:Interaction.Triggers>
         </TextBox>
 
-        <TextBox Grid.Row="1" KeyDown="TextBox_KeyDown" Text="{Binding CurrentItemTabSkladista.NazivOrg, UpdateSourceTrigger=PropertyChanged}" Grid.Column="2" Grid.ColumnSpan="3" Margin="-50,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="18"  Width="370">
+        <TextBox Grid.Row="1" KeyDown="TextBox_KeyDown" Text="{Binding CurrentItemTabSkladista.NazivOrg, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True" Grid.Column="2" Grid.ColumnSpan="3" Margin="-50,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="18"  Width="370">
         </TextBox>
 
 
@@ -169,7 +169,7 @@
             </i:Interaction.Triggers>
         </TextBox>
 
-        <TextBox Grid.Row="2" Text="{Binding CurrentItemTabSkladistaUlaza.NazivOrg, UpdateSourceTrigger=PropertyChanged}"   Grid.Column="2" KeyDown="TextBox_KeyDown" Grid.ColumnSpan="3" VerticalAlignment="Center" Margin="-50,0,0,0" HorizontalAlignment="Left" FontSize="18"  Width="370">
+        <TextBox Grid.Row="2" Text="{Binding CurrentItemTabSkladistaUlaza.NazivOrg, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True"  Grid.Column="2" KeyDown="TextBox_KeyDown" Grid.ColumnSpan="3" VerticalAlignment="Center" Margin="-50,0,0,0" HorizontalAlignment="Left" FontSize="18"  Width="370">
         </TextBox>
 
 
@@ -196,14 +196,14 @@
         </TextBox>
 
 
-        <TextBox Grid.Row="5" Text="{Binding CurrentItemTabMaterijala.Nazmat}" KeyDown="TextBox_KeyDown" Grid.Column="4" Margin="-380,0,0,0" VerticalAlignment="Center" FontSize="18"  Width="350"/>
+        <TextBox Grid.Row="5" Text="{Binding CurrentItemTabMaterijala.Nazmat}" IsReadOnly="True" KeyDown="TextBox_KeyDown" Grid.Column="4" Margin="-380,0,0,0" VerticalAlignment="Center" FontSize="18"  Width="350"/>
         <!--treba otvorit tabelu-->
 
         <Label Grid.Row="6" Grid.Column="2"  VerticalAlignment="Center" Margin="-50,0,180,0" FontSize="18">Jedinica mjere</Label>
         <TextBox Grid.Row="6" Grid.Column="3" KeyDown="TextBox_KeyDown" VerticalAlignment="Center" Margin="-300,0,150,0" FontSize="18" Text="KOM" Width="200"/>
 
         <Label Grid.Row="6" Grid.Column="3"  VerticalAlignment="Center" Margin="172,0,40,0" FontSize="18">Konto</Label>
-        <TextBox Grid.Row="6" Text="{Binding CurrentItemMat.Konto1}" KeyDown="TextBox_KeyDown" Grid.Column="4" VerticalAlignment="Center" Margin="0,0,150,0" FontSize="18"  Width="120"/>
+        <TextBox Grid.Row="6" Text="{Binding CurrentItemTabKonto1.Konto1}" KeyDown="TextBox_KeyDown" Grid.Column="4" VerticalAlignment="Center" Margin="0,0,150,0" FontSize="18"  Width="120"/>
 
         <Label Grid.Row="7" Grid.Column="0" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="18">Količina</Label>
         <TextBox Grid.Row="7" Text="{Binding CurrentItemMat.Kolic, StringFormat=N2, ConverterCulture='de-DE', UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, TargetNullValue='0,00'}" KeyDown="TextBox_KeyDown" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="18"  Width="170">
