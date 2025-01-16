@@ -506,6 +506,7 @@ namespace Materijalno.ViewModel
 
         private void Update()
         {
+
             using (var dbContext = new materijalno_knjigovodstvoContext())
             {
                 if (currentItemMat.Ident != null)
@@ -513,6 +514,14 @@ namespace Materijalno.ViewModel
                     currentItemMat.Konto1 = (int?)dbContext.TabelaMaterijala
                     .Where(row => row.Ident == CurrentItemMat.Ident)
                     .Select(row => row.Konto1)
+                    .FirstOrDefault();
+                }
+
+                if (currentItemMat.Kljnaz != null)
+                {
+                    currentItemMat.Kontosklad = dbContext.SifarnikMaterijalSkladisteKonto
+                    .Where(row => row.Sifskla == currentItemMat.Kljnaz && row.Sifmat == CurrentItemMat.Ident)
+                    .Select(row => row.Sifkonta)
                     .FirstOrDefault();
                 }
 
@@ -585,12 +594,21 @@ namespace Materijalno.ViewModel
             using (var dbContext = new materijalno_knjigovodstvoContext())
             {
                 currentItemMat.Status = "P";
+                currentItemMat.Kontosklad1 = 0;
 
                 if (currentItemMat.Ident != null)
                 {
                     currentItemMat.Konto1 = (int?)dbContext.TabelaMaterijala
                     .Where(row => row.Ident == CurrentItemMat.Ident)
                     .Select(row => row.Konto1)
+                    .FirstOrDefault();
+                }
+
+                if (currentItemMat.Kljnaz != null)
+                {
+                    currentItemMat.Kontosklad = dbContext.SifarnikMaterijalSkladisteKonto
+                    .Where(row => row.Sifskla == currentItemMat.Kljnaz  && row.Sifmat == CurrentItemMat.Ident)
+                    .Select(row => row.Sifkonta)
                     .FirstOrDefault();
                 }
 

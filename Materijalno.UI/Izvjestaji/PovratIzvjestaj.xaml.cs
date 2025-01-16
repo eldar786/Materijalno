@@ -34,6 +34,7 @@ namespace Materijalno.UI.Izvjestaji
         private List<Mat> _mat;
         private List<TabelaMaterijala> _tabelaMaterijala;
         private List<Materijalno.Model.EntityModels.SifarnikSkladista> _tabelaSkladista;
+        //private List<Materijalno.Model.EntityModels.SifarnikMaterijalSkladisteKonto> _tabMatsklkon;
         private Mat ukupnavrijednost;
         decimal? totalVrijednost = 0;
 
@@ -48,12 +49,14 @@ namespace Materijalno.UI.Izvjestaji
             ukupnavrijednost = new Mat();
 
             var dbContext = new materijalno_knjigovodstvoContext();
-            
+
 
             MatList = new ObservableCollection<Mat>(dbContext.Mat
-                     .Where(row => row.Brfak == povratvm.CurrentItemMat.Brfak)
+                     .Where(row => row.Brfak == povratvm.CurrentItemMat.Brfak && row.Kontosklad == povratvm.CurrentItemMat.Kontosklad)
                      .OrderBy(row => row.Datun)
                      .ToList());
+
+            
             _tabelaMaterijala = dbContext.TabelaMaterijala.ToList();
             _tabelaSkladista = dbContext.SifarnikSkladista.ToList();
 
@@ -66,6 +69,7 @@ namespace Materijalno.UI.Izvjestaji
                 totalVrijednost += item.Vrijed;
             }
 
+            
             //ukupnavrijednost.Vrijed = totalVrijednost;
 
             try
@@ -100,7 +104,7 @@ namespace Materijalno.UI.Izvjestaji
             reportDt.Columns.Add("NazivOrg").DataType = typeof(string);
             reportDt.Columns.Add("Kontosklad").DataType = typeof(int);
             
-
+          
 
         List<ReportPovrat> lista = new List<ReportPovrat>();
 
@@ -111,10 +115,13 @@ namespace Materijalno.UI.Izvjestaji
                                            select tabmaterijala).FirstOrDefault();
 
                 Materijalno.Model.EntityModels.SifarnikSkladista tabsklad = (from Materijalno.Model.EntityModels.SifarnikSkladista tabskladista in _tabelaSkladista
-                                                                             where tabskladista.Kljnaz == mat.Kljnaz
+                                                                             where tabskladista.Kljnaz == mat.Kljnaz 
                                                                              select tabskladista).FirstOrDefault();
 
 
+                //Materijalno.Model.EntityModels.SifarnikMaterijalSkladisteKonto tabmatskladkonto = (from Materijalno.Model.EntityModels.SifarnikMaterijalSkladisteKonto tabmatsklkon in _tabMatsklkon
+                //                                                                                   where tabmatsklkon.Sifmat == mat.Kontosklad
+                //                                                                                   select tabmatsklkon).FirstOrDefault();
 
 
                 _report = new ReportPovrat();
