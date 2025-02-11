@@ -14,11 +14,11 @@ namespace Materijalno.Model.EntityModels
         public int? Kljnaz { get; set; }
         public int? Kljnaz1 { get; set; }
         public int? Ident { get; set; }
-        public DateTime Datun { get; set; }
+        public DateTime Datun { get; set; } = DateTime.Now;
         public string Analst { get; set; }
         public string Brdok { get; set; }
         public string Brnar { get; set; }
-        public DateTime Datnar { get; set; }
+        public DateTime Datnar { get; set; } = DateTime.Now;
         public string Brfak { get; set; }
         public int? Kolic { get; set; }
         public decimal? Nc { get; set; }

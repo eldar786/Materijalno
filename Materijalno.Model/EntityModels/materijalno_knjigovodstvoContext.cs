@@ -142,12 +142,12 @@ namespace Materijalno.Model.EntityModels
 
                 entity.Property(e => e.Datnar)
                     .HasColumnName("datnar")
-                    .HasMaxLength(50)
+                    .HasColumnType("datetime")
                     .IsUnicode(false);
 
                 entity.Property(e => e.Datun)
                     .HasColumnName("datun")
-                    .HasMaxLength(50)
+                    .HasColumnType("datetime")
                     .IsUnicode(false);
 
                 entity.Property(e => e.Fcj)

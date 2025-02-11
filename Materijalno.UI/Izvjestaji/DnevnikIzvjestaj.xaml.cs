@@ -128,14 +128,14 @@ namespace Materijalno.UI.Izvjestaji
                 _report.Nc = mat.Nc;
                 _report.Vrijed = mat.Vrijed;
                 _report.Brfak = mat.Brfak;
-                _report.Datun = mat.Datun;
+                _report.Datun = (DateTime)mat.Datun;
                 _report.NazivOrg = tabsklad.NazivOrg;
                 //_report.TotalVrijednost = ukupnavrijednost.Vrijed;
                 _report.Status = mat.Status;
                 _report.Kljnaz = mat.Kljnaz;
-                _report.Datnar = mat.Datnar;
-                _report.Od = _dnevnikvm.CurrentItemMat.Datun;
-                _report.Do = _dnevnikvm.CurrentItemMat.Datnar;
+                _report.Datnar = (DateTime)mat.Datnar;
+                _report.Od = (DateTime)_dnevnikvm.CurrentItemMat.Datun;
+                _report.Do = (DateTime)_dnevnikvm.CurrentItemMat.Datnar;
 
 
                 lista.Add(_report);

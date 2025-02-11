@@ -129,10 +129,10 @@ namespace Materijalno.UI.Izvjestaji
                 _report.Nc = mat.Nc;
                 _report.Vrijed = mat.Vrijed;
                 _report.Brfak = mat.Brfak;
-                _report.Datun = mat.Datun;
+                _report.Datun = (DateTime)mat.Datun;
                 _report.Brdok = mat.Brdok;
                 //_report.TotalVrijednost = ukupnavrijednost.Vrijed;
-                _report.Od = _medjuskladisniceZaSkladistevm.CurrentItemMat.Datun;
+                _report.Od = (DateTime)_medjuskladisniceZaSkladistevm.CurrentItemMat.Datun;
                 _report.Do = _medjuskladisniceZaSkladistevm.CurrentItemMat.Datnar;
                 _report.NazivOrg = tabsklad.NazivOrg;
 

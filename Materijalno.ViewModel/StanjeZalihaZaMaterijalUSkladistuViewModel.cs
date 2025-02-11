@@ -376,7 +376,7 @@ namespace Materijalno.ViewModel
 
             if (CurrentItemMat.Datun !=null)
             {
-                DateTime upUntilDate = CurrentItemMat.Datun;
+                DateTime upUntilDate = (DateTime)CurrentItemMat.Datun;
 
                 // Fetch Nc value for the given Ident
                 CurrentItemMat.Nc = dbContext.Mat
