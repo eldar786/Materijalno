@@ -1,6 +1,9 @@
-﻿using System;
+﻿using Materijalno.UI.Izvjestaji;
+using Materijalno.ViewModel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Printing;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -16,9 +19,7 @@ using System.Windows.Shapes;
 
 namespace Materijalno.UI
 {
-    /// <summary>
-    /// Interaction logic for PregledIzlazaZaSveKalkulacije.xaml
-    /// </summary>
+    
     public partial class PregledIzlazaZaSveKalkulacije : UserControl
     {
         public PregledIzlazaZaSveKalkulacije()
@@ -47,6 +48,18 @@ namespace Materijalno.UI
         private void datDo_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
         {
 
+        }
+
+        private void stampa_button(object sender, RoutedEventArgs e)
+        {
+            if (DataContext is PregledIzlazaZaSveKalkulacijeViewModel pregledIzlazaZaSveKalkulacijeViewModel)
+            {
+                PregledIzlazaZaSveKalkulacijeIzvjestaj pregledIzlazaZaSveKalkulacijeIzvjestaj = new PregledIzlazaZaSveKalkulacijeIzvjestaj(pregledIzlazaZaSveKalkulacijeViewModel);
+
+                // Dodajemo trenutni ViewModel u PrintWindow
+                //medjuskladisnicaIzvjestaj.DataContext = medjuskladisnicaViewModel;
+                pregledIzlazaZaSveKalkulacijeIzvjestaj.Show();
+            }
         }
     }
 }

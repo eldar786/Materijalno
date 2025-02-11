@@ -6,7 +6,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Materijalno.UI"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="900" d:DesignWidth="1800">
     <UserControl.Resources>
         <DataTemplate DataType="{x:Type vm:MedjuskladisniceJednaViewModel}">
             <local:MedjuskladisniceJedna/>
@@ -33,22 +33,22 @@
         </Grid.RowDefinitions>
 
         <Border Background="AliceBlue" BorderBrush="Silver" BorderThickness="1,0,1,1" Grid.Row="1" Grid.RowSpan="10" Grid.Column="0" Grid.ColumnSpan="6"/>
-        <TextBlock Text="JEDNA" FontSize="18" Margin="0,0,0,0" FontWeight="Bold" Grid.Column="0" Grid.ColumnSpan="4" VerticalAlignment="Center" HorizontalAlignment="Center" />
+        <TextBlock Text="MEĐUKLADIŠNICE - JEDNA" FontSize="18" Margin="0,0,0,0" FontWeight="Bold" Grid.Column="0" Grid.ColumnSpan="4" VerticalAlignment="Center" HorizontalAlignment="Center" />
 
         <Label Grid.Row="1" Grid.Column="0" Margin="0,0,0,0" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="18">Broj međuskladišnice:</Label>
-        <TextBox Name="OpBroj" KeyDown="TextBox_KeyDown" Margin="-250,0,400,0" Grid.Row="1" Grid.Column="1" VerticalAlignment="Center"  Text="{Binding OdabraniKomitent.STARA_SIFRA}" FontWeight="Bold"  Width="170" FontSize="18"/>
+        <TextBox Text="{Binding CurrentItemMat.Brfak}" KeyDown="TextBox_KeyDown" Margin="-250,0,400,0" Grid.Row="1" Grid.Column="1" VerticalAlignment="Center"  FontWeight="Bold"  Width="170" FontSize="18"/>
 
 
-        <Button Background="White" Grid.Row="2" Grid.Column="2" x:Name="btnStampa"  FontSize="18" Width="60" Height="60" HorizontalAlignment="Left" Margin="40,0,0,0" Command="{Binding StampaCommand}" >
+        <Button Background="White" Grid.Row="1" Grid.Column="2" x:Name="btnStampa"  FontSize="18" Width="60" Height="60" HorizontalAlignment="Left" Margin="200,0,0,0" Click="stampa_button">
             <Image Source="/Ikone/print.png" Stretch="Uniform"/>
             <Button.ToolTip>
                 <ToolTip Content="Print"/>
             </Button.ToolTip>
         </Button>
 
-        <Button Background="White" Command="{Binding CancelSifarnikSkladistaCommand}"  HorizontalAlignment="Left" Margin="-30,0,0,0" Height="60" Width="60" Grid.Column="2" Grid.Row="2">
+        <!--<Button Background="White" Command="{Binding CancelSifarnikSkladistaCommand}"  HorizontalAlignment="Left" Margin="-30,0,0,0" Height="60" Width="60" Grid.Column="2" Grid.Row="2">
             <Image Source="/Ikone/obrisi.png" Stretch="Uniform"/>
-        </Button>
+        </Button>-->
 
     </Grid>
 </UserControl>

@@ -482,7 +482,7 @@
                             </Button>
 
 
-                            <Expander Header="Pregled ulaza" Grid.Column="0" Grid.Row="1" Grid.RowSpan="10" FontSize="16" IsExpanded="False" BorderBrush="{x:Null}" Background="White" VerticalAlignment="Top">
+                            <!--<Expander Header="Pregled ulaza" Grid.Column="0" Grid.Row="1" Grid.RowSpan="10" FontSize="16" IsExpanded="False" BorderBrush="{x:Null}" Background="White" VerticalAlignment="Top">
                                 <StackPanel Orientation="Vertical">
                                     <Button x:Name="zaSveKalkulacijePregledUlaza" Width="Auto" Height="30" HorizontalAlignment="Left" BorderBrush="{x:Null}" Command="{Binding ZaSveKalkulacijePregledUlazaCommand}" Margin="20,0,0,0" >
                                         <Button.Style>
@@ -560,7 +560,7 @@
                                         </Grid>
                                     </Button>
                                 </StackPanel>
-                            </Expander>
+                            </Expander>-->
 
                             <Expander Header="Pregled izlaza" Grid.Column="0" Grid.Row="1" Grid.RowSpan="10" FontSize="16" IsExpanded="False" BorderBrush="{x:Null}" Background="White" VerticalAlignment="Top">
                                 <StackPanel Orientation="Vertical">
@@ -589,7 +589,7 @@
                                         </Grid>
                                     </Button>
 
-                                    <Button x:Name="zaJednuKalkulacijuPregledIzlaza" Width="Auto" Height="30" HorizontalAlignment="Left" BorderBrush="{x:Null}" Margin="20,0,0,0" Command="{Binding ZaJednuKalkulacijuPregledIzlazaCommand}">
+                                    <!--<Button x:Name="zaJednuKalkulacijuPregledIzlaza" Width="Auto" Height="30" HorizontalAlignment="Left" BorderBrush="{x:Null}" Margin="20,0,0,0" Command="{Binding ZaJednuKalkulacijuPregledIzlazaCommand}">
                                         <Button.Style>
                                             <Style TargetType="{x:Type Button}">
                                                 <Setter Property="Background" Value="White" />
@@ -613,7 +613,7 @@
                                             </Grid.ColumnDefinitions>
                                             <Label Grid.Column="1" Foreground="Black" Grid.ColumnSpan="2" VerticalAlignment="Center" FontSize="15"  Content="Za jednu kalkulaciju" Height="35"/>
                                         </Grid>
-                                    </Button>
+                                    </Button>-->
 
 
                                 </StackPanel>
@@ -813,7 +813,7 @@
                                         </Grid>
                                     </Button>
 
-                                    <Button x:Name="poKontimaIRadnimNalozima" Width="Auto" Height="30" HorizontalAlignment="Left" BorderBrush="{x:Null}" Margin="20,0,0,0" Command="{Binding PoKontimaIRadnimNalozimaCommand}">
+                                    <!--<Button x:Name="poKontimaIRadnimNalozima" Width="Auto" Height="30" HorizontalAlignment="Left" BorderBrush="{x:Null}" Margin="20,0,0,0" Command="{Binding PoKontimaIRadnimNalozimaCommand}">
                                         <Button.Style>
                                             <Style TargetType="{x:Type Button}">
                                                 <Setter Property="Background" Value="White" />
@@ -837,7 +837,7 @@
                                             </Grid.ColumnDefinitions>
                                             <Label Grid.Column="1" Foreground="Black" Grid.ColumnSpan="2" VerticalAlignment="Center" FontSize="15"  Content="Po kontima i radnim nalozima" Height="35"/>
                                         </Grid>
-                                    </Button>
+                                    </Button>-->
 
                                     <Button x:Name="poKontimaINalozimaZaSvaSkladista" Width="Auto" Height="30" HorizontalAlignment="Left" BorderBrush="{x:Null}" Margin="20,0,0,0" Command="{Binding PoKontimaINalozimaZaSvaSkladistaCommand}">
                                         <Button.Style>
@@ -894,7 +894,7 @@
                                 </Grid>
                             </Button>
 
-                            <Button x:Name="rekapitulacijaTroskova" Width="Auto" Height="30" HorizontalAlignment="Left" BorderBrush="{x:Null}" Margin="20,0,0,0" Command="{Binding RekapitulacijaTroskovaCommand}">
+                            <!--<Button x:Name="rekapitulacijaTroskova" Width="Auto" Height="30" HorizontalAlignment="Left" BorderBrush="{x:Null}" Margin="20,0,0,0" Command="{Binding RekapitulacijaTroskovaCommand}">
                                 <Button.Style>
                                     <Style TargetType="{x:Type Button}">
                                         <Setter Property="Background" Value="White" />
@@ -917,7 +917,7 @@
                                     </Grid.ColumnDefinitions>
                                     <Label Foreground="Black" Grid.Column="1" Grid.ColumnSpan="2" VerticalAlignment="Center" FontSize="15" Margin="0,1,0.5,0" Content="Rekapitulacija troškova" Height="33"/>
                                 </Grid>
-                            </Button>
+                            </Button>-->
                         </StackPanel>
                     </Expander>
                     <!--<Expander  Grid.Column="0" Grid.Row="0" Grid.RowSpan="4" FontSize="18" IsExpanded="True" BorderBrush="{x:Null}" Background="White" VerticalAlignment="Top">

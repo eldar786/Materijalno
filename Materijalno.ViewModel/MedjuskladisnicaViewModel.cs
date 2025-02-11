@@ -233,12 +233,12 @@ namespace Materijalno.ViewModel
             }
         }
 
-        public MedjuskladisnicaViewModel( )
+        public MedjuskladisnicaViewModel()
         {
         }
 
             public MedjuskladisnicaViewModel(GlavniViewModel gvm, Mat CurrentItemMat)
-        {
+            {
             _gvm = gvm;
             this.CurrentItemMat = CurrentItemMat;
 
@@ -633,6 +633,14 @@ namespace Materijalno.ViewModel
                     .FirstOrDefault();
                 }
 
+                if (currentItemMat.Ident != null)
+                {
+                    currentItemMat.Konto1 = (int?)dbContext.TabelaMaterijala
+                    .Where(row => row.Ident == CurrentItemMat.Ident)
+                    .Select(row => row.Konto1)
+                    .FirstOrDefault();
+                }
+
                 dbContext.Update(CurrentItemMat);
                 dbContext.SaveChanges();
 
@@ -640,7 +648,6 @@ namespace Materijalno.ViewModel
 
                 //NAKON STO KLIKNEMO NA OK DA SE VRATI NA IZMIJENJENI ŠIFARNIK
                 UpdateCurrentItemData(dbContext);
-                //UpdateCurrentItemDataUlaz(dbContext);
             }
         }
 
@@ -716,9 +723,14 @@ namespace Materijalno.ViewModel
             using (var dbContext = new materijalno_knjigovodstvoContext())
             {
                 currentItemMat.Status = "M";
-
-                
-
+                 
+                if (currentItemMat.Ident != null)
+                {
+                     currentItemMat.Konto1 = (int?)dbContext.TabelaMaterijala
+                     .Where(row => row.Ident == CurrentItemMat.Ident)
+                     .Select(row => row.Konto1)
+                     .FirstOrDefault();
+                }
                 if (currentItemMat.Kljnaz != null)
                 {
                     currentItemMat.Kontosklad = dbContext.SifarnikMaterijalSkladisteKonto

@@ -96,8 +96,8 @@ namespace Materijalno.UI.Izvjestaji
             reportDt.Columns.Add("Nc").DataType = typeof(decimal);
             reportDt.Columns.Add("Vrijed").DataType = typeof(decimal);
             reportDt.Columns.Add("Brfak").DataType = typeof(string);
-            reportDt.Columns.Add("Datun").DataType = typeof(string);
-            reportDt.Columns.Add("Datnar").DataType = typeof(string);
+            reportDt.Columns.Add("Datun").DataType = typeof(DateTime);
+            reportDt.Columns.Add("Datnar").DataType = typeof(DateTime);
             reportDt.Columns.Add("Brdok").DataType = typeof(string);
             reportDt.Columns.Add("Totalvrijednost").DataType = typeof(decimal);
             reportDt.Columns.Add("Konto1").DataType = typeof(int);

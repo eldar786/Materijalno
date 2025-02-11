@@ -226,12 +226,38 @@
       <DependentUpon>Dnevnik.xaml</DependentUpon>
     </Compile>
     <Compile Include="Helpers\PathHelper.cs" />
+    <Compile Include="Izvjestaji\AnalitickaKarticaIzvjestaj.xaml.cs">
+      <DependentUpon>AnalitickaKarticaIzvjestaj.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Izvjestaji\DnevnikIzvjestaj.xaml.cs">
+      <DependentUpon>DnevnikIzvjestaj.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Izvjestaji\IzlazMaterijalaIzvjestaj.xaml.cs">
       <DependentUpon>IzlazMaterijalaIzvjestaj.xaml</DependentUpon>
     </Compile>
     <Compile Include="Izvjestaji\MedjuskladisnicaIzvjestaj.xaml.cs">
       <DependentUpon>MedjuskladisnicaIzvjestaj.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Izvjestaji\MedjuskladisniceJednaIzvjestaj.xaml.cs">
+      <DependentUpon>MedjuskladisniceJednaIzvjestaj.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Izvjestaji\MedjuskladisniceSveIzvjestaj.xaml.cs">
+      <DependentUpon>MedjuskladisniceSveIzvjestaj.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Izvjestaji\MedjuskladisniceZaSkladisteIzvjestaj.xaml.cs">
+      <DependentUpon>MedjuskladisniceZaSkladisteIzvjestaj.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Izvjestaji\PregledIzlazaZaSveKalkulacijeIzvjestaj.xaml.cs">
+      <DependentUpon>PregledIzlazaZaSveKalkulacijeIzvjestaj.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Izvjestaji\PregledTroskovaPoKontimaINalozimaZaSvaSkladistaIzvjestaj.xaml.cs">
+      <DependentUpon>PregledTroskovaPoKontimaINalozimaZaSvaSkladistaIzvjestaj.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Izvjestaji\PregledTroskovaPoKontimaIzvjestaj.xaml.cs">
+      <DependentUpon>PregledTroskovaPoKontimaIzvjestaj.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Izvjestaji\ReportAnalitickaKartica.cs" />
+    <Compile Include="Izvjestaji\ReportDnevnik.cs" />
     <Compile Include="Izvjestaji\ReportIzlazMaterijala.cs">
       <DependentUpon>ReportIzlazMaterijala.xaml</DependentUpon>
     </Compile>
@@ -239,7 +265,21 @@
       <DependentUpon>PovratIzvjestaj.xaml</DependentUpon>
     </Compile>
     <Compile Include="Izvjestaji\ReportMedjuskladisnica.cs" />
+    <Compile Include="Izvjestaji\ReportMedjuskladisniceJedna.cs" />
+    <Compile Include="Izvjestaji\ReportMedjuskladisniceSve.cs" />
+    <Compile Include="Izvjestaji\ReportMedjuskladisniceZaSkladiste.cs" />
     <Compile Include="Izvjestaji\ReportPovrat.cs" />
+    <Compile Include="Izvjestaji\ReportPregledIzlazaZaSveKalkulacije.cs" />
+    <Compile Include="Izvjestaji\ReportPregledTroskovaPoKontima.cs" />
+    <Compile Include="Izvjestaji\ReportPregledTroskovaPoKontimaINalozimaZaSvaSkladista.cs" />
+    <Compile Include="Izvjestaji\ReportStanjeZalihaZaSkladiste.cs" />
+    <Compile Include="Izvjestaji\ReportStanjeZalihaZaSvaSkladista.cs" />
+    <Compile Include="Izvjestaji\StanjeZalihaZaSkladisteIzvjestaj.xaml.cs">
+      <DependentUpon>StanjeZalihaZaSkladisteIzvjestaj.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Izvjestaji\StanjeZalihaZaSvaSkladistaIzvjestaj.xaml.cs">
+      <DependentUpon>StanjeZalihaZaSvaSkladistaIzvjestaj.xaml</DependentUpon>
+    </Compile>
     <Compile Include="KomitentiLista.xaml.cs">
       <DependentUpon>KomitentiLista.xaml</DependentUpon>
     </Compile>
@@ -397,6 +437,14 @@
     <Compile Include="GlavniView.xaml.cs">
       <DependentUpon>GlavniView.xaml</DependentUpon>
     </Compile>
+    <Page Include="Izvjestaji\AnalitickaKarticaIzvjestaj.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Izvjestaji\DnevnikIzvjestaj.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Izvjestaji\IzlazMaterijalaIzvjestaj.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -405,7 +453,39 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Izvjestaji\MedjuskladisniceJednaIzvjestaj.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Izvjestaji\MedjuskladisniceSveIzvjestaj.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Izvjestaji\MedjuskladisniceZaSkladisteIzvjestaj.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Izvjestaji\PovratIzvjestaj.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Izvjestaji\PregledIzlazaZaSveKalkulacijeIzvjestaj.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Izvjestaji\PregledTroskovaPoKontimaINalozimaZaSvaSkladistaIzvjestaj.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Izvjestaji\PregledTroskovaPoKontimaIzvjestaj.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Izvjestaji\StanjeZalihaZaSkladisteIzvjestaj.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Izvjestaji\StanjeZalihaZaSvaSkladistaIzvjestaj.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -609,14 +689,59 @@
     <Content Include="Izvjestaji\ReportPovrat.rdlc">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Izvjestaji\Dnevnik.rdlc">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Izvjestaji\AnalitickaKartica.rdlc">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Izvjestaji\MedjuskladisniceJedna.rdlc">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Izvjestaji\MedjuskladisniceSve.rdlc">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Izvjestaji\MedjuskladisniceZaSkladiste.rdlc">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Izvjestaji\PregledIzlazaZaSveKalkulacije.rdlc">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Izvjestaji\StanjeZalihaZaSkladiste.rdlc">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Izvjestaji\StanjeZalihaZaSvaSkladista.rdlc">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Izvjestaji\PregledTroskovaPoKontima.rdlc">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Izvjestaji\PregledTroskovaPoKontimaINalozimaZaSvaSkladista.rdlc">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <None Include="packages.config" />
+    <None Include="Properties\DataSources\Materijalno.UI.Izvjestaji.AnalitickaKarticaIzvjestaj.datasource" />
+    <None Include="Properties\DataSources\Materijalno.UI.Izvjestaji.DnevnikIzvjestaj.datasource" />
+    <None Include="Properties\DataSources\Materijalno.UI.Izvjestaji.IzlazMaterijalaIzvjestaj.datasource" />
     <None Include="Properties\DataSources\Materijalno.UI.Izvjestaji.MedjuskladisnicaIzvjestaj.datasource" />
+    <None Include="Properties\DataSources\Materijalno.UI.Izvjestaji.MedjuskladisniceJednaIzvjestaj.datasource" />
+    <None Include="Properties\DataSources\Materijalno.UI.Izvjestaji.MedjuskladisniceSveIzvjestaj.datasource" />
+    <None Include="Properties\DataSources\Materijalno.UI.Izvjestaji.PovratIzvjestaj.datasource" />
+    <None Include="Properties\DataSources\Materijalno.UI.Izvjestaji.PregledTroskovaPoKontimaINalozimaZaSvaSkladistaIzvjestaj.datasource" />
+    <None Include="Properties\DataSources\Materijalno.UI.Izvjestaji.ReportAnalitickaKartica.datasource" />
+    <None Include="Properties\DataSources\Materijalno.UI.Izvjestaji.ReportDnevnik.datasource" />
     <None Include="Properties\DataSources\Materijalno.UI.Izvjestaji.ReportIzlazMaterijala.datasource" />
     <None Include="Properties\DataSources\Materijalno.UI.Izvjestaji.ReportMedjuskladisnica.datasource" />
+    <None Include="Properties\DataSources\Materijalno.UI.Izvjestaji.ReportMedjuskladisniceJedna.datasource" />
+    <None Include="Properties\DataSources\Materijalno.UI.Izvjestaji.ReportMedjuskladisniceSve.datasource" />
+    <None Include="Properties\DataSources\Materijalno.UI.Izvjestaji.ReportMedjuskladisniceZaSkladiste.datasource" />
+    <None Include="Properties\DataSources\Materijalno.UI.Izvjestaji.ReportPregledIzlazaZaSveKalkulacije.datasource" />
+    <None Include="Properties\DataSources\Materijalno.UI.Izvjestaji.StanjeZalihaZaSkladisteIzvjestaj.datasource" />
+    <None Include="Properties\DataSources\Materijalno.UI.Izvjestaji.StanjeZalihaZaSvaSkladistaIzvjestaj.datasource" />
     <None Include="Properties\DataSources\Materijalno.UI.Properties.Resources.datasource" />
     <None Include="Properties\DataSources\Materijalno.UI.Properties.Settings.datasource" />
     <None Include="Properties\DataSources\Materijalno.UI.Izvjestaji.ReportPovrat.datasource" />
