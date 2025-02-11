@@ -1,6 +1,9 @@
-﻿using System;
+﻿using Materijalno.UI.Izvjestaji;
+using Materijalno.ViewModel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Printing;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -23,6 +26,32 @@ namespace Materijalno.UI
         public AnalitickaKartica()
         {
             InitializeComponent();
+        }
+
+        private void TextBox_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                MoveFocusToNextControl(sender as TextBox);
+                e.Handled = true;
+            }
+        }
+
+        private void MoveFocusToNextControl(TextBox currentTextBox)
+        {
+            currentTextBox.MoveFocus(new TraversalRequest(FocusNavigationDirection.Next));
+        }
+
+        private void stampa_button(object sender, RoutedEventArgs e)
+        {
+            if (DataContext is AnalitickaKarticaViewModel analitickaKarticaViewModel)
+            {
+                AnalitickaKarticaIzvjestaj analitickaIzvjestaj = new AnalitickaKarticaIzvjestaj(analitickaKarticaViewModel);
+
+                // Dodajemo trenutni ViewModel u PrintWindow
+                //medjuskladisnicaIzvjestaj.DataContext = medjuskladisnicaViewModel;
+                analitickaIzvjestaj.Show();
+            }
         }
     }
 }

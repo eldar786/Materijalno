@@ -1,6 +1,9 @@
-﻿using System;
+﻿using Materijalno.UI.Izvjestaji;
+using Materijalno.ViewModel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Printing;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -15,9 +18,6 @@ using System.Windows.Shapes;
 
 namespace Materijalno.UI
 {
-    /// <summary>
-    /// Interaction logic for StanjeZalihaZaSkladiste.xaml
-    /// </summary>
     public partial class StanjeZalihaZaSkladiste : UserControl
     {
         public StanjeZalihaZaSkladiste()
@@ -41,6 +41,18 @@ namespace Materijalno.UI
         private void datOd_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
         {
 
+        }
+
+        private void stampa_button(object sender, RoutedEventArgs e)
+        {
+            if (DataContext is StanjeZalihaZaSkladisteViewModel stanjeZalihaZaSkladisteViewModel)
+            {
+                StanjeZalihaZaSkladisteIzvjestaj stanjeZalihaZaSkladisteIzvjestaj = new StanjeZalihaZaSkladisteIzvjestaj(stanjeZalihaZaSkladisteViewModel);
+
+                // Dodajemo trenutni ViewModel u PrintWindow
+                //medjuskladisnicaIzvjestaj.DataContext = medjuskladisnicaViewModel;
+                stanjeZalihaZaSkladisteIzvjestaj.Show();
+            }
         }
     }
 }
