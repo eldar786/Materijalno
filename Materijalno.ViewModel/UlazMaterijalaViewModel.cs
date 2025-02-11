@@ -578,6 +578,7 @@ namespace Materijalno.ViewModel
                 CurrentItemMat = MatList[CurrentIndex];
 
                 CurrentItemMat.Status = "U";
+                CurrentItemMat.Kljnaz1 = 0;
 
                 dbContext.Add(CurrentItemMat);  
                 dbContext.SaveChanges();
