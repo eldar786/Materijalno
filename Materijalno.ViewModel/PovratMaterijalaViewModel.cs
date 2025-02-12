@@ -561,6 +561,40 @@ namespace Materijalno.ViewModel
         {
             _gvm.OdabraniVM = new PovratMaterijalaViewModel(_gvm);
         }
+        private void BrojKalkulacije()
+        {
+            var dbContext = new materijalno_knjigovodstvoContext();
+
+            MatList = new ObservableCollection<Mat>(dbContext.Mat
+                               .Where(row => row.Status == "P")
+                               .OrderBy(row => row.Datun)
+                               .ToList());
+
+            //Proci kroz MatListu i naci posljednji "brfak" i dodati +1
+            var posljednjiBrfak = MatList
+            .OrderByDescending(x =>
+            x.Brfak != null && x.Brfak.Contains('-') // Provjeravamo da li Brfak is not null and sadrzi '-'
+            ? int.Parse(
+                x.Brfak.Substring(
+                    x.Brfak.LastIndexOf('-') + 1
+                )
+              )
+            : int.MinValue // Koristi defaultnu vrijednost za null ili ako je invalide
+            ).Select(x => x.Brfak)
+            .FirstOrDefault();
+
+            var parts = posljednjiBrfak.Split('-');
+            if (parts.Length == 2 && int.TryParse(parts[1], out int number)) // Parsiraj drugi dio (poslije -)
+            {
+                number++; // Povecaj za jedan
+                posljednjiBrfak = $"{parts[0]}-{number}"; // Dodaj dvije cjeline u posljednjiBrfak
+            }
+            //Stavili smo if, jer pada kada brisemo, CurrentItemMat.Brfak bude null
+            //if (CurrentItemMat.Brfak != null)
+            //{
+            CurrentItemMat.Brfak = posljednjiBrfak;
+            //}
+        }
 
         private void NovaKalkulacija()
         {
@@ -581,6 +615,8 @@ namespace Materijalno.ViewModel
                 CurrentItemMat = MatList[CurrentIndex];
 
                 CurrentItemMat.Status = "P";
+
+                BrojKalkulacije();
 
                 dbContext.Add(CurrentItemMat);
                 dbContext.SaveChanges();

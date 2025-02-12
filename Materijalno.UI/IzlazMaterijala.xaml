@@ -162,7 +162,7 @@
         <DatePicker Grid.Row="2" SelectedDate="{Binding CurrentItemMat.Datun, UpdateSourceTrigger=PropertyChanged}" Grid.Column="1" KeyDown="TextBox_KeyDown"  HorizontalAlignment="Left" Height="30" FontSize="18" Width="120" />
 
         <Label Grid.Row="2" Grid.Column="3" Margin="0,0,100,0" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="18" >Broj kalkulacije</Label>
-        <TextBox Grid.Row="2" Text="{Binding CurrentItemMat.Brfak}" Grid.Column="4" Margin="-90,0,0,0"  KeyDown="TextBox_KeyDown"  VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="18"  Width="120"/>
+        <TextBox Grid.Row="2" Text="{Binding CurrentItemMat.Brfak}" Grid.Column="4" Margin="-90,0,0,0"  KeyDown="TextBox_KeyDown"  VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="18"  Width="120" IsEnabled="False"/>
 
         <Label Grid.Row="3" Grid.Column="0"  HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="18">Broj otpremnice</Label>
         <TextBox Grid.Row="3" Text="{Binding CurrentItemMat.Brdok}" Grid.Column="1" KeyDown="TextBox_KeyDown" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="18"  Width="120"/>
@@ -171,7 +171,9 @@
         <DatePicker SelectedDate="{Binding CurrentItemMat.Datnar, UpdateSourceTrigger=PropertyChanged}" Grid.Row="3" Grid.Column="4" Margin="-90,0,0,0" KeyDown="TextBox_KeyDown"  HorizontalAlignment="Left" Height="30" FontSize="18" Width="120" Name="dtpOd1" />
 
         <Label Grid.Row="5" Grid.Column="0" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="18">Red.br</Label>
-        <TextBox Text="{Binding CurrentItemMat.Redbr}" Grid.Row="5" Grid.Column="1" KeyDown="TextBox_KeyDown"  VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="18"  Width="120"/>
+        <TextBox Text="{Binding CurrentItemMat.Redbr}" Grid.Row="5" Grid.Column="1" KeyDown="TextBox_KeyDown"  VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="18"  Width="120">
+            
+        </TextBox>
 
         <Label Grid.Row="5" Grid.Column="2" Margin="-125,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="18">Šifra materijala</Label>
 

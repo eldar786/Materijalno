@@ -158,9 +158,7 @@ namespace Materijalno.ViewModel
         public RelayCommand NabavnaCijenaCommand { get; set; }
         public RelayCommand IzlazCommand { get; set; }
         public RelayCommand OsvjeziCommand { get; set; }
-
-
-
+        public RelayCommand BrojKalkulacijeCommand { get; set; }
 
 
         #endregion
@@ -197,6 +195,7 @@ namespace Materijalno.ViewModel
             PrintCommand = new RelayCommand(Print, () => !isNovaKalkulacijaClicked);
             NabavnaCijenaCommand = new RelayCommand(NabavnaCijena);
             OsvjeziCommand = new RelayCommand(Osvjezi);
+            BrojKalkulacijeCommand = new RelayCommand(BrojKalkulacije);
 
             OtvoriKomitentListuCommand = new RelayCommand(OtvoriKomitentListu);
             #endregion
@@ -249,6 +248,7 @@ namespace Materijalno.ViewModel
             TraziSifruMaterijalaCommand = new RelayCommand(Trazi, () => !isNovaKalkulacijaClicked);
             PrintCommand = new RelayCommand(Print, () => !isNovaKalkulacijaClicked);
 
+            BrojKalkulacijeCommand = new RelayCommand(BrojKalkulacije);
             OtvoriKomitentListuCommand = new RelayCommand(OtvoriKomitentListu);
             #endregion
 
@@ -568,12 +568,47 @@ namespace Materijalno.ViewModel
             _gvm.OdabraniVM = new IzlazMaterijalaViewModel(_gvm);
         }
 
+        private void BrojKalkulacije()
+        {
+            var dbContext = new materijalno_knjigovodstvoContext();
+
+            MatList = new ObservableCollection<Mat>(dbContext.Mat
+                               .Where(row => row.Status == "I")
+                               .OrderBy(row => row.Datun)
+                               .ToList());
+
+            //Proci kroz MatListu i naci posljednji "brfak" i dodati +1
+            var posljednjiBrfak = MatList
+            .OrderByDescending(x =>
+            x.Brfak != null && x.Brfak.Contains('-') // Provjeravamo da li Brfak is not null and sadrzi '-'
+            ? int.Parse(
+                x.Brfak.Substring(
+                    x.Brfak.LastIndexOf('-') + 1
+                )
+              )
+            : int.MinValue // Koristi defaultnu vrijednost za null ili ako je invalide
+            ).Select(x => x.Brfak)
+            .FirstOrDefault();
+
+            var parts = posljednjiBrfak.Split('-');
+            if (parts.Length == 2 && int.TryParse(parts[1], out int number)) // Parsiraj drugi dio (poslije -)
+            {
+                number++; // Povecaj za jedan
+                posljednjiBrfak = $"{parts[0]}-{number}"; // Dodaj dvije cjeline u posljednjiBrfak
+            }
+            //Stavili smo if, jer pada kada brisemo, CurrentItemMat.Brfak bude null
+            //if (CurrentItemMat.Brfak != null)
+            //{
+            CurrentItemMat.Brfak = posljednjiBrfak;
+            //}
+        }
+
         //obrise sva polja i ostavlja opciju za SNIMI i ODUSTANI
         private void NovaKalkulacija()
         {
             //Prolazi ponovo provjeru CanExecute
             isNovaKalkulacijaClicked = true;
-
+            
             UpdateCommands();
 
             using (var dbContext = new materijalno_knjigovodstvoContext())
@@ -588,6 +623,9 @@ namespace Materijalno.ViewModel
                 CurrentItemMat = MatList[CurrentIndex];
 
                 CurrentItemMat.Status = "I";
+                CurrentItemMat.Kljnaz1 = 0;
+
+                BrojKalkulacije();
 
                 dbContext.Add(CurrentItemMat);
                 dbContext.SaveChanges();
