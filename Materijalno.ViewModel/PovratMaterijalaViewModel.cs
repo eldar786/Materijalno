@@ -615,6 +615,7 @@ namespace Materijalno.ViewModel
                 CurrentItemMat = MatList[CurrentIndex];
 
                 CurrentItemMat.Status = "P";
+                CurrentItemMat.Kljnaz1 = 0;
 
                 BrojKalkulacije();
 
