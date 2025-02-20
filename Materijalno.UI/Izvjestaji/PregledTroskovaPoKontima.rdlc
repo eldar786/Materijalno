@@ -594,7 +594,7 @@
     <Height>3.36458in</Height>
     <Style />
   </Body>
-  <Width>6.40675in</Width>
+  <Width>6.4118in</Width>
   <Page>
     <PageHeader>
       <Height>3.65125cm</Height>
@@ -842,7 +842,7 @@
         </Textbox>
         <Line Name="Line3">
           <Top>1.98493cm</Top>
-          <Left>0.07608cm</Left>
+          <Left>0.08891cm</Left>
           <Height>0cm</Height>
           <Width>16.19707cm</Width>
           <ZIndex>9</ZIndex>

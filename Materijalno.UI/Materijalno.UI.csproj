@@ -256,6 +256,9 @@
     <Compile Include="Izvjestaji\PregledTroskovaPoKontimaIzvjestaj.xaml.cs">
       <DependentUpon>PregledTroskovaPoKontimaIzvjestaj.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Izvjestaji\RekapitulacijaZalihaIvjestaj.xaml.cs">
+      <DependentUpon>RekapitulacijaZalihaIvjestaj.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Izvjestaji\ReportAnalitickaKartica.cs" />
     <Compile Include="Izvjestaji\ReportDnevnik.cs" />
     <Compile Include="Izvjestaji\ReportIzlazMaterijala.cs">
@@ -272,6 +275,7 @@
     <Compile Include="Izvjestaji\ReportPregledIzlazaZaSveKalkulacije.cs" />
     <Compile Include="Izvjestaji\ReportPregledTroskovaPoKontima.cs" />
     <Compile Include="Izvjestaji\ReportPregledTroskovaPoKontimaINalozimaZaSvaSkladista.cs" />
+    <Compile Include="Izvjestaji\ReportRekapitulacijaZaliha.cs" />
     <Compile Include="Izvjestaji\ReportStanjeZalihaZaSkladiste.cs" />
     <Compile Include="Izvjestaji\ReportStanjeZalihaZaSvaSkladista.cs" />
     <Compile Include="Izvjestaji\StanjeZalihaZaSkladisteIzvjestaj.xaml.cs">
@@ -478,6 +482,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Izvjestaji\PregledTroskovaPoKontimaIzvjestaj.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Izvjestaji\RekapitulacijaZalihaIvjestaj.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -717,6 +725,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Izvjestaji\PregledTroskovaPoKontimaINalozimaZaSvaSkladista.rdlc">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Izvjestaji\RekapitulacijaZaliha.rdlc">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <EmbeddedResource Include="Properties\Resources.resx">
