@@ -53,7 +53,7 @@ namespace Materijalno.UI.Izvjestaji
             MatList = new ObservableCollection<Mat>(dbContext.Mat
                     .Where(row => row.Datun >= pregledTroskovaPoKontimaINalozimaZaSvaSkladistavm.CurrentItemMat.Datun
                                && row.Datnar <= pregledTroskovaPoKontimaINalozimaZaSvaSkladistavm.CurrentItemMat.Datnar
-                               && (row.Status == "P" || row.Status == "I"))
+                               && row.Status == "I")
                     .AsEnumerable() // Forces execution in-memory for GroupBy
                     .GroupBy(row => new { row.Kljnaz, row.Brfak, row.Konto1 }) // Group by key
                     .Select(grouped => new Mat

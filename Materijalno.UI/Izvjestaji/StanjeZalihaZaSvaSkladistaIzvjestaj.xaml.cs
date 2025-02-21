@@ -35,8 +35,6 @@ namespace Materijalno.UI.Izvjestaji
         private Mat ukupnavrijednost;
         private Mat ukupnoduguje;
 
-        //decimal? totalVrijednost = 0;
-
         public ObservableCollection<Mat> MatList { get; set; }
 
 
@@ -45,7 +43,6 @@ namespace Materijalno.UI.Izvjestaji
             InitializeComponent();
             _stanjeZalihaZaSvaSkladistavm = stanjeZalihaZaSvaSkladistavm;
 
-            //ukupnavrijednost = new Mat();
             ukupnoduguje = new Mat();
 
             var dbContext = new materijalno_knjigovodstvoContext();
