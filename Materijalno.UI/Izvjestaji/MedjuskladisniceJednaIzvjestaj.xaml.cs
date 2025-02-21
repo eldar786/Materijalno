@@ -52,7 +52,7 @@ namespace Materijalno.UI.Izvjestaji
             var dbContext = new materijalno_knjigovodstvoContext();
 
             MatList = new ObservableCollection<Mat>(dbContext.Mat
-                     .Where(row => row.Brfak == medjuskladisniceJednavm.CurrentItemMat.Brfak)
+                     .Where(row => row.Brfak == medjuskladisniceJednavm.CurrentItemMat.Brfak && row.Medus == "1")
                      .OrderBy(row => row.Datun)
                      .ToList());
 
