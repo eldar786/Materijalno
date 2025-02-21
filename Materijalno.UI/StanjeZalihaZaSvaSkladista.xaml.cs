@@ -1,6 +1,9 @@
-﻿using System;
+﻿using Materijalno.UI.Izvjestaji;
+using Materijalno.ViewModel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Printing;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -46,6 +49,18 @@ namespace Materijalno.UI
         private void datDo_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
         {
 
+        }
+
+        private void stampa_button(object sender, RoutedEventArgs e)
+        {
+            if (DataContext is StanjeZalihaZaSvaSkladistaViewModel stanjeZalihaZaSvaSkladistaViewModel)
+            {
+                StanjeZalihaZaSvaSkladistaIzvjestaj stanjeZalihaZaSvaSkladistaIzvjestaj = new StanjeZalihaZaSvaSkladistaIzvjestaj(stanjeZalihaZaSvaSkladistaViewModel);
+
+                // Dodajemo trenutni ViewModel u PrintWindow
+                //medjuskladisnicaIzvjestaj.DataContext = medjuskladisnicaViewModel;
+                stanjeZalihaZaSvaSkladistaIzvjestaj.Show();
+            }
         }
     }
 }

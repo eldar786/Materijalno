@@ -506,8 +506,25 @@ namespace Materijalno.ViewModel
 
         private void Update()
         {
+
             using (var dbContext = new materijalno_knjigovodstvoContext())
             {
+                if (currentItemMat.Ident != null)
+                {
+                    currentItemMat.Konto1 = (int?)dbContext.TabelaMaterijala
+                    .Where(row => row.Ident == CurrentItemMat.Ident)
+                    .Select(row => row.Konto1)
+                    .FirstOrDefault();
+                }
+
+                if (currentItemMat.Kljnaz != null)
+                {
+                    currentItemMat.Kontosklad = dbContext.SifarnikMaterijalSkladisteKonto
+                    .Where(row => row.Sifskla == currentItemMat.Kljnaz && row.Sifmat == CurrentItemMat.Ident)
+                    .Select(row => row.Sifkonta)
+                    .FirstOrDefault();
+                }
+
                 dbContext.Update(CurrentItemMat);
                 dbContext.SaveChanges();
 
@@ -544,6 +561,40 @@ namespace Materijalno.ViewModel
         {
             _gvm.OdabraniVM = new PovratMaterijalaViewModel(_gvm);
         }
+        private void BrojKalkulacije()
+        {
+            var dbContext = new materijalno_knjigovodstvoContext();
+
+            MatList = new ObservableCollection<Mat>(dbContext.Mat
+                               .Where(row => row.Status == "P")
+                               .OrderBy(row => row.Datun)
+                               .ToList());
+
+            //Proci kroz MatListu i naci posljednji "brfak" i dodati +1
+            var posljednjiBrfak = MatList
+            .OrderByDescending(x =>
+            x.Brfak != null && x.Brfak.Contains('-') // Provjeravamo da li Brfak is not null and sadrzi '-'
+            ? int.Parse(
+                x.Brfak.Substring(
+                    x.Brfak.LastIndexOf('-') + 1
+                )
+              )
+            : int.MinValue // Koristi defaultnu vrijednost za null ili ako je invalide
+            ).Select(x => x.Brfak)
+            .FirstOrDefault();
+
+            var parts = posljednjiBrfak.Split('-');
+            if (parts.Length == 2 && int.TryParse(parts[1], out int number)) // Parsiraj drugi dio (poslije -)
+            {
+                number++; // Povecaj za jedan
+                posljednjiBrfak = $"{parts[0]}-{number}"; // Dodaj dvije cjeline u posljednjiBrfak
+            }
+            //Stavili smo if, jer pada kada brisemo, CurrentItemMat.Brfak bude null
+            //if (CurrentItemMat.Brfak != null)
+            //{
+            CurrentItemMat.Brfak = posljednjiBrfak;
+            //}
+        }
 
         private void NovaKalkulacija()
         {
@@ -564,6 +615,9 @@ namespace Materijalno.ViewModel
                 CurrentItemMat = MatList[CurrentIndex];
 
                 CurrentItemMat.Status = "P";
+                CurrentItemMat.Kljnaz1 = 0;
+
+                BrojKalkulacije();
 
                 dbContext.Add(CurrentItemMat);
                 dbContext.SaveChanges();
@@ -577,6 +631,24 @@ namespace Materijalno.ViewModel
             using (var dbContext = new materijalno_knjigovodstvoContext())
             {
                 currentItemMat.Status = "P";
+                currentItemMat.Kontosklad1 = 0;
+
+                if (currentItemMat.Ident != null)
+                {
+                    currentItemMat.Konto1 = (int?)dbContext.TabelaMaterijala
+                    .Where(row => row.Ident == CurrentItemMat.Ident)
+                    .Select(row => row.Konto1)
+                    .FirstOrDefault();
+                }
+
+                if (currentItemMat.Kljnaz != null)
+                {
+                    currentItemMat.Kontosklad = dbContext.SifarnikMaterijalSkladisteKonto
+                    .Where(row => row.Sifskla == currentItemMat.Kljnaz  && row.Sifmat == CurrentItemMat.Ident)
+                    .Select(row => row.Sifkonta)
+                    .FirstOrDefault();
+                }
+
                 dbContext.Update(CurrentItemMat);
                 dbContext.SaveChanges();
 

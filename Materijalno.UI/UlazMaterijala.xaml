@@ -91,7 +91,7 @@
 
 
         <Label Grid.Row="1" Grid.Column="0" Margin="0,0,0,0" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="18">Skladište</Label>
-        <TextBox Text="{Binding CurrentItemMat.Kljnaz}" Name="OpBroj" KeyDown="TextBox_KeyDown"  Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left" FontWeight="Bold"  Width="170" FontSize="18"/>
+        <TextBox Text="1000" Name="OpBroj" KeyDown="TextBox_KeyDown"  Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left" FontWeight="Bold"  Width="170" FontSize="18" IsEnabled="False"/>
         <TextBox Grid.Row="1" KeyDown="TextBox_KeyDown" Name="tabelaSifarnikSkladista" Margin="-300,0,600,0" Grid.Column="2" Grid.ColumnSpan="4" VerticalAlignment="Center"  FontSize="18"  Width="400" Text="LUTRIJA BIH-CENTRALNI MAGACIN INTERNO" IsEnabled="False">
 
             <TextBox.InputBindings>
@@ -100,9 +100,14 @@
 
         </TextBox>
 
-
         <Label Grid.Row="2" Grid.Column="0" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="18">Datum kalkulacije</Label>
-        <DatePicker SelectedDate="{Binding CurrentItemMat.Datun, UpdateSourceTrigger=PropertyChanged}"  Grid.Row="2" KeyDown="TextBox_KeyDown" Grid.Column="1" HorizontalAlignment="Left" Height="30" FontSize="18" Width="170" />
+        <DatePicker SelectedDate="{Binding CurrentItemMat.Datun, UpdateSourceTrigger=PropertyChanged}"  Grid.Row="2" KeyDown="TextBox_KeyDown" Grid.Column="1" HorizontalAlignment="Left" Height="30" FontSize="18" Width="170" >
+            <!--<i:Interaction.Triggers>
+                <i:EventTrigger EventName="SelectedDateChanged">
+                    <i:InvokeCommandAction Command="{Binding BrojKalkulacijeCommand}" />
+                </i:EventTrigger>
+            </i:Interaction.Triggers>-->
+        </DatePicker>
 
         <Label Grid.Row="2" Grid.Column="3" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="18" >Broj kalkulacije:</Label>
         <TextBox Text="{Binding CurrentItemMat.Brfak}" Grid.Row="2" KeyDown="TextBox_KeyDown" Grid.Column="4" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="18"  Width="120" IsEnabled="False"/>
@@ -114,6 +119,11 @@
             <TextBox.InputBindings>
                 <MouseBinding Gesture="RightClick" Command="{Binding OtvoriKomitentListuCommand}" />
             </TextBox.InputBindings>
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="GotFocus">
+                    <i:InvokeCommandAction Command="{Binding BrojKalkulacijeCommand}" />
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
         </TextBox>
 
         <TextBox Text="{Binding CurrentNazivZaSifruKomitenta, UpdateSourceTrigger=PropertyChanged}" Grid.Row="3" KeyDown="TextBox_KeyDown" Grid.Column="2" Grid.ColumnSpan="3" VerticalAlignment="Center"  Margin="-200,0,430,0" FontSize="18"  Width="400" Name="SifraKomitenta">

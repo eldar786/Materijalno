@@ -135,6 +135,7 @@ namespace Materijalno.ViewModel
 
         public RelayCommand OdustaniCommand { get; set; }
         public RelayCommand OsvjeziCommand { get; set; }
+        public RelayCommand BrojKalkulacijeCommand { get; set; }
 
         #endregion
 
@@ -161,6 +162,7 @@ namespace Materijalno.ViewModel
             PrintCommand = new RelayCommand(Print, () => !isNovaKalkulacijaClicked);
             NabavnaCijenaCommand = new RelayCommand(NabavnaCijena);
             OsvjeziCommand = new RelayCommand(Osvjezi);
+            BrojKalkulacijeCommand = new RelayCommand(BrojKalkulacije);
 
             OtvoriKomitentListuCommand = new RelayCommand(OtvoriKomitentListu);
             #endregion
@@ -170,7 +172,7 @@ namespace Materijalno.ViewModel
                 //Dodaj u listu gdje je kljnaz == 1000 i sortiraj po datumu iz kolone (datun)
                 //Neki datum preskoci, treba napraviti dobar data type za kolonu (datun) u sql bazi
                 MatList = new ObservableCollection<Mat>(dbContext.Mat
-                    .Where(row => row.Kljnaz == 1000)
+                    .Where(row => row.Kljnaz == 1000 && row.Status == "U")
                     .OrderBy(row => row.Datun)
                     .ToList());
 
@@ -209,7 +211,8 @@ namespace Materijalno.ViewModel
             TraziSifruMaterijalaCommand = new RelayCommand(Trazi, () => !isNovaKalkulacijaClicked);
             PrintCommand = new RelayCommand(Print, () => !isNovaKalkulacijaClicked);
             OsvjeziCommand = new RelayCommand(Osvjezi);
-
+            NabavnaCijenaCommand = new RelayCommand(NabavnaCijena);
+            BrojKalkulacijeCommand = new RelayCommand(BrojKalkulacije);
 
             OtvoriKomitentListuCommand = new RelayCommand(OtvoriKomitentListu);
             #endregion
@@ -221,7 +224,7 @@ namespace Materijalno.ViewModel
                 //Dodaj u listu gdje je kljnaz == 1000 i sortiraj po datumu iz kolone (datun)
                 //Neki datum preskoci, treba napraviti dobar data type za kolonu (datun) u sql bazi
                 MatList = new ObservableCollection<Mat>(dbContext.Mat
-                    .Where(row => row.Kljnaz == 1000)
+                    .Where(row => row.Kljnaz == 1000 && row.Status == "U")
                     .OrderBy(row => row.Datun)
                     .ToList());
 
@@ -237,7 +240,7 @@ namespace Materijalno.ViewModel
                 }
 
                 CurrentItemMat = (Mat)MatList.FirstOrDefault(row => row.Id == CurrentItemMat.Id);
-                
+                //!!! - OVDJE PADA !!!
                 //Nadji listu svih po *Ident* iz *TabelaMaterijala* i *CurrentItem* (Mat) i stavi u listu
                 TebelaMaterijalaList = new ObservableCollection<TabelaMaterijala>(dbContext.TabelaMaterijala.Where(row => row.Ident == CurrentItemMat.Ident).ToList());
 
@@ -272,6 +275,8 @@ namespace Materijalno.ViewModel
 
         public void NabavnaCijena()
         {
+            var dbContext = new materijalno_knjigovodstvoContext();
+
             decimal? inputValue1 = CurrentItemMat.Vrijed;
             decimal? inputValue2 = CurrentItemMat.Trospe;
             decimal? inputValue3 = CurrentItemMat.Porppp;
@@ -311,13 +316,12 @@ namespace Materijalno.ViewModel
                 CurrentItemMat.Nc = 0;
             }
 
-            var dbContext = new materijalno_knjigovodstvoContext();
             dbContext.Update(CurrentItemMat);
             dbContext.SaveChanges();
 
             //Staviti po datumu da sortira i dodaj u listu da bi se vidjele promjene
             MatList = new ObservableCollection<Mat>(dbContext.Mat
-                .Where(row => row.Kljnaz == 1000)
+                .Where(row => row.Kljnaz == 1000 && row.Status == "U")
                 .OrderBy(row => row.Datun)
                 .ToList());
 
@@ -445,6 +449,16 @@ namespace Materijalno.ViewModel
         {
             using (var dbContext = new materijalno_knjigovodstvoContext())
             {
+                // Na osnovu Ident od CurrentItemMat, daj mi Konto1 iz tabele TabelaMaterijala i dodijeli u CurrentItemMat u Mat tabeli
+                // Trenutno u If, ali treba uraditi validaciju
+                if (CurrentItemMat.Ident != null)
+                {
+                    CurrentItemMat.Konto1 = (int?)dbContext.TabelaMaterijala
+                    .Where(row => row.Ident == CurrentItemMat.Ident)
+                    .Select(row => row.Konto1)
+                    .FirstOrDefault();
+                }
+
                 dbContext.Update(CurrentItemMat);
                 dbContext.SaveChanges();
 
@@ -479,13 +493,6 @@ namespace Materijalno.ViewModel
         {
             var dbContext = new materijalno_knjigovodstvoContext();
 
-            // Kljnaz kolona
-            int? maxValue_Skladiste = dbContext.Mat
-                .Max(row => row.Kljnaz);
-
-            int? minValue_Skladiste = dbContext.Mat
-                .Min(row => row.Kljnaz);
-
             // Ident kolona
             int? maxValue_SifraMat = dbContext.Mat
                 .Max(row => row.Ident);
@@ -499,7 +506,53 @@ namespace Materijalno.ViewModel
                 CurrentItemMat.Ident = 0;
             }
 
+            dbContext.Update(CurrentItemMat);
+            dbContext.SaveChanges();
+
+            if (CurrentItemMat.Ident != null)
+            {
+                MatList = new ObservableCollection<Mat>(dbContext.Mat
+                               .Where(row => row.Kljnaz == 1000 && row.Status == "U")
+                               .OrderBy(row => row.Datun)
+                               .ToList());
+            }
+
             UpdateCurrentItemData(dbContext);
+        }
+
+        private void BrojKalkulacije()
+        {
+            var dbContext = new materijalno_knjigovodstvoContext();
+
+            MatList = new ObservableCollection<Mat>(dbContext.Mat
+                               .Where(row => row.Status == "U")
+                               .OrderBy(row => row.Datun)
+                               .ToList());
+
+            //Proci kroz MatListu i naci posljednji "brfak" i dodati +1
+            var posljednjiBrfak = MatList
+            .OrderByDescending(x =>
+            x.Brfak != null && x.Brfak.Contains('-') // Provjeravamo da li Brfak is not null and sadrzi '-'
+            ? int.Parse(
+                x.Brfak.Substring(
+                    x.Brfak.LastIndexOf('-') + 1
+                )
+              )
+            : int.MinValue // Koristi defaultnu vrijednost za null ili ako je invalide
+            ).Select(x => x.Brfak)
+            .FirstOrDefault();
+
+            var parts = posljednjiBrfak.Split('-');
+            if (parts.Length == 2 && int.TryParse(parts[1], out int number)) // Parsiraj drugi dio (poslije -)
+            {
+                number++; // Povecaj za jedan
+                posljednjiBrfak = $"{parts[0]}-{number}"; // Dodaj dvije cjeline u posljednjiBrfak
+            }
+            //Stavili smo if, jer pada kada brisemo, CurrentItemMat.Brfak bude null
+            //if (CurrentItemMat.Brfak != null)
+            //{
+                CurrentItemMat.Brfak = posljednjiBrfak;
+            //}
         }
 
         // An event that will be raised to notify the view to open the PrintWindow
@@ -519,10 +572,13 @@ namespace Materijalno.ViewModel
                 {
                     //Za ulaz materijala broj skladišta je uvijek 1000
                     Kljnaz = 1000
-                }) ;
+                });
 
                 CurrentIndex = MatList.Count - 1;
                 CurrentItemMat = MatList[CurrentIndex];
+
+                CurrentItemMat.Status = "U";
+                CurrentItemMat.Kljnaz1 = 0;
 
                 dbContext.Add(CurrentItemMat);  
                 dbContext.SaveChanges();
@@ -536,13 +592,24 @@ namespace Materijalno.ViewModel
         {
             using (var dbContext = new materijalno_knjigovodstvoContext())
             {
+                currentItemMat.Kontosklad = 1010100;
+                currentItemMat.Kontosklad1 = 0;
+
+                if (CurrentItemMat.Ident != null)
+                {
+                    CurrentItemMat.Konto1 = (int?)dbContext.TabelaMaterijala
+                    .Where(row => row.Ident == CurrentItemMat.Ident)
+                    .Select(row => row.Konto1)
+                    .FirstOrDefault();
+                }
+
                 NabavnaCijena();
                 dbContext.Update(CurrentItemMat);
                 dbContext.SaveChanges();
 
                 //Staviti po datumu da sortira i dodaj u listu da bi se vidjele promjene
                 MatList = new ObservableCollection<Mat>(dbContext.Mat
-                    .Where(row => row.Kljnaz == 1000)
+                    .Where(row => row.Kljnaz == 1000 && row.Status == "U")
                     .OrderBy(row => row.Datun)
                     .ToList());
 
