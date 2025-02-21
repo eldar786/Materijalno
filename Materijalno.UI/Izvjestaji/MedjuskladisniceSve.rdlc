@@ -458,7 +458,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Fields!Kolic.Value</Value>
+                              <Value>=Format(Fields!Kolic.Value, "#,##0.00")</Value>
                               <Style />
                             </TextRun>
                           </TextRuns>
@@ -522,7 +522,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Fields!Vrijed.Value</Value>
+                              <Value>=Format(Fields!Vrijed.Value, "#,##0.00")</Value>
                               <Style />
                             </TextRun>
                           </TextRuns>
@@ -775,7 +775,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Sum(Fields!Vrijed.Value)</Value>
+                              <Value>=Format(Sum(Fields!Vrijed.Value), "#,##0.00")</Value>
                               <Style>
                                 <FontWeight>Bold</FontWeight>
                               </Style>
@@ -1026,7 +1026,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Sum(Fields!Vrijed.Value)</Value>
+                              <Value>=Format(Sum(Fields!Vrijed.Value), "#,##0.00")</Value>
                               <Style />
                             </TextRun>
                           </TextRuns>

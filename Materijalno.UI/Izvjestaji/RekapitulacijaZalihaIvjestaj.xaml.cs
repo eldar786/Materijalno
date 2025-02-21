@@ -23,12 +23,12 @@ using Materijalno.UI.Helpers;
 
 namespace Materijalno.UI.Izvjestaji
 {
-    public partial class PregledTroskovaPoKontimaIzvjestaj : Window
+    public partial class RekapitulacijaZalihaIvjestaj : Window
     {
-        private PregledTroskovaPoKontimaViewModel _PregledTroskovaPoKontimavm;
+        private RekapitulacijaZalihaViewModel _rekapitulacijaZalihaViewModel;
         private bool _isReportViewerLoaded;
         private DataTable reportDt;
-        private ReportPregledTroskovaPoKontima _report;
+        private ReportRekapitulacijaZaliha _report;
         private List<Mat> _mat;
         private List<TabelaMaterijala> _tabelaMaterijala;
         private List<Materijalno.Model.EntityModels.SifarnikKonta> _tabelaKonto;
@@ -36,36 +36,32 @@ namespace Materijalno.UI.Izvjestaji
         private Mat ukupnavrijednost;
         private Mat ukupnoduguje;
 
-        //decimal? totalVrijednost = 0;
 
         public ObservableCollection<Mat> MatList { get; set; }
 
 
-        public PregledTroskovaPoKontimaIzvjestaj(PregledTroskovaPoKontimaViewModel pregledTroskovaPoKontimavm)
+        public RekapitulacijaZalihaIvjestaj(RekapitulacijaZalihaViewModel rekapitulacijaZalihaViewModel)
         {
             InitializeComponent();
-            _PregledTroskovaPoKontimavm = pregledTroskovaPoKontimavm;
+            _rekapitulacijaZalihaViewModel = rekapitulacijaZalihaViewModel;
 
-            //ukupnavrijednost = new Mat();
             ukupnoduguje = new Mat();
 
             var dbContext = new materijalno_knjigovodstvoContext();
 
             MatList = new ObservableCollection<Mat>(dbContext.Mat
-                     .Where(row => row.Datun <= pregledTroskovaPoKontimavm.CurrentItemMat.Datun && row.Status == "I") // Remove specific Kljnaz filtering
+                     .Where(row => row.Datnar <= rekapitulacijaZalihaViewModel.CurrentItemMat.Datnar) 
                      .AsEnumerable() // Forces execution in-memory to enable GroupBy & OrderBy
-                     .GroupBy(row => new { row.Kljnaz, row.Konto1 }) // Group by BOTH Kljnaz and Ident
+                     .GroupBy(row => new { row.Kljnaz, row.Kontosklad }) // Group by BOTH Kljnaz and Kontosklad
                      .Select(grouped => new Mat
                      {
-                         Konto1 = grouped.Key.Konto1, // Konto1 remains the same
-                         Kljnaz = grouped.Key.Kljnaz, // Include Kljnaz dynamically
-                         Datun = pregledTroskovaPoKontimavm.CurrentItemMat.Datun, // Maintain filtering date
-                         Datnar = pregledTroskovaPoKontimavm.CurrentItemMat.Datnar,
+                         Kontosklad = grouped.Key.Kontosklad, // Kontosklad remains the same
+                         Kljnaz = grouped.Key.Kljnaz, 
+                         Datnar = rekapitulacijaZalihaViewModel.CurrentItemMat.Datnar,
 
-                         //Kolic = grouped.Sum(x => x.Kolic), // Sum up Kolic
                          Vrijed = grouped.Sum(x => x.Vrijed), // Sum up Vrijed
                      })
-                     .ToList()); // Convert to List before assigning to ObservableCollection
+                     .ToList()); 
 
 
 
@@ -98,21 +94,18 @@ namespace Materijalno.UI.Izvjestaji
 
         private void NapuniPodatke()
         {
-            reportDt = new DataTable("PregledTroskovaPoKontima");
+            reportDt = new DataTable("RekapitulacijaZaliha");
 
-            //reportDt.Columns.Add("Ident").DataType = typeof(int);
-            //reportDt.Columns.Add("Nazmat").DataType = typeof(string);
-            //reportDt.Columns.Add("Kolic").DataType = typeof(int);
             reportDt.Columns.Add("Vrijed").DataType = typeof(decimal);
             reportDt.Columns.Add("Datun").DataType = typeof(DateTime);
             reportDt.Columns.Add("Datnar").DataType = typeof(DateTime);
             reportDt.Columns.Add("NazivOrg").DataType = typeof(string);
             reportDt.Columns.Add("Kljnaz").DataType = typeof(int);
             reportDt.Columns.Add("Nazkont").DataType = typeof(string);
-            reportDt.Columns.Add("Konto1").DataType = typeof(int);
+            reportDt.Columns.Add("Kontosklad").DataType = typeof(int);
 
 
-            List<ReportPregledTroskovaPoKontima> lista = new List<ReportPregledTroskovaPoKontima>();
+            List<ReportRekapitulacijaZaliha> lista = new List<ReportRekapitulacijaZaliha>();
 
             foreach (Mat mat in _mat)
             {
@@ -125,43 +118,37 @@ namespace Materijalno.UI.Izvjestaji
                                                                              select tabskladista).FirstOrDefault();
 
                 Materijalno.Model.EntityModels.SifarnikKonta tabkonto = (from Materijalno.Model.EntityModels.SifarnikKonta tabkonta in _tabelaKonto
-                                                                         where tabkonta.Sifkonta == mat.Konto1
+                                                                         where tabkonta.Sifkonta == mat.Kontosklad
                                                                          select tabkonta).FirstOrDefault();
 
 
-                _report = new ReportPregledTroskovaPoKontima();
+                _report = new ReportRekapitulacijaZaliha();
 
-                //_report.Ident = mat.Ident;
-                //_report.NazMat = tabmat.Nazmat;
-                //_report.Kolic = mat.Kolic;
                 _report.Vrijed = mat.Vrijed;
                 _report.Datun = mat.Datun;
                 _report.Datnar = mat.Datnar;
                 _report.NazivOrg = tabsklad.NazivOrg;
                 _report.Kljnaz = mat.Kljnaz;
                 _report.Nazkont = tabkonto.Nazkont;
-                _report.Konto1 = mat.Konto1;
+                _report.Kontosklad = mat.Kontosklad;
 
                 lista.Add(_report);
 
             }
 
-            List<ReportPregledTroskovaPoKontima> listaSort = lista.OrderBy(o => o.Datun).ToList();
+            List<ReportRekapitulacijaZaliha> listaSort = lista.OrderBy(o => o.Datun).ToList();
 
-            foreach (ReportPregledTroskovaPoKontima report in listaSort)
+            foreach (ReportRekapitulacijaZaliha report in listaSort)
             {
                 DataRow dr = reportDt.NewRow();
 
-                //dr[0] = report.Ident;
-                //dr[1] = report.NazMat;
-                //dr[2] = report.Kolic;
                 dr[0] = report.Vrijed;
                 dr[1] = report.Datun;
                 dr[2] = report.Datnar;
                 dr[3] = report.NazivOrg;
                 dr[4] = report.Kljnaz;
                 dr[5] = report.Nazkont;
-                dr[6] = report.Konto1;
+                dr[6] = report.Kontosklad;
 
 
                 reportDt.Rows.Add(dr);
@@ -191,11 +178,11 @@ namespace Materijalno.UI.Izvjestaji
         {
             ReportDataSource ds = new ReportDataSource("DataSet1", reportDt);
             PathHelper pathHelper = new PathHelper();
-            this._reportViewer.LocalReport.ReportPath = pathHelper.MExecutableRootDirectory + "\\Izvjestaji\\PregledTroskovaPoKontima.rdlc";
+            this._reportViewer.LocalReport.ReportPath = pathHelper.MExecutableRootDirectory + "\\Izvjestaji\\RekapitulacijaZaliha.rdlc";
             _reportViewer.LocalReport.DataSources.Add(ds);
             try
             {
-                this._reportViewer.LocalReport.ReportEmbeddedResource = "PregledTroskovaPoKontima.rdlc";
+                this._reportViewer.LocalReport.ReportEmbeddedResource = "RekapitulacijaZaliha.rdlc";
             }
             catch (Exception e)
             {

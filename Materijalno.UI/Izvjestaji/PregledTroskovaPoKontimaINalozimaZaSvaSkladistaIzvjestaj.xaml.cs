@@ -36,7 +36,6 @@ namespace Materijalno.UI.Izvjestaji
         private Mat ukupnavrijednost;
         private Mat ukupnoduguje;
 
-        //decimal? totalVrijednost = 0;
 
         public ObservableCollection<Mat> MatList { get; set; }
 
@@ -46,28 +45,30 @@ namespace Materijalno.UI.Izvjestaji
             InitializeComponent();
             _pregledTroskovaPoKontimaINalozimaZaSvaSkladistavm = pregledTroskovaPoKontimaINalozimaZaSvaSkladistavm;
 
-            //ukupnavrijednost = new Mat();
             ukupnoduguje = new Mat();
 
             var dbContext = new materijalno_knjigovodstvoContext();
 
-            MatList = new ObservableCollection<Mat>(dbContext.Mat
-                     .Where(row => row.Datun <= pregledTroskovaPoKontimaINalozimaZaSvaSkladistavm.CurrentItemMat.Datun
-                     && (row.Status == "P" || row.Status == "I" )) 
-                     .AsEnumerable() // Forces execution in-memory to enable GroupBy & OrderBy
-                     .GroupBy(row => new { row.Kljnaz, row.Konto1 }) // Group by BOTH Kljnaz and Ident
-                     .Select(grouped => new Mat//TREBAM IZMJENITI!!!!!!!!!!!!!!!!!!!
-                     {
-                         Konto1 = grouped.Key.Konto1, // Konto1 remains the same
-                         Kljnaz = grouped.Key.Kljnaz, // Include Kljnaz dynamically
-                         Datun = pregledTroskovaPoKontimaINalozimaZaSvaSkladistavm.CurrentItemMat.Datun, // Maintain filtering date
-                         Datnar = pregledTroskovaPoKontimaINalozimaZaSvaSkladistavm.CurrentItemMat.Datnar,
-                         Brfak = pregledTroskovaPoKontimaINalozimaZaSvaSkladistavm.CurrentItemMat.Brfak,
 
-                         //Brfak = grouped.Sum(x => x.Brfak), // Sum up Brfak
-                         Vrijed = grouped.Sum(x => x.Vrijed), // Sum up Vrijed
-                     })
-                     .ToList()); // Convert to List before assigning to ObservableCollection
+            MatList = new ObservableCollection<Mat>(dbContext.Mat
+                    .Where(row => row.Datun >= pregledTroskovaPoKontimaINalozimaZaSvaSkladistavm.CurrentItemMat.Datun
+                               && row.Datnar <= pregledTroskovaPoKontimaINalozimaZaSvaSkladistavm.CurrentItemMat.Datnar
+                               && row.Status == "I")
+                    .AsEnumerable() // Forces execution in-memory for GroupBy
+                    .GroupBy(row => new { row.Kljnaz, row.Brfak, row.Konto1 }) // Group by key
+                    .Select(grouped => new Mat
+                    {
+                        Konto1 = grouped.Key.Konto1,
+                        Kljnaz = grouped.Key.Kljnaz,
+                        Brfak = grouped.Key.Brfak,
+
+                        // Instead of setting the same values for all, use Min, Max, or another relevant aggregation
+                        Datun = grouped.Min(x => x.Datun), // Take earliest date from group
+                        Datnar = grouped.Max(x => x.Datnar), // Take latest date from group
+
+                        Vrijed = grouped.Sum(x => x.Vrijed), // Sum up Vrijed
+                    })
+                    .ToList()); // Convert to List before assigning to ObservableCollection
 
 
 
@@ -167,7 +168,7 @@ namespace Materijalno.UI.Izvjestaji
                 dr[5] = report.Nazkont;
                 dr[6] = report.Konto1;
                 dr[7] = report.Brfak;
-
+                
 
                 reportDt.Rows.Add(dr);
             }
