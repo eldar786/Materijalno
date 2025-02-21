@@ -57,6 +57,7 @@ namespace Materijalno.UI.Izvjestaji
                      .GroupBy(row => new { row.Kljnaz, row.Konto1 }) // Group by BOTH Kljnaz and Ident
                      .Select(grouped => new Mat
                      {
+
                          Konto1 = grouped.Key.Konto1, // Konto1 remains the same
                          Kljnaz = grouped.Key.Kljnaz, // Include Kljnaz dynamically
                          Datun = pregledTroskovaPoKontimavm.CurrentItemMat.Datun, // Maintain filtering date
