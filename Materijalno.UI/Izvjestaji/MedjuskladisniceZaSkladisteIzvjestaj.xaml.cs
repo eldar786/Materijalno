@@ -55,7 +55,8 @@ namespace Materijalno.UI.Izvjestaji
                     .Where(row => row.Status == "M" // Filter by status 
                             && row.Kljnaz == medjuskladisniceZaSkladistevm.CurrentItemMat.Kljnaz // Skladište
                             && row.Datun >= medjuskladisniceZaSkladistevm.CurrentItemMat.Datun // Start date condition
-                            && row.Datnar <= medjuskladisniceZaSkladistevm.CurrentItemMat.Datnar) // End date condition
+                            && row.Datnar <= medjuskladisniceZaSkladistevm.CurrentItemMat.Datnar
+                            && row.Medus != "1") // End date condition
                      .OrderBy(row => row.Datun) // Sort by start date
                      .ToList());
 
@@ -125,9 +126,9 @@ namespace Materijalno.UI.Izvjestaji
                 _report.Kljnaz = mat.Kljnaz;
                 _report.Ident = mat.Ident;
                 _report.NazMat = tabmat.Nazmat;
-                _report.Kolic = mat.Kolic;
+                _report.Kolic = mat.Kolic * -1;
                 _report.Nc = mat.Nc;
-                _report.Vrijed = mat.Vrijed;
+                _report.Vrijed = mat.Vrijed * -1;
                 _report.Brfak = mat.Brfak;
                 _report.Datun = (DateTime)mat.Datun;
                 _report.Brdok = mat.Brdok;

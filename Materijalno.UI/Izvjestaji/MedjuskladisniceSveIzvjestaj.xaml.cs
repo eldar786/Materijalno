@@ -54,7 +54,8 @@ namespace Materijalno.UI.Izvjestaji
                     .Where(row => row.Status == "M" // Filter by status 
                            // && row.Kljnaz == medjuskladisniceSvevm.CurrentItemMat.Kljnaz
                             && row.Datun >= medjuskladisniceSvevm.CurrentItemMat.Datun // Start date condition
-                            && row.Datnar <= medjuskladisniceSvevm.CurrentItemMat.Datnar) // End date condition
+                            && row.Datnar <= medjuskladisniceSvevm.CurrentItemMat.Datnar
+                            && row.Medus != "1") // End date condition
                      .OrderBy(row => row.Datun) // Sort by start date
                      .ToList());
 

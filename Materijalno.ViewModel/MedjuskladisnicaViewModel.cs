@@ -223,7 +223,7 @@ namespace Materijalno.ViewModel
                 //Dodaj u listu gdje je kljnaz == 1000 i sortiraj po datumu iz kolone (datun)
                 //Neki datum preskoci, treba napraviti dobar data type za kolonu (datun) u sql bazi
                 MatList = new ObservableCollection<Mat>(dbContext.Mat
-                     .Where(row => row.Kljnaz1 >= 1000 && row.Kljnaz1 <= 1012 && row.Kljnaz >= 1000 && row.Kljnaz <= 1012 )
+                     .Where(row => row.Kljnaz1 >= 1000 && row.Kljnaz1 <= 1012 && row.Kljnaz >= 1000 && row.Kljnaz <= 1012 && row.Medus == "1")
                      .OrderBy(row => row.Datun)
                      .ToList());
 
@@ -279,7 +279,7 @@ namespace Materijalno.ViewModel
                 //Dodaj u listu gdje je kljnaz == 1000 i sortiraj po datumu iz kolone (datun)
                 //Neki datum preskoci, treba napraviti dobar data type za kolonu (datun) u sql bazi
                 MatList = new ObservableCollection<Mat>(dbContext.Mat
-                     .Where(row => row.Kljnaz1 >= 1000 && row.Kljnaz1 <= 1012 && row.Kljnaz >= 1000 && row.Kljnaz <= 1012)
+                     .Where(row => row.Kljnaz1 >= 1000 && row.Kljnaz1 <= 1012 && row.Kljnaz >= 1000 && row.Kljnaz <= 1012 && row.Medus == "1")
                      .OrderBy(row => row.Datun)
                      .ToList());
 
@@ -424,7 +424,7 @@ namespace Materijalno.ViewModel
 
             //Staviti po datumu da sortira i dodaj u listu da bi se vidjele promjene
             MatList = new ObservableCollection<Mat>(dbContext.Mat
-                     .Where(row => row.Kljnaz1 >= 1000 && row.Kljnaz1 <= 1012 && row.Kljnaz >= 1000 && row.Kljnaz <= 1012 )
+                     .Where(row => row.Kljnaz1 >= 1000 && row.Kljnaz1 <= 1012 && row.Kljnaz >= 1000 && row.Kljnaz <= 1012)
                      .OrderBy(row => row.Datun)
                      .ToList());
 
@@ -785,12 +785,40 @@ namespace Materijalno.ViewModel
                 }
 
                 NabavnaCijena();
+
+                currentItemMat.Kolic = -CurrentItemMat.Kolic;
+                currentItemMat.Vrijed = -CurrentItemMat.Vrijed;
+                
+
                 dbContext.Update(CurrentItemMat);
+                dbContext.SaveChanges();
+
+                //Ovo spasavamo duplo, da bi se poslije mogli praviti izvjestaji, da pokazuje stvarno stanje magacina
+                Mat dupliMat = new Mat
+                {
+                    Kljnaz = CurrentItemMat.Kljnaz1,
+                    Kljnaz1 = CurrentItemMat.Kljnaz,
+                    Kolic = CurrentItemMat.Kolic * -1,
+                    Vrijed = CurrentItemMat.Vrijed * -1,
+                    Kontosklad = CurrentItemMat.Kontosklad1,
+                    Kontosklad1 = currentItemMat.Kontosklad,
+                    Medus = "1",
+
+                    Ident = CurrentItemMat.Ident,
+                    Brdok = CurrentItemMat.Brdok,
+                    Brfak = CurrentItemMat.Brfak,
+                    Nc = CurrentItemMat.Nc,
+                    Redbr = CurrentItemMat.Redbr,
+                    Status = CurrentItemMat.Status,
+                    Konto1 = CurrentItemMat.Konto1
+                };
+
+                dbContext.Add(dupliMat);
                 dbContext.SaveChanges();
 
                 //Staviti po datumu da sortira i dodaj u listu da bi se vidjele promjene
                 MatList = new ObservableCollection<Mat>(dbContext.Mat
-                     .Where(row => row.Kljnaz1 >= 1000 && row.Kljnaz1 <= 1012 && row.Kljnaz >= 1000 && row.Kljnaz <= 1012 )
+                     .Where(row => row.Kljnaz1 >= 1000 && row.Kljnaz1 <= 1012 && row.Kljnaz >= 1000 && row.Kljnaz <= 1012 && row.Medus == "1")
                      .OrderBy(row => row.Datun)
                      .ToList());
 
