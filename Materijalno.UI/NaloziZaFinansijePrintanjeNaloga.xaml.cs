@@ -1,6 +1,9 @@
-﻿using System;
+﻿using Materijalno.UI.Izvjestaji;
+using Materijalno.ViewModel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Printing;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -23,6 +26,17 @@ namespace Materijalno.UI
         public NaloziZaFinansijePrintanjeNaloga()
         {
             InitializeComponent();
+        }
+
+        private void stampa_button(object sender, RoutedEventArgs e)
+        {
+            if (DataContext is NaloziZaFinansijePrintanjeNalogaViewModel naloziZaFinansijePrintanjeNalogaViewModel)
+            {
+                NaloziZaFinansijePrintanjeNalogaIzvjestaj naloziZaFinansijePrintanjeNalogaIzvjestaj = new NaloziZaFinansijePrintanjeNalogaIzvjestaj(naloziZaFinansijePrintanjeNalogaViewModel);
+
+                // Dodajemo trenutni ViewModel u PrintWindow
+                naloziZaFinansijePrintanjeNalogaIzvjestaj.Show();
+            }
         }
     }
 }
