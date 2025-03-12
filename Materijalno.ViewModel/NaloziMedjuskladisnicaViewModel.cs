@@ -1,16 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 //using System.Windows.Data;
-using System.Windows.Input;
-using Materijalno.Model;
-using System.Windows;
-using System.Windows.Forms;
 using Materijalno.Model.EntityModels;
+using Oracle.ManagedDataAccess.Client;
 
 namespace Materijalno.ViewModel
 {
@@ -19,6 +13,8 @@ namespace Materijalno.ViewModel
         #region Fields
         private ApplicationViewModel _avm;
         private GlavniViewModel _gvm;
+        string connectionString = "Server= 192.168.1.213;Trusted_Connection=False;" +
+             "MultipleActiveResultSets=true;User Id=IBS;Password=IBS11g$;";
 
         private string brojMedjuskladisnice;
         #endregion
@@ -144,6 +140,34 @@ namespace Materijalno.ViewModel
 
 
                     //Dalje treba dodavati u Oracle bazu, tabelu "Interface_nalog i Interface_stavke"
+                    
+                    //Dodavanje "Interface_nalog"
+                    using (OracleConnection conn = new OracleConnection(connectionString))
+        {
+            try
+            {
+                conn.Open(); // Open the database connection
+
+                string query = "INSERT INTO Interface_nalog (Brojnal, Aktivnost, Godina, Nalog) " +
+                                "VALUES (:Brojnal, :Aktivnost, :Godina, :Nalog)";
+
+                using (OracleCommand cmd = new OracleCommand(query, conn))
+                {
+                    // Add parameters to prevent SQL injection
+                    cmd.Parameters.Add(":Brojnal", OracleDbType.Int32).Value = 12345;
+                    cmd.Parameters.Add(":Aktivnost", OracleDbType.Int32).Value = 61;
+                    //cmd.Parameters.Add(":Aktivnost", OracleDbType.Varchar2).Value = "SomeActivity";
+                    cmd.Parameters.Add(":Godina", OracleDbType.Int32).Value = null;
+                    cmd.Parameters.Add(":Nalog", OracleDbType.Int32).Value = null;
+
+                    int rowsAffected = cmd.ExecuteNonQuery(); // Execute query
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error: " + ex.Message);
+            }
+        }
                 }
             }
         }
