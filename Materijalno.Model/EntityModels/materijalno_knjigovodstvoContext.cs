@@ -24,6 +24,7 @@ namespace Materijalno.Model.EntityModels
         public virtual DbSet<SifarnikMaterijala> SifarnikMaterijala { get; set; }
         public virtual DbSet<SifarnikSkladista> SifarnikSkladista { get; set; }
         public virtual DbSet<Mat> Mat { get; set; }
+        public virtual DbSet<Nalmat> Nalmat { get; set; }
         public virtual DbSet<TabelaMaterijala> TabelaMaterijala { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -107,6 +108,80 @@ namespace Materijalno.Model.EntityModels
                 entity.Property(e => e.PozBrD).HasColumnName("poz_br_d");
 
                 entity.Property(e => e.ZiroRacun).HasColumnName("ziro_racun");
+            });
+
+            modelBuilder.Entity<Nalmat>(entity =>
+            {
+                entity.HasKey(e => e.Id);
+
+                entity.ToTable("nalmat");
+
+                entity.Property(e => e.Analst).HasColumnName("analst");
+
+                entity.Property(e => e.Bracuna).HasColumnName("bracuna");
+
+                entity.Property(e => e.Brdokst)
+                    .IsRequired()
+                    .HasColumnName("brdokst")
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Brfak)
+                    .HasColumnName("brfak")
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Bronsta).HasColumnName("bronsta");
+
+                entity.Property(e => e.Datdokst)
+                    .HasColumnName("datdokst")
+                    .HasColumnType("date");
+
+                entity.Property(e => e.Datnsta)
+                    .HasColumnName("datnsta")
+                    .HasColumnType("date");
+
+                entity.Property(e => e.Datvalst)
+                    .IsRequired()
+                    .HasColumnName("datvalst")
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Devdugst).HasColumnName("devdugst");
+
+                entity.Property(e => e.Devpotst).HasColumnName("devpotst");
+
+                entity.Property(e => e.Devsta).HasColumnName("devsta");
+
+                entity.Property(e => e.Dug1st)
+                    .HasColumnName("dug1st")
+                    .HasColumnType("decimal(12, 2)");
+
+                entity.Property(e => e.Kukistav).HasColumnName("kukistav");
+
+                entity.Property(e => e.Kurs).HasColumnName("kurs");
+
+                entity.Property(e => e.Mjtst).HasColumnName("mjtst");
+
+                entity.Property(e => e.Ourst).HasColumnName("ourst");
+
+                entity.Property(e => e.Pot1st)
+                    .HasColumnName("pot1st")
+                    .HasColumnType("decimal(12, 2)");
+
+                entity.Property(e => e.Rostav).HasColumnName("rostav");
+
+                entity.Property(e => e.Sifakt).HasColumnName("sifakt");
+
+                entity.Property(e => e.Sintstav).HasColumnName("sintstav");
+
+                entity.Property(e => e.Stodevd).HasColumnName("stodevd");
+
+                entity.Property(e => e.Stodevp).HasColumnName("stodevp");
+
+                entity.Property(e => e.Stodug1).HasColumnName("stodug1");
+
+                entity.Property(e => e.Stopot1).HasColumnName("stopot1");
             });
 
             modelBuilder.Entity<Mat>(entity =>
