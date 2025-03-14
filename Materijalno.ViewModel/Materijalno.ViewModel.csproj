@@ -203,6 +203,7 @@
     <Compile Include="MedjuskladisniceSveViewModel.cs" />
     <Compile Include="MedjuskladisniceJednaViewModel.cs" />
     <Compile Include="NaloziMedjuskladisnicaViewModel.cs" />
+    <Compile Include="NaloziPovratUSkladisteViewModel.cs" />
     <Compile Include="NaloziUlazUCentralniMagacinViewModel.cs" />
     <Compile Include="NaloziZaFinansijePrintanjeNalogaViewModel.cs" />
     <Compile Include="NaloziZaduzenjeProdavniceViewModel.cs" />
