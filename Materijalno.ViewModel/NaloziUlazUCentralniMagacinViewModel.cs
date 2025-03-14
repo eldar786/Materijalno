@@ -1,28 +1,28 @@
-﻿using System;
+﻿using Materijalno.Model.EntityModels;
+using Oracle.ManagedDataAccess.Client;
+using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using System.Windows;
-//using System.Windows.Data;
-using Materijalno.Model.EntityModels;
-using Oracle.ManagedDataAccess.Client;
 
 namespace Materijalno.ViewModel
 {
-    public class NaloziMedjuskladisnicaViewModel : INotifyPropertyChanged
+    public class NaloziUlazUCentralniMagacinViewModel : INotifyPropertyChanged
     {
         #region Fields
         private ApplicationViewModel _avm;
         private GlavniViewModel _gvm;
         string connectionString = "User Id=IBS;Password=IBS11g$;Data Source=192.168.1.224:1521/TESTPDB.LUTRIJABIH.BA;";
 
-
         private string brojMedjuskladisnice;
         #endregion
 
         public ObservableCollection<Nalmat> NalMatList { get; set; }
         public ObservableCollection<Mat> MatListZaFormiranje { get; set; }
-
 
         public string BrojMedjuskladisnice
         {
@@ -34,20 +34,11 @@ namespace Materijalno.ViewModel
             }
         }
 
-
         public RelayCommand FormirajCommand { get; set; }
 
-        public NaloziMedjuskladisnicaViewModel(GlavniViewModel gvm)
+        public NaloziUlazUCentralniMagacinViewModel(GlavniViewModel gvm)
         {
             FormirajCommand = new RelayCommand(Formiraj);
-        }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-
-        protected virtual void OnPropertyChanged(string propertyName)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
         public void Formiraj()
@@ -55,9 +46,9 @@ namespace Materijalno.ViewModel
             int maxBronsta = 0;
             var dbContext = new materijalno_knjigovodstvoContext();
 
-            //Prikupimo sve ULAZE iz MAT tabele
+            //Prikupimo sve medjuskladisnice iz MAT tabele
             MatListZaFormiranje = new ObservableCollection<Mat>(dbContext.Mat
-                               .Where(row => row.Status == "U" && row.Brfak == BrojMedjuskladisnice)
+                               .Where(row => row.Status == "M" && row.Brfak == BrojMedjuskladisnice)
                                .OrderBy(row => row.Datun)
                                .ToList());
 
@@ -69,8 +60,7 @@ namespace Materijalno.ViewModel
                 maxBronsta = NalMatList.Select(n => n.Bronsta).Max();
             }
 
-            //U NalMat tabelu treba dodati stvari iz "MatListZaFormiranje" liste i jos neke stvari rucno
-            //PROVJERITI STA SVE DODAJEMO ZA ULAZ U CENTRALNI MAGACIN (PO CEMU SE RAZLIKUJE OD MEDJUSKLADISNICE)
+            //U NalMat tabelu treba dodati stvari iz "MatListZaFormiranje" i jos neke stvari rucno
             foreach (Mat mat in MatListZaFormiranje)
             {
                 if (mat.Vrijed > 0)
@@ -242,6 +232,13 @@ namespace Materijalno.ViewModel
                     //#endregion
                 }
             }
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        protected virtual void OnPropertyChanged(string propertyName)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }
