@@ -205,6 +205,7 @@
     <Compile Include="NaloziMedjuskladisnicaViewModel.cs" />
     <Compile Include="NaloziUlazUCentralniMagacinViewModel.cs" />
     <Compile Include="NaloziZaFinansijePrintanjeNalogaViewModel.cs" />
+    <Compile Include="NaloziZaduzenjeProdavniceViewModel.cs" />
     <Compile Include="PocetnoStanjePrviPutViewModel.cs" />
     <Compile Include="PostavkaNovogPocetnogstanjaViewModel.cs" />
     <Compile Include="PovratMaterijalaViewModel.cs" />
