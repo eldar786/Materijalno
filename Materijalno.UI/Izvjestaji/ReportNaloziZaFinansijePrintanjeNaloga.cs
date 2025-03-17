@@ -37,6 +37,7 @@ namespace Materijalno.UI.Izvjestaji
         public int? Bracuna { get; set; }
         public string Brfak { get; set; }
         public string Nazkont { get; set; }
+        
 
         public ObservableCollection<Nalmat> NalMatList;
 

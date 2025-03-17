@@ -98,12 +98,15 @@ namespace Materijalno.UI.Izvjestaji
             reportDt.Columns.Add("Pot1st").DataType = typeof(decimal);
             reportDt.Columns.Add("Brfak").DataType = typeof(string);
             reportDt.Columns.Add("Nazkon").DataType = typeof(string);
-
+            reportDt.Columns.Add("Sifakt").DataType = typeof(int);
+            reportDt.Columns.Add("Bronsta").DataType = typeof(int);
             
-            //reportDt.Columns.Add("Totalvrijednost").DataType = typeof(decimal);
 
 
-            List<ReportNaloziZaFinansijePrintanjeNaloga> lista = new List<ReportNaloziZaFinansijePrintanjeNaloga>();
+        //reportDt.Columns.Add("Totalvrijednost").DataType = typeof(decimal);
+
+
+        List<ReportNaloziZaFinansijePrintanjeNaloga> lista = new List<ReportNaloziZaFinansijePrintanjeNaloga>();
 
             foreach (Nalmat nalmat in _nalmat)
             {
@@ -129,6 +132,8 @@ namespace Materijalno.UI.Izvjestaji
                 _report.Pot1st = nalmat.Pot1st;
                 _report.Brfak = nalmat.Brfak;
                 _report.Nazkont = tabkon.Nazkont;
+                _report.Sifakt = nalmat.Sifakt;
+                _report.Bronsta = nalmat.Bronsta;
                 
                 lista.Add(_report);
             }
@@ -146,6 +151,8 @@ namespace Materijalno.UI.Izvjestaji
                 dr[4] = report.Pot1st;
                 dr[5] = report.Brfak;
                 dr[6] = report.Nazkont;
+                dr[7] = report.Sifakt;
+                dr[8] = report.Bronsta;
                 
                 reportDt.Rows.Add(dr);
             }
