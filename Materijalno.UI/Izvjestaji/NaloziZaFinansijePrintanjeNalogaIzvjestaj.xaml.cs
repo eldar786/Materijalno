@@ -31,14 +31,17 @@ namespace Materijalno.UI.Izvjestaji
         private DataTable reportDt;
         private ReportNaloziZaFinansijePrintanjeNaloga _report;
         private List<Mat> _mat;
+        private List<Nalmat> _nalmat;
         private List<TabelaMaterijala> _tabelaMaterijala;
         private List<Materijalno.Model.EntityModels.SifarnikSkladista> _tabelaSkladista;
+        private List<Materijalno.Model.EntityModels.SifarnikKonta> _tabelaKonta;
         private Mat ukupnavrijednost;
         private Mat ukupnoduguje;
 
         //decimal? totalVrijednost = 0;
 
         public ObservableCollection<Mat> MatList { get; set; }
+        public ObservableCollection<Nalmat> NalMatList { get; set; }
 
 
         public NaloziZaFinansijePrintanjeNalogaIzvjestaj(NaloziZaFinansijePrintanjeNalogaViewModel naloziZaFinansijePrintanjeNalogavm)
@@ -51,25 +54,26 @@ namespace Materijalno.UI.Izvjestaji
 
             var dbContext = new materijalno_knjigovodstvoContext();
 
-            MatList = new ObservableCollection<Mat>(dbContext.Mat
-                     .Where(row => row.Brfak == naloziZaFinansijePrintanjeNalogavm.CurrentItemMat.Brfak && row.Medus == "1")
-                     .OrderBy(row => row.Datun)
+            NalMatList = new ObservableCollection<Nalmat>(dbContext.Nalmat
+                     .Where(row => row.Brfak == naloziZaFinansijePrintanjeNalogavm.CurrentItemMat.Brfak )
+                     .OrderBy(row => row.Datnsta)
                      .ToList());
 
             _tabelaMaterijala = dbContext.TabelaMaterijala.ToList();
 
             _tabelaSkladista = dbContext.SifarnikSkladista.ToList();
+            _tabelaKonta = dbContext.SifarnikKonta.ToList();
 
-            _mat = MatList.ToList();
+            _nalmat = NalMatList.ToList();
             decimal? totalVrijednost = 0;
 
-            foreach (var item in MatList)
-            {
-                totalVrijednost += item.Vrijed;
-            }
+            //foreach (var item in NalMatList)
+            //{
+            //    totalVrijednost += item.Vrijed;
+            //}
 
             //ukupnavrijednost.Vrijed = totalVrijednost;
-            ukupnoduguje.Vrijed = totalVrijednost;
+            //ukupnoduguje.Vrijed = totalVrijednost;
 
             try
             {
@@ -87,70 +91,69 @@ namespace Materijalno.UI.Izvjestaji
         {
             reportDt = new DataTable("NaloziZaFinansijePrintanjeNaloga");
 
-            reportDt.Columns.Add("Redbr").DataType = typeof(int);
-            reportDt.Columns.Add("Kljnaz1").DataType = typeof(int);
-            reportDt.Columns.Add("Ident").DataType = typeof(int);
-            reportDt.Columns.Add("Nazmat").DataType = typeof(string);
-            reportDt.Columns.Add("Kolic").DataType = typeof(int);
-            reportDt.Columns.Add("Nc").DataType = typeof(decimal);
-            reportDt.Columns.Add("Vrijed").DataType = typeof(decimal);
+            reportDt.Columns.Add("Sintstav").DataType = typeof(int);
+            reportDt.Columns.Add("Brdokst").DataType = typeof(string);
+            reportDt.Columns.Add("Datnsta").DataType = typeof(DateTime);
+            reportDt.Columns.Add("Dug1st").DataType = typeof(decimal);
+            reportDt.Columns.Add("Pot1st").DataType = typeof(decimal);
             reportDt.Columns.Add("Brfak").DataType = typeof(string);
-            reportDt.Columns.Add("Datun").DataType = typeof(DateTime);
-            reportDt.Columns.Add("Brdok").DataType = typeof(string);
-            //reportDt.Columns.Add("Totalvrijednost").DataType = typeof(decimal);
+            reportDt.Columns.Add("Nazkon").DataType = typeof(string);
+            reportDt.Columns.Add("Sifakt").DataType = typeof(int);
+            reportDt.Columns.Add("Bronsta").DataType = typeof(int);
+            
 
 
-            List<ReportNaloziZaFinansijePrintanjeNaloga> lista = new List<ReportNaloziZaFinansijePrintanjeNaloga>();
+        //reportDt.Columns.Add("Totalvrijednost").DataType = typeof(decimal);
 
-            foreach (Mat mat in _mat)
+
+        List<ReportNaloziZaFinansijePrintanjeNaloga> lista = new List<ReportNaloziZaFinansijePrintanjeNaloga>();
+
+            foreach (Nalmat nalmat in _nalmat)
             {
-                TabelaMaterijala tabmat = (from TabelaMaterijala tabmaterijala in _tabelaMaterijala
-                                           where tabmaterijala.Ident == mat.Ident
-                                           select tabmaterijala).FirstOrDefault();
+                //TabelaMaterijala tabmat = (from TabelaMaterijala tabmaterijala in _tabelaMaterijala
+                //                           where tabmaterijala.Ident == mat.Ident
+                //                           select tabmaterijala).FirstOrDefault();
 
-                Materijalno.Model.EntityModels.SifarnikSkladista tabsklad = (from Materijalno.Model.EntityModels.SifarnikSkladista tabskladista in _tabelaSkladista
-                                                                             where tabskladista.Kljnaz == mat.Kljnaz
-                                                                             select tabskladista).FirstOrDefault();
+                //Materijalno.Model.EntityModels.SifarnikKonta tabsklad = (from Materijalno.Model.EntityModels.SifarnikSkladista tabskladista in _tabelaSkladista
+                //                                                             where tabskladista.Kljnaz == mat.Kljnaz
+                //                                                             select tabskladista).FirstOrDefault();
+
+
+                Materijalno.Model.EntityModels.SifarnikKonta tabkon = (from Materijalno.Model.EntityModels.SifarnikKonta tabkonta in _tabelaKonta
+                                                                         where tabkonta.Sifkonta == nalmat.Sintstav
+                                                                         select tabkonta).FirstOrDefault();
 
 
                 _report = new ReportNaloziZaFinansijePrintanjeNaloga();
-                _report.Redbr = mat.Redbr;
-                _report.Kljnaz1 = mat.Kljnaz1;
-                _report.Ident = mat.Ident;
-                _report.NazMat = tabmat.Nazmat;
-                _report.Kolic = mat.Kolic;
-                _report.Nc = mat.Nc;
-                _report.Vrijed = mat.Vrijed;
-                _report.Brfak = mat.Brfak;
-                _report.Datun = mat.Datun;
-                _report.Brdok = mat.Brdok;
-                //_report.TotalVrijednost = ukupnavrijednost.Vrijed;
-
-
+                _report.Sintstav = nalmat.Sintstav;
+                _report.Brdokst = nalmat.Brdokst;
+                _report.Datnsta = nalmat.Datnsta;
+                _report.Dug1st = nalmat.Dug1st;
+                _report.Pot1st = nalmat.Pot1st;
+                _report.Brfak = nalmat.Brfak;
+                _report.Nazkont = tabkon.Nazkont;
+                _report.Sifakt = nalmat.Sifakt;
+                _report.Bronsta = nalmat.Bronsta;
+                
                 lista.Add(_report);
-
             }
 
-            List<ReportNaloziZaFinansijePrintanjeNaloga> listaSort = lista.OrderBy(o => o.Datun).ToList();
+            List<ReportNaloziZaFinansijePrintanjeNaloga> listaSort = lista.OrderBy(o => o.Datnsta).ToList();
 
             foreach (ReportNaloziZaFinansijePrintanjeNaloga report in listaSort)
             {
                 DataRow dr = reportDt.NewRow();
 
-                dr[0] = report.Redbr;
-                dr[1] = report.Kljnaz1;
-                dr[2] = report.Ident;
-                dr[3] = report.NazMat;
-                dr[4] = report.Kolic;
-                dr[5] = report.Nc;
-                dr[6] = report.Vrijed;
-                dr[7] = report.Brfak;
-                dr[8] = report.Datun;
-                dr[9] = report.Brdok;
-                //dr[10] = report.TotalVrijednost;
-
-
-
+                dr[0] = report.Sintstav;
+                dr[1] = report.Brdokst;
+                dr[2] = report.Datnsta;
+                dr[3] = report.Dug1st;
+                dr[4] = report.Pot1st;
+                dr[5] = report.Brfak;
+                dr[6] = report.Nazkont;
+                dr[7] = report.Sifakt;
+                dr[8] = report.Bronsta;
+                
                 reportDt.Rows.Add(dr);
             }
         }

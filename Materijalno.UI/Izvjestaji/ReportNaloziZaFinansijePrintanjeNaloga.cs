@@ -12,25 +12,34 @@ namespace Materijalno.UI.Izvjestaji
     public class ReportNaloziZaFinansijePrintanjeNaloga
     {
         public int Id { get; set; }
-        public int? Kljnaz { get; set; }
-        public int? Kljnaz1 { get; set; }
-        public int? Ident { get; set; }
-        public DateTime Datun { get; set; }
-        public string NazMat { get; set; }
-        public string Brdok { get; set; }
-        public string Brnar { get; set; }
-        public DateTime Datnar { get; set; }
+        public int Rostav { get; set; }
+        public DateTime Datnsta { get; set; }
+        public int Sifakt { get; set; }
+        public int Bronsta { get; set; }
+        public int Sintstav { get; set; }
+        public string Brdokst { get; set; }
+        public int Kukistav { get; set; }
+        public DateTime Datdokst { get; set; }
+        public int? Devsta { get; set; }
+        public int? Kurs { get; set; }
+        public string Datvalst { get; set; }
+        public int? Ourst { get; set; }
+        public int? Mjtst { get; set; }
+        public int? Analst { get; set; }
+        public decimal? Dug1st { get; set; }
+        public int? Stodug1 { get; set; }
+        public decimal? Pot1st { get; set; }
+        public int? Stopot1 { get; set; }
+        public int? Devdugst { get; set; }
+        public int? Stodevd { get; set; }
+        public int? Devpotst { get; set; }
+        public int? Stodevp { get; set; }
+        public int? Bracuna { get; set; }
         public string Brfak { get; set; }
-        public int? Kolic { get; set; }
-        public decimal? Nc { get; set; }
-        public decimal? Vrijed { get; set; }
-        public int? Redbr { get; set; }
-        public string Status { get; set; }
-        public string Cartro { get; set; }
-        public string Medus { get; set; }
-        public decimal? TotalVrijednost { get; set; }
+        public string Nazkont { get; set; }
+        
 
-        public ObservableCollection<Mat> MatList;
+        public ObservableCollection<Nalmat> NalMatList;
 
         public NaloziZaFinansijePrintanjeNalogaViewModel orgViewModel = new NaloziZaFinansijePrintanjeNalogaViewModel();
 
@@ -39,15 +48,14 @@ namespace Materijalno.UI.Izvjestaji
             var list = new List<NaloziZaFinansijePrintanjeNalogaViewModel>();
 
             var dbContext = new materijalno_knjigovodstvoContext();
-            MatList = new ObservableCollection<Mat>(dbContext.Mat
-                    .Where(row => row.Kljnaz1 >= 1000 && row.Kljnaz1 <= 1012 && row.Kljnaz >= 1000 && row.Kljnaz <= 1012)
-                    .OrderBy(row => row.Datun)
+            NalMatList = new ObservableCollection<Nalmat>(dbContext.Nalmat
+                    .OrderBy(row => row.Datnsta)
                     .ToList());
 
-            //Ident = dbContext.Mat.Select(row => row.Ident);
-            foreach (Mat m in MatList)
+            
+            foreach (Nalmat m in NalMatList)
             {
-                Ident = MatList.Select(row => row.Ident).First();
+                Id = NalMatList.Select(row => row.Id).First();
             }
             return list;
         }
