@@ -6,16 +6,16 @@
         <TablixBody>
           <TablixColumns>
             <TablixColumn>
-              <Width>1.48231cm</Width>
+              <Width>1.94502cm</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>2.53528cm</Width>
+              <Width>1.93146cm</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>2.5cm</Width>
+              <Width>5.16757cm</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>5.24694cm</Width>
+              <Width>5.5468cm</Width>
             </TablixColumn>
             <TablixColumn>
               <Width>2.5cm</Width>
@@ -26,9 +26,6 @@
             <TablixColumn>
               <Width>2.71407cm</Width>
             </TablixColumn>
-            <TablixColumn>
-              <Width>2.5cm</Width>
-            </TablixColumn>
           </TablixColumns>
           <TablixRows>
             <TablixRow>
@@ -36,23 +33,23 @@
               <TablixCells>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="Redbr">
+                    <Textbox Name="Sintstav">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Fields!Redbr.Value</Value>
+                              <Value>=Fields!Sintstav.Value</Value>
                               <Style />
                             </TextRun>
                           </TextRuns>
                           <Style>
-                            <TextAlign>Center</TextAlign>
+                            <TextAlign>Left</TextAlign>
                           </Style>
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>Redbr</rd:DefaultName>
+                      <rd:DefaultName>Sintstav</rd:DefaultName>
                       <Style>
                         <Border>
                           <Style>None</Style>
@@ -68,14 +65,14 @@
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="Kljnaz1">
+                    <Textbox Name="Textbox25">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Fields!Kljnaz1.Value</Value>
+                              <Value />
                               <Style />
                             </TextRun>
                           </TextRuns>
@@ -84,7 +81,7 @@
                           </Style>
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>Kljnaz1</rd:DefaultName>
+                      <rd:DefaultName>Textbox25</rd:DefaultName>
                       <Style>
                         <Border>
                           <Style>None</Style>
@@ -100,23 +97,56 @@
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="Ident">
+                    <Textbox Name="Nazkon">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Fields!Ident.Value</Value>
+                              <Value>=Fields!Nazkon.Value</Value>
                               <Style />
                             </TextRun>
                           </TextRuns>
                           <Style>
-                            <TextAlign>Center</TextAlign>
+                            <TextAlign>Left</TextAlign>
                           </Style>
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>Ident</rd:DefaultName>
+                      <rd:DefaultName>Nazkon</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Style>None</Style>
+                        </Border>
+                        <VerticalAlign>Middle</VerticalAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                    <rd:Selected>true</rd:Selected>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Brdokst">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=Fields!Brdokst.Value</Value>
+                              <Style />
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Left</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>Brdokst</rd:DefaultName>
                       <Style>
                         <Border>
                           <Style>None</Style>
@@ -132,23 +162,23 @@
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="NazMat">
+                    <Textbox Name="Datnsta">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Fields!NazMat.Value</Value>
+                              <Value>=Format(First(Fields!Datnsta.Value, "DataSet1"), "dd/MM/yyyy")</Value>
                               <Style />
                             </TextRun>
                           </TextRuns>
                           <Style>
-                            <TextAlign>Center</TextAlign>
+                            <TextAlign>Left</TextAlign>
                           </Style>
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>NazMat</rd:DefaultName>
+                      <rd:DefaultName>Datnsta</rd:DefaultName>
                       <Style>
                         <Border>
                           <Style>None</Style>
@@ -164,23 +194,23 @@
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="Textbox38">
+                    <Textbox Name="Dug1st">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>KOM</Value>
+                              <Value>=Fields!Dug1st.Value</Value>
                               <Style />
                             </TextRun>
                           </TextRuns>
                           <Style>
-                            <TextAlign>Center</TextAlign>
+                            <TextAlign>Right</TextAlign>
                           </Style>
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>Textbox38</rd:DefaultName>
+                      <rd:DefaultName>Dug1st</rd:DefaultName>
                       <Style>
                         <Border>
                           <Style>None</Style>
@@ -196,87 +226,23 @@
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="Kolic">
+                    <Textbox Name="Pot1st">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Replace(Replace(Format(CDbl(Fields!Kolic.Value), "#,###.00"), ",", "#"), ".", ",").Replace("#", ".")</Value>
+                              <Value>=Abs(Fields!Pot1st.Value)</Value>
                               <Style />
                             </TextRun>
                           </TextRuns>
                           <Style>
-                            <TextAlign>Center</TextAlign>
+                            <TextAlign>Right</TextAlign>
                           </Style>
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>Kolic</rd:DefaultName>
-                      <Style>
-                        <Border>
-                          <Style>None</Style>
-                        </Border>
-                        <VerticalAlign>Middle</VerticalAlign>
-                        <PaddingLeft>2pt</PaddingLeft>
-                        <PaddingRight>2pt</PaddingRight>
-                        <PaddingTop>2pt</PaddingTop>
-                        <PaddingBottom>2pt</PaddingBottom>
-                      </Style>
-                    </Textbox>
-                  </CellContents>
-                </TablixCell>
-                <TablixCell>
-                  <CellContents>
-                    <Textbox Name="Nc">
-                      <CanGrow>true</CanGrow>
-                      <KeepTogether>true</KeepTogether>
-                      <Paragraphs>
-                        <Paragraph>
-                          <TextRuns>
-                            <TextRun>
-                              <Value>=Fields!Nc.Value</Value>
-                              <Style />
-                            </TextRun>
-                          </TextRuns>
-                          <Style>
-                            <TextAlign>Center</TextAlign>
-                          </Style>
-                        </Paragraph>
-                      </Paragraphs>
-                      <rd:DefaultName>Nc</rd:DefaultName>
-                      <Style>
-                        <Border>
-                          <Style>None</Style>
-                        </Border>
-                        <VerticalAlign>Middle</VerticalAlign>
-                        <PaddingLeft>2pt</PaddingLeft>
-                        <PaddingRight>2pt</PaddingRight>
-                        <PaddingTop>2pt</PaddingTop>
-                        <PaddingBottom>2pt</PaddingBottom>
-                      </Style>
-                    </Textbox>
-                  </CellContents>
-                </TablixCell>
-                <TablixCell>
-                  <CellContents>
-                    <Textbox Name="Vrijed">
-                      <CanGrow>true</CanGrow>
-                      <KeepTogether>true</KeepTogether>
-                      <Paragraphs>
-                        <Paragraph>
-                          <TextRuns>
-                            <TextRun>
-                              <Value>=Fields!Vrijed.Value</Value>
-                              <Style />
-                            </TextRun>
-                          </TextRuns>
-                          <Style>
-                            <TextAlign>Center</TextAlign>
-                          </Style>
-                        </Paragraph>
-                      </Paragraphs>
-                      <rd:DefaultName>Vrijed</rd:DefaultName>
+                      <rd:DefaultName>Pot1st</rd:DefaultName>
                       <Style>
                         <Border>
                           <Style>None</Style>
@@ -303,7 +269,6 @@
             <TablixMember />
             <TablixMember />
             <TablixMember />
-            <TablixMember />
           </TablixMembers>
         </TablixColumnHierarchy>
         <TablixRowHierarchy>
@@ -317,152 +282,21 @@
           </TablixMembers>
         </TablixRowHierarchy>
         <DataSetName>DataSet1</DataSetName>
-        <Top>2.66348cm</Top>
+        <Top>1.60314cm</Top>
         <Left>0.07999cm</Left>
         <Height>0.6cm</Height>
-        <Width>22.91747cm</Width>
+        <Width>23.24379cm</Width>
         <Style>
           <Border>
             <Style>None</Style>
           </Border>
         </Style>
       </Tablix>
-      <Line Name="Line2">
-        <Top>1.28255cm</Top>
+      <Line Name="Line3">
+        <Top>1.25918cm</Top>
         <Height>0cm</Height>
         <Width>23.566cm</Width>
         <ZIndex>1</ZIndex>
-        <Style>
-          <Border>
-            <Style>Solid</Style>
-          </Border>
-        </Style>
-      </Line>
-      <Textbox Name="Textbox24">
-        <CanGrow>true</CanGrow>
-        <KeepTogether>true</KeepTogether>
-        <Paragraphs>
-          <Paragraph>
-            <TextRuns>
-              <TextRun>
-                <Value>=Fields!Datun.Value</Value>
-                <Style>
-                  <Format>dd/MM/yyyy</Format>
-                </Style>
-              </TextRun>
-            </TextRuns>
-            <Style />
-          </Paragraph>
-        </Paragraphs>
-        <rd:DefaultName>Textbox24</rd:DefaultName>
-        <Top>0.57672cm</Top>
-        <Left>12.4146cm</Left>
-        <Height>0.6cm</Height>
-        <Width>2.5cm</Width>
-        <ZIndex>2</ZIndex>
-        <Style>
-          <Border>
-            <Style>None</Style>
-          </Border>
-          <PaddingLeft>2pt</PaddingLeft>
-          <PaddingRight>2pt</PaddingRight>
-          <PaddingTop>2pt</PaddingTop>
-          <PaddingBottom>2pt</PaddingBottom>
-        </Style>
-      </Textbox>
-      <Textbox Name="Textbox25">
-        <CanGrow>true</CanGrow>
-        <KeepTogether>true</KeepTogether>
-        <Paragraphs>
-          <Paragraph>
-            <TextRuns>
-              <TextRun>
-                <Value>=Fields!Brdok.Value</Value>
-                <Style />
-              </TextRun>
-            </TextRuns>
-            <Style />
-          </Paragraph>
-        </Paragraphs>
-        <rd:DefaultName>Textbox25</rd:DefaultName>
-        <Top>0.57672cm</Top>
-        <Left>15.39749cm</Left>
-        <Height>0.6cm</Height>
-        <Width>2.5cm</Width>
-        <ZIndex>3</ZIndex>
-        <Style>
-          <Border>
-            <Style>None</Style>
-          </Border>
-          <PaddingLeft>2pt</PaddingLeft>
-          <PaddingRight>2pt</PaddingRight>
-          <PaddingTop>2pt</PaddingTop>
-          <PaddingBottom>2pt</PaddingBottom>
-        </Style>
-      </Textbox>
-      <Textbox Name="Textbox26">
-        <CanGrow>true</CanGrow>
-        <KeepTogether>true</KeepTogether>
-        <Paragraphs>
-          <Paragraph>
-            <TextRuns>
-              <TextRun>
-                <Value>Datum</Value>
-                <Style />
-              </TextRun>
-            </TextRuns>
-            <Style />
-          </Paragraph>
-        </Paragraphs>
-        <rd:DefaultName>Textbox26</rd:DefaultName>
-        <Left>12.4146cm</Left>
-        <Height>0.6cm</Height>
-        <Width>1.37583cm</Width>
-        <ZIndex>4</ZIndex>
-        <Style>
-          <Border>
-            <Style>None</Style>
-          </Border>
-          <PaddingLeft>2pt</PaddingLeft>
-          <PaddingRight>2pt</PaddingRight>
-          <PaddingTop>2pt</PaddingTop>
-          <PaddingBottom>2pt</PaddingBottom>
-        </Style>
-      </Textbox>
-      <Textbox Name="Textbox27">
-        <CanGrow>true</CanGrow>
-        <KeepTogether>true</KeepTogether>
-        <Paragraphs>
-          <Paragraph>
-            <TextRuns>
-              <TextRun>
-                <Value>Broj dokumenta</Value>
-                <Style />
-              </TextRun>
-            </TextRuns>
-            <Style />
-          </Paragraph>
-        </Paragraphs>
-        <rd:DefaultName>Textbox26</rd:DefaultName>
-        <Left>15.39749cm</Left>
-        <Height>0.6cm</Height>
-        <Width>2.8175cm</Width>
-        <ZIndex>5</ZIndex>
-        <Style>
-          <Border>
-            <Style>None</Style>
-          </Border>
-          <PaddingLeft>2pt</PaddingLeft>
-          <PaddingRight>2pt</PaddingRight>
-          <PaddingTop>2pt</PaddingTop>
-          <PaddingBottom>2pt</PaddingBottom>
-        </Style>
-      </Textbox>
-      <Line Name="Line3">
-        <Top>2.31952cm</Top>
-        <Height>0cm</Height>
-        <Width>23.566cm</Width>
-        <ZIndex>6</ZIndex>
         <Style>
           <Border>
             <Style>Solid</Style>
@@ -476,7 +310,7 @@
           <Paragraph>
             <TextRuns>
               <TextRun>
-                <Value>Red. br.</Value>
+                <Value>Konto</Value>
                 <Style />
               </TextRun>
             </TextRuns>
@@ -484,11 +318,11 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox29</rd:DefaultName>
-        <Top>1.42366cm</Top>
+        <Top>0.36332cm</Top>
         <Left>0.07999cm</Left>
         <Height>0.6cm</Height>
         <Width>1.48231cm</Width>
-        <ZIndex>7</ZIndex>
+        <ZIndex>2</ZIndex>
         <Style>
           <Border>
             <Style>None</Style>
@@ -506,8 +340,7 @@
           <Paragraph>
             <TextRuns>
               <TextRun>
-                <Value>Šifra skladišta
-ulaz materijala</Value>
+                <Value>Partner</Value>
                 <Style />
               </TextRun>
             </TextRuns>
@@ -515,41 +348,11 @@ ulaz materijala</Value>
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox29</rd:DefaultName>
-        <Top>1.42366cm</Top>
-        <Left>1.5623cm</Left>
+        <Top>0.36332cm</Top>
+        <Left>1.78279cm</Left>
         <Height>0.6cm</Height>
-        <Width>2.53528cm</Width>
-        <ZIndex>8</ZIndex>
-        <Style>
-          <Border>
-            <Style>None</Style>
-          </Border>
-          <PaddingLeft>2pt</PaddingLeft>
-          <PaddingRight>2pt</PaddingRight>
-          <PaddingTop>2pt</PaddingTop>
-          <PaddingBottom>2pt</PaddingBottom>
-        </Style>
-      </Textbox>
-      <Textbox Name="Textbox32">
-        <CanGrow>true</CanGrow>
-        <KeepTogether>true</KeepTogether>
-        <Paragraphs>
-          <Paragraph>
-            <TextRuns>
-              <TextRun>
-                <Value>Šifra mater.</Value>
-                <Style />
-              </TextRun>
-            </TextRuns>
-            <Style />
-          </Paragraph>
-        </Paragraphs>
-        <rd:DefaultName>Textbox29</rd:DefaultName>
-        <Top>1.42366cm</Top>
-        <Left>4.49446cm</Left>
-        <Height>0.6cm</Height>
-        <Width>2.35889cm</Width>
-        <ZIndex>9</ZIndex>
+        <Width>1.55981cm</Width>
+        <ZIndex>3</ZIndex>
         <Style>
           <Border>
             <Style>None</Style>
@@ -567,7 +370,7 @@ ulaz materijala</Value>
           <Paragraph>
             <TextRuns>
               <TextRun>
-                <Value>Naziv materijala</Value>
+                <Value>Naziv partnera ili konta</Value>
                 <Style />
               </TextRun>
             </TextRuns>
@@ -575,11 +378,11 @@ ulaz materijala</Value>
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox29</rd:DefaultName>
-        <Top>1.42366cm</Top>
-        <Left>7.84428cm</Left>
+        <Top>0.36332cm</Top>
+        <Left>4.09758cm</Left>
         <Height>0.6cm</Height>
-        <Width>3.05654cm</Width>
-        <ZIndex>10</ZIndex>
+        <Width>4.81952cm</Width>
+        <ZIndex>4</ZIndex>
         <Style>
           <Border>
             <Style>None</Style>
@@ -597,7 +400,7 @@ ulaz materijala</Value>
           <Paragraph>
             <TextRuns>
               <TextRun>
-                <Value>Jed. mjere</Value>
+                <Value>Broj dokumenta</Value>
                 <Style />
               </TextRun>
             </TextRuns>
@@ -605,11 +408,11 @@ ulaz materijala</Value>
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox29</rd:DefaultName>
-        <Top>1.42366cm</Top>
-        <Left>11.95036cm</Left>
+        <Top>0.36332cm</Top>
+        <Left>9.09349cm</Left>
         <Height>0.6cm</Height>
-        <Width>2.32361cm</Width>
-        <ZIndex>11</ZIndex>
+        <Width>3.05654cm</Width>
+        <ZIndex>5</ZIndex>
         <Style>
           <Border>
             <Style>None</Style>
@@ -627,7 +430,7 @@ ulaz materijala</Value>
           <Paragraph>
             <TextRuns>
               <TextRun>
-                <Value>Isporučena količina</Value>
+                <Value>Datum dokumenta</Value>
                 <Style />
               </TextRun>
             </TextRuns>
@@ -635,11 +438,11 @@ ulaz materijala</Value>
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox29</rd:DefaultName>
-        <Top>1.42366cm</Top>
-        <Left>14.45036cm</Left>
+        <Top>0.36332cm</Top>
+        <Left>14.67084cm</Left>
         <Height>0.6cm</Height>
-        <Width>3.19193cm</Width>
-        <ZIndex>12</ZIndex>
+        <Width>3.17028cm</Width>
+        <ZIndex>6</ZIndex>
         <Style>
           <Border>
             <Style>None</Style>
@@ -657,7 +460,7 @@ ulaz materijala</Value>
           <Paragraph>
             <TextRuns>
               <TextRun>
-                <Value>Nabavna cijena</Value>
+                <Value>Duguje</Value>
                 <Style />
               </TextRun>
             </TextRuns>
@@ -665,11 +468,11 @@ ulaz materijala</Value>
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox29</rd:DefaultName>
-        <Top>1.42366cm</Top>
-        <Left>17.81867cm</Left>
+        <Top>0.36332cm</Top>
+        <Left>19.38621cm</Left>
         <Height>0.6cm</Height>
-        <Width>2.71407cm</Width>
-        <ZIndex>13</ZIndex>
+        <Width>1.66616cm</Width>
+        <ZIndex>7</ZIndex>
         <Style>
           <Border>
             <Style>None</Style>
@@ -687,7 +490,7 @@ ulaz materijala</Value>
           <Paragraph>
             <TextRuns>
               <TextRun>
-                <Value>Vrijednost</Value>
+                <Value>Potražuje</Value>
                 <Style />
               </TextRun>
             </TextRuns>
@@ -695,11 +498,11 @@ ulaz materijala</Value>
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox29</rd:DefaultName>
-        <Top>1.42366cm</Top>
-        <Left>20.70913cm</Left>
+        <Top>0.36332cm</Top>
+        <Left>21.42992cm</Left>
         <Height>0.6cm</Height>
-        <Width>2.1825cm</Width>
-        <ZIndex>14</ZIndex>
+        <Width>1.89386cm</Width>
+        <ZIndex>8</ZIndex>
         <Style>
           <Border>
             <Style>None</Style>
@@ -711,11 +514,10 @@ ulaz materijala</Value>
         </Style>
       </Textbox>
       <Line Name="Line4">
-        <Top>4.87743cm</Top>
-        <Left>17.48121cm</Left>
+        <Top>3.81709cm</Top>
         <Height>0cm</Height>
-        <Width>6.08479cm</Width>
-        <ZIndex>15</ZIndex>
+        <Width>23.566cm</Width>
+        <ZIndex>9</ZIndex>
         <Style>
           <Border>
             <Style>Solid</Style>
@@ -729,7 +531,7 @@ ulaz materijala</Value>
           <Paragraph>
             <TextRuns>
               <TextRun>
-                <Value>Ukupna vrijednost:</Value>
+                <Value>Zbir naloga</Value>
                 <Style />
               </TextRun>
             </TextRuns>
@@ -737,11 +539,11 @@ ulaz materijala</Value>
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox11</rd:DefaultName>
-        <Top>5.17702cm</Top>
-        <Left>17.48121cm</Left>
+        <Top>4.11668cm</Top>
+        <Left>0.07999cm</Left>
         <Height>0.6cm</Height>
         <Width>3.47896cm</Width>
-        <ZIndex>16</ZIndex>
+        <ZIndex>10</ZIndex>
         <Style>
           <Border>
             <Style>None</Style>
@@ -759,7 +561,7 @@ ulaz materijala</Value>
           <Paragraph>
             <TextRuns>
               <TextRun>
-                <Value>=Sum(Fields!Vrijed.Value)</Value>
+                <Value>=Sum(Fields!Dug1st.Value)</Value>
                 <Style />
               </TextRun>
             </TextRuns>
@@ -767,11 +569,41 @@ ulaz materijala</Value>
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox4</rd:DefaultName>
-        <Top>5.17702cm</Top>
-        <Left>21.066cm</Left>
+        <Top>4.11668cm</Top>
+        <Left>18.10971cm</Left>
         <Height>0.6cm</Height>
         <Width>2.5cm</Width>
-        <ZIndex>17</ZIndex>
+        <ZIndex>11</ZIndex>
+        <Style>
+          <Border>
+            <Style>None</Style>
+          </Border>
+          <PaddingLeft>2pt</PaddingLeft>
+          <PaddingRight>2pt</PaddingRight>
+          <PaddingTop>2pt</PaddingTop>
+          <PaddingBottom>2pt</PaddingBottom>
+        </Style>
+      </Textbox>
+      <Textbox Name="Textbox5">
+        <CanGrow>true</CanGrow>
+        <KeepTogether>true</KeepTogether>
+        <Paragraphs>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Value>=Abs(Sum(Fields!Pot1st.Value))</Value>
+                <Style />
+              </TextRun>
+            </TextRuns>
+            <Style />
+          </Paragraph>
+        </Paragraphs>
+        <rd:DefaultName>Textbox4</rd:DefaultName>
+        <Top>4.11668cm</Top>
+        <Left>20.82378cm</Left>
+        <Height>0.6cm</Height>
+        <Width>2.5cm</Width>
+        <ZIndex>12</ZIndex>
         <Style>
           <Border>
             <Style>None</Style>
@@ -783,7 +615,7 @@ ulaz materijala</Value>
         </Style>
       </Textbox>
     </ReportItems>
-    <Height>2.47233in</Height>
+    <Height>2in</Height>
     <Style />
   </Body>
   <Width>9.27795in</Width>
@@ -800,7 +632,7 @@ ulaz materijala</Value>
             <Paragraph>
               <TextRuns>
                 <TextRun>
-                  <Value>LUTRIJA BIH - CENTRALNIMAGACIN INTERNO</Value>
+                  <Value>LUTRIJA BIH - Materijalno knjigovodstvo</Value>
                   <Style>
                     <FontStyle>Italic</FontStyle>
                     <FontSize>12pt</FontSize>
@@ -812,8 +644,6 @@ ulaz materijala</Value>
             </Paragraph>
           </Paragraphs>
           <rd:DefaultName>NazivFirme</rd:DefaultName>
-          <Top>0.46963cm</Top>
-          <Left>0cm</Left>
           <Height>0.25in</Height>
           <Width>4.29166in</Width>
           <Style>
@@ -843,7 +673,7 @@ ulaz materijala</Value>
             </Paragraph>
           </Paragraphs>
           <rd:DefaultName>Textbox28</rd:DefaultName>
-          <Top>0.50463cm</Top>
+          <Top>0.3966cm</Top>
           <Left>21.066cm</Left>
           <Height>0.6cm</Height>
           <Width>2.5cm</Width>
@@ -864,7 +694,7 @@ ulaz materijala</Value>
             <Paragraph>
               <TextRuns>
                 <TextRun>
-                  <Value>Međuskladišnica materijala br. </Value>
+                  <Value>Broj kalkulacije </Value>
                   <Style>
                     <FontSize>11pt</FontSize>
                     <FontWeight>Bold</FontWeight>
@@ -872,7 +702,7 @@ ulaz materijala</Value>
                 </TextRun>
               </TextRuns>
               <Style>
-                <TextAlign>Center</TextAlign>
+                <TextAlign>Left</TextAlign>
               </Style>
             </Paragraph>
             <Paragraph>
@@ -891,10 +721,9 @@ ulaz materijala</Value>
             </Paragraph>
           </Paragraphs>
           <rd:DefaultName>Textbox29</rd:DefaultName>
-          <Top>0.57552in</Top>
-          <Left>2.69287in</Left>
+          <Top>0.5486in</Top>
           <Height>0.23959in</Height>
-          <Width>2.48265in</Width>
+          <Width>1.31598in</Width>
           <ZIndex>2</ZIndex>
           <Style>
             <Border>
@@ -924,8 +753,8 @@ ulaz materijala</Value>
             </Paragraph>
           </Paragraphs>
           <rd:DefaultName>Brfak</rd:DefaultName>
-          <Top>1.4618cm</Top>
-          <Left>13.32222cm</Left>
+          <Top>1.39346cm</Top>
+          <Left>3.69139cm</Left>
           <Height>0.60856cm</Height>
           <Width>2.5cm</Width>
           <ZIndex>3</ZIndex>
@@ -940,8 +769,7 @@ ulaz materijala</Value>
           </Style>
         </Textbox>
         <Line Name="Line1">
-          <Top>2.39889cm</Top>
-          <Left>0cm</Left>
+          <Top>2.17841cm</Top>
           <Height>0cm</Height>
           <Width>23.566cm</Width>
           <ZIndex>4</ZIndex>
@@ -951,6 +779,55 @@ ulaz materijala</Value>
             </Border>
           </Style>
         </Line>
+        <Textbox Name="Textbox32">
+          <KeepTogether>true</KeepTogether>
+          <Paragraphs>
+            <Paragraph>
+              <TextRuns>
+                <TextRun>
+                  <Value>Nalog za knjiženje br:</Value>
+                  <Style>
+                    <FontSize>11pt</FontSize>
+                    <FontWeight>Bold</FontWeight>
+                  </Style>
+                </TextRun>
+              </TextRuns>
+              <Style>
+                <TextAlign>Left</TextAlign>
+              </Style>
+            </Paragraph>
+            <Paragraph>
+              <TextRuns>
+                <TextRun>
+                  <Value />
+                  <Style>
+                    <FontSize>11pt</FontSize>
+                    <FontWeight>Bold</FontWeight>
+                  </Style>
+                </TextRun>
+              </TextRuns>
+              <Style>
+                <TextAlign>Center</TextAlign>
+              </Style>
+            </Paragraph>
+          </Paragraphs>
+          <rd:DefaultName>Textbox29</rd:DefaultName>
+          <Top>0.29513in</Top>
+          <Left>0.00001cm</Left>
+          <Height>0.23959in</Height>
+          <Width>1.8889in</Width>
+          <ZIndex>5</ZIndex>
+          <Style>
+            <Border>
+              <Style>None</Style>
+            </Border>
+            <VerticalAlign>Middle</VerticalAlign>
+            <PaddingLeft>2pt</PaddingLeft>
+            <PaddingRight>2pt</PaddingRight>
+            <PaddingTop>2pt</PaddingTop>
+            <PaddingBottom>2pt</PaddingBottom>
+          </Style>
+        </Textbox>
       </ReportItems>
       <Style>
         <Border>
@@ -959,7 +836,7 @@ ulaz materijala</Value>
       </Style>
     </PageHeader>
     <PageFooter>
-      <Height>1.74625cm</Height>
+      <Height>1.37583cm</Height>
       <PrintOnFirstPage>true</PrintOnFirstPage>
       <PrintOnLastPage>true</PrintOnLastPage>
       <ReportItems>
@@ -978,7 +855,7 @@ ulaz materijala</Value>
             </Paragraph>
           </Paragraphs>
           <rd:DefaultName>PageNumber</rd:DefaultName>
-          <Top>0.57312cm</Top>
+          <Top>0.54667cm</Top>
           <Left>10.533cm</Left>
           <Height>0.6cm</Height>
           <Width>2.5cm</Width>
@@ -1025,77 +902,37 @@ ulaz materijala</Value>
         <CommandText>/* Local Query */</CommandText>
       </Query>
       <Fields>
-        <Field Name="Brdok">
-          <DataField>Brdok</DataField>
+        <Field Name="Brdokst">
+          <DataField>Brdokst</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
         <Field Name="Brfak">
           <DataField>Brfak</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
-        <Field Name="Brnar">
-          <DataField>Brnar</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="Cartro">
-          <DataField>Cartro</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="Datnar">
-          <DataField>Datnar</DataField>
-          <rd:TypeName>System.DateTime</rd:TypeName>
-        </Field>
-        <Field Name="Datun">
-          <DataField>Datun</DataField>
+        <Field Name="Datnsta">
+          <DataField>Datnsta</DataField>
           <rd:TypeName>System.DateTime</rd:TypeName>
         </Field>
         <Field Name="Id">
           <DataField>Id</DataField>
           <rd:TypeName>System.Int32</rd:TypeName>
         </Field>
-        <Field Name="Ident">
-          <DataField>Ident</DataField>
-          <rd:TypeName>System.Nullable`1[[System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]</rd:TypeName>
+        <Field Name="Sintstav">
+          <DataField>Sintstav</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
         </Field>
-        <Field Name="Kljnaz">
-          <DataField>Kljnaz</DataField>
-          <rd:TypeName>System.Nullable`1[[System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]</rd:TypeName>
-        </Field>
-        <Field Name="Kljnaz1">
-          <DataField>Kljnaz1</DataField>
-          <rd:TypeName>System.Nullable`1[[System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]</rd:TypeName>
-        </Field>
-        <Field Name="Kolic">
-          <DataField>Kolic</DataField>
-          <rd:TypeName>System.Nullable`1[[System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]</rd:TypeName>
-        </Field>
-        <Field Name="Medus">
-          <DataField>Medus</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="NazMat">
-          <DataField>NazMat</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="Nc">
-          <DataField>Nc</DataField>
+        <Field Name="Dug1st">
+          <DataField>Dug1st</DataField>
           <rd:TypeName>System.Nullable`1[[System.Decimal, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]</rd:TypeName>
         </Field>
-        <Field Name="Redbr">
-          <DataField>Redbr</DataField>
-          <rd:TypeName>System.Nullable`1[[System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]</rd:TypeName>
+        <Field Name="Pot1st">
+          <DataField>Pot1st</DataField>
+          <rd:TypeName>System.Nullable`1[[System.Decimal, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]</rd:TypeName>
         </Field>
-        <Field Name="Status">
-          <DataField>Status</DataField>
+        <Field Name="Nazkon">
+          <DataField>Nazkon</DataField>
           <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="TotalVrijednost">
-          <DataField>TotalVrijednost</DataField>
-          <rd:TypeName>System.Nullable`1[[System.Decimal, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]</rd:TypeName>
-        </Field>
-        <Field Name="Vrijed">
-          <DataField>Vrijed</DataField>
-          <rd:TypeName>System.Nullable`1[[System.Decimal, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]</rd:TypeName>
         </Field>
       </Fields>
       <rd:DataSetInfo>
@@ -1106,5 +943,5 @@ ulaz materijala</Value>
     </DataSet>
   </DataSets>
   <rd:ReportUnitType>Cm</rd:ReportUnitType>
-  <rd:ReportID>0c2eb196-b308-49aa-b5d8-1d94264ebeab</rd:ReportID>
+  <rd:ReportID>1f7e50db-053d-4c12-bb39-f7180f9f2c78</rd:ReportID>
 </Report>
