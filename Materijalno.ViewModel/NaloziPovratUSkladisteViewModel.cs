@@ -48,7 +48,7 @@ namespace Materijalno.ViewModel
 
             //Prikupimo sve medjuskladisnice iz MAT tabele
             MatListZaFormiranje = new ObservableCollection<Mat>(dbContext.Mat
-                               .Where(row => row.Status == "P" && row.Brfak == BrojMedjuskladisnice)
+                               .Where(row => row.Status == "V" && row.Brfak == BrojMedjuskladisnice)
                                .OrderBy(row => row.Datun)
                                .ToList());
 
