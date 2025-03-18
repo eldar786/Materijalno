@@ -1,6 +1,9 @@
-﻿using System;
+﻿using Materijalno.UI.Izvjestaji;
+using Materijalno.ViewModel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Printing;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -15,14 +18,37 @@ using System.Windows.Shapes;
 
 namespace Materijalno.UI
 {
-    /// <summary>
-    /// Interaction logic for UnosInventurnogStanja.xaml
-    /// </summary>
     public partial class UnosInventurnogStanja : UserControl
     {
         public UnosInventurnogStanja()
         {
             InitializeComponent();
         }
+
+        private void TextBox_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                MoveFocusToNextControl(sender as TextBox);
+                e.Handled = true;
+            }
+        }
+
+        private void MoveFocusToNextControl(TextBox currentTextBox)
+        {
+            currentTextBox.MoveFocus(new TraversalRequest(FocusNavigationDirection.Next));
+        }
+
+        private void stampa_button(object sender, RoutedEventArgs e)
+        {
+            if (DataContext is NaloziZaFinansijePrintanjeNalogaViewModel naloziZaFinansijePrintanjeNalogaViewModel)
+            {
+                NaloziZaFinansijePrintanjeNalogaIzvjestaj naloziZaFinansijePrintanjeNalogaIzvjestaj = new NaloziZaFinansijePrintanjeNalogaIzvjestaj(naloziZaFinansijePrintanjeNalogaViewModel);
+
+                // Dodajemo trenutni ViewModel u PrintWindow
+                naloziZaFinansijePrintanjeNalogaIzvjestaj.Show();
+            }
+        }
+
     }
 }
