@@ -55,9 +55,9 @@ namespace Materijalno.ViewModel
             int maxBronsta = 0;
             var dbContext = new materijalno_knjigovodstvoContext();
 
-            //Prikupimo sve ULAZE iz MAT tabele
+            //Prikupimo sve Medjuskladisnice iz MAT tabele
             MatListZaFormiranje = new ObservableCollection<Mat>(dbContext.Mat
-                               .Where(row => row.Status == "U" && row.Brfak == BrojMedjuskladisnice)
+                               .Where(row => row.Status == "M" && row.Brfak == BrojMedjuskladisnice)
                                .OrderBy(row => row.Datun)
                                .ToList());
 
@@ -170,10 +170,16 @@ namespace Materijalno.ViewModel
                         {
                             try
                             {
-                                conn.Open(); // Open the database connection
+                                //conn.Open(); // Open the database connection
 
                                 string query = "INSERT INTO Interface_stavke (Aktivnost, Datnal, Brojnal, Konto, Brojdok, Datdok, Mjt, Komitent, Duguje, Potrazuje, Autor, Stavka) " +
                                                 "VALUES (:Aktivnost, :Datnal, :Brojnal, :Konto, :Brojdok, :Datdok, :Mjt, :Komitent, :Duguje, :Potrazuje, :Autor, :Stavka)";
+
+                                //Max stavka Interface_Stavke
+                                string queryMaxStavka = "SELECT MAX(Stavka) FROM Interface_stavke";
+                                OracleCommand cmdMaxStavka = new OracleCommand(queryMaxStavka, conn);
+                                object result = cmdMaxStavka.ExecuteScalar();
+                                int maxStavka = (result != DBNull.Value && result != null) ? Convert.ToInt32(result) : 0;
 
                                 using (OracleCommand cmd = new OracleCommand(query, conn))
                                 {
@@ -184,14 +190,22 @@ namespace Materijalno.ViewModel
                                     cmd.Parameters.Add(":Konto", OracleDbType.Int32).Value = noviNalMat.Sintstav;
                                     cmd.Parameters.Add(":Brojdok", OracleDbType.Varchar2).Value = noviNalMat.Brdokst;
                                     cmd.Parameters.Add(":Datdok", OracleDbType.Date).Value = noviNalMat.Datdokst;
-                                    //Mjt je iz Mat tabele
                                     cmd.Parameters.Add(":Mjt", OracleDbType.Varchar2).Value = noviNalMat.Mjtst;
                                     cmd.Parameters.Add(":Komitent", OracleDbType.Varchar2).Value = noviNalMat.Analst;
                                     cmd.Parameters.Add(":Duguje", OracleDbType.Int32).Value = noviNalMat.Dug1st;
                                     //Potrazuje = 0
                                     cmd.Parameters.Add(":Potrazuje", OracleDbType.Int32).Value = 0;
                                     cmd.Parameters.Add(":Autor", OracleDbType.Varchar2).Value = "IBS";
-                                    cmd.Parameters.Add(":Stavka", OracleDbType.Int32).Value = 1;
+                                    //Ako ima vrijednosti, nadji najveci broj i dodaj + 1
+                                    if (maxStavka > 0)
+                                    {
+                                        cmd.Parameters.Add(":Stavka", OracleDbType.Int32).Value = maxStavka + 1;
+                                    }
+                                    else
+                                    {
+                                        cmd.Parameters.Add(":Stavka", OracleDbType.Int32).Value = 1;
+                                    }
+                                    
 
                                     int rowsAffected = cmd.ExecuteNonQuery(); // Execute query
                                 }
@@ -206,27 +220,41 @@ namespace Materijalno.ViewModel
                         {
                             try
                             {
-                                conn.Open(); // Open the database connection
+                                //conn.Open(); // Open the database connection
 
                                 string query = "INSERT INTO Interface_stavke (Aktivnost, Datnal, Brojnal, Konto, Brojdok, Datdok, Mjt, Komitent, Potrazuje, Duguje, Autor, Stavka) " +
                                                 "VALUES (:Aktivnost, :Datnal, :Brojnal, :Konto, :Brojdok, :Datdok, :Mjt, :Komitent, :Potrazuje, :Duguje, :Autor, :Stavka)";
 
+                                //Max stavka Interface_Stavke
+                                string queryMaxStavka = "SELECT MAX(Stavka) FROM Interface_stavke";
+                                OracleCommand cmdMaxStavka = new OracleCommand(queryMaxStavka, conn);
+                                object result = cmdMaxStavka.ExecuteScalar();
+                                int maxStavka = (result != DBNull.Value && result != null) ? Convert.ToInt32(result) : 0;
+
                                 using (OracleCommand cmd = new OracleCommand(query, conn))
                                 {
                                     // Add parameters to prevent SQL injection
-                                    cmd.Parameters.Add(":Aktivnost", OracleDbType.Int32).Value = 1;
-                                    cmd.Parameters.Add(":Datnal", OracleDbType.Date).Value = DateTime.ParseExact("14.3.2025.", "d.M.yyyy.", null);
-                                    cmd.Parameters.Add(":Brojnal", OracleDbType.Int32).Value = 123;
-                                    cmd.Parameters.Add(":Konto", OracleDbType.Int32).Value = 1234567;
-                                    cmd.Parameters.Add(":Brojdok", OracleDbType.Varchar2).Value = "Porez valute + NESTO";
-                                    cmd.Parameters.Add(":Datdok", OracleDbType.Date).Value = DateTime.ParseExact("14.3.2025.", "d.M.yyyy.", null);
+                                    cmd.Parameters.Add(":Aktivnost", OracleDbType.Int32).Value = noviNalMat.Sifakt;
+                                    cmd.Parameters.Add(":Datnal", OracleDbType.Date).Value = noviNalMat.Datnsta;
+                                    cmd.Parameters.Add(":Brojnal", OracleDbType.Int32).Value = noviNalMat.Bronsta;
+                                    cmd.Parameters.Add(":Konto", OracleDbType.Int32).Value = noviNalMat.Sintstav;
+                                    cmd.Parameters.Add(":Brojdok", OracleDbType.Varchar2).Value = noviNalMat.Brdokst;
+                                    cmd.Parameters.Add(":Datdok", OracleDbType.Date).Value = noviNalMat.Datdokst;
                                     cmd.Parameters.Add(":Mjt", OracleDbType.Varchar2).Value = noviNalMat.Mjtst;
-                                    cmd.Parameters.Add(":Komitent", OracleDbType.Varchar2).Value = "00001";
+                                    cmd.Parameters.Add(":Komitent", OracleDbType.Varchar2).Value = noviNalMat.Analst;
                                     cmd.Parameters.Add(":Potrazuje", OracleDbType.Int32).Value = noviNalMat.Pot1st;
                                     //Duguje = 0
                                     cmd.Parameters.Add(":Duguje", OracleDbType.Int32).Value = 0;
                                     cmd.Parameters.Add(":Autor", OracleDbType.Varchar2).Value = "IBS";
-                                    cmd.Parameters.Add(":Stavka", OracleDbType.Int32).Value = 1;
+                                    //Ako ima vrijednosti, nadji najveci broj i dodaj + 1
+                                    if (maxStavka > 0)
+                                    {
+                                        cmd.Parameters.Add(":Stavka", OracleDbType.Int32).Value = maxStavka + 1;
+                                    }
+                                    else
+                                    {
+                                        cmd.Parameters.Add(":Stavka", OracleDbType.Int32).Value = 1;
+                                    }
 
                                     int rowsAffected = cmd.ExecuteNonQuery(); // Execute query
                                 }
