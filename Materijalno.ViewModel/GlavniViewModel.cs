@@ -218,7 +218,7 @@ namespace Materijalno.ViewModel
 
         public void OtvoriZaduzenjeProdavnice()
         {
-            OdabraniVM = new ZaduzenjeProdavniceViewModel(this);
+            OdabraniVM = new NaloziZaduzenjeProdavniceViewModel(this);
         } 
         
         public void OtvoriZaJednuKalkulacijuPregledUlaza()

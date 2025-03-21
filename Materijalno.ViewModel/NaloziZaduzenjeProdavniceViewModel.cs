@@ -260,6 +260,8 @@ namespace Materijalno.ViewModel
                                 System.Windows.MessageBox.Show(ex.Message, "Upozorenje", MessageBoxButton.OK, MessageBoxImage.Error);
                             }
                         }
+                        System.Windows.MessageBox.Show("Uspješno ste formirali nalog", "Potvrda", MessageBoxButton.OK, MessageBoxImage.Information);
+
                     }
                 }
             }
