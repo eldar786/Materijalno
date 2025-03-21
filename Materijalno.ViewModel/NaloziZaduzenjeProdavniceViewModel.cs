@@ -60,6 +60,14 @@ namespace Materijalno.ViewModel
 
             NalMatList = new ObservableCollection<Nalmat>(dbContext.Nalmat.ToList());
 
+            foreach (var item in NalMatList)
+            {
+                if (item.Brfak == BrojMedjuskladisnice)
+                {
+                    System.Windows.MessageBox.Show("Formiran je nalog za tu kalkulaciju", "Upozorenje", MessageBoxButton.OK, MessageBoxImage.Warning);
+                }
+            }
+
             //Ako lista nije prazna onda trazi najveci broj u koloni "Bronsta"
             if (NalMatList.Count != 0)
             {
