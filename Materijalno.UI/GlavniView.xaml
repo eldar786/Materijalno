@@ -63,7 +63,7 @@
             <local:NaloziMedjuskladisnica/>
         </DataTemplate>
 
-        <DataTemplate DataType="{x:Type vm:ZaduzenjeProdavniceViewModel}">
+        <DataTemplate DataType="{x:Type vm:NaloziZaduzenjeProdavniceViewModel}">
             <local:ZaduzenjeProdavnice/>
         </DataTemplate>
 
