@@ -54,7 +54,7 @@ namespace Materijalno.ViewModel
 
             if (MatListZaFormiranje.Count == 0)
             {
-                System.Windows.MessageBox.Show("Ulaz ne postoji", "Upozorenje", MessageBoxButton.OK, MessageBoxImage.Warning);
+                System.Windows.MessageBox.Show("Nema kalkulacije pod tim brojem!", "Upozorenje", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
 
@@ -64,7 +64,7 @@ namespace Materijalno.ViewModel
             {
                 if (item.Brfak == BrojMedjuskladisnice)
                 {
-                    System.Windows.MessageBox.Show("Formiran je nalog za tu kalkulaciju", "Upozorenje", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    System.Windows.MessageBox.Show("Formiran je nalog za tu kalkulaciju!", "Upozorenje", MessageBoxButton.OK, MessageBoxImage.Warning);
                 }
             }
 
@@ -268,11 +268,10 @@ namespace Materijalno.ViewModel
                                 System.Windows.MessageBox.Show(ex.Message, "Upozorenje", MessageBoxButton.OK, MessageBoxImage.Error);
                             }
                         }
-                        System.Windows.MessageBox.Show("Uspješno ste formirali nalog", "Potvrda", MessageBoxButton.OK, MessageBoxImage.Information);
-
                     }
                 }
             }
+            System.Windows.MessageBox.Show("Uspješno formiran nalog", "Upozorenje", MessageBoxButton.OK, MessageBoxImage.Warning);
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
