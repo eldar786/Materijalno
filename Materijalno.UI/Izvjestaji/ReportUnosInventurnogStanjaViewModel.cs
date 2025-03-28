@@ -1,13 +1,15 @@
-﻿using System;
+﻿using Materijalno.Model.EntityModels;
+using Materijalno.ViewModel;
+using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-// Code scaffolded by EF Core assumes nullable reference types (NRTs) are not used or disabled.
-// If you have enabled NRTs for your project, then un-comment the following line:
-// #nullable disable
-
-namespace Materijalno.Model.EntityModels
+namespace Materijalno.UI.Izvjestaji
 {
-    public partial class Inv
+    public class ReportUnosInventurnogStanjaViewModel
     {
         public int Id { get; set; }
         public int Kljnaz { get; set; }
@@ -38,6 +40,31 @@ namespace Materijalno.Model.EntityModels
         public decimal? Trospe { get; set; }
         public int? Ourst { get; set; }
         public int? Mjtst { get; set; }
-        
+        public string Nazkont { get; set; }
+        public string NazivOrg { get; set; }
+        public string NazMat { get; set; }
+
+        public ObservableCollection<Inv> InvList;
+
+        public UnosInventurnogStanjaViewModel orgViewModel = new UnosInventurnogStanjaViewModel();
+
+        public List<UnosInventurnogStanjaViewModel> GetAllOrgViewModel()
+        {
+            var list = new List<UnosInventurnogStanjaViewModel>();
+
+            var dbContext = new materijalno_knjigovodstvoContext();
+            InvList = new ObservableCollection<Inv>(dbContext.Inv
+                    .Where(row =>  row.Kljnaz >= 1000 && row.Kljnaz <= 1012)
+                    .OrderBy(row => row.Datun)
+                    .ToList());
+
+
+            foreach (Inv i in InvList)
+            {
+                Ident = InvList.Select(row => row.Ident).First();
+            }
+            return list;
+        }
+
     }
 }

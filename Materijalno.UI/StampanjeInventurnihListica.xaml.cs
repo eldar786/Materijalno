@@ -18,9 +18,6 @@ using System.Windows.Shapes;
 
 namespace Materijalno.UI
 {
-    /// <summary>
-    /// Interaction logic for StampanjeInventurnihListica.xaml
-    /// </summary>
     public partial class StampanjeInventurnihListica : UserControl
     {
         public StampanjeInventurnihListica()

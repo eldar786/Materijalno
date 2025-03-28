@@ -14,6 +14,7 @@ namespace Materijalno.ViewModel
     {
         private GlavniViewModel _gvm;
         private Mat currentItemMat;
+        private Inv currentItemInv;
 
         public Mat CurrentItemMat
         {
@@ -24,11 +25,23 @@ namespace Materijalno.ViewModel
                 OnPropertyChanged(nameof(CurrentItemMat));
             }
         }
+        public Inv CurrentItemInv
+        {
+            get { return currentItemInv; }
+            set
+            {
+                currentItemInv = value;
+                OnPropertyChanged(nameof(CurrentItemInv));
+            }
+        }
 
         public ObservableCollection<Mat> MatList { get; set; }
+        public ObservableCollection<Inv> InvList { get; set; }
 
         private Mat selectedMat;
+        private Inv selectedInv;
         public Mat SelectedMat { get => selectedMat; set { selectedMat = value; OnPropertyChanged("SelectedMat"); } }
+        public Inv SelectedInv { get => selectedInv; set { selectedInv = value; OnPropertyChanged("SelectedInv"); } }
 
         public ICommand OdaberiMatCommand { get; set; }
         public ICommand OdustaniCommand { get; set; }
@@ -65,6 +78,15 @@ namespace Materijalno.ViewModel
             OdaberiMatCommand = new RelayCommand(OdaberiPovrat);
         }
 
+        //public MatListaViewModel(UnosInventurnogStanjaViewModel unosInventurnogStanjaViewModel, GlavniViewModel glavniViewModel)
+        //{
+        //    InvList = unosInventurnogStanjaViewModel.InvList;
+        //    _gvm = glavniViewModel;
+        //    CurrentItemInv = unosInventurnogStanjaViewModel.CurrentItemInv;
+        //    OdaberiMatCommand = new RelayCommand(OdaberiUnosInventurnogStanja);
+        //}
+
+
 
 
         private void OdaberiMat()
@@ -96,6 +118,21 @@ namespace Materijalno.ViewModel
                 _gvm.OdabraniVM = new PovratMaterijalaViewModel(_gvm, CurrentItemMat);
             }
         }
+
+        //private void OdaberiUnosInventurnogStanja()
+        //{
+        //    using (var dbContext = new materijalno_knjigovodstvoContext())
+        //    {
+        //        if (SelectedInv != null)
+        //        {
+        //            CurrentItemInv = SelectedInv;
+        //        }
+
+        //        UnosInventurnogStanjaViewModel.isTraziClicked = true;
+        //        UnosInventurnogStanjaViewModel.selectedInv = selectedInv;
+        //        _gvm.OdabraniVM = new UnosInventurnogStanjaViewModel(_gvm, CurrentItemInv);
+        //    }
+        //}
 
         private void OdaberiMatIzlaz()
         {
