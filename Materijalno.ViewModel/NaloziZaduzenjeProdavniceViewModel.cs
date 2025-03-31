@@ -271,7 +271,7 @@ namespace Materijalno.ViewModel
                     }
                 }
             }
-            System.Windows.MessageBox.Show("Uspješno formiran nalog", "Upozorenje", MessageBoxButton.OK, MessageBoxImage.Warning);
+            System.Windows.MessageBox.Show("Uspješno formiran nalog", "Upozorenje", MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
