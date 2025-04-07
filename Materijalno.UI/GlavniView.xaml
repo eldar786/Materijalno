@@ -94,6 +94,11 @@
         <DataTemplate DataType="{x:Type vm:MatListaViewModel}">
             <local:MatLista/>
         </DataTemplate>
+        
+        
+        <DataTemplate DataType="{x:Type vm:InvListaViewModel}">
+            <local:InvLista/>
+        </DataTemplate>
 
         <DataTemplate DataType="{x:Type vm:SifarnikMaterijalSkladisteKontoViewModel}">
             <local:SifarnikMaterijalSkladisteKonto/>

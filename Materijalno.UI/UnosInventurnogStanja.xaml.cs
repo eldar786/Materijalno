@@ -41,12 +41,12 @@ namespace Materijalno.UI
 
         private void stampa_button(object sender, RoutedEventArgs e)
         {
-            if (DataContext is NaloziZaFinansijePrintanjeNalogaViewModel naloziZaFinansijePrintanjeNalogaViewModel)
+            if (DataContext is UnosInventurnogStanjaViewModel unosInventurnogStanjaViewModel)
             {
-                NaloziZaFinansijePrintanjeNalogaIzvjestaj naloziZaFinansijePrintanjeNalogaIzvjestaj = new NaloziZaFinansijePrintanjeNalogaIzvjestaj(naloziZaFinansijePrintanjeNalogaViewModel);
+                UnosInventurnogStanjaIzvjestaj unosInventurnogStanjaIzvjestaj = new UnosInventurnogStanjaIzvjestaj(unosInventurnogStanjaViewModel);
 
                 // Dodajemo trenutni ViewModel u PrintWindow
-                naloziZaFinansijePrintanjeNalogaIzvjestaj.Show();
+                unosInventurnogStanjaIzvjestaj.Show();
             }
         }
 
