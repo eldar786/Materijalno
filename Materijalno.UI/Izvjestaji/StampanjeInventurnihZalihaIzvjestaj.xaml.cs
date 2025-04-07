@@ -37,7 +37,11 @@ namespace Materijalno.UI.Izvjestaji
         private Mat ukupnavrijednost;
         private Inv ukupnoduguje;
 
-       
+        int? KolicRazlikaVisak = 0;
+        int? KolicRazlikaManjak = 0;
+
+        decimal? VrijedRazlikaVisak = 0;
+        decimal? VrijedRazlikaManjak = 0;
 
 
         public ObservableCollection<Mat> MatList { get; set; }
@@ -89,8 +93,33 @@ namespace Materijalno.UI.Izvjestaji
                                 MatVrijed = mat.Vrijed,
                                 InvVrijed = subInv?.Vrijed ?? 0,
                                 VrijedRazlika = mat.Vrijed - (subInv?.Vrijed ?? 0)
-                            }).ToList();  // DORADITI!!!!
+                            }).ToList();  
 
+            int? totalKolicRazlika = diffList.Sum(item => item.KolicRazlika);
+
+            decimal? totalVrijedRazlika = diffList.Sum(item => item.VrijedRazlika);
+
+
+            //KolicRazlika
+            if (totalKolicRazlika > 0)
+            {
+                KolicRazlikaVisak = totalKolicRazlika;
+            }
+
+            else if (totalKolicRazlika < 0)
+            {
+                KolicRazlikaManjak = totalKolicRazlika;
+            }
+
+            //VrijedRazlika
+            if (totalVrijedRazlika > 0)
+            {
+                VrijedRazlikaVisak = totalVrijedRazlika;
+            }
+            else if (totalVrijedRazlika < 0)
+            {
+                VrijedRazlikaManjak = totalVrijedRazlika;
+            }
 
 
             _tabelaMaterijala = dbContext.TabelaMaterijala.ToList();
@@ -105,7 +134,6 @@ namespace Materijalno.UI.Izvjestaji
                 totalVrijednost += item.Vrijed;
             }
 
-            //ukupnavrijednost.Vrijed = totalVrijednost;
             ukupnoduguje.Vrijed = (decimal)totalVrijednost;
 
             try
@@ -132,13 +160,14 @@ namespace Materijalno.UI.Izvjestaji
             reportDt.Columns.Add("Datnar").DataType = typeof(DateTime);
             reportDt.Columns.Add("NazivOrg").DataType = typeof(string);
             reportDt.Columns.Add("Kljnaz").DataType = typeof(int);
-            //reportDt.Columns.Add("Nazkont").DataType = typeof(string);
-            //reportDt.Columns.Add("Konto1").DataType = typeof(int);
-            //reportDt.Columns.Add("Brfak").DataType = typeof(string);
             reportDt.Columns.Add("Nc").DataType = typeof(decimal);
             reportDt.Columns.Add("Redbr").DataType = typeof(int);
-            reportDt.Columns.Add("KolicRazlika").DataType = typeof(int);// DORADITI!!!!
-            reportDt.Columns.Add("VrijedRazlika").DataType = typeof(decimal);// DORADITI!!!!
+            reportDt.Columns.Add("KolicRazlika").DataType = typeof(int);
+            reportDt.Columns.Add("VrijedRazlika").DataType = typeof(decimal);
+            reportDt.Columns.Add("KolicRazlikaVisak").DataType = typeof(int);
+            reportDt.Columns.Add("KolicRazlikaManjak").DataType = typeof(int);
+            reportDt.Columns.Add("VrijedRazlikaVisak").DataType = typeof(decimal);
+            reportDt.Columns.Add("VrijedRazlikaManjak").DataType = typeof(decimal);
 
 
             List<ReportStampanjeInventurnihZalihaViewModel> lista = new List<ReportStampanjeInventurnihZalihaViewModel>();
@@ -170,15 +199,16 @@ namespace Materijalno.UI.Izvjestaji
                 _report.NazivOrg = tabsklad.NazivOrg;
                 _report.Kljnaz = inv.Kljnaz;
                 _report.Redbr = inv.Redbr;
-                //_report.Nazkont = tabkonto.Nazkont;
-                //_report.Konto1 = inv.Konto1;
-                //_report.Brfak = inv.Brfak;
-
                 _report.Nc = inv.Nc;
-                //_report.KolicRazlika = (matchedMat?.Kolic ?? 0) - (inv.Kolic ?? 0); // DORADITI!!!!
-                //_report.VrijedRazlika = (matchedMat?.Vrijed ?? 0) - (inv.Vrijed ?? 0); // DORADITI!!!!
+                _report.KolicRazlika = (matchedMat?.Kolic ?? 0) - (inv.Kolic ?? 0);
+                _report.VrijedRazlika = (decimal)((matchedMat?.Vrijed ?? 0m) - ((decimal?)(inv.Vrijed) ?? 0));
 
+                _report.KolicRazlikaVisak = this.KolicRazlikaVisak;
+                _report.KolicRazlikaManjak = this.KolicRazlikaManjak;
 
+                _report.VrijedRazlikaVisak = this.VrijedRazlikaVisak;
+                _report.VrijedRazlikaManjak = this.VrijedRazlikaManjak;
+               
                 lista.Add(_report);
 
             }
@@ -197,14 +227,14 @@ namespace Materijalno.UI.Izvjestaji
                 dr[5] = report.Datnar;
                 dr[6] = report.NazivOrg;
                 dr[7] = report.Kljnaz;
-                //dr[5] = report.Nazkont;
-                //dr[6] = report.Konto1;
-                //dr[7] = report.Brfak;
                 dr[8] = report.Nc;
                 dr[9] = report.Redbr;
-                dr[10] = report.KolicRazlika; // DORADITI!!!!
-                dr[11] = report.VrijedRazlika; // DORADITI!!!!
-
+                dr[10] = report.KolicRazlika; 
+                dr[11] = report.VrijedRazlika; 
+                dr[12] = report.KolicRazlikaVisak; 
+                dr[13] = report.KolicRazlikaManjak; 
+                dr[14] = report.VrijedRazlikaVisak; 
+                dr[15] = report.VrijedRazlikaManjak; 
 
                 reportDt.Rows.Add(dr);
             }

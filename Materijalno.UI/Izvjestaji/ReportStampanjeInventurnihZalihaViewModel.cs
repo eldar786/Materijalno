@@ -46,6 +46,12 @@ namespace Materijalno.UI.Izvjestaji
         public decimal VrijedRazlika { get; set; }
         public int? KolicRazlika { get; set; }
 
+        public int? KolicRazlikaVisak { get; set; }
+        public int? KolicRazlikaManjak { get; set; }
+
+        public decimal? VrijedRazlikaVisak { get; set; }
+        public decimal? VrijedRazlikaManjak { get; set; }
+
         public ObservableCollection<Inv> InvList;
 
         public UnosInventurnogStanjaViewModel orgViewModel = new UnosInventurnogStanjaViewModel();
