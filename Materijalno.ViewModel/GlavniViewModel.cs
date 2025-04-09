@@ -1,11 +1,15 @@
 using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Input;
 using Materijalno;
 using Materijalno.Model;
+using Microsoft.Win32;
 
 namespace Materijalno.ViewModel
 {
@@ -54,6 +58,7 @@ namespace Materijalno.ViewModel
         public ICommand MedjuskladisniceSveCommand { get; set; }
         public ICommand MedjuskladisniceJednaCommand { get; set; }
         public ICommand ZaJednuKalkulacijuPregledIzlazaCommand { get; set; }
+        public ICommand ArhivaCommand { get; set; }
 
         public GlavniViewModel(ApplicationViewModel avm)
         {
@@ -103,6 +108,7 @@ namespace Materijalno.ViewModel
             MedjuskladisniceSveCommand = new RelayCommand(OtvoriMedjuskladisniceSve);
             MedjuskladisniceJednaCommand = new RelayCommand(OtvoriMedjuskladisniceJedna);
             ZaJednuKalkulacijuPregledIzlazaCommand = new RelayCommand(OtvoriZaJednuKalkulacijuPregledIzlaza);
+            ArhivaCommand = new RelayCommand(Arhiva);
 
         }
 
@@ -286,6 +292,47 @@ namespace Materijalno.ViewModel
         public void OtvoriZaJednuKalkulacijuPregledIzlaza()
         {
             OdabraniVM = new PregledIzlazaZaJednuKalkulacijuViewModel(this);
+        }
+
+        public void Arhiva()
+        {
+            ////string conn = "Server= 192.168.1.213;Trusted_Connection=False;" +
+            ////             "MultipleActiveResultSets=true;User Id=sa;Password=Lutrija1;";
+
+            //string connectionString = "Data Source=192.168.1.213;Initial Catalog=materijalno_knjigovodstvo;Integrated Security=True";
+
+            string connectionString = "Server=192.168.1.213;Database=materijalno_knjigovodstvo;Trusted_Connection=True;";
+
+            string serverBackupPath = @"C:\Program Files\Microsoft SQL Server\MSSQL15.LUTRIJASQL\MSSQL\Backup\materijalno_knjigovodstvo_" + DateTime.Now.ToString("yyyyMMdd_HHmmss") + ".bak";
+
+            if (Directory.Exists(Path.GetDirectoryName(serverBackupPath)))
+            {
+                string backupQuery = $@"
+            BACKUP DATABASE [materijalno_knjigovodstvo]
+            TO DISK = N'{serverBackupPath}'
+            WITH FORMAT, INIT, 
+            NAME = 'Full Backup of materijalno_knjigovodstvo';";
+
+                try
+                {
+                    using (SqlConnection conn = new SqlConnection(connectionString))
+                    {
+                        conn.Open();
+                        using (SqlCommand cmd = new SqlCommand(backupQuery, conn))
+                        {
+                            cmd.ExecuteNonQuery();
+                        }
+                    }
+
+                    // Optional: Success message
+                    System.Windows.MessageBox.Show("Uspješno ste obavili arhiviranje!", "Potvrda", MessageBoxButton.OK, MessageBoxImage.Information);
+                }
+                catch (Exception ex)
+                {
+                    // Handle error
+                    System.Windows.MessageBox.Show(ex.Message, "Greška", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+            }
         }
 
         public object OdabraniVM
