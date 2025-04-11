@@ -21,33 +21,21 @@
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
 
-        <Border Background="AliceBlue" BorderBrush="Silver" BorderThickness="1,0,1,1" Grid.Row="1" Grid.RowSpan="10" Grid.Column="0" Grid.ColumnSpan="6"/>
+        <Border Background="AliceBlue" BorderBrush="Silver" BorderThickness="1,0,1,1" Grid.Row="0" Grid.RowSpan="10" Grid.Column="0" Grid.ColumnSpan="6"/>
 
-        <Label Grid.Row="4" Grid.Column="2" Grid.ColumnSpan="4" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="22">FORMIRANJE POČETNOG STANJA</Label>
+        <Label Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="22">FORMIRANJE POČETNOG STANJA</Label>
 
 
-        <Grid Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="6" HorizontalAlignment="Center" VerticalAlignment="Center">
-            <StackPanel Orientation="Horizontal" VerticalAlignment="Top" Grid.ColumnSpan="1">
-                <Button x:Name="btnFormiraj" Content="Poč. stanje" FontSize="20" Width="110" Margin="5,5,0,5" HorizontalAlignment="Left" Command="{Binding UnosCommand}" Visibility="{Binding Path=VidljivoOdabirVrsteIncidenta}"/>
-                <Button x:Name="btnIzlaz" FontSize="20" Content="Otkaz" Width="110" Margin="5,5,0,5" Grid.Column="1" HorizontalAlignment="Left" Command="{Binding IzmjenaCommand}" Visibility="{Binding Path=VidljivoOdabirVrsteIncidenta}"/>
-            </StackPanel>
+        <Grid Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Top">
+                <Button x:Name="btnFormiraj" Content="Poč. stanje" FontSize="20" Width="110" HorizontalAlignment="Center" Command="{Binding PocetnoStanjeCommand}" Visibility="{Binding Path=VidljivoOdabirVrsteIncidenta}"/>
         </Grid>
     </Grid>
 </UserControl>
