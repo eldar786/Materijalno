@@ -216,7 +216,7 @@ namespace Materijalno.ViewModel
             BrojKalkulacijeCommand = new RelayCommand(BrojKalkulacije);
 
             OtvoriKomitentListuCommand = new RelayCommand(OtvoriKomitentListu);
-            SlijStavkaButtonCommand = new RelayCommand(SlijStavkaButton,() => IsNovaKalkulacijaClicked);
+            SlijStavkaButtonCommand = new RelayCommand(SlijStavkaButton, () => IsNovaKalkulacijaClicked);
             #endregion
 
             using (var dbContext = new materijalno_knjigovodstvoContext())
@@ -518,12 +518,24 @@ namespace Materijalno.ViewModel
 
                     MatList.Remove(CurrentItemMat);
 
-                    currentItemMat = null;
                 }
                 else if (resultMessageBox == MessageBoxResult.No)
                 {
                     return;
                 }
+
+                //Kada zadnji brise, ne vraca index
+                //Jedna opcija jeste da ponovo ocitamo MatListu
+                //Ako je CurrentIndex zadnji broj kao kod MatList.Count onda nakon brisanja da ide CurrentIdex - 1
+                if (MatList.Count == CurrentIndex)
+                {
+                    CurrentItemMat = MatList[CurrentIndex - 1];
+                }
+                else
+                {
+                    CurrentItemMat = MatList[CurrentIndex];
+                }
+
                 UpdateCurrentItemData(dbContext);
             }
         }
@@ -603,15 +615,15 @@ namespace Materijalno.ViewModel
 
             using (var dbContext = new materijalno_knjigovodstvoContext())
             {
-               
+
 
                 //Samo vrati buttone i zadnji kreiran
                 CurrentIndex = MatList.Count - 1;
                 CurrentItemMat = MatList[CurrentIndex];
 
-            //_gvm.OdabraniVM = new IzlazMaterijalaViewModel(_gvm);
+                //_gvm.OdabraniVM = new IzlazMaterijalaViewModel(_gvm);
 
-            UpdateCurrentItemData(dbContext);
+                UpdateCurrentItemData(dbContext);
             }
         }
 
@@ -686,6 +698,29 @@ namespace Materijalno.ViewModel
             }
         }
 
+        private bool ValidacijaSpasi()
+        {
+            var property = typeof(Mat).GetProperties();
+            bool allNull = property.All(prop => prop.GetValue(CurrentItemMat) == null);
+
+            if (CurrentItemMat.Ourst == null || CurrentItemMat.Mjtst == null)
+            {
+                CurrentItemMat.Ourst = 000;
+                CurrentItemMat.Mjtst = 000000;
+            }
+
+            //Ovo smo morali rucno za sada, dok se ne uradi validacija u xamlu
+            if (CurrentItemMat.Kljnaz == null || CurrentItemMat.Datun == null || CurrentItemMat.Brfak == null ||
+                CurrentItemMat.Brdok == null || CurrentItemMat.Datnar == null || CurrentItemMat.Redbr == null ||
+                CurrentItemMat.Ident == null || CurrentItemMat.Kolic == null || CurrentItemMat.Nc == null ||
+                CurrentItemMat.Vrijed == null)
+            {
+                return false;
+            }
+
+            return true;
+        }
+
         //Pokupi sva polja trenutna i spasi. Trebalo bi napraviti disabled SAVE button ako nije odabrana nova kalkulacija
         private void SpasiNovuKalkulaciju()
         {
@@ -693,7 +728,7 @@ namespace Materijalno.ViewModel
             {
                 // Na osnovu Ident od CurrentItemMat, daj mi Konto1 iz tabele TabelaMaterijala i dodijeli u CurrentItemMat u Mat tabeli
                 // Trenutno u If, ali treba uraditi validaciju
-                
+
                 currentItemMat.Status = "I";
                 currentItemMat.Kontosklad1 = 0;
 
@@ -711,6 +746,14 @@ namespace Materijalno.ViewModel
                     .Where(row => row.Sifskla == currentItemMat.Kljnaz && row.Sifmat == CurrentItemMat.Ident)
                     .Select(row => row.Sifkonta)
                     .FirstOrDefault();
+                }
+
+                //Ako validacija ne prodje, tj. ako fali neko polje
+                if (ValidacijaSpasi() == false)
+                {
+                    System.Windows.MessageBox.Show("Molimo unesite sva polja!", "Upozorenje", MessageBoxButton.OK, MessageBoxImage.Warning);
+
+                    return;
                 }
 
                 dbContext.Update(CurrentItemMat);
@@ -878,7 +921,7 @@ namespace Materijalno.ViewModel
                         CurrentItemMat = MatList[CurrentIndex];
                     }
                 }
-                    }
+            }
             else
             {
                 CurrentItemMat = MatList[CurrentIndex];
@@ -889,7 +932,7 @@ namespace Materijalno.ViewModel
 
             //Nadji listu svih po *Ident* iz *TabelaMaterijala* i *CurrentItem* (Mat) i stavi u listu
             TebelaMaterijalaList = new ObservableCollection<TabelaMaterijala>(dbContext.TabelaMaterijala.Where(row => row.Ident == CurrentItemMat.Ident).ToList());
-            
+
             TebelaSkladistaList = new ObservableCollection<SifarnikSkladista>(dbContext.SifarnikSkladista.Where(row => row.Kljnaz == CurrentItemMat.Kljnaz).ToList());
 
             //Nadji jednu vrijednost po *Ident* iz *TabelaMaterijala* i po Sifri materijala iz tabele *Mat*(col:*Ident*) i stavi u jedan property
