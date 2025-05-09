@@ -178,6 +178,7 @@ namespace Materijalno.ViewModel
         public RelayCommand TraziSifruMaterijalaCommand { get; set; }
         public RelayCommand OsvjeziCommand { get; set; }
         public RelayCommand OdustaniCommand { get; set; }
+        public RelayCommand RedniBrojCommand { get; set; }
 
         #endregion
 
@@ -205,12 +206,13 @@ namespace Materijalno.ViewModel
             PrintCommand = new RelayCommand(Print, () => !isNovaKalkulacijaClicked);
             NabavnaCijenaCommand = new RelayCommand(NabavnaCijena);
             OsvjeziCommand = new RelayCommand(Osvjezi);
+            RedniBrojCommand = new RelayCommand(RedniBroj);
             //PrintFullCommand = new RelayCommand(PrintFull);
 
             //OtvoriKomitentListuCommand = new RelayCommand(OtvoriKomitentListu);
             #endregion
-
-
+            
+            
             using (var dbContext = new materijalno_knjigovodstvoContext())
             {
                 NextButtonCommand = new RelayCommand(NextButton);
@@ -221,7 +223,7 @@ namespace Materijalno.ViewModel
                 //Dodaj u listu gdje je kljnaz == 1000 i sortiraj po datumu iz kolone (datun)
                 //Neki datum preskoci, treba napraviti dobar data type za kolonu (datun) u sql bazi
                 MatList = new ObservableCollection<Mat>(dbContext.Mat
-                     .Where(row =>  row.Kljnaz >= 1000 && row.Kljnaz <= 1012)
+                     .Where(row =>  row.Kljnaz >= 1000 && row.Kljnaz <= 1012 && row.Status == "P")
                      .OrderBy(row => row.Datun)
                      .ToList());
 
@@ -244,6 +246,7 @@ namespace Materijalno.ViewModel
             if (isTraziClicked == true)
             {
                 isNovaKalkulacijaClicked = false;
+
             }
             else
             {
@@ -265,10 +268,27 @@ namespace Materijalno.ViewModel
             PrintCommand = new RelayCommand(Print, () => !isNovaKalkulacijaClicked);
             NabavnaCijenaCommand = new RelayCommand(NabavnaCijena);
             OsvjeziCommand = new RelayCommand(Osvjezi);
-            //PrintFullCommand = new RelayCommand(PrintFull);
-
-            //OtvoriKomitentListuCommand = new RelayCommand(OtvoriKomitentListu);
+            RedniBrojCommand = new RelayCommand(RedniBroj);
             #endregion
+
+            if (isTraziClicked == false) 
+            {
+                PrviButtonCommand.RaiseCanExecuteChanged();
+                ZadnjiButtonCommand.RaiseCanExecuteChanged();
+                NextButtonCommand.RaiseCanExecuteChanged();
+                PrethodniButtonCommand.RaiseCanExecuteChanged();
+                SpasiNovuKalkulacijuCommand.RaiseCanExecuteChanged();
+                OdustaniCommand.RaiseCanExecuteChanged();
+                BrisanjeCommand.RaiseCanExecuteChanged();
+                UpdateCommand.RaiseCanExecuteChanged();
+                TraziSifruMaterijalaCommand.RaiseCanExecuteChanged();
+                NovoSklCommand.RaiseCanExecuteChanged();
+                PrintCommand.RaiseCanExecuteChanged();
+                RedniBrojCommand.RaiseCanExecuteChanged();
+
+                SpasiNovuKalkulacijuCommand.RaiseCanExecuteChanged();
+                OdustaniCommand.RaiseCanExecuteChanged();
+            }
 
             UpdateCommands();
 
@@ -277,7 +297,7 @@ namespace Materijalno.ViewModel
                 //Dodaj u listu gdje je kljnaz == 1000 i sortiraj po datumu iz kolone (datun)
                 //Neki datum preskoci, treba napraviti dobar data type za kolonu (datun) u sql bazi
                 MatList = new ObservableCollection<Mat>(dbContext.Mat
-                     .Where(row => row.Kljnaz >= 1000 && row.Kljnaz <= 1012)
+                     .Where(row => row.Kljnaz >= 1000 && row.Kljnaz <= 1012 && row.Status == "P")
                      .OrderBy(row => row.Datun)
                      .ToList());
 
@@ -362,7 +382,7 @@ namespace Materijalno.ViewModel
             if (CurrentItemMat.Ident != null)
             {
                 MatList = new ObservableCollection<Mat>(dbContext.Mat
-                               .Where(row => row.Kljnaz == 1000 && row.Status == "U")
+                               .Where(row => row.Kljnaz == 1000 && row.Kljnaz <= 1012 && row.Status == "P")
                                .OrderBy(row => row.Datun)
                                .ToList());
             }
@@ -430,7 +450,7 @@ namespace Materijalno.ViewModel
 
             //Staviti po datumu da sortira i dodaj u listu da bi se vidjele promjene
             MatList = new ObservableCollection<Mat>(dbContext.Mat
-                .Where(row => row.Kljnaz >= 1000 && row.Kljnaz <= 1012)
+                .Where(row => row.Kljnaz >= 1000 && row.Kljnaz <= 1012 && row.Status == "P")
                 .OrderBy(row => row.Datun)
                 .ToList());
 
@@ -617,7 +637,11 @@ namespace Materijalno.ViewModel
         // An event that will be raised to notify the view to open the PrintWindow
         public event Action OnPrintEvent;
 
-        
+        private void RedniBroj()
+        {
+            //treba uraditi da unosi redni broj +1 sve dok se to skladište ne završi sa unosom početnog stanja
+        }
+
 
         //Pokupi sva polja trenutna i spasi. Trebalo bi napraviti disabled SAVE button ako nije odabrana nova kalkulacija
         private void SpasiNovuKalkulaciju()
@@ -626,6 +650,16 @@ namespace Materijalno.ViewModel
             {
                 currentItemMat.Status = "P";
                 currentItemMat.Kontosklad1 = 0;
+                currentItemMat.Analst = "";
+                currentItemMat.Brnar = "";
+                currentItemMat.Konto2 = "";
+                currentItemMat.Brdok = "";
+                currentItemMat.Brfak = "";
+
+                var nextYearJanuaryFirst = new DateTime(DateTime.Today.Year + 1, 1, 1);
+                currentItemMat.Datun = nextYearJanuaryFirst;
+                currentItemMat.Datnar = nextYearJanuaryFirst;
+
 
                 if (currentItemMat.Kljnaz != null)
                 {
@@ -643,27 +677,19 @@ namespace Materijalno.ViewModel
                     .FirstOrDefault();
                 }
 
-                //if (currentItemMat.Kljnaz1 != null)
-                //{
-                //    currentItemMat.Kontosklad1 = dbContext.SifarnikMaterijalSkladisteKonto
-                //    .Where(row => row.Sifskla == currentItemMat.Kljnaz1 && row.Sifmat == CurrentItemMat.Ident)
-                //    .Select(row => row.Sifkonta)
-                //    .FirstOrDefault();
-                //}
-
                 NabavnaCijena();
                 dbContext.Update(CurrentItemMat);
                 dbContext.SaveChanges();
 
                 //Staviti po datumu da sortira i dodaj u listu da bi se vidjele promjene
                 MatList = new ObservableCollection<Mat>(dbContext.Mat
-                    .Where(row => row.Kljnaz == 1000 && row.Status == "P")
+                    .Where(row => row.Kljnaz == 1000 && row.Kljnaz <= 1012 && row.Status == "P")
                     .OrderBy(row => row.Datun)
                     .ToList());
 
                 System.Windows.MessageBox.Show("Uspješno ste unijeli novi šifarnik", "Potvrda", MessageBoxButton.OK, MessageBoxImage.Information);
 
-                //Ovo kada je true, onda ce buttoni biti dostupni
+               
                 isNovaKalkulacijaClicked = false;
 
                 UpdateCommands();
@@ -680,9 +706,8 @@ namespace Materijalno.ViewModel
                     }
                 }
 
-                //_gvm.OdabraniVM = new UlazMaterijalaViewModel(_gvm);
                 UpdateCurrentItemData(dbContext);
-                //UpdateCurrentItemDataUlaz(dbContext);
+                
             }
         }
 
@@ -699,6 +724,7 @@ namespace Materijalno.ViewModel
             TraziSifruMaterijalaCommand.RaiseCanExecuteChanged();
             NovoSklCommand.RaiseCanExecuteChanged();
             PrintCommand.RaiseCanExecuteChanged();
+            RedniBrojCommand.RaiseCanExecuteChanged();
 
             SpasiNovuKalkulacijuCommand.RaiseCanExecuteChanged();
             OdustaniCommand.RaiseCanExecuteChanged();

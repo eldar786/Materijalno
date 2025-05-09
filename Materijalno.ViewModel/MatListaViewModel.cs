@@ -15,6 +15,7 @@ namespace Materijalno.ViewModel
         private GlavniViewModel _gvm;
         private Mat currentItemMat;
         private Inv currentItemInv;
+        private Mat _originalItemMat;
 
         public Mat CurrentItemMat
         {
@@ -44,7 +45,7 @@ namespace Materijalno.ViewModel
         public Inv SelectedInv { get => selectedInv; set { selectedInv = value; OnPropertyChanged("SelectedInv"); } }
 
         public ICommand OdaberiMatCommand { get; set; }
-        public ICommand OdustaniCommand { get; set; }
+        public ICommand OdustaniODdabirCommand { get; set; }
 
         public MatListaViewModel(UlazMaterijalaViewModel ulazMaterijalaViewModel, GlavniViewModel glavniViewModel)
         {
@@ -84,9 +85,20 @@ namespace Materijalno.ViewModel
             _gvm = glavniViewModel;
             CurrentItemMat = pocetnoStanjePrviPutViewModel.CurrentItemMat;
             OdaberiMatCommand = new RelayCommand(OdaberiPocetnoStanje);
+            _originalItemMat = CurrentItemMat;
+            OdustaniODdabirCommand = new RelayCommand(OdustaniPocetnoStanje);
         }
 
+        private void OdustaniPocetnoStanje()
+        {
 
+            CurrentItemMat = _originalItemMat;
+
+            PocetnoStanjePrviPutViewModel.isTraziClicked = false;
+            PocetnoStanjePrviPutViewModel.selectedMat = null;
+
+            _gvm.OdabraniVM = new PocetnoStanjePrviPutViewModel(_gvm, _originalItemMat);
+        }
 
 
         private void OdaberiMat()

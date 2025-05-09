@@ -43,6 +43,7 @@
         </Grid.RowDefinitions>
 
         <Border Background="AliceBlue"  BorderThickness="1,0,1,1" Grid.Row="1" Grid.RowSpan="10" Grid.Column="0" Grid.ColumnSpan="6"/>
+        <TextBlock Text="POČETNO STANJE PRVI PUT" FontSize="18" Margin="450,0,0,0" FontWeight="Bold" Grid.Column="0" Grid.ColumnSpan="4" VerticalAlignment="Center" HorizontalAlignment="Center" />
 
         <Label Grid.Row="1" Grid.Column="0" Margin="0,0,0,0" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="18">Skladište</Label>
         <TextBox Name="OpBroj" Grid.Row="1" Text="{Binding CurrentItemMat.Kljnaz}" KeyDown="TextBox_KeyDown" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left" FontWeight="Bold"  Width="170" FontSize="18">
@@ -61,7 +62,12 @@
                 <i:EventTrigger EventName="LostFocus">
                     <i:InvokeCommandAction Command="{Binding OsvjeziCommand}" />
                 </i:EventTrigger>
+            
+                <i:EventTrigger EventName="LostFocus">
+                    <i:InvokeCommandAction Command="{Binding RedniBrojCommand}" />
+                </i:EventTrigger>
             </i:Interaction.Triggers>
+            
         </TextBox>
         <TextBox Grid.Row="2" Grid.Column="2" Text="{Binding CurrentItemTabMaterijala.Nazmat}" IsEnabled="False" KeyDown="TextBox_KeyDown" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="18"  Width="300"  Grid.ColumnSpan="3"/>
 
@@ -152,7 +158,7 @@
                 <Button x:Name="btnTrazi" Content="Traži" FontSize="18" Width="110" Margin="5,5,0,5" HorizontalAlignment="Left" Command="{Binding TraziSifruMaterijalaCommand}"/>
                 <Button x:Name="btnNovaKalkulacija" Content="Novo skl." FontSize="18" Width="140" Margin="5,5,0,5" HorizontalAlignment="Left" Command="{Binding NovoSklCommand}"/>
                 <Button x:Name="btnSnimi" Content="Snimi" FontSize="18" Width="110" Margin="5,5,0,5" HorizontalAlignment="Left" Command="{Binding SpasiNovuKalkulacijuCommand}"/>
-                <Button x:Name="btnStampa" Content="Štampa" FontSize="18" Width="110" Margin="5,5,0,5" HorizontalAlignment="Left" Command="{Binding StampaCommand}" Click="stampa_button"/>
+                <Button x:Name="btnStampa" Content="Štampa" FontSize="18" Width="110" Margin="5,5,0,5" HorizontalAlignment="Left" Click="stampa_button"/>
             </WrapPanel>
         </Grid>
 

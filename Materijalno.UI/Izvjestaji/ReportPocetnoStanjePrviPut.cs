@@ -37,11 +37,11 @@ namespace Materijalno.UI.Izvjestaji
 
         public ObservableCollection<Mat> MatList;
 
-        public PocetnoStanjePrviPut orgViewModel = new PocetnoStanjePrviPut();
+        public PocetnoStanjePrviPutViewModel orgViewModel = new PocetnoStanjePrviPutViewModel();
 
-        public List<PocetnoStanjePrviPut> GetAllOrgViewModel()
+        public List<PocetnoStanjePrviPutViewModel> GetAllOrgViewModel()
         {
-            var list = new List<PocetnoStanjePrviPut>();
+            var list = new List<PocetnoStanjePrviPutViewModel>();
 
             var dbContext = new materijalno_knjigovodstvoContext();
             MatList = new ObservableCollection<Mat>(dbContext.Mat

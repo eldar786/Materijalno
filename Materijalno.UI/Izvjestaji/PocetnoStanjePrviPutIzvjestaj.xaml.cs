@@ -31,7 +31,8 @@ namespace Materijalno.UI.Izvjestaji
         private List<Materijalno.Model.EntityModels.SifarnikSkladista> _tabelaSkladista;
         private List<Materijalno.Model.EntityModels.SifarnikKonta> _tabelaKonto;
         private Mat ukupnavrijednost;
-        decimal? totalVrijednost = 0;
+        private Mat ukupnoduguje;
+        
 
         public ObservableCollection<Mat> MatList { get; set; }
 
@@ -46,7 +47,7 @@ namespace Materijalno.UI.Izvjestaji
             var dbContext = new materijalno_knjigovodstvoContext();
 
             MatList = new ObservableCollection<Mat>(dbContext.Mat
-                     .Where(row => row.Kljnaz == pocetnoStanjePrviPutvm.CurrentItemMat.Kljnaz)
+                     .Where(row => row.Kljnaz == pocetnoStanjePrviPutvm.CurrentItemMat.Kljnaz && row.Status == "P")
                      .OrderBy(row => row.Ident)
                      .ToList());
 
@@ -55,10 +56,6 @@ namespace Materijalno.UI.Izvjestaji
 
             _mat = MatList.ToList();
 
-            foreach (var item in MatList)
-            {
-                totalVrijednost += item.Vrijed;
-            }
 
             try
             {
@@ -101,11 +98,11 @@ namespace Materijalno.UI.Izvjestaji
                                                                              where tabskladista.Kljnaz == mat.Kljnaz
                                                                              select tabskladista).FirstOrDefault();
 
-                Materijalno.Model.EntityModels.SifarnikKonta tabkonto = (from Materijalno.Model.EntityModels.SifarnikKonta tabkonta in _tabelaKonto
-                                                                         where tabkonta.Sifkonta == mat.Konto1
-                                                                         select tabkonta).FirstOrDefault();
-
-
+                //Materijalno.Model.EntityModels.SifarnikKonta tabkonto = (from Materijalno.Model.EntityModels.SifarnikKonta tabkonta in _tabelaKonto
+                //                                                         where tabkonta.Sifkonta == mat.Konto1
+                //                                                         select tabkonta).FirstOrDefault();
+               
+                _report = new ReportPocetnoStanjePrviPut();
                 _report.Ident = mat.Ident;
                 _report.NazMat = tabmat.Nazmat;
                 _report.Kolic = mat.Kolic;
