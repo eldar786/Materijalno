@@ -48,7 +48,6 @@ namespace Materijalno.ViewModel
         private bool spasi = false;
         public static Komitenti selectedKomitent;
         public static bool isNovaKalkulacijaClicked = false;
-        public static bool isOdustaniEnabled = false;
         public static bool isIzlazEnable = false;
         public static bool isTraziClicked = false;
         public static Mat selectedMat;
@@ -130,6 +129,25 @@ namespace Materijalno.ViewModel
             }
         }
 
+        private bool _isOdustaniEnabled;
+
+        //Ovo je uslov koji je vezan za Odustani button i ako za property kazemo false, automatski ce biti button disabled, ne treba pozivati dodatno 
+        //OdustaniCommand.RaiseCanExecuteChanged();, jer je dodato u setter da to radi kada dodje do promjene vrijednosti
+        public bool IsOdustaniEnabled
+        {
+            get => _isOdustaniEnabled;
+            set
+            {
+                //ako je doslo do promjene vrijednosti, tj. ako vrijednost nije ista, ako je npr preslo iz true u false
+                if (_isOdustaniEnabled != value)
+                {
+                    _isOdustaniEnabled = value;
+                    OnPropertyChanged(nameof(IsOdustaniEnabled));
+                    OdustaniCommand.RaiseCanExecuteChanged(); // Notify the command to re-evaluate CanExecute
+                }
+            }
+        }
+
         public ObservableCollection<TabelaMaterijala> TebelaMaterijalaList { get; set; }
         public ObservableCollection<SifarnikSkladista> TebelaSkladistaList { get; set; }
         public ObservableCollection<Mat> MatList { get; set; }
@@ -205,7 +223,7 @@ namespace Materijalno.ViewModel
             UpdateCommand = new RelayCommand(Update, () => !isNovaKalkulacijaClicked);
             NovoZaduzenjeCommand = new RelayCommand(NovaKalkulacija, () => !isNovaKalkulacijaClicked);
             SpasiNovuKalkulacijuCommand = new RelayCommand(SpasiNovuKalkulaciju, () => isNovaKalkulacijaClicked);
-            OdustaniCommand = new RelayCommand(Odustani, () => isOdustaniEnabled);
+            OdustaniCommand = new RelayCommand(Odustani, () => IsOdustaniEnabled);
             IzlazCommand = new RelayCommand(Izlaz, () => isIzlazEnable);
             TraziSifruMaterijalaCommand = new RelayCommand(Trazi, () => !isNovaKalkulacijaClicked);
             //StampaCommand = new RelayCommand(Stampa, () => !isNovaKalkulacijaClicked);
@@ -262,7 +280,7 @@ namespace Materijalno.ViewModel
             UpdateCommand = new RelayCommand(Update, () => !isNovaKalkulacijaClicked);
             NovoZaduzenjeCommand = new RelayCommand(NovaKalkulacija, () => !isNovaKalkulacijaClicked);
             SpasiNovuKalkulacijuCommand = new RelayCommand(SpasiNovuKalkulaciju, () => isNovaKalkulacijaClicked);
-            OdustaniCommand = new RelayCommand(Odustani, () => isNovaKalkulacijaClicked);
+            OdustaniCommand = new RelayCommand(Odustani, () => IsOdustaniEnabled);
             IzlazCommand = new RelayCommand(Izlaz, () => isIzlazEnable);
             TraziSifruMaterijalaCommand = new RelayCommand(Trazi, () => !isNovaKalkulacijaClicked);
             PrintCommand = new RelayCommand(Print, () => !isNovaKalkulacijaClicked);
@@ -607,7 +625,7 @@ namespace Materijalno.ViewModel
 
 
             //ODUSTANI COMMAND treba da bude nedostupno nakon Kraj Izlaza??
-            isOdustaniEnabled = false;
+            IsOdustaniEnabled = false;
             OdustaniCommand.RaiseCanExecuteChanged();
 
             UpdateCommands();
@@ -667,7 +685,7 @@ namespace Materijalno.ViewModel
         {
             //Prolazi ponovo provjeru CanExecute
             isNovaKalkulacijaClicked = true;
-            isOdustaniEnabled = true;
+            IsOdustaniEnabled = true;
 
             UpdateCommands();
 
@@ -770,19 +788,14 @@ namespace Materijalno.ViewModel
                 //Ovo kada je true, onda ce buttoni biti dostupni
                 isNovaKalkulacijaClicked = false;
                 _isNovaKalkulacijaClicked = true;
-                isOdustaniEnabled = false;
+                IsOdustaniEnabled = true;
                 isIzlazEnable = true;
 
                 SpasiNovuKalkulacijuCommand.RaiseCanExecuteChanged();
                 SlijStavkaButtonCommand.RaiseCanExecuteChanged();
-                OdustaniCommand.RaiseCanExecuteChanged();
 
                 //Treba da je dostupan
                 IzlazCommand.RaiseCanExecuteChanged();
-
-
-                OdustaniCommand = new RelayCommand(Odustani, () => !isNovaKalkulacijaClicked);
-
 
                 if (CurrentItemMat != null)
                 {
@@ -883,21 +896,20 @@ namespace Materijalno.ViewModel
                 CurrentIndex = MatList.Count - 1;
                 CurrentItemMat = MatList[CurrentIndex];
 
-
-
-                BrojKalkulacije();
+                //Dodaje po jedan a treba isti
+                //BrojKalkulacije();
 
                 dbContext.Add(CurrentItemMat);
                 dbContext.SaveChanges();
 
                 //kad uradi SlijedStavka, treba da ostane SNIMI i ODUSTANI
-                //Trenutno Slij.stavka je Enabled i ODUSTANI
 
 
                 //Ovo kada je true, onda ce buttoni biti dostupni
                 _isNovaKalkulacijaClicked = false;
                 isNovaKalkulacijaClicked = true;
                 isIzlazEnable = false;
+                IsOdustaniEnabled = true;
                 SpasiNovuKalkulacijuCommand.RaiseCanExecuteChanged();
 
                 //Ova commanda zavisi od "_isNovaKalkulacijaClicked"
