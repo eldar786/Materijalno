@@ -253,6 +253,9 @@
     <Compile Include="Izvjestaji\NaloziZaFinansijePrintanjeNalogaIzvjestaj.xaml.cs">
       <DependentUpon>NaloziZaFinansijePrintanjeNalogaIzvjestaj.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Izvjestaji\PocetnoStanjePrviPutIzvjestaj.xaml.cs">
+      <DependentUpon>PocetnoStanjePrviPutIzvjestaj.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Izvjestaji\PregledIzlazaZaSveKalkulacijeIzvjestaj.xaml.cs">
       <DependentUpon>PregledIzlazaZaSveKalkulacijeIzvjestaj.xaml</DependentUpon>
     </Compile>
@@ -278,6 +281,7 @@
     <Compile Include="Izvjestaji\ReportMedjuskladisniceSve.cs" />
     <Compile Include="Izvjestaji\ReportMedjuskladisniceZaSkladiste.cs" />
     <Compile Include="Izvjestaji\ReportNaloziZaFinansijePrintanjeNaloga.cs" />
+    <Compile Include="Izvjestaji\ReportPocetnoStanjePrviPut.cs" />
     <Compile Include="Izvjestaji\ReportPovrat.cs" />
     <Compile Include="Izvjestaji\ReportPregledIzlazaZaSveKalkulacije.cs" />
     <Compile Include="Izvjestaji\ReportPregledTroskovaPoKontima.cs" />
@@ -493,6 +497,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Izvjestaji\NaloziZaFinansijePrintanjeNalogaIzvjestaj.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Izvjestaji\PocetnoStanjePrviPutIzvjestaj.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -779,6 +787,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Izvjestaji\StampanjeInventurnihZaliha.rdlc">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Izvjestaji\PocetnoStanjePrviPut.rdlc">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <EmbeddedResource Include="Properties\Resources.resx">
