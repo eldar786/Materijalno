@@ -283,11 +283,15 @@
     <Compile Include="Izvjestaji\ReportPregledTroskovaPoKontima.cs" />
     <Compile Include="Izvjestaji\ReportPregledTroskovaPoKontimaINalozimaZaSvaSkladista.cs" />
     <Compile Include="Izvjestaji\ReportRekapitulacijaZaliha.cs" />
+    <Compile Include="Izvjestaji\ReportSkladiste.cs" />
     <Compile Include="Izvjestaji\ReportStampanjeInventurnihListica.cs" />
     <Compile Include="Izvjestaji\ReportStampanjeInventurnihZalihaViewModel.cs" />
     <Compile Include="Izvjestaji\ReportStanjeZalihaZaSkladiste.cs" />
     <Compile Include="Izvjestaji\ReportStanjeZalihaZaSvaSkladista.cs" />
     <Compile Include="Izvjestaji\ReportUnosInventurnogStanjaViewModel.cs" />
+    <Compile Include="Izvjestaji\SkladisteIzvjestaj.xaml.cs">
+      <DependentUpon>SkladisteIzvjestaj.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Izvjestaji\StampanjeInventurnihListicaIzvjestaj.xaml.cs">
       <DependentUpon>StampanjeInventurnihListicaIzvjestaj.xaml</DependentUpon>
     </Compile>
@@ -513,6 +517,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Izvjestaji\RekapitulacijaZalihaIvjestaj.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Izvjestaji\SkladisteIzvjestaj.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -781,6 +789,9 @@
     <Content Include="Izvjestaji\StampanjeInventurnihZaliha.rdlc">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Izvjestaji\ReportSkladiste.rdlc">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -803,6 +814,7 @@
     <None Include="Properties\DataSources\Materijalno.UI.Izvjestaji.ReportMedjuskladisniceZaSkladiste.datasource" />
     <None Include="Properties\DataSources\Materijalno.UI.Izvjestaji.ReportNaloziZaFinansijePrintanjeNaloga.datasource" />
     <None Include="Properties\DataSources\Materijalno.UI.Izvjestaji.ReportPregledIzlazaZaSveKalkulacije.datasource" />
+    <None Include="Properties\DataSources\Materijalno.UI.Izvjestaji.ReportSkladiste.datasource" />
     <None Include="Properties\DataSources\Materijalno.UI.Izvjestaji.StanjeZalihaZaSkladisteIzvjestaj.datasource" />
     <None Include="Properties\DataSources\Materijalno.UI.Izvjestaji.StanjeZalihaZaSvaSkladistaIzvjestaj.datasource" />
     <None Include="Properties\DataSources\Materijalno.UI.Properties.Resources.datasource" />

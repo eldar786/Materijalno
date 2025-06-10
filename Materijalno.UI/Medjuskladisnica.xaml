@@ -47,7 +47,7 @@
             <RowDefinition/>
         </Grid.RowDefinitions>
 
-        <Border Background="AliceBlue" BorderBrush="AliceBlue" BorderThickness="1,0,1,1" Grid.Row="1" Grid.RowSpan="11" Grid.Column="0" Grid.ColumnSpan="6" Margin="-10,10,10,46"/>
+        <Border Background="AliceBlue" Grid.Row="1" Grid.RowSpan="11" Grid.Column="0" Grid.ColumnSpan="6"/>
         <TextBlock Text="MEĐUSKLADIŠNICA" FontSize="18" Margin="450,0,0,0" FontWeight="Bold" Grid.Column="0" Grid.ColumnSpan="4" VerticalAlignment="Center" HorizontalAlignment="Center" />
 
         <Button Background="White" Grid.Row="0" Grid.Column="5" x:Name="btnStampa"  FontSize="18" Width="50" Margin="70,5,0,10" HorizontalAlignment="Left" Click="stampa_button" >
@@ -269,7 +269,7 @@
                 <Button x:Name="btnTrazi" Content="Traži" FontSize="18" Width="110" Margin="25,5,0,5" HorizontalAlignment="Left" Command="{Binding TraziSifruMaterijalaCommand}" Visibility="{Binding Path=VidljivoOdabirVrsteIncidenta}"/>
                 <Button x:Name="btnNovaMedjuskladisnica" Content="Nova međuskladišnica" FontSize="18" Width="190" Margin="-15,5,0,5" HorizontalAlignment="Left" Command="{Binding NovaMedjuskladisnicaCommand}" Visibility="{Binding Path=VidljivoOdabirVrsteIncidenta}"/>
                 <Button x:Name="btnSnimi" Content="Snimi" FontSize="18" Width="140" Margin="0,0,0,0" HorizontalAlignment="Left" Command="{Binding SpasiNovuKalkulacijuCommand}" />
-                <Button x:Name="btnStampa1" Content="Štampa " FontSize="18" Width="155" Margin="-40,0,0,0" HorizontalAlignment="Left" Command="{Binding PrintCommand}" />
+                <!--<Button x:Name="btnStampa1" Content="Štampa " FontSize="18" Width="155" Margin="-40,0,0,0" HorizontalAlignment="Left" Command="{Binding PrintCommand}" />-->
                 <!--<Button x:Name="btnKrajFakture" Content="Kraj međ." FontSize="18" Width="130" Margin="-15,5,0,5" HorizontalAlignment="Left" Command="{Binding KrajMedjuskladisniceCommand}" Visibility="{Binding Path=VidljivoOdabirVrsteIncidenta}"/>-->
             </WrapPanel>
         </Grid>

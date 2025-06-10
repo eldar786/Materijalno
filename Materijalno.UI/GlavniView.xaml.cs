@@ -26,6 +26,16 @@ namespace Materijalno.UI
         {
             DataContext = new GlavniViewModel();
             InitializeComponent();
+
         }
+        private void UserControl_Loaded(object sender, RoutedEventArgs e)
+        {
+            var window = Window.GetWindow(this);
+            if (window != null)
+            {
+                window.WindowState = WindowState.Maximized;
+            }
+        }
+
     }
 }

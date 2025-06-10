@@ -6,7 +6,8 @@
              xmlns:local="clr-namespace:Materijalno.UI"
              xmlns:vm="clr-namespace:Materijalno.ViewModel;assembly=Materijalno.ViewModel"
              mc:Ignorable="d"
-             d:DesignHeight="800" d:DesignWidth="1100" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+             d:DesignHeight="800" d:DesignWidth="1100" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+             Loaded="UserControl_Loaded">
 
     <UserControl.Resources>
         <BooleanToVisibilityConverter x:Key="BoolToVis" />

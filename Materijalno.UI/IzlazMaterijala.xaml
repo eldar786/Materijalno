@@ -264,7 +264,7 @@
                 <Button x:Name="btnZadnji" FontSize="18" Content="Traži" Width="110" Margin="5,5,0,5" Grid.Column="1" HorizontalAlignment="Left" Command="{Binding TraziSifruMaterijalaCommand}" />
                 <Button x:Name="btnNovaKalkulacija" Content="Novo zaduženje" FontSize="18" Width="140" Margin="5,5,0,5" HorizontalAlignment="Left"  Command="{Binding NovoZaduzenjeCommand}"/>
                 <Button x:Name="btnSnimi" Content="Snimi" FontSize="18" Width="140" Margin="5,5,-2,5" HorizontalAlignment="Left" Command="{Binding SpasiNovuKalkulacijuCommand}"/>
-                <Button x:Name="btnStampa1" Content="Štampa zaduženja" FontSize="18" Width="155" Margin="5,5,-2,5" HorizontalAlignment="Left" Command="{Binding PrintCommand}"/>
+                <!--<Button x:Name="btnStampa1" Content="Štampa zaduženja" FontSize="18" Width="155" Margin="5,5,-2,5" HorizontalAlignment="Left" Command="{Binding PrintCommand}"/>-->
                 <Button x:Name="btnIzlaz" Content="Kraj Izlaza" FontSize="18" Width="110" Margin="5,5,0,5" HorizontalAlignment="Left" Command="{Binding IzlazCommand}" />
             </StackPanel>
         </Grid>

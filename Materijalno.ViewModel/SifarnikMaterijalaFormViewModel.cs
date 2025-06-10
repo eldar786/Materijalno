@@ -78,6 +78,7 @@ namespace Materijalno.ViewModel
                         System.Windows.MessageBox.Show("Molimo unesite sva polja", "Greška", MessageBoxButton.OK, MessageBoxImage.Error);
                         return;
                     }
+                    SifarnikMaterijala.Siftar = 1;
                     dbContext.Add(SifarnikMaterijala);
                     dbContext.SaveChanges();
 

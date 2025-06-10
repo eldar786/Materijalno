@@ -50,13 +50,13 @@
         <Border Background="AliceBlue" BorderBrush="AliceBlue" BorderThickness="1,0,1,1" Grid.Row="1" Grid.RowSpan="10" Grid.Column="0" Grid.ColumnSpan="6"/>
         <TextBlock Text="POVRAT MATERIJALA" FontSize="18" Margin="450,0,0,0" FontWeight="Bold" Grid.Column="0" Grid.ColumnSpan="4" VerticalAlignment="Center" HorizontalAlignment="Center" />
 
-        <Button Background="White" Grid.Row="0" Grid.Column="4" x:Name="btnStampa"  FontSize="18" Width="50" Margin="200,5,0,10" HorizontalAlignment="Left" Click="stampa_button" >
-            <Image Source="/Ikone/print.png" Stretch="Uniform"/>
+        <Button Background="White" Grid.Row="0" Grid.Column="5" x:Name="btnStampa"  FontSize="18" Width="50" Margin="70,5,0,10" HorizontalAlignment="Left" Click="stampa_button" >
+            <Image Source="/Ikone/printer.png" Stretch="Uniform"/>
             <Button.ToolTip>
                 <ToolTip Content="Print"/>
             </Button.ToolTip>
         </Button>
-        <Button Background="White" Grid.Row="0" Grid.Column="5" x:Name="btnSave"  FontSize="18" Width="50" Margin="-10,5,0,10" HorizontalAlignment="Left" Command="{Binding SaveCommand}" >
+        <!--<Button Background="White" Grid.Row="0" Grid.Column="5" x:Name="btnSave"  FontSize="18" Width="50" Margin="-10,5,0,10" HorizontalAlignment="Left" Command="{Binding SaveCommand}" >
             <Image Source="/Ikone/save.png" Stretch="Uniform"/>
             <Button.ToolTip>
                 <ToolTip Content="Sačuvaj"/>
@@ -68,9 +68,69 @@
             <Button.ToolTip>
                 <ToolTip Content="Izmjena"/>
             </Button.ToolTip>
-        </Button>
+        </Button>-->
 
-        <Button Background="White" x:Name="btnPrethodni"  Grid.Row="0" Grid.Column="5" FontSize="18" Width="50"  Margin="120,5,0,10" HorizontalAlignment="Left" Command="{Binding PrethodniButtonCommand}" >
+        <Grid Grid.Row="0" Grid.Column="5" Grid.ColumnSpan="6" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <StackPanel>
+                <StackPanel.Resources>
+                    <Style TargetType="Button">
+                        <Setter Property="FontSize" Value="16"/>
+                        <Setter Property="Padding" Value="10,5"/>
+                        <Setter Property="Margin" Value="10,0"/>
+                        <Setter Property="MinWidth" Value="50"/>
+                        <Setter Property="HorizontalAlignment" Value="Center"/>
+                        <Setter Property="Background" Value="#DDEAFB"/>
+                        <Setter Property="Foreground" Value="#2D2D2D"/>
+                        <Setter Property="BorderBrush" Value="#B0C7E3"/>
+                        <Setter Property="BorderThickness" Value="1.5"/>
+                        <Setter Property="FontWeight" Value="SemiBold"/>
+                        <Setter Property="Height" Value="45"/>
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="Button">
+                                    <Border Background="{TemplateBinding Background}" 
+                                BorderBrush="{TemplateBinding BorderBrush}" 
+                                BorderThickness="{TemplateBinding BorderThickness}" 
+                                CornerRadius="10">
+                                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    </Border>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#C5DFFA"/>
+                                <Setter Property="BorderBrush" Value="#A5BDD7"/>
+                                <Setter Property="Cursor" Value="Hand"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter Property="Foreground" Value="DarkGray"/>
+                                <Setter Property="Background" Value="Gray"/>
+                                <Setter Property="BorderBrush" Value="DarkGray"/>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </StackPanel.Resources>
+
+                <!-- Button for "Previous" using text "<" -->
+                <Button Background="White" x:Name="btnSljedeci" FontSize="18" Width="50" Margin="170,5,0,10" HorizontalAlignment="Left" Command="{Binding NextButtonCommand}">
+                    <Button.ToolTip>
+                        <ToolTip Content="Sljedeci"/>
+                    </Button.ToolTip>
+                    <TextBlock Text=">" FontSize="24"/>
+                </Button>
+                <Button Background="White" x:Name="btnPrethodni" FontSize="18" Margin="110,-65,0,0" Width="50"  HorizontalAlignment="Left" Command="{Binding PrethodniButtonCommand}">
+                    <Button.ToolTip>
+                        <ToolTip Content="Prethodni"/>
+                    </Button.ToolTip>
+                    <TextBlock Text="&lt;" FontSize="24"/>
+                </Button>
+
+                <!-- Button for "Next" using text ">" -->
+            </StackPanel>
+        </Grid>
+        
+        <!--<Button Background="White" x:Name="btnPrethodni"  Grid.Row="0" Grid.Column="5" FontSize="18" Width="50"  Margin="120,5,0,10" HorizontalAlignment="Left" Command="{Binding PrethodniButtonCommand}" >
             <Image Source="/Ikone/backleft.png" Stretch="Uniform"/>
             <Button.ToolTip>
                 <ToolTip Content="Prethodni"/>
@@ -82,7 +142,7 @@
             <Button.ToolTip>
                 <ToolTip Content="Sljedeci"/>
             </Button.ToolTip>
-        </Button>
+        </Button>-->
 
         <Label Grid.Row="1" Grid.Column="0" Margin="0,0,0,0" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="18">Skladište</Label>
         <TextBox Name="OpBroj" Text="{Binding CurrentItemMat.Kljnaz}" Grid.Row="1" KeyDown="TextBox_KeyDown"  Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left" FontWeight="Bold"  Width="170" FontSize="18">
@@ -197,7 +257,7 @@
                 <Button x:Name="btnTrazi" FontSize="18" Content="Traži" Width="110" Margin="5,5,0,5" Grid.Column="1" HorizontalAlignment="Left" Command="{Binding TraziSifruMaterijalaCommand}" />
                 <Button x:Name="btnNovaKalkulacija" Content="Novi povrat" FontSize="18" Width="140" Margin="5,5,0,5" HorizontalAlignment="Left"  Command="{Binding NovoZaduzenjeCommand}"/>
                 <Button x:Name="btnSnimi" Content="Snimi" FontSize="18" Width="140" Margin="5,5,-2,5" HorizontalAlignment="Left" Command="{Binding SpasiNovuKalkulacijuCommand}" />
-                <Button x:Name="btnStampa1" Content="Štampa Storna" FontSize="18" Width="140" Margin="5,5,-2,5" HorizontalAlignment="Left" Command="{Binding PrintCommand}" />
+                <!--<Button x:Name="btnStampa1" Content="Štampa Storna" FontSize="18" Width="140" Margin="5,5,-2,5" HorizontalAlignment="Left" Command="{Binding PrintCommand}" />-->
                 <!--<Button x:Name="btnSnimi" Content="Snimi" FontSize="18" Width="110" Margin="5,5,0,5" HorizontalAlignment="Left" Command="{Binding IzlazCommand}" Visibility="{Binding Path=VidljivoOdabirVrsteIncidenta}"/>
                 <Button x:Name="btnStampa" Content="Štampa Storna" FontSize="18" Width="130" Margin="5,5,0,5" HorizontalAlignment="Left" Command="{Binding IzlazCommand}" Visibility="{Binding Path=VidljivoOdabirVrsteIncidenta}"/>-->
                 <!--<Button x:Name="btnKrajFakture" Content="Kraj Izlaza" FontSize="18" Width="130" Margin="5,5,0,5" HorizontalAlignment="Left" Command="{Binding KrajFaktureCommand}"/>-->

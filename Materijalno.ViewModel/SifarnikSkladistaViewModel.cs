@@ -20,13 +20,24 @@ namespace Materijalno.ViewModel
 
         private ApplicationViewModel _avm;
         private GlavniViewModel _gvm;
-
+        private SifarnikSkladista currentItemSklad;
         private SifarnikSkladista selectedSifarnikSkladista;
         private bool isSelectedUnosSifarnik = false;
+
 
         public ObservableCollection<SifarnikSkladista> SifarnikSkladistaList { get; set; }
 
         #endregion
+        
+        public SifarnikSkladista CurrentItemSklad
+        {
+            get { return currentItemSklad; }
+            set
+            {
+                currentItemSklad = value;
+                OnPropertyChanged(nameof(CurrentItemSklad));
+            }
+        }
 
         #region Commands
         public ICommand DeleteSifarnikSkladistaCommand { get; set; }
