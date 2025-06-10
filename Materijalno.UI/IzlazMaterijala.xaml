@@ -314,7 +314,7 @@
                 <Button x:Name="btnSlijedecaStavka" FontSize="18" Width="130" Margin="5,5,0,5" HorizontalAlignment="Left" Content="Slij. stavka"  Command="{Binding SlijStavkaButtonCommand}" />
                 <Button x:Name="btnNovaStavka" Content="Nova stavka" FontSize="18" Width="130" Margin="5,5,0,5" HorizontalAlignment="Left" Command="{Binding NovaStavkaCommand}" IsEnabled="False" />
                 <Button x:Name="btnIzmjenaStavka" FontSize="18" Width="130" Margin="5,5,0,5" HorizontalAlignment="Left"  Content="Izmjena" Command="{Binding UpdateCommand}" />
-                <Button x:Name="btnOdustani" Content="Odustani" FontSize="18" Width="110" Margin="5,5,0,5" HorizontalAlignment="Left" Command="{Binding OdustaniCommand}" />
+                <Button Content="Odustani" FontSize="18" Width="110" Margin="5,5,0,5" HorizontalAlignment="Left" Command="{Binding OdustaniCommand}" />
                 <Button x:Name="btnBrisanje" Content="Brisanje" FontSize="18" Width="100" Margin="5,5,0,5" HorizontalAlignment="Left" Command="{Binding BrisanjeCommand}"/>
             </StackPanel>
         </Grid>
