@@ -6,7 +6,7 @@
              xmlns:vm="clr-namespace:Materijalno.ViewModel;assembly=Materijalno.ViewModel"
              xmlns:local="clr-namespace:Materijalno.UI"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="900">
+             d:DesignHeight="450" d:DesignWidth="1900">
 
 
     <!--DataContext je dodat kroz konstruktor, uzima iz SifarnikSkladistaViewModel-->
@@ -47,14 +47,14 @@
 
         <TextBlock Text="ŠIFARNIK SKLADISTA" FontSize="18" Margin="450,0,0,0" FontWeight="Bold" Grid.Column="0" Grid.ColumnSpan="4" VerticalAlignment="Center" HorizontalAlignment="Center" />
 
-        <Border Background="AliceBlue" BorderBrush="Silver" BorderThickness="1,1,1,1" Grid.Row="1" Grid.RowSpan="10" Grid.Column="0" Grid.ColumnSpan="6"/>
+        <Border Background="AliceBlue"  Grid.Row="1" Grid.RowSpan="10" Grid.Column="0" Grid.ColumnSpan="6"/>
         <!--<Label Content="{Binding Path=OdabranaOpcija, FallbackValue='odabrana_opcija'}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center"  VerticalAlignment="Center" Foreground="Black" FontSize="14" FontWeight="Bold" Height="34" Margin="0,-30,-128,28" Grid.Column="1" Grid.Row="1"/>-->
 
         <!--<Label Grid.Row="1" VerticalAlignment="Center" FontSize="18">Sort:</Label>-->
         <!--<ComboBox Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" Height="30"/>-->
 
-        <Button Background="White" Grid.Row="1" Grid.Column="4" x:Name="btnStampa"  FontSize="18" Width="50" Margin="200,5,0,20" HorizontalAlignment="Left" Command="{Binding StampaCommand}" >
-            <Image Source="/Ikone/print.png" Stretch="Uniform"/>
+        <Button Background="White" Grid.Row="1" Grid.Column="4" x:Name="btnStampa"  FontSize="18" Width="50" Margin="200,5,0,20" HorizontalAlignment="Left" Click="stampa_button" >
+            <Image Source="/Ikone/printer.png" Stretch="Uniform"/>
             <Button.ToolTip>
                 <ToolTip Content="Print"/>
             </Button.ToolTip>
@@ -85,7 +85,7 @@
         <RadioButton Grid.Row="1" Grid.Column="4" Margin="0,20,0,16" Content="Iskljucen"/>
         <RadioButton Grid.Row="1"  Grid.Column="4" Content="Ukljucen" Margin="0,60,0,46" Grid.RowSpan="2"/>-->
 
-        <ListView Grid.Row="2" FontSize="18" Grid.RowSpan="4" Grid.Column="1" Grid.ColumnSpan="4" Name="GrKomitenti" ItemsSource="{Binding SifarnikSkladistaList}" SelectedValue="{Binding SelectedSifarnikSkladista}">
+        <ListView Grid.Row="2" FontSize="18" Grid.RowSpan="4" Grid.Column="1" Grid.ColumnSpan="4" Name="GrKomitenti" ItemsSource="{Binding SifarnikSkladistaList}" SelectedItem="{Binding SelectedSifarnikSkladista, Mode=TwoWay}">
 
             <ListView.View>
                 <GridView>
@@ -106,7 +106,7 @@
                     <GridViewColumn Header="Kljnaz" DisplayMemberBinding="{Binding Kljnaz}" 
                                     Width="200" ></GridViewColumn>
                     <GridViewColumn Header="Nazivorg" DisplayMemberBinding="{Binding NazivOrg}" 
-                                    Width="200" ></GridViewColumn>
+                                    Width="390" ></GridViewColumn>
                     <GridViewColumn Header="Opstina" DisplayMemberBinding="{Binding Opstina}"
                                     Width="200"></GridViewColumn>
                     <GridViewColumn Header="Mjeadr" DisplayMemberBinding="{Binding MjestoAdresa}"
