@@ -104,7 +104,7 @@
         <TextBox Grid.Row="5" Margin="0,33,60,4" IsEnabled="False" Text="{Binding CurrentItemMat.Vrijed, StringFormat=N2, ConverterCulture='de-DE', TargetNullValue='0,00', UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" KeyDown="TextBox_KeyDown" Grid.Column="3" VerticalAlignment="Center" HorizontalAlignment="Right" FontSize="18"  Width="215" Grid.ColumnSpan="2"/>
 
         <Label Grid.Row="6" Grid.Column="3" Margin="0,0,5,0" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="18">Ukupna vrijednost</Label>
-        <TextBox Grid.Row="6" Grid.Column="4" IsEnabled="False" KeyDown="TextBox_KeyDown"  VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="18"  Width="215"/>
+        <TextBox Grid.Row="6" Text="{Binding SumVrijed, StringFormat=N2, ConverterCulture='de-DE', TargetNullValue='0,00', UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Grid.Column="4" IsEnabled="False" KeyDown="TextBox_KeyDown"  VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="18"  Width="215"/>
 
 
         <Grid Grid.Row="9" Grid.Column="0" Grid.ColumnSpan="6" HorizontalAlignment="Center" VerticalAlignment="Center">

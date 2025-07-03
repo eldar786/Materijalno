@@ -69,8 +69,12 @@ namespace Materijalno.ViewModel
             get { return currentItemMat; }
             set
             {
-                currentItemMat = value;
-                OnPropertyChanged(nameof(CurrentItemMat));
+                if (currentItemMat != value)
+                {
+                    currentItemMat = value;
+                    OnPropertyChanged(nameof(CurrentItemMat));
+                    UpdateSumVrijed(); // update sum when CurrentItemMat changes
+                }
             }
         }
 
@@ -181,6 +185,20 @@ namespace Materijalno.ViewModel
         public ObservableCollection<Mat> MatList { get; set; }
         public ObservableCollection<Mat> PrintList { get; set; }
         public List<Komitenti> StaraSifra_Ime_List { get; set; }
+
+        private decimal sumVrijed;
+        public decimal SumVrijed
+        {
+            get => sumVrijed;
+            set
+            {
+                if (sumVrijed != value)
+                {
+                    sumVrijed = value;
+                    OnPropertyChanged(nameof(SumVrijed));
+                }
+            }
+        }
 
         private bool _isNovaKalkulacijaClicked;
         public bool IsNovaKalkulacijaClicked
@@ -401,6 +419,7 @@ namespace Materijalno.ViewModel
                 CurrentItemMat.Vrijed = (decimal)CurrentItemMat.Kolic.Value * CurrentItemMat.Nc;
             }
             else
+
             {
                 // U slucaju da je Kolic null ili nula, da bi izbjegli dijeljenje sa nulom
                 CurrentItemMat.Nc = 0;
@@ -950,6 +969,24 @@ namespace Materijalno.ViewModel
 
             selectedKomitent = null;
         }
+
+        private void UpdateSumVrijed()
+        {
+            if (CurrentItemMat?.Kljnaz != null)
+            {
+                int currentKljnaz = CurrentItemMat.Kljnaz.Value;
+
+                SumVrijed = MatList
+                    .Where(m => m.Kljnaz == currentKljnaz)
+                    .Sum(m => m.Vrijed ?? 0); // handle nullable decimal
+            }
+            else
+            {
+                SumVrijed = 0;
+            }
+        }
+
+
 
         protected virtual void OnPropertyChanged(string propertyName)
         {
