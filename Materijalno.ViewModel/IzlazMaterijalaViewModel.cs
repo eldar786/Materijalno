@@ -752,7 +752,7 @@ namespace Materijalno.ViewModel
 
                 if (CurrentItemMat.Ident != null)
                 {
-                    CurrentItemMat.Konto1 = (int?)dbContext.TabelaMaterijala
+                    currentItemMat.Konto1 = (int?)dbContext.TabelaMaterijala
                     .Where(row => row.Ident == CurrentItemMat.Ident)
                     .Select(row => row.Konto1)
                     .FirstOrDefault();
