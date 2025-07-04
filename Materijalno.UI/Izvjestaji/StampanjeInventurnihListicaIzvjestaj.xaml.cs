@@ -129,7 +129,7 @@ namespace Materijalno.UI.Izvjestaji
                 _report = new ReportStampanjeInventurnihListica();
 
                 _report.Ident = mat.Ident;
-                _report.NazMat = tabmat.Nazmat;
+                _report.NazMat = tabmat.Nazmat; //pada?
                 _report.Kolic = mat.Kolic;
                 _report.Nc = mat.Nc;
                 _report.Vrijed = mat.Vrijed;
