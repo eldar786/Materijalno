@@ -64,17 +64,15 @@ namespace Materijalno.ViewModel
         #region Properties and Lists
 
         //Staviti bolji naziv CurrentItemMat
+        
         public Mat CurrentItemMat
         {
             get { return currentItemMat; }
             set
             {
-                if (currentItemMat != value)
-                {
-                    currentItemMat = value;
-                    OnPropertyChanged(nameof(CurrentItemMat));
-                    UpdateSumVrijed(); // update sum when CurrentItemMat changes
-                }
+                currentItemMat = value;
+                OnPropertyChanged(nameof(CurrentItemMat));
+                UpdateSumVrijed();
             }
         }
 
