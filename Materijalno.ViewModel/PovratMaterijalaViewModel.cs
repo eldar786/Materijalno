@@ -48,6 +48,7 @@ namespace Materijalno.ViewModel
         private bool spasi = false;
         public static Komitenti selectedKomitent;
         public static bool isNovaKalkulacijaClicked = false;
+        public static bool isIzlazEnable = false;
         public static bool isTraziClicked = false;
         public static Mat selectedMat;
 
@@ -127,7 +128,39 @@ namespace Materijalno.ViewModel
             }
         }
 
+        private bool _isNovaKalkulacijaClicked;
+        public bool IsNovaKalkulacijaClicked
+        {
+            get => _isNovaKalkulacijaClicked;
+            set
+            {
+                if (_isNovaKalkulacijaClicked != value)
+                {
+                    _isNovaKalkulacijaClicked = value;
+                    OnPropertyChanged(nameof(IsNovaKalkulacijaClicked));
+                    SlijStavkaButtonCommand.RaiseCanExecuteChanged(); // Notify the command to re-evaluate CanExecute
+                }
+            }
+        }
 
+        private bool _isOdustaniEnabled;
+
+        //Ovo je uslov koji je vezan za Odustani button i ako za property kazemo false, automatski ce biti button disabled, ne treba pozivati dodatno 
+        //OdustaniCommand.RaiseCanExecuteChanged();, jer je dodato u setter da to radi kada dodje do promjene vrijednosti
+        public bool IsOdustaniEnabled
+        {
+            get => _isOdustaniEnabled;
+            set
+            {
+                //ako je doslo do promjene vrijednosti, tj. ako vrijednost nije ista, ako je npr preslo iz true u false
+                if (_isOdustaniEnabled != value)
+                {
+                    _isOdustaniEnabled = value;
+                    OnPropertyChanged(nameof(IsOdustaniEnabled));
+                    OdustaniCommand.RaiseCanExecuteChanged(); // Notify the command to re-evaluate CanExecute
+                }
+            }
+        }
 
         public ObservableCollection<TabelaMaterijala> TebelaMaterijalaList { get; set; }
         public ObservableCollection<SifarnikSkladista> TebelaSkladistaList { get; set; }
@@ -146,7 +179,7 @@ namespace Materijalno.ViewModel
 
         public RelayCommand BrisanjeCommand { get; set; }
         public RelayCommand UpdateCommand { get; set; }
-        public RelayCommand NovoZaduzenjeCommand { get; set; }
+        public RelayCommand NoviPovratCommand { get; set; }
         public RelayCommand NovaStavkaCommand { get; set; }
 
         //Potrebno uraditi ???
@@ -159,6 +192,7 @@ namespace Materijalno.ViewModel
         public RelayCommand NabavnaCijenaCommand { get; set; }
         public RelayCommand IzlazCommand { get; set; }
         public RelayCommand OsvjeziCommand { get; set; }
+        public RelayCommand SlijStavkaButtonCommand { get; set; }
 
         #endregion
 
@@ -175,17 +209,15 @@ namespace Materijalno.ViewModel
             NextButtonCommand = new RelayCommand(NextButton, () => !isNovaKalkulacijaClicked);
             PrethodniButtonCommand = new RelayCommand(PrethodniButton, () => !isNovaKalkulacijaClicked);
             //ZadnjiButtonCommand = new RelayCommand(ZadnjiButton, () => !isNovaKalkulacijaClicked);
-
-
-
             BrisanjeCommand = new RelayCommand(Brisanje, () => !isNovaKalkulacijaClicked);
             UpdateCommand = new RelayCommand(Update, () => !isNovaKalkulacijaClicked);
-            NovoZaduzenjeCommand = new RelayCommand(NovaKalkulacija, () => !isNovaKalkulacijaClicked);
+            NoviPovratCommand = new RelayCommand(NoviPovrat, () => !isNovaKalkulacijaClicked);
             SpasiNovuKalkulacijuCommand = new RelayCommand(SpasiNovuKalkulaciju, () => isNovaKalkulacijaClicked);
-            OdustaniCommand = new RelayCommand(Odustani, () => isNovaKalkulacijaClicked);
-            IzlazCommand = new RelayCommand(Izlaz, () => isNovaKalkulacijaClicked);
+            OdustaniCommand = new RelayCommand(Odustani, () => IsOdustaniEnabled);
+            IzlazCommand = new RelayCommand(Izlaz, () => isIzlazEnable);
             TraziSifruMaterijalaCommand = new RelayCommand(Trazi, () => !isNovaKalkulacijaClicked);
             //StampaCommand = new RelayCommand(Stampa, () => !isNovaKalkulacijaClicked);
+            SlijStavkaButtonCommand = new RelayCommand(SlijStavkaButton, () => IsNovaKalkulacijaClicked);
 
             PrintCommand = new RelayCommand(Print, () => !isNovaKalkulacijaClicked);
             NabavnaCijenaCommand = new RelayCommand(NabavnaCijena);
@@ -245,16 +277,17 @@ namespace Materijalno.ViewModel
             //ZadnjiButtonCommand = new RelayCommand(ZadnjiButton, () => !isNovaKalkulacijaClicked);
             BrisanjeCommand = new RelayCommand(Brisanje, () => !isNovaKalkulacijaClicked);
             UpdateCommand = new RelayCommand(Update, () => !isNovaKalkulacijaClicked);
-            NovoZaduzenjeCommand = new RelayCommand(NovaKalkulacija, () => !isNovaKalkulacijaClicked);
+            NoviPovratCommand = new RelayCommand(NoviPovrat, () => !isNovaKalkulacijaClicked);
             SpasiNovuKalkulacijuCommand = new RelayCommand(SpasiNovuKalkulaciju, () => isNovaKalkulacijaClicked);
-            OdustaniCommand = new RelayCommand(Odustani, () => isNovaKalkulacijaClicked);
-            IzlazCommand = new RelayCommand(Izlaz, () => isNovaKalkulacijaClicked);
+            OdustaniCommand = new RelayCommand(Odustani, () => IsOdustaniEnabled);
+            IzlazCommand = new RelayCommand(Izlaz, () => isIzlazEnable);
             TraziSifruMaterijalaCommand = new RelayCommand(Trazi, () => !isNovaKalkulacijaClicked);
             PrintCommand = new RelayCommand(Print, () => !isNovaKalkulacijaClicked);
 
             OtvoriKomitentListuCommand = new RelayCommand(OtvoriKomitentListu);
             NabavnaCijenaCommand = new RelayCommand(NabavnaCijena);
             OsvjeziCommand = new RelayCommand(Osvjezi);
+            SlijStavkaButtonCommand = new RelayCommand(SlijStavkaButton, () => !IsNovaKalkulacijaClicked);
             #endregion
 
             UpdateCommands();
@@ -500,6 +533,12 @@ namespace Materijalno.ViewModel
                 {
                     return;
                 }
+                
+                if (CurrentIndex == MatList.Count)
+                {
+                    CurrentIndex = MatList.Count - 1;
+                }
+
                 UpdateCurrentItemData(dbContext);
             }
         }
@@ -559,8 +598,32 @@ namespace Materijalno.ViewModel
 
         private void Izlaz()
         {
-            _gvm.OdabraniVM = new PovratMaterijalaViewModel(_gvm);
+            //Disabled SNIMI i NOVA STAVKA, treba jos Slij.STAVKA i ODUSTANI
+
+            isNovaKalkulacijaClicked = false;
+            _isNovaKalkulacijaClicked = false;
+            isIzlazEnable = false;
+            IzlazCommand.RaiseCanExecuteChanged();
+
+            //ODUSTANI COMMAND treba da bude nedostupno nakon Kraj Izlaza??
+            IsOdustaniEnabled = false;
+            OdustaniCommand.RaiseCanExecuteChanged();
+
+            UpdateCommands();
+            SlijStavkaButtonCommand.RaiseCanExecuteChanged();
+
+            using (var dbContext = new materijalno_knjigovodstvoContext())
+            {
+                //Samo vrati buttone i zadnji kreiran
+
+                CurrentIndex = MatList.Count - 1;
+                CurrentItemMat = MatList[CurrentIndex];
+                //_gvm.OdabraniVM = new IzlazMaterijalaViewModel(_gvm);
+
+                UpdateCurrentItemData(dbContext);
+            }
         }
+
         private void BrojKalkulacije()
         {
             var dbContext = new materijalno_knjigovodstvoContext();
@@ -596,10 +659,11 @@ namespace Materijalno.ViewModel
             //}
         }
 
-        private void NovaKalkulacija()
+        private void NoviPovrat()
         {
             //Prolazi ponovo provjeru CanExecute
             isNovaKalkulacijaClicked = true;
+            IsOdustaniEnabled = true;
 
             UpdateCommands();
 
@@ -609,13 +673,17 @@ namespace Materijalno.ViewModel
                 {
                     //Za ulaz materijala broj skladišta je uvijek 1000
                     //Kljnaz = 1000
+                    Status = "V",
+                    Kljnaz1 = 0,
+                    Redbr = 1
                 });
 
                 CurrentIndex = MatList.Count - 1;
                 CurrentItemMat = MatList[CurrentIndex];
 
-                CurrentItemMat.Status = "V";
-                CurrentItemMat.Kljnaz1 = 0;
+                //CurrentItemMat.Status = "I";
+                //CurrentItemMat.Kljnaz1 = 0;
+                //CurrentItemMat.Redbr = 1;
 
                 BrojKalkulacije();
 
@@ -626,6 +694,34 @@ namespace Materijalno.ViewModel
             }
         }
 
+        private bool ValidacijaSpasi()
+        {
+            var property = typeof(Mat).GetProperties();
+            bool allNull = property.All(prop => prop.GetValue(CurrentItemMat) == null);
+
+            if (CurrentItemMat.Ourst == null || CurrentItemMat.Mjtst == null)
+            {
+                CurrentItemMat.Ourst = 000;
+                CurrentItemMat.Mjtst = 000000;
+            }
+
+            else if (CurrentItemMat.Vrijed == null || CurrentItemMat.Nc == null)
+            {
+                CurrentItemMat.Vrijed = 0;
+                CurrentItemMat.Nc = 0;
+            }
+
+            //Ovo smo morali rucno za sada, dok se ne uradi validacija u xamlu
+            if (CurrentItemMat.Kljnaz == null || CurrentItemMat.Datun == null || CurrentItemMat.Brfak == null ||
+                CurrentItemMat.Brdok == null || CurrentItemMat.Datnar == null || CurrentItemMat.Redbr == null ||
+                CurrentItemMat.Ident == null || CurrentItemMat.Kolic == null)
+            {
+                return false;
+            }
+
+            return true;
+        }
+
         private void SpasiNovuKalkulaciju()
         {
             using (var dbContext = new materijalno_knjigovodstvoContext())
@@ -633,7 +729,7 @@ namespace Materijalno.ViewModel
                 currentItemMat.Status = "V";
                 currentItemMat.Kontosklad1 = 0;
 
-                if (currentItemMat.Ident != null)
+                if (CurrentItemMat.Ident != null)
                 {
                     currentItemMat.Konto1 = (int?)dbContext.TabelaMaterijala
                     .Where(row => row.Ident == CurrentItemMat.Ident)
@@ -649,6 +745,14 @@ namespace Materijalno.ViewModel
                     .FirstOrDefault();
                 }
 
+                //Ako validacija ne prodje, tj. ako fali neko polje
+                if (ValidacijaSpasi() == false)
+                {
+                    System.Windows.MessageBox.Show("Molimo unesite sva polja!", "Upozorenje", MessageBoxButton.OK, MessageBoxImage.Warning);
+
+                    return;
+                }
+
                 dbContext.Update(CurrentItemMat);
                 dbContext.SaveChanges();
 
@@ -662,8 +766,14 @@ namespace Materijalno.ViewModel
 
                 //Ovo kada je true, onda ce buttoni biti dostupni
                 isNovaKalkulacijaClicked = false;
+                _isNovaKalkulacijaClicked = true;
+                IsOdustaniEnabled = true;
+                isIzlazEnable = true;
 
-                UpdateCommands();
+                SpasiNovuKalkulacijuCommand.RaiseCanExecuteChanged();
+                SlijStavkaButtonCommand.RaiseCanExecuteChanged();
+                //Treba da je dostupan
+                IzlazCommand.RaiseCanExecuteChanged();
 
                 if (CurrentItemMat != null)
                 {
@@ -690,14 +800,15 @@ namespace Materijalno.ViewModel
             PrethodniButtonCommand.RaiseCanExecuteChanged();
             SpasiNovuKalkulacijuCommand.RaiseCanExecuteChanged();
             OdustaniCommand.RaiseCanExecuteChanged();
-            NovoZaduzenjeCommand.RaiseCanExecuteChanged();
+            NoviPovratCommand.RaiseCanExecuteChanged();
             BrisanjeCommand.RaiseCanExecuteChanged();
             UpdateCommand.RaiseCanExecuteChanged();
             TraziSifruMaterijalaCommand.RaiseCanExecuteChanged();
             PrintCommand.RaiseCanExecuteChanged();
-            IzlazCommand.RaiseCanExecuteChanged();
+            //IzlazCommand.RaiseCanExecuteChanged();
             SpasiNovuKalkulacijuCommand.RaiseCanExecuteChanged();
             OdustaniCommand.RaiseCanExecuteChanged();
+            SlijStavkaButtonCommand.RaiseCanExecuteChanged();
         }
 
         //Samo dostupno kada odemo na nova kalkulacija i da vrati na prethodni
@@ -731,6 +842,55 @@ namespace Materijalno.ViewModel
                 {
                     return;
                 }
+            }
+        }
+
+        private void SlijStavkaButton()
+        {
+            //Ostavi prve stavke, dodaj redni broj, ostala polja ostavi prazno i spasi kao novi currentItemMat
+            Mat snimljeniCurrentMat = currentItemMat;
+
+            using (var dbContext = new materijalno_knjigovodstvoContext())
+            {
+                //Dodaje u listu novi CurrentItemMat
+                MatList.Add(new Mat
+                {
+                    //Za ulaz materijala broj skladišta je uvijek 1000
+                    //Kljnaz = 1000
+                    Redbr = snimljeniCurrentMat.Redbr + 1,
+                    Kljnaz = snimljeniCurrentMat.Kljnaz,
+                    Brfak = snimljeniCurrentMat.Brfak,
+                    Datun = snimljeniCurrentMat.Datun,
+                    Datnar = snimljeniCurrentMat.Datnar,
+                    Brdok = snimljeniCurrentMat.Brdok,
+                    Status = "I",
+                    Kljnaz1 = 0
+                });
+
+                CurrentIndex = MatList.Count - 1;
+                CurrentItemMat = MatList[CurrentIndex];
+
+                //Dodaje po jedan a treba isti
+                //BrojKalkulacije();
+
+                dbContext.Add(CurrentItemMat);
+                dbContext.SaveChanges();
+
+                //kad uradi SlijedStavka, treba da ostane SNIMI i ODUSTANI
+
+
+                //Ovo kada je true, onda ce buttoni biti dostupni
+                _isNovaKalkulacijaClicked = false;
+                isNovaKalkulacijaClicked = true;
+                isIzlazEnable = false;
+                IsOdustaniEnabled = true;
+                SpasiNovuKalkulacijuCommand.RaiseCanExecuteChanged();
+
+                //Ova commanda zavisi od "_isNovaKalkulacijaClicked"
+                SlijStavkaButtonCommand.RaiseCanExecuteChanged();
+                IzlazCommand.RaiseCanExecuteChanged();
+
+                UpdateCurrentItemData(dbContext);
             }
         }
 
