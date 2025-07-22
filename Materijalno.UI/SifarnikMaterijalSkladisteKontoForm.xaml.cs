@@ -1,6 +1,8 @@
-﻿using System;
+﻿using Materijalno.ViewModel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Printing;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -23,6 +25,20 @@ namespace Materijalno.UI
         public SifarnikMaterijalSkladisteKontoForm()
         {
             InitializeComponent();
+        }
+
+        private void TextBox_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                MoveFocusToNextControl(sender as TextBox);
+                e.Handled = true;
+            }
+        }
+
+        private void MoveFocusToNextControl(TextBox currentTextBox)
+        {
+            currentTextBox.MoveFocus(new TraversalRequest(FocusNavigationDirection.Next));
         }
     }
 }
