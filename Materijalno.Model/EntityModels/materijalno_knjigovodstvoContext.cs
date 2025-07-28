@@ -57,7 +57,6 @@ namespace Materijalno.Model.EntityModels
 
             modelBuilder.Entity<SifarnikMaterijala>(entity =>
             {
-               
                 entity.HasKey(e => e.Id);
 
                 entity.ToTable("sifarnik_materijala");
