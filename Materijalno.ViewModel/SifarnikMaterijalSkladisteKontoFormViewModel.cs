@@ -36,17 +36,28 @@ namespace Materijalno.ViewModel
 
         private bool ValidationSifarnikMaterijalSkladisteKonto()
         {
-            if (!SifarnikMaterijalSkladisteKonto.Sifmat.HasValue ||
-                !SifarnikMaterijalSkladisteKonto.Sifskla.HasValue ||
-                !SifarnikMaterijalSkladisteKonto.Sifkonta.HasValue)
+            if (!sifarnikMaterijalSkladisteKonto.Sifmat.HasValue ||
+                !sifarnikMaterijalSkladisteKonto.Sifskla.HasValue ||
+                !sifarnikMaterijalSkladisteKonto.Sifkonta.HasValue)
             {
                 return false;
             }
-            else
+
+            using (var context = new materijalno_knjigovodstvoContext())
             {
-                return true;
+                bool exists = context.SifarnikMaterijalSkladisteKonto.Any(s =>
+                    s.Id != sifarnikMaterijalSkladisteKonto.Id && s.Sifmat == sifarnikMaterijalSkladisteKonto.Sifmat && s.Sifskla == sifarnikMaterijalSkladisteKonto.Sifskla && s.Sifkonta == sifarnikMaterijalSkladisteKonto.Sifkonta);
+
+                if (exists)
+                {
+                    System.Windows.MessageBox.Show("Već postoji zapis sa istim šifrom materijala, skladištem i kontom.", "Greška", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return false;
+                }
             }
+
+            return true;
         }
+
 
         private void SaveSifarnikMaterijalSkladisteKonto()
         {

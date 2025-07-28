@@ -55,22 +55,29 @@ namespace Materijalno.ViewModel
 
         private bool ValidationSifarnikSkladista()
         {
-            if (!SifarnikSkladista.Kljnaz.HasValue ||
-                string.IsNullOrWhiteSpace(sifarnikSkladista.NazivOrg) ||
-                //!SifarnikSkladista.ZiroRacun.HasValue ||
-                //!SifarnikSkladista.PozBr.HasValue ||
-                //!SifarnikSkladista.DevizniRacun.HasValue ||
-                //!SifarnikSkladista.PozBrD.HasValue ||
-                string.IsNullOrEmpty(SifarnikSkladista.Opstina) ||
-                string.IsNullOrEmpty(SifarnikSkladista.MjestoAdresa))
+            if (!sifarnikSkladista.Kljnaz.HasValue ||
+                string.IsNullOrWhiteSpace(sifarnikSkladista.NazivOrg))
             {
                 return false;
             }
-            else
+
+            using (var context = new materijalno_knjigovodstvoContext())
             {
-                return true;
+                // Check if the Kljnaz value already exists in the database
+                bool exists = context.SifarnikSkladista
+                    .Any(s => s.Kljnaz == sifarnikSkladista.Kljnaz && s.Id != sifarnikSkladista.Id);
+
+                if (exists)
+                {
+                    // Show an error message or throw an exception depending on your setup
+                    System.Windows.MessageBox.Show("Kljnaz već postoji", "Greška", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return false;
+                }
             }
+
+            return true;
         }
+
 
         private void SaveSifarnikSkladista()
         {
