@@ -224,7 +224,6 @@ namespace Materijalno.ViewModel
                 //Neki datum preskoci, treba napraviti dobar data type za kolonu (datun) u sql bazi
                 MatList = new ObservableCollection<Mat>(dbContext.Mat
                      .Where(row => row.Kljnaz1 >= 1000 && row.Kljnaz1 <= 1012 && row.Kljnaz >= 1000 && row.Kljnaz <= 1012)
-                     .OrderBy(row => row.Datun)
                      .ToList());
 
                 UpdateCurrentItemData(dbContext);

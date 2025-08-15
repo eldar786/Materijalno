@@ -717,7 +717,7 @@ namespace Materijalno.ViewModel
         }
 
         private bool ValidacijaSpasi()
-        {
+         {
             var property = typeof(Mat).GetProperties();
             bool allNull = property.All(prop => prop.GetValue(CurrentItemMat) == null);
 
@@ -739,7 +739,7 @@ namespace Materijalno.ViewModel
             return true;
         }
 
-        private void ValidacijaZaliheMaterijala()
+        private bool ValidacijaZaliheMaterijala()
         {
             using (var dbContext = new materijalno_knjigovodstvoContext())
             {
@@ -748,12 +748,12 @@ namespace Materijalno.ViewModel
                 //2. Onda od pocetnog stanja + Ulazi(za taj magacin i taj materijal) - Izlazi(za taj magacin i taj materijal)
                 //3. Ako je Izlaz Vrijednost ili količine veci od stvarne zalihe materijala tj. ako ode ispod nule onda izbaci poruku
 
-                decimal? ukupnoUlaziMaterijal = new decimal();
-                decimal? ukupnoIzlaziMaterijal = new decimal();
+                int? ukupnoUlaziMaterijal = new int();
+                int? ukupnoIzlaziMaterijal = new int();
 
                 //POCETNO STANJE
-                decimal pocetnoStanje = (decimal)dbContext.Mat
-                    .Where(row => row.Kljnaz == currentItemMat.Kljnaz && row.Ident == currentItemMat.Ident && row.Status == "P").Select(row => row.Vrijed).FirstOrDefault();
+                int pocetnoStanje = (int)dbContext.Mat
+                    .Where(row => row.Kljnaz == currentItemMat.Kljnaz && row.Ident == currentItemMat.Ident && row.Status == "P").Select(row => row.Kolic).FirstOrDefault();
 
                 //ULAZI ZA MATERIJAL I SKLADISTE
                 ObservableCollection<Mat> ulaziMaterijal = new ObservableCollection<Mat>(dbContext.Mat.Where(row => row.Kljnaz == currentItemMat.Kljnaz && row.Ident == currentItemMat.Ident
@@ -762,7 +762,7 @@ namespace Materijalno.ViewModel
                 //Idi kroz listu i saberi sve Vrijednosti
                 foreach (var item in ulaziMaterijal)
                 {
-                    ukupnoUlaziMaterijal += item.Vrijed;
+                    ukupnoUlaziMaterijal += item.Kolic;
                 }
 
                 //IZLAZI ZA MATERIJAL I SKLADISTE
@@ -771,18 +771,19 @@ namespace Materijalno.ViewModel
 
                 foreach (var item in izlaziMaterijal)
                 {
-                    ukupnoIzlaziMaterijal += item.Vrijed;
+                    ukupnoIzlaziMaterijal += item.Kolic;
                 }
 
-                decimal? stvarnoStanje = pocetnoStanje + ukupnoUlaziMaterijal - (-ukupnoIzlaziMaterijal);
+                int? stvarnoStanje = pocetnoStanje + ukupnoUlaziMaterijal - (-ukupnoIzlaziMaterijal);
 
                 if (stvarnoStanje < 0)
                 {
                     System.Windows.MessageBox.Show("Količina je veća od zaliha materijala!", "Upozorenje", MessageBoxButton.OK, MessageBoxImage.Warning);
-
-                    return;
+                    
+                    return false;
                 }
             }
+            return true;
         }
 
         //Pokupi sva polja trenutna i spasi. Trebalo bi napraviti disabled SAVE button ako nije odabrana nova kalkulacija
@@ -812,7 +813,10 @@ namespace Materijalno.ViewModel
                     .FirstOrDefault();
                 }
 
-                ValidacijaZaliheMaterijala();
+                if (ValidacijaZaliheMaterijala() == false)
+                {
+                    return;
+                }
 
                 //Pc stanje + Ulazi + Izlazi (to je stvarno stanje) ako je novi izlaz veci od stavrnog stanja onda treba da izbaci gresku poruku
 

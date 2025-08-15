@@ -51,10 +51,11 @@ namespace Materijalno.UI.Izvjestaji
 
             var dbContext = new materijalno_knjigovodstvoContext();
 
+            //analitickavm.CurrentItemMat.Datun treba staviti od 01.01
             MatList = new ObservableCollection<Mat>(dbContext.Mat
                 .Where(row => row.Ident == analitickavm.CurrentItemMat.Ident
                             && row.Kljnaz == analitickavm.CurrentItemMat.Kljnaz
-                            && (row.Status == "M" || row.Status == "I" || row.Status == "S")
+                            && (row.Status == "M" || row.Status == "I" || row.Status == "S" || row.Status == "P")
                              && row.Datun >= analitickavm.CurrentItemMat.Datun &&
                              row.Datnar <= analitickavm.CurrentItemMat.Datnar)
                 .OrderBy(row => row.Datun)

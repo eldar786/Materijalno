@@ -39,7 +39,7 @@
           <Paragraph>
             <TextRuns>
               <TextRun>
-                <Value>Analitička kartica  do:</Value>
+                <Value>Analitička kartica  od:</Value>
                 <Style>
                   <FontWeight>Bold</FontWeight>
                 </Style>
@@ -71,7 +71,7 @@
           <Paragraph>
             <TextRuns>
               <TextRun>
-                <Value>=Format(First(Fields!Do.Value, "DataSet1"), "dd/MM/yyyy")</Value>
+                <Value>=Format(First(Fields!Do.Value, "DataSet1"), "dd.MM.yyyy")</Value>
                 <Style>
                   <FontWeight>Bold</FontWeight>
                   <Format>d</Format>
@@ -83,7 +83,7 @@
         </Paragraphs>
         <rd:DefaultName>Do</rd:DefaultName>
         <Top>1.15521cm</Top>
-        <Left>10.96777cm</Left>
+        <Left>14.14909cm</Left>
         <Height>0.6cm</Height>
         <Width>3.17618cm</Width>
         <ZIndex>2</ZIndex>
@@ -706,14 +706,14 @@
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="Datun1">
+                    <Textbox Name="Datnar">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Fields!Datun.Value</Value>
+                              <Value>=Format(Fields!Datnar.Value, "dd.MM.yyyy")</Value>
                               <Style>
                                 <Format>d</Format>
                               </Style>
@@ -724,7 +724,7 @@
                           </Style>
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>Datun1</rd:DefaultName>
+                      <rd:DefaultName>Datnar</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
@@ -795,8 +795,11 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=IIF(Fields!Status.Value = "M", Fields!Kolic.Value, 0)</Value>
-                              <Style />
+                              <Value>=IIF(Fields!Status.Value = "M" OR Fields!Status.Value = "P", Fields!Kolic.Value, 0)</Value>
+                              <Style>
+                                <Format>n2</Format>
+                                <Language>hr-BA</Language>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style />
@@ -835,7 +838,10 @@
                           <TextRuns>
                             <TextRun>
                               <Value>=IIF(Fields!Status.Value = "I", Fields!Kolic.Value, 0)</Value>
-                              <Style />
+                              <Style>
+                                <Format>n2</Format>
+                                <Language>hr-BA</Language>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style />
@@ -914,11 +920,16 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=IIF(Fields!Status.Value = "M", Replace(FormatNumber(Fields!Kolic.Value * Fields!Nc.Value, 2), ".", ","), "0")</Value>
-                              <Style />
+                              <Value>=IIF(Fields!Status.Value = "M" OR Fields!Status.Value = "P", Fields!Kolic.Value * Fields!Nc.Value, 0)</Value>
+                              <Style>
+                                <Format>n2</Format>
+                                <Language>hr-BA</Language>
+                              </Style>
                             </TextRun>
                           </TextRuns>
-                          <Style />
+                          <Style>
+                            <TextAlign>Left</TextAlign>
+                          </Style>
                         </Paragraph>
                       </Paragraphs>
                       <Style>
@@ -953,7 +964,10 @@
                           <TextRuns>
                             <TextRun>
                               <Value>=IIF(Fields!Status.Value = "I", Replace(FormatNumber(Fields!Kolic.Value * Fields!Nc.Value, 2), ".", ","), "0")</Value>
-                              <Style />
+                              <Style>
+                                <Format>n2</Format>
+                                <Language>hr-BA</Language>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style />
@@ -1027,8 +1041,11 @@
           <Paragraph>
             <TextRuns>
               <TextRun>
-                <Value>=Sum(IIf(Fields!Status.Value = "M", Fields!Kolic.Value, 0))</Value>
-                <Style />
+                <Value>=Sum(IIf(Fields!Status.Value = "M" OR Fields!Status.Value = "P", Fields!Kolic.Value, 0))</Value>
+                <Style>
+                  <Format>n2</Format>
+                  <Language>hr-BA</Language>
+                </Style>
               </TextRun>
             </TextRuns>
             <Style />
@@ -1058,7 +1075,10 @@
             <TextRuns>
               <TextRun>
                 <Value>=Sum(IIf(Fields!Status.Value = "I", Fields!Kolic.Value, 0))</Value>
-                <Style />
+                <Style>
+                  <Format>n2</Format>
+                  <Language>hr-BA</Language>
+                </Style>
               </TextRun>
             </TextRuns>
             <Style />
@@ -1087,15 +1107,24 @@
           <Paragraph>
             <TextRuns>
               <TextRun>
-                <Value>=Replace(Format(Sum(IIf(Fields!Status.Value = "M", CDbl(Fields!Kolic.Value) * CDbl(Fields!Nc.Value), 0)), "N2"), ".", ",")</Value>
-                <Style />
+                <Value>=Sum(
+  IIf(
+    Fields!Status.Value = "M" OR Fields!Status.Value = "P",
+    Round(CDbl(Fields!Kolic.Value) * CDbl(Fields!Nc.Value), 2),
+    Nothing
+  )
+)</Value>
+                <Style>
+                  <Format>n2</Format>
+                  <Language>hr-BA</Language>
+                </Style>
               </TextRun>
             </TextRuns>
             <Style />
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox36</rd:DefaultName>
-        <Top>6.41257cm</Top>
+        <Top>6.37729cm</Top>
         <Left>16.80021cm</Left>
         <Height>0.6cm</Height>
         <Width>2.5cm</Width>
@@ -1117,8 +1146,17 @@
           <Paragraph>
             <TextRuns>
               <TextRun>
-                <Value>=Replace(Format(Sum(IIf(Fields!Status.Value = "I", CDbl(Fields!Kolic.Value) * CDbl(Fields!Nc.Value), 0)), "N2"), ".", ",")</Value>
-                <Style />
+                <Value>=Sum(
+  IIf(
+    Fields!Status.Value = "I",
+    Round(CDbl(Fields!Kolic.Value) * CDbl(Fields!Nc.Value), 2),
+    Nothing
+  )
+)</Value>
+                <Style>
+                  <Format>n2</Format>
+                  <Language>hr-BA</Language>
+                </Style>
               </TextRun>
             </TextRuns>
             <Style />
@@ -1147,12 +1185,15 @@
           <Paragraph>
             <TextRuns>
               <TextRun>
-                <Value>=Replace(Format(
-    Sum(IIf(Fields!Status.Value = "M", CDbl(Fields!Kolic.Value) * CDbl(Fields!Nc.Value), 0)) - 
-    Sum(IIf(Fields!Status.Value = "I", CDbl(Fields!Kolic.Value) * CDbl(Fields!Nc.Value), 0))
-, "N2"), ".", ",")</Value>
+                <Value>=Sum(IIf(
+  Fields!Status.Value="M" OR Fields!Status.Value="I" OR Fields!Status.Value="P",
+  Round(CDbl(Fields!Kolic.Value)*CDbl(Fields!Nc.Value), 2),
+  0
+))</Value>
                 <Style>
                   <FontWeight>Bold</FontWeight>
+                  <Format>n2</Format>
+                  <Language>hr-BA</Language>
                 </Style>
               </TextRun>
             </TextRuns>
@@ -1182,9 +1223,12 @@
           <Paragraph>
             <TextRuns>
               <TextRun>
-                <Value>=Sum(IIf(Fields!Status.Value = "M", Fields!Kolic.Value, 0)) - Sum(IIf(Fields!Status.Value = "I", Fields!Kolic.Value, 0))</Value>
+                <Value>=Sum(IIf(Fields!Status.Value = "M" OR Fields!Status.Value = "P", Fields!Kolic.Value, 0)) + 
+Sum(IIf(Fields!Status.Value = "I", Fields!Kolic.Value, 0))</Value>
                 <Style>
                   <FontWeight>Bold</FontWeight>
+                  <Format>n2</Format>
+                  <Language>hr-BA</Language>
                 </Style>
               </TextRun>
             </TextRuns>
@@ -1229,6 +1273,72 @@
         <Height>0.6cm</Height>
         <Width>2.5cm</Width>
         <ZIndex>29</ZIndex>
+        <Style>
+          <Border>
+            <Style>None</Style>
+          </Border>
+          <PaddingLeft>2pt</PaddingLeft>
+          <PaddingRight>2pt</PaddingRight>
+          <PaddingTop>2pt</PaddingTop>
+          <PaddingBottom>2pt</PaddingBottom>
+        </Style>
+      </Textbox>
+      <Textbox Name="Do2">
+        <CanGrow>true</CanGrow>
+        <KeepTogether>true</KeepTogether>
+        <Paragraphs>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Value>=Format(First(Fields!Od.Value, "DataSet1"), "dd.MM.yyyy")</Value>
+                <Style>
+                  <FontWeight>Bold</FontWeight>
+                  <Format>d</Format>
+                  <Language>bs-Latn-BA</Language>
+                </Style>
+              </TextRun>
+            </TextRuns>
+            <Style />
+          </Paragraph>
+        </Paragraphs>
+        <rd:DefaultName>Do</rd:DefaultName>
+        <Top>1.15521cm</Top>
+        <Left>10.86499cm</Left>
+        <Height>0.6cm</Height>
+        <Width>2.43293cm</Width>
+        <ZIndex>30</ZIndex>
+        <Style>
+          <Border>
+            <Style>None</Style>
+          </Border>
+          <PaddingLeft>2pt</PaddingLeft>
+          <PaddingRight>2pt</PaddingRight>
+          <PaddingTop>2pt</PaddingTop>
+          <PaddingBottom>2pt</PaddingBottom>
+        </Style>
+      </Textbox>
+      <Textbox Name="Textbox8">
+        <CanGrow>true</CanGrow>
+        <KeepTogether>true</KeepTogether>
+        <Paragraphs>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Value>do:</Value>
+                <Style>
+                  <FontWeight>Bold</FontWeight>
+                </Style>
+              </TextRun>
+            </TextRuns>
+            <Style />
+          </Paragraph>
+        </Paragraphs>
+        <rd:DefaultName>Textbox3</rd:DefaultName>
+        <Top>1.15521cm</Top>
+        <Left>13.29792cm</Left>
+        <Height>0.6cm</Height>
+        <Width>0.85117cm</Width>
+        <ZIndex>31</ZIndex>
         <Style>
           <Border>
             <Style>None</Style>
