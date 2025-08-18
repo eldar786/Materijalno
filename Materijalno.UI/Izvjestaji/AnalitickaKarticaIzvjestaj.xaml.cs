@@ -57,7 +57,7 @@ namespace Materijalno.UI.Izvjestaji
                             && row.Kljnaz == analitickavm.CurrentItemMat.Kljnaz
                             && (row.Status == "M" || row.Status == "I" || row.Status == "S" || row.Status == "P")
                              && row.Datun >= analitickavm.CurrentItemMat.Datun &&
-                             row.Datnar <= analitickavm.CurrentItemMat.Datnar)
+                             row.Datun <= analitickavm.CurrentItemMat.Datnar)
                 .OrderBy(row => row.Datun)
                 .ToList());
 
