@@ -63,7 +63,7 @@
 
         <TextBlock Text="{Binding ElementName=textBox1, Path=(Validation.Errors)/ErrorContent}" Foreground="Red" Grid.Row="1" Grid.Column="2" VerticalAlignment="Top" HorizontalAlignment="Left" />
 
-        <TextBox x:Name="textBox1" Grid.Row="1" Grid.Column="2" FontSize="18" Height="30" Margin="0,0,0,0" >
+        <TextBox x:Name="textBox1" KeyDown="TextBox_KeyDown" Grid.Row="1" Grid.Column="2" FontSize="18" Height="30" Margin="0,0,0,0" >
             <TextBox.Text>
                 <Binding Path="SifarnikKonta.Sifkonta" UpdateSourceTrigger="PropertyChanged">
                     <Binding.ValidationRules>
@@ -74,7 +74,7 @@
         </TextBox>
         <TextBlock Text="{Binding ElementName=textBox2, Path=(Validation.Errors)/ErrorContent}" Foreground="Red" Grid.Row="2" Grid.Column="2" VerticalAlignment="Top" HorizontalAlignment="Left" />
 
-        <TextBox x:Name="textBox2" Grid.Row="2" Grid.Column="2" FontSize="18" Height="30" Margin="0,0,0,-20">
+        <TextBox x:Name="textBox2" KeyDown="TextBox_KeyDown" Grid.Row="2" Grid.Column="2" FontSize="18" Height="30" Margin="0,0,0,-20">
             <TextBox.Text>
                 <Binding Path="SifarnikKonta.Nazkont" UpdateSourceTrigger="PropertyChanged">
                     <Binding.ValidationRules>

@@ -41,5 +41,7 @@ namespace Materijalno.Model.EntityModels
         public decimal? Trospe { get; set; }
         public int? Ourst { get; set; }
         public int? Mjtst { get; set; }
+
+        
     }
 }

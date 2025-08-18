@@ -40,10 +40,21 @@ namespace Materijalno.ViewModel
             {
                 return false;
             }
-            else
+            using (var context = new materijalno_knjigovodstvoContext())
             {
-                return true;
+                // Check if the Ident value already exists in the database
+                bool exists = context.SifarnikKonta
+                    .Any(s => s.Sifkonta == sifarnikKonta.Sifkonta && s.Id != sifarnikKonta.Id);
+
+                if (exists)
+                {
+                    // Show an error message or throw an exception depending on your setup
+                    System.Windows.MessageBox.Show("Šifra konta već postoji", "Greška", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return false;
+                }
             }
+
+            return true;
         }
 
         private void SaveSifarnikKonta()

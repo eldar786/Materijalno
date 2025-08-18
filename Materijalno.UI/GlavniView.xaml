@@ -6,7 +6,8 @@
              xmlns:local="clr-namespace:Materijalno.UI"
              xmlns:vm="clr-namespace:Materijalno.ViewModel;assembly=Materijalno.ViewModel"
              mc:Ignorable="d"
-             d:DesignHeight="800" d:DesignWidth="1100" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+             d:DesignHeight="800" d:DesignWidth="1100" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+             Loaded="UserControl_Loaded">
 
     <UserControl.Resources>
         <BooleanToVisibilityConverter x:Key="BoolToVis" />
@@ -63,7 +64,7 @@
             <local:NaloziMedjuskladisnica/>
         </DataTemplate>
 
-        <DataTemplate DataType="{x:Type vm:ZaduzenjeProdavniceViewModel}">
+        <DataTemplate DataType="{x:Type vm:NaloziZaduzenjeProdavniceViewModel}">
             <local:ZaduzenjeProdavnice/>
         </DataTemplate>
 
@@ -93,6 +94,11 @@
 
         <DataTemplate DataType="{x:Type vm:MatListaViewModel}">
             <local:MatLista/>
+        </DataTemplate>
+        
+        
+        <DataTemplate DataType="{x:Type vm:InvListaViewModel}">
+            <local:InvLista/>
         </DataTemplate>
 
         <DataTemplate DataType="{x:Type vm:SifarnikMaterijalSkladisteKontoViewModel}">

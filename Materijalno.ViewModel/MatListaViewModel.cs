@@ -14,6 +14,8 @@ namespace Materijalno.ViewModel
     {
         private GlavniViewModel _gvm;
         private Mat currentItemMat;
+        private Inv currentItemInv;
+        private Mat _originalItemMat;
 
         public Mat CurrentItemMat
         {
@@ -24,14 +26,26 @@ namespace Materijalno.ViewModel
                 OnPropertyChanged(nameof(CurrentItemMat));
             }
         }
+        public Inv CurrentItemInv
+        {
+            get { return currentItemInv; }
+            set
+            {
+                currentItemInv = value;
+                OnPropertyChanged(nameof(CurrentItemInv));
+            }
+        }
 
         public ObservableCollection<Mat> MatList { get; set; }
+        public ObservableCollection<Inv> InvList { get; set; }
 
         private Mat selectedMat;
+        private Inv selectedInv;
         public Mat SelectedMat { get => selectedMat; set { selectedMat = value; OnPropertyChanged("SelectedMat"); } }
+        public Inv SelectedInv { get => selectedInv; set { selectedInv = value; OnPropertyChanged("SelectedInv"); } }
 
         public ICommand OdaberiMatCommand { get; set; }
-        public ICommand OdustaniCommand { get; set; }
+        public ICommand OdustaniODdabirCommand { get; set; }
 
         public MatListaViewModel(UlazMaterijalaViewModel ulazMaterijalaViewModel, GlavniViewModel glavniViewModel)
         {
@@ -65,6 +79,26 @@ namespace Materijalno.ViewModel
             OdaberiMatCommand = new RelayCommand(OdaberiPovrat);
         }
 
+        public MatListaViewModel(PocetnoStanjePrviPutViewModel pocetnoStanjePrviPutViewModel, GlavniViewModel glavniViewModel)
+        {
+            MatList = pocetnoStanjePrviPutViewModel.MatList;
+            _gvm = glavniViewModel;
+            CurrentItemMat = pocetnoStanjePrviPutViewModel.CurrentItemMat;
+            OdaberiMatCommand = new RelayCommand(OdaberiPocetnoStanje);
+            _originalItemMat = CurrentItemMat;
+            OdustaniODdabirCommand = new RelayCommand(OdustaniPocetnoStanje);
+        }
+
+        private void OdustaniPocetnoStanje()
+        {
+
+            CurrentItemMat = _originalItemMat;
+
+            PocetnoStanjePrviPutViewModel.isTraziClicked = false;
+            PocetnoStanjePrviPutViewModel.selectedMat = null;
+
+            _gvm.OdabraniVM = new PocetnoStanjePrviPutViewModel(_gvm, _originalItemMat);
+        }
 
 
         private void OdaberiMat()
@@ -96,6 +130,36 @@ namespace Materijalno.ViewModel
                 _gvm.OdabraniVM = new PovratMaterijalaViewModel(_gvm, CurrentItemMat);
             }
         }
+        
+        private void OdaberiPocetnoStanje()
+        {
+            using (var dbContext = new materijalno_knjigovodstvoContext())
+            {
+                if (SelectedMat != null)
+                {
+                    CurrentItemMat = SelectedMat;
+                }
+
+                PocetnoStanjePrviPutViewModel.isTraziClicked = true;
+                PocetnoStanjePrviPutViewModel.selectedMat = selectedMat;
+                _gvm.OdabraniVM = new PocetnoStanjePrviPutViewModel(_gvm, CurrentItemMat);
+            }
+        }
+
+        //private void OdaberiUnosInventurnogStanja()
+        //{
+        //    using (var dbContext = new materijalno_knjigovodstvoContext())
+        //    {
+        //        if (SelectedInv != null)
+        //        {
+        //            CurrentItemInv = SelectedInv;
+        //        }
+
+        //        UnosInventurnogStanjaViewModel.isTraziClicked = true;
+        //        UnosInventurnogStanjaViewModel.selectedInv = selectedInv;
+        //        _gvm.OdabraniVM = new UnosInventurnogStanjaViewModel(_gvm, CurrentItemInv);
+        //    }
+        //}
 
         private void OdaberiMatIzlaz()
         {

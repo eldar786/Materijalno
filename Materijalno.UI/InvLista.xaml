@@ -1,0 +1,146 @@
+﻿<UserControl x:Class="Materijalno.UI.InvLista"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="clr-namespace:Materijalno.ViewModel;assembly=Materijalno.ViewModel" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Materijalno.UI"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+
+    <UserControl.Resources>
+
+        <DataTemplate DataType="{x:Type vm:InvListaViewModel}">
+        </DataTemplate>
+
+    </UserControl.Resources>
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+
+        <TextBlock Text="Inventura" FontSize="18" Margin="450,0,0,0" FontWeight="Bold" Grid.Column="0" Grid.ColumnSpan="4" VerticalAlignment="Center" HorizontalAlignment="Center" />
+
+        <Border Background="AliceBlue" BorderBrush="Silver" BorderThickness="1,1,1,1" Grid.Row="1" Grid.RowSpan="10" Grid.Column="0" Grid.ColumnSpan="6"/>
+       
+
+        <Button Background="White" Grid.Row="1" Grid.Column="4" x:Name="btnStampa"  FontSize="18" Width="50" Margin="200,5,0,20" HorizontalAlignment="Left" Command="{Binding StampaCommand}" >
+            <Image Source="/Ikone/print.png" Stretch="Uniform"/>
+            <Button.ToolTip>
+                <ToolTip Content="Print"/>
+            </Button.ToolTip>
+        </Button>
+
+        
+
+        <ListView Grid.Row="1" FontSize="18" Grid.RowSpan="8" Grid.Column="1" Grid.ColumnSpan="4" Name="GrKomitenti" ItemsSource="{Binding InvList}" SelectedValue="{Binding SelectedInv}">
+
+            <ListView.View>
+                <GridView>
+
+                    <GridViewColumn  Width="50">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <Button Background="White" Command="{Binding DataContext.IzmjenaSifarnikSkladistaFormCommand, RelativeSource={RelativeSource AncestorType={x:Type ListView}}}" HorizontalAlignment="Center">
+                                    <Image Source="/Ikone/uredi3.png" Width="35" Height="34"/>
+                                    <Button.ToolTip>
+                                        <ToolTip Content="Uredi"/>
+                                    </Button.ToolTip>
+                                </Button>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+
+                    <GridViewColumn Header="Kljnaz" DisplayMemberBinding="{Binding Kljnaz}" 
+                                    Width="200" ></GridViewColumn>
+                    <GridViewColumn Header="Ident" DisplayMemberBinding="{Binding Ident}" 
+                                        Width="200" ></GridViewColumn>
+                    <GridViewColumn Header="Datun" DisplayMemberBinding="{Binding Datun}" 
+                                        Width="200" ></GridViewColumn>
+                    <GridViewColumn Header="Analst" DisplayMemberBinding="{Binding Analst}" 
+                                        Width="200" ></GridViewColumn>
+                    <GridViewColumn Header="Brdok" DisplayMemberBinding="{Binding Brdok}" 
+                                        Width="200" ></GridViewColumn>
+                    <GridViewColumn Header="Brnar" DisplayMemberBinding="{Binding Brnar}" 
+                                        Width="200" ></GridViewColumn>
+                    <GridViewColumn Header="Datnar" DisplayMemberBinding="{Binding Datnar}" 
+                                        Width="200" ></GridViewColumn>
+                    <GridViewColumn Header="Brfak" DisplayMemberBinding="{Binding Brfak}" 
+                                        Width="200" ></GridViewColumn>
+                    <GridViewColumn Header="Kolic" DisplayMemberBinding="{Binding Kolic}" 
+                                        Width="200" ></GridViewColumn>
+                    <GridViewColumn Header="Nc" DisplayMemberBinding="{Binding Nc}" 
+                                        Width="200" ></GridViewColumn>
+                    <GridViewColumn Header="Vrijed" DisplayMemberBinding="{Binding Vrijed}" 
+                                        Width="200" ></GridViewColumn>
+                    <GridViewColumn Header="Redbr" DisplayMemberBinding="{Binding Redbr}" 
+                                        Width="200" ></GridViewColumn>
+                    <GridViewColumn Header="Status" DisplayMemberBinding="{Binding Status}" 
+                                        Width="200" ></GridViewColumn>
+                    <GridViewColumn Header="Konto1" DisplayMemberBinding="{Binding Konto1}" 
+                                        Width="200" ></GridViewColumn>
+                    <GridViewColumn Header="Konto2" DisplayMemberBinding="{Binding Konto2}" 
+                                        Width="200" ></GridViewColumn>
+                    <GridViewColumn Header="Fcj" DisplayMemberBinding="{Binding Fcj}" 
+                                        Width="200" ></GridViewColumn>
+                    <GridViewColumn Header="Troskovi" DisplayMemberBinding="{Binding Troskovi}" 
+                                        Width="200" ></GridViewColumn>
+                    <GridViewColumn Header="Cartro" DisplayMemberBinding="{Binding Cartro}" 
+                                        Width="200" ></GridViewColumn>
+                    <GridViewColumn Header="Zavtro" DisplayMemberBinding="{Binding Zavtro}" 
+                                        Width="200" ></GridViewColumn>
+                    <GridViewColumn Header="Ppp" DisplayMemberBinding="{Binding Ppp}" 
+                                        Width="200" ></GridViewColumn>
+                    <GridViewColumn Header="Tarifa" DisplayMemberBinding="{Binding Tarifa}" 
+                                        Width="200" ></GridViewColumn>
+                    <GridViewColumn Header="Fvrijed" DisplayMemberBinding="{Binding Fvrijed}" 
+                                        Width="200" ></GridViewColumn>
+                    <GridViewColumn Header="Porppp" DisplayMemberBinding="{Binding Porppp}" 
+                                        Width="200" ></GridViewColumn>
+                    <GridViewColumn Header="Kontosklad" DisplayMemberBinding="{Binding Kontosklad}" 
+                                        Width="200" ></GridViewColumn>
+                    <GridViewColumn Header="Kontosklad1" DisplayMemberBinding="{Binding Kontosklad1}" 
+                                        Width="200" ></GridViewColumn>
+                    <GridViewColumn Header="Trospe" DisplayMemberBinding="{Binding Trospe}" 
+                                        Width="200" ></GridViewColumn>
+                    <GridViewColumn Header="Ourst" DisplayMemberBinding="{Binding Ourst}" 
+                                        Width="200" ></GridViewColumn>
+                    <GridViewColumn Header="Mjtst" DisplayMemberBinding="{Binding Mjtst}" 
+                                        Width="200" ></GridViewColumn>
+
+                </GridView>
+            </ListView.View>
+
+        </ListView>
+
+        <Grid Grid.Row="9" Grid.Column="3" Grid.ColumnSpan="4" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <StackPanel Orientation="Horizontal" VerticalAlignment="Top" Grid.ColumnSpan="1">
+                <Button Content="ODABERI" FontSize="18" Width="110" Margin="5,5,0,5" HorizontalAlignment="Left" Command="{Binding OdaberiMatCommand}" Visibility="{Binding Path=VidljivoOdabirVrsteIncidenta}"/>
+                <Button Content="ODUSTANI" FontSize="18" Width="110" Margin="5,5,0,5" HorizontalAlignment="Left" Command="{Binding OdustaniODdabirCommand}" Visibility="{Binding Path=VidljivoOdabirVrsteIncidenta}"/>
+            </StackPanel>
+        </Grid>
+    </Grid>
+
+</UserControl>

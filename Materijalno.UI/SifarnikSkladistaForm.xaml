@@ -56,8 +56,8 @@
 
         <TextBlock Grid.Row="1" Grid.Column="1" Text="Kljnaz:" FontSize="18" HorizontalAlignment="Right" Margin="0,0,-120,-10" />
         <TextBlock Grid.Row="2" Grid.Column="1" Text="Nazivorg:" FontSize="18" HorizontalAlignment="Right" Margin="0,0,-120,-10" />
-        <TextBlock Grid.Row="3" Grid.Column="1" Text="Opstina:" FontSize="18" HorizontalAlignment="Right" Margin="0,0,-120,-10" />
-        <TextBlock Grid.Row="4" Grid.Column="1" Text="Mjesto i adresa:" FontSize="18" HorizontalAlignment="Right" Margin="0,0,-120,-10" />
+        <!--<TextBlock Grid.Row="3" Grid.Column="1" Text="Opstina:" FontSize="18" HorizontalAlignment="Right" Margin="0,0,-120,-10" />
+        <TextBlock Grid.Row="4" Grid.Column="1" Text="Mjesto i adresa:" FontSize="18" HorizontalAlignment="Right" Margin="0,0,-120,-10" />-->
 
         <!-- Header -->
         <TextBlock Text="SIFARNIK SKLADISTA FORM" FontSize="16" FontWeight="Bold" Grid.Column="0" Grid.ColumnSpan="4" VerticalAlignment="Center" HorizontalAlignment="Center" />
@@ -66,7 +66,7 @@
 
         <TextBlock Text="{Binding ElementName=textBox1, Path=(Validation.Errors)/ErrorContent}" Foreground="Red" Grid.Row="1" Grid.Column="2" VerticalAlignment="Top" HorizontalAlignment="Left" />
 
-        <TextBox x:Name="textBox2" Grid.Row="1" Grid.Column="2" FontSize="18" Height="30" Margin="0,0,0,0" >
+        <TextBox x:Name="textBox2" KeyDown="TextBox_KeyDown" Grid.Row="1" Grid.Column="2" FontSize="18" Height="30" Margin="0,0,0,0" >
             <TextBox.Text>
                 <Binding Path="SifarnikSkladista.Kljnaz" UpdateSourceTrigger="PropertyChanged">
                     <Binding.ValidationRules>
@@ -77,7 +77,7 @@
         </TextBox>
         <TextBlock Text="{Binding ElementName=textBox2, Path=(Validation.Errors)/ErrorContent}" Foreground="Red" Grid.Row="2" Grid.Column="2" VerticalAlignment="Top" HorizontalAlignment="Left" />
 
-        <TextBox x:Name="textBox3" Grid.Row="2" Grid.Column="2" FontSize="18" Height="30" Margin="0,0,0,-20">
+        <TextBox x:Name="textBox3" KeyDown="TextBox_KeyDown" Grid.Row="2" Grid.Column="2" FontSize="18" Height="30" Margin="0,0,0,-20">
             <TextBox.Text>
                 <Binding Path="SifarnikSkladista.NazivOrg" UpdateSourceTrigger="PropertyChanged">
                     <Binding.ValidationRules>
@@ -88,7 +88,7 @@
         </TextBox>
         <TextBlock Text="{Binding ElementName=textBox3, Path=(Validation.Errors)/ErrorContent}" Foreground="Red" Grid.Row="3" Grid.Column="2" VerticalAlignment="Top" HorizontalAlignment="Left" />
 
-        <TextBox x:Name="textBox4" Grid.Row="3" Grid.Column="2" FontSize="18" Height="30" Margin="0,0,0,-20">
+        <!--<TextBox x:Name="textBox4" Grid.Row="3" Grid.Column="2" FontSize="18" Height="30" Margin="0,0,0,-20">
             <TextBox.Text>
                 <Binding Path="SifarnikSkladista.Opstina" UpdateSourceTrigger="PropertyChanged">
                     <Binding.ValidationRules>
@@ -96,10 +96,10 @@
                     </Binding.ValidationRules>
                 </Binding>
             </TextBox.Text>
-        </TextBox>
-        <TextBlock Text="{Binding ElementName=textBox4, Path=(Validation.Errors)/ErrorContent}" Foreground="Red" Grid.Row="4" Grid.Column="2" VerticalAlignment="Top" HorizontalAlignment="Left" />
+        </TextBox>-->
+        <!--<TextBlock Text="{Binding ElementName=textBox4, Path=(Validation.Errors)/ErrorContent}" Foreground="Red" Grid.Row="4" Grid.Column="2" VerticalAlignment="Top" HorizontalAlignment="Left" />-->
 
-        <TextBox x:Name="textBox5" Grid.Row="4" Grid.Column="2" FontSize="18" Height="30" Margin="0,0,0,-20">
+        <!--<TextBox x:Name="textBox5" Grid.Row="4" Grid.Column="2" FontSize="18" Height="30" Margin="0,0,0,-20">
             <TextBox.Text>
                 <Binding Path="SifarnikSkladista.MjestoAdresa" UpdateSourceTrigger="PropertyChanged">
                     <Binding.ValidationRules>
@@ -107,8 +107,8 @@
                     </Binding.ValidationRules>
                 </Binding>
             </TextBox.Text>
-        </TextBox>
-        <TextBlock Text="{Binding ElementName=textBox5, Path=(Validation.Errors)/ErrorContent}" Foreground="Red" Grid.Row="5" Grid.Column="2" VerticalAlignment="Top" HorizontalAlignment="Left" />
+        </TextBox>-->
+        <!--<TextBlock Text="{Binding ElementName=textBox5, Path=(Validation.Errors)/ErrorContent}" Foreground="Red" Grid.Row="5" Grid.Column="2" VerticalAlignment="Top" HorizontalAlignment="Left" />-->
 
 
 
@@ -134,8 +134,8 @@
 
                                 <Condition Binding="{Binding Path=(Validation.HasError), ElementName=textBox2}" Value="False"/>
                                 <Condition Binding="{Binding Path=(Validation.HasError), ElementName=textBox3}" Value="False"/>
-                                <Condition Binding="{Binding Path=(Validation.HasError), ElementName=textBox4}" Value="False"/>
-                                <Condition Binding="{Binding Path=(Validation.HasError), ElementName=textBox5}" Value="False"/>
+                                <!--<Condition Binding="{Binding Path=(Validation.HasError), ElementName=textBox4}" Value="False"/>
+                                <Condition Binding="{Binding Path=(Validation.HasError), ElementName=textBox5}" Value="False"/>-->
 
                             </MultiDataTrigger.Conditions>
                             <Setter Property="IsEnabled" Value="True"/>

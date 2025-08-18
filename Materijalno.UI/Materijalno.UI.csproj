@@ -226,6 +226,9 @@
       <DependentUpon>Dnevnik.xaml</DependentUpon>
     </Compile>
     <Compile Include="Helpers\PathHelper.cs" />
+    <Compile Include="InvLista.xaml.cs">
+      <DependentUpon>InvLista.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Izvjestaji\AnalitickaKarticaIzvjestaj.xaml.cs">
       <DependentUpon>AnalitickaKarticaIzvjestaj.xaml</DependentUpon>
     </Compile>
@@ -246,6 +249,12 @@
     </Compile>
     <Compile Include="Izvjestaji\MedjuskladisniceZaSkladisteIzvjestaj.xaml.cs">
       <DependentUpon>MedjuskladisniceZaSkladisteIzvjestaj.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Izvjestaji\NaloziZaFinansijePrintanjeNalogaIzvjestaj.xaml.cs">
+      <DependentUpon>NaloziZaFinansijePrintanjeNalogaIzvjestaj.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Izvjestaji\PocetnoStanjePrviPutIzvjestaj.xaml.cs">
+      <DependentUpon>PocetnoStanjePrviPutIzvjestaj.xaml</DependentUpon>
     </Compile>
     <Compile Include="Izvjestaji\PregledIzlazaZaSveKalkulacijeIzvjestaj.xaml.cs">
       <DependentUpon>PregledIzlazaZaSveKalkulacijeIzvjestaj.xaml</DependentUpon>
@@ -271,18 +280,36 @@
     <Compile Include="Izvjestaji\ReportMedjuskladisniceJedna.cs" />
     <Compile Include="Izvjestaji\ReportMedjuskladisniceSve.cs" />
     <Compile Include="Izvjestaji\ReportMedjuskladisniceZaSkladiste.cs" />
+    <Compile Include="Izvjestaji\ReportNaloziZaFinansijePrintanjeNaloga.cs" />
+    <Compile Include="Izvjestaji\ReportPocetnoStanjePrviPut.cs" />
     <Compile Include="Izvjestaji\ReportPovrat.cs" />
     <Compile Include="Izvjestaji\ReportPregledIzlazaZaSveKalkulacije.cs" />
     <Compile Include="Izvjestaji\ReportPregledTroskovaPoKontima.cs" />
     <Compile Include="Izvjestaji\ReportPregledTroskovaPoKontimaINalozimaZaSvaSkladista.cs" />
     <Compile Include="Izvjestaji\ReportRekapitulacijaZaliha.cs" />
+    <Compile Include="Izvjestaji\ReportSkladiste.cs" />
+    <Compile Include="Izvjestaji\ReportStampanjeInventurnihListica.cs" />
+    <Compile Include="Izvjestaji\ReportStampanjeInventurnihZalihaViewModel.cs" />
     <Compile Include="Izvjestaji\ReportStanjeZalihaZaSkladiste.cs" />
     <Compile Include="Izvjestaji\ReportStanjeZalihaZaSvaSkladista.cs" />
+    <Compile Include="Izvjestaji\ReportUnosInventurnogStanjaViewModel.cs" />
+    <Compile Include="Izvjestaji\SkladisteIzvjestaj.xaml.cs">
+      <DependentUpon>SkladisteIzvjestaj.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Izvjestaji\StampanjeInventurnihListicaIzvjestaj.xaml.cs">
+      <DependentUpon>StampanjeInventurnihListicaIzvjestaj.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Izvjestaji\StampanjeInventurnihZalihaIzvjestaj.xaml.cs">
+      <DependentUpon>StampanjeInventurnihZalihaIzvjestaj.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Izvjestaji\StanjeZalihaZaSkladisteIzvjestaj.xaml.cs">
       <DependentUpon>StanjeZalihaZaSkladisteIzvjestaj.xaml</DependentUpon>
     </Compile>
     <Compile Include="Izvjestaji\StanjeZalihaZaSvaSkladistaIzvjestaj.xaml.cs">
       <DependentUpon>StanjeZalihaZaSvaSkladistaIzvjestaj.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Izvjestaji\UnosInventurnogStanjaIzvjestaj.xaml.cs">
+      <DependentUpon>UnosInventurnogStanjaIzvjestaj.xaml</DependentUpon>
     </Compile>
     <Compile Include="KomitentiLista.xaml.cs">
       <DependentUpon>KomitentiLista.xaml</DependentUpon>
@@ -441,6 +468,10 @@
     <Compile Include="GlavniView.xaml.cs">
       <DependentUpon>GlavniView.xaml</DependentUpon>
     </Compile>
+    <Page Include="InvLista.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Izvjestaji\AnalitickaKarticaIzvjestaj.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -469,6 +500,14 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Izvjestaji\NaloziZaFinansijePrintanjeNalogaIzvjestaj.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Izvjestaji\PocetnoStanjePrviPutIzvjestaj.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Izvjestaji\PovratIzvjestaj.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -489,11 +528,27 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Izvjestaji\SkladisteIzvjestaj.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Izvjestaji\StampanjeInventurnihListicaIzvjestaj.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Izvjestaji\StampanjeInventurnihZalihaIzvjestaj.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Izvjestaji\StanjeZalihaZaSkladisteIzvjestaj.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Izvjestaji\StanjeZalihaZaSvaSkladistaIzvjestaj.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Izvjestaji\UnosInventurnogStanjaIzvjestaj.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -730,6 +785,24 @@
     <Content Include="Izvjestaji\RekapitulacijaZaliha.rdlc">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Izvjestaji\NaloziZaFinansijePrintanjeNaloga.rdlc">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Izvjestaji\StampanjeInventurnihListica.rdlc">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Izvjestaji\UnosInventurnogStanja.rdlc">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Izvjestaji\StampanjeInventurnihZaliha.rdlc">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Izvjestaji\ReportSkladiste.rdlc">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Izvjestaji\PocetnoStanjePrviPut.rdlc">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -750,7 +823,9 @@
     <None Include="Properties\DataSources\Materijalno.UI.Izvjestaji.ReportMedjuskladisniceJedna.datasource" />
     <None Include="Properties\DataSources\Materijalno.UI.Izvjestaji.ReportMedjuskladisniceSve.datasource" />
     <None Include="Properties\DataSources\Materijalno.UI.Izvjestaji.ReportMedjuskladisniceZaSkladiste.datasource" />
+    <None Include="Properties\DataSources\Materijalno.UI.Izvjestaji.ReportNaloziZaFinansijePrintanjeNaloga.datasource" />
     <None Include="Properties\DataSources\Materijalno.UI.Izvjestaji.ReportPregledIzlazaZaSveKalkulacije.datasource" />
+    <None Include="Properties\DataSources\Materijalno.UI.Izvjestaji.ReportSkladiste.datasource" />
     <None Include="Properties\DataSources\Materijalno.UI.Izvjestaji.StanjeZalihaZaSkladisteIzvjestaj.datasource" />
     <None Include="Properties\DataSources\Materijalno.UI.Izvjestaji.StanjeZalihaZaSvaSkladistaIzvjestaj.datasource" />
     <None Include="Properties\DataSources\Materijalno.UI.Properties.Resources.datasource" />

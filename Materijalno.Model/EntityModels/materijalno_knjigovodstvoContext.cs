@@ -24,6 +24,8 @@ namespace Materijalno.Model.EntityModels
         public virtual DbSet<SifarnikMaterijala> SifarnikMaterijala { get; set; }
         public virtual DbSet<SifarnikSkladista> SifarnikSkladista { get; set; }
         public virtual DbSet<Mat> Mat { get; set; }
+        public virtual DbSet<Nalmat> Nalmat { get; set; }
+        public virtual DbSet<Inv> Inv { get; set; }
         public virtual DbSet<TabelaMaterijala> TabelaMaterijala { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -55,7 +57,7 @@ namespace Materijalno.Model.EntityModels
 
             modelBuilder.Entity<SifarnikMaterijala>(entity =>
             {
-                entity.HasKey(e => e.Ident);
+                entity.HasKey(e => e.Id);
 
                 entity.ToTable("sifarnik_materijala");
 
@@ -107,6 +109,80 @@ namespace Materijalno.Model.EntityModels
                 entity.Property(e => e.PozBrD).HasColumnName("poz_br_d");
 
                 entity.Property(e => e.ZiroRacun).HasColumnName("ziro_racun");
+            });
+
+            modelBuilder.Entity<Nalmat>(entity =>
+            {
+                entity.HasKey(e => e.Id);
+
+                entity.ToTable("nalmat");
+
+                entity.Property(e => e.Analst).HasColumnName("analst");
+
+                entity.Property(e => e.Bracuna).HasColumnName("bracuna");
+
+                entity.Property(e => e.Brdokst)
+                    .IsRequired()
+                    .HasColumnName("brdokst")
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Brfak)
+                    .HasColumnName("brfak")
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Bronsta).HasColumnName("bronsta");
+
+                entity.Property(e => e.Datdokst)
+                    .HasColumnName("datdokst")
+                    .HasColumnType("date");
+
+                entity.Property(e => e.Datnsta)
+                    .HasColumnName("datnsta")
+                    .HasColumnType("date");
+
+                entity.Property(e => e.Datvalst)
+                    .IsRequired()
+                    .HasColumnName("datvalst")
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Devdugst).HasColumnName("devdugst");
+
+                entity.Property(e => e.Devpotst).HasColumnName("devpotst");
+
+                entity.Property(e => e.Devsta).HasColumnName("devsta");
+
+                entity.Property(e => e.Dug1st)
+                    .HasColumnName("dug1st")
+                    .HasColumnType("decimal(12, 2)");
+
+                entity.Property(e => e.Kukistav).HasColumnName("kukistav");
+
+                entity.Property(e => e.Kurs).HasColumnName("kurs");
+
+                entity.Property(e => e.Mjtst).HasColumnName("mjtst");
+
+                entity.Property(e => e.Ourst).HasColumnName("ourst");
+
+                entity.Property(e => e.Pot1st)
+                    .HasColumnName("pot1st")
+                    .HasColumnType("decimal(12, 2)");
+
+                entity.Property(e => e.Rostav).HasColumnName("rostav");
+
+                entity.Property(e => e.Sifakt).HasColumnName("sifakt");
+
+                entity.Property(e => e.Sintstav).HasColumnName("sintstav");
+
+                entity.Property(e => e.Stodevd).HasColumnName("stodevd");
+
+                entity.Property(e => e.Stodevp).HasColumnName("stodevp");
+
+                entity.Property(e => e.Stodug1).HasColumnName("stodug1");
+
+                entity.Property(e => e.Stopot1).HasColumnName("stopot1");
             });
 
             modelBuilder.Entity<Mat>(entity =>
@@ -214,6 +290,119 @@ namespace Materijalno.Model.EntityModels
                 entity.Property(e => e.Trospe).HasColumnName("trospe");
 
                 entity.Property(e => e.Vrijed).HasColumnName("vrijed");
+
+                entity.Property(e => e.Zavtro)
+                    .HasColumnName("zavtro")
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+            });
+
+            modelBuilder.Entity<Inv>(entity =>
+            {
+                entity.ToTable("inv");
+
+                entity.HasKey(e => e.Id); 
+
+                entity.Property(e => e.Analst)
+                    .HasColumnName("analst")
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Brdok)
+                    .HasColumnName("brdok")
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Brfak)
+                    .HasColumnName("brfak")
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Brnar)
+                    .HasColumnName("brnar")
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Cartro)
+                    .HasColumnName("cartro")
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Datnar)
+                    .HasColumnName("datnar")
+                    .HasColumnType("datetime");
+
+                entity.Property(e => e.Datun)
+                    .HasColumnName("datun")
+                    .HasColumnType("datetime");
+
+                entity.Property(e => e.Fcj)
+                    .HasColumnName("fcj")
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Fvrijed)
+                    .HasColumnName("fvrijed")
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Ident).HasColumnName("ident");
+
+                entity.Property(e => e.Kljnaz).HasColumnName("kljnaz");
+
+                entity.Property(e => e.Kolic).HasColumnName("kolic");
+
+                entity.Property(e => e.Konto1).HasColumnName("konto1");
+
+                entity.Property(e => e.Konto2)
+                    .HasColumnName("konto2")
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Kontosklad).HasColumnName("kontosklad");
+
+                entity.Property(e => e.Kontosklad1).HasColumnName("kontosklad1");
+
+                entity.Property(e => e.Mjtst).HasColumnName("mjtst");
+
+                entity.Property(e => e.Nc)
+                    .HasColumnName("nc")
+                    .HasColumnType("decimal(14, 9)");
+
+                entity.Property(e => e.Ourst).HasColumnName("ourst");
+
+                entity.Property(e => e.Porppp)
+                    .HasColumnName("porppp")
+                    .HasColumnType("decimal(18, 2)");
+
+                entity.Property(e => e.Ppp)
+                    .HasColumnName("ppp")
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Redbr).HasColumnName("redbr");
+
+                entity.Property(e => e.Status)
+                    .HasColumnName("status")
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Tarifa)
+                    .HasColumnName("tarifa")
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Troskovi)
+                    .HasColumnName("troskovi")
+                    .HasColumnType("decimal(10, 2)");
+
+                entity.Property(e => e.Trospe)
+                    .HasColumnName("trospe")
+                    .HasColumnType("decimal(7, 2)");
+
+                entity.Property(e => e.Vrijed)
+                    .HasColumnName("vrijed")
+                    .HasColumnType("decimal(12, 2)");
 
                 entity.Property(e => e.Zavtro)
                     .HasColumnName("zavtro")

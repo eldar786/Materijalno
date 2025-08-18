@@ -39,16 +39,28 @@ namespace Materijalno.ViewModel
         {
             if (string.IsNullOrWhiteSpace(sifarnikMaterijala.Nazmat) ||
                 string.IsNullOrWhiteSpace(sifarnikMaterijala.Jedm) ||
+                !SifarnikMaterijala.Ident.HasValue ||
                 !SifarnikMaterijala.Konto1.HasValue ||
                 !SifarnikMaterijala.Konto2.HasValue )
 
             {
                 return false;
             }
-            else
+            using (var context = new materijalno_knjigovodstvoContext())
             {
-                return true;
+                // Check if the Ident value already exists in the database
+                bool exists = context.SifarnikMaterijala
+                    .Any(s => s.Ident == sifarnikMaterijala.Ident && s.Id != sifarnikMaterijala.Id);
+
+                if (exists)
+                {
+                    // Show an error message or throw an exception depending on your setup
+                    System.Windows.MessageBox.Show("Šifra materijala već postoji", "Greška", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return false;
+                }
             }
+
+            return true;
         }
 
         private void SaveSifarnikMterijala()
@@ -78,6 +90,7 @@ namespace Materijalno.ViewModel
                         System.Windows.MessageBox.Show("Molimo unesite sva polja", "Greška", MessageBoxButton.OK, MessageBoxImage.Error);
                         return;
                     }
+                    SifarnikMaterijala.Siftar = 1;
                     dbContext.Add(SifarnikMaterijala);
                     dbContext.SaveChanges();
 

@@ -6,7 +6,7 @@
               xmlns:vm="clr-namespace:Materijalno.ViewModel;assembly=Materijalno.ViewModel"
              xmlns:local="clr-namespace:Materijalno.UI" xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="1900">
+             d:DesignHeight="650" d:DesignWidth="1900">
 
     <UserControl.Resources>
         <DataTemplate DataType="{x:Type vm:AnalitickaKarticaViewModel}">
@@ -38,35 +38,40 @@
             <RowDefinition/>
         </Grid.RowDefinitions>
 
-        <Border Background="AliceBlue" BorderBrush="Silver" BorderThickness="1,0,1,1" Grid.Row="1" Grid.RowSpan="10" Grid.Column="0" Grid.ColumnSpan="6"/>
+        <Border Background="AliceBlue" BorderBrush="Silver" BorderThickness="1,0,1,1" Grid.Row="1" Grid.RowSpan="10" Grid.Column="0" Grid.ColumnSpan="6">
+            <Label HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="18" Content="Do datuma" Margin="985,191,0,365"/>
+        </Border>
+        <DatePicker SelectedDate="{Binding CurrentItemMat.Datnar, UpdateSourceTrigger=PropertyChanged}" Grid.Row="4" Grid.Column="3"  HorizontalAlignment="Right" Height="30" FontSize="18" Width="120" Name="dtpOd" Margin="0,16,36,13" />
 
-        <Label Grid.Row="2" Grid.Column="1" Margin="0,0,-60,0" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="18">Skladište</Label>
-        <TextBox Text="{Binding CurrentItemMat.Kljnaz}" KeyDown="TextBox_KeyDown" Name="OpBroj" Grid.Row="2" Margin="70,0,0,0" Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Left" FontWeight="Bold"  Width="120" FontSize="18">
+
+        <Label Grid.Row="2" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="18">Skladište</Label>
+        <TextBox Text="{Binding CurrentItemMat.Kljnaz}" KeyDown="TextBox_KeyDown" Name="OpBroj" Grid.Row="2" Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Center" FontWeight="Bold"  Width="120" FontSize="18">
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="LostFocus">
                     <i:InvokeCommandAction Command="{Binding OsvjeziCommand}" />
                 </i:EventTrigger>
             </i:Interaction.Triggers>
         </TextBox>
-            
-      
-        <TextBox KeyDown="TextBox_KeyDown" Text="{Binding CurrentItemTabSkladista.NazivOrg, UpdateSourceTrigger=PropertyChanged}" Grid.Row="2" Grid.Column="3" VerticalAlignment="Center" Grid.ColumnSpan="3" HorizontalAlignment="Left" FontSize="18"  Width="250"/>
 
-        <Label Grid.Row="3" Grid.Column="1" Margin="0,0,-60,0" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="18">Šifra materijala</Label>
-        <TextBox Text="{Binding CurrentItemMat.Ident}" KeyDown="TextBox_KeyDown" Grid.Row="3" Grid.Column="2" Margin="70,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="18"  Width="120">
+
+        <TextBox KeyDown="TextBox_KeyDown" Text="{Binding CurrentItemTabSkladista.NazivOrg, UpdateSourceTrigger=PropertyChanged}" Grid.Row="2" Grid.Column="3" VerticalAlignment="Center" Grid.ColumnSpan="1" HorizontalAlignment="Center" FontSize="18"  Width="250"/>
+
+        <Label Grid.Row="3" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="18">Šifra materijala</Label>
+        <TextBox Text="{Binding CurrentItemMat.Ident}" KeyDown="TextBox_KeyDown" Grid.Row="3" Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="18"  Width="120">
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="LostFocus">
                     <i:InvokeCommandAction Command="{Binding OsvjeziCommand}" />
                 </i:EventTrigger>
             </i:Interaction.Triggers>
         </TextBox>
-        <TextBox Text="{Binding CurrentItemTabMaterijala.Nazmat}" IsReadOnly="True" Grid.Row="3" Grid.Column="3" Grid.ColumnSpan="3" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="18"  Width="250"/>
+        <TextBox Text="{Binding CurrentItemTabMaterijala.Nazmat}" IsReadOnly="True" Grid.Row="3" Grid.Column="3" Grid.ColumnSpan="1" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="18"  Width="250"/>
 
-        <Label Grid.Row="4" Grid.Column="1" Margin="0,0,-60,0" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="18">Do datuma</Label>
-        <DatePicker SelectedDate="{Binding CurrentItemMat.Datnar, UpdateSourceTrigger=PropertyChanged}" Grid.Row="4" Grid.Column="2" Margin="70,0,0,0" HorizontalAlignment="Left" Height="30" FontSize="18" Width="120" Name="dtpOd" />
+        <Label Grid.Row="4" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="18">Od datuma</Label>
+        <DatePicker SelectedDate="{Binding CurrentItemMat.Datun, UpdateSourceTrigger=PropertyChanged}" Grid.Row="4" Grid.Column="2"  HorizontalAlignment="Center" Height="30" FontSize="18" Width="120" />
+
 
         <Grid Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="6" HorizontalAlignment="Center" VerticalAlignment="Center">
-            <WrapPanel HorizontalAlignment="Center" VerticalAlignment="Top" ItemWidth="200" ItemHeight="60" Margin="0,-5,0,5">
+            <WrapPanel HorizontalAlignment="Center" VerticalAlignment="Top" ItemWidth="200" ItemHeight="60">
                 <WrapPanel.Resources>
                     <Style TargetType="Button">
                         <Setter Property="FontSize" Value="16"/>
@@ -107,8 +112,8 @@
                         </Style.Triggers>
                     </Style>
                 </WrapPanel.Resources>
-                <Button x:Name="btnPrvi" Content="Štampa" FontSize="18" Width="110" Margin="5,5,0,5" HorizontalAlignment="Left" Click="stampa_button"/>
-                <Button x:Name="btnTrazi" Content="Izlaz" FontSize="18" Width="110" Margin="5,5,0,5" HorizontalAlignment="Left" Command="{Binding ObrisiCommand}" Visibility="{Binding Path=VidljivoOdabirVrsteIncidenta}"/>
+                <Button x:Name="btnPrvi" Content="Štampa" FontSize="18" Width="110" HorizontalAlignment="Center" Click="stampa_button"/>
+                <Button x:Name="btnTrazi" Content="Izlaz" FontSize="18" Width="110" HorizontalAlignment="Center" Command="{Binding ObrisiCommand}" Visibility="{Binding Path=VidljivoOdabirVrsteIncidenta}"/>
             </WrapPanel>
         </Grid>
     </Grid>

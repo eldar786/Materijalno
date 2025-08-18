@@ -41,13 +41,53 @@
         <Border Background="AliceBlue" BorderBrush="Silver" BorderThickness="1,0,1,1" Grid.Row="1" Grid.RowSpan="10" Grid.Column="0" Grid.ColumnSpan="6"/>
 
         <Label Grid.Row="4" Grid.Column="2" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="18">Broj medjuskladisnice:</Label>
-        <TextBox Grid.Row="4" Grid.Column="3" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="18"  Width="220" Margin="-50,0,0,0"/>
+        <TextBox Text="{Binding BrojMedjuskladisnice}" Grid.Row="4" Grid.Column="3" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="18"  Width="220" Margin="-70,0,0,0"/>
 
-        <Grid Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="6" HorizontalAlignment="Center" VerticalAlignment="Center">
-            <StackPanel Orientation="Horizontal" VerticalAlignment="Top" Grid.ColumnSpan="1">
-                <Button x:Name="btnFormiraj" Content="Formiraj" FontSize="20" Width="110" Margin="5,5,0,5" HorizontalAlignment="Left" Command="{Binding UnosCommand}" Visibility="{Binding Path=VidljivoOdabirVrsteIncidenta}"/>
-                <Button x:Name="btnIzlaz" FontSize="20" Content="Izlaz" Width="110" Margin="5,5,0,5" Grid.Column="1" HorizontalAlignment="Left" Command="{Binding IzmjenaCommand}" Visibility="{Binding Path=VidljivoOdabirVrsteIncidenta}"/>
-            </StackPanel>
+        <Grid Grid.Row="4" Grid.Column="2" Grid.ColumnSpan="6" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <WrapPanel HorizontalAlignment="Center" VerticalAlignment="Top" ItemWidth="200" ItemHeight="60" Margin="0,-5,0,5">
+                <WrapPanel.Resources>
+                    <Style TargetType="Button">
+                        <Setter Property="FontSize" Value="16"/>
+                        <Setter Property="Padding" Value="10,5"/>
+                        <Setter Property="Margin" Value="10,0"/>
+                        <Setter Property="MinWidth" Value="140"/>
+                        <Setter Property="HorizontalAlignment" Value="Center"/>
+                        <Setter Property="Background" Value="#DDEAFB"/>
+                        <Setter Property="Foreground" Value="#2D2D2D"/>
+                        <Setter Property="BorderBrush" Value="#B0C7E3"/>
+                        <Setter Property="BorderThickness" Value="1.5"/>
+                        <Setter Property="FontWeight" Value="SemiBold"/>
+                        <Setter Property="Height" Value="45"/>
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="Button">
+                                    <Border Background="{TemplateBinding Background}" 
+                                    BorderBrush="{TemplateBinding BorderBrush}" 
+                                    BorderThickness="{TemplateBinding BorderThickness}" 
+                                    CornerRadius="10">
+                                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    </Border>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#C5DFFA"/>
+                                <Setter Property="BorderBrush" Value="#A5BDD7"/>
+                                <Setter Property="Cursor" Value="Hand"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter Property="Foreground" Value="DarkGray"/>
+                                <Setter Property="Background" Value="Gray"/>
+                                <Setter Property="BorderBrush" Value="DarkGray"/>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </WrapPanel.Resources>
+                <Button x:Name="btnFormiraj" Content="Formiraj" FontSize="20" Width="110" Margin="5,5,0,5" HorizontalAlignment="Left" Command="{Binding FormirajCommand}" Visibility="{Binding Path=VidljivoOdabirVrsteIncidenta}"/>
+                <!--<Button x:Name="btnIzlaz" FontSize="20" Content="Izlaz" Width="110" Margin="5,5,0,5" Grid.Column="1" HorizontalAlignment="Left" Command="{Binding IzmjenaCommand}" Visibility="{Binding Path=VidljivoOdabirVrsteIncidenta}"/>-->
+            </WrapPanel>
         </Grid>
     </Grid>
 </UserControl>

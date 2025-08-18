@@ -166,8 +166,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="EntityModels\Inv.cs" />
     <Compile Include="EntityModels\Mat.cs" />
     <Compile Include="EntityModels\materijalno_knjigovodstvoContext.cs" />
+    <Compile Include="EntityModels\Nalmat.cs" />
     <Compile Include="EntityModels\SifarnikKonta.cs" />
     <Compile Include="EntityModels\SifarnikMaterijala.cs" />
     <Compile Include="EntityModels\SifarnikMaterijalSkladisteKonto.cs" />
