@@ -88,7 +88,7 @@ namespace Materijalno.UI.Izvjestaji
             reportDt = new DataTable("MedjuskladisniceJedna");
 
             reportDt.Columns.Add("Redbr").DataType = typeof(int);
-            reportDt.Columns.Add("Kljnaz1").DataType = typeof(int);
+            reportDt.Columns.Add("Kljnaz").DataType = typeof(int);
             reportDt.Columns.Add("Ident").DataType = typeof(int);
             reportDt.Columns.Add("Nazmat").DataType = typeof(string);
             reportDt.Columns.Add("Kolic").DataType = typeof(int);
@@ -115,7 +115,7 @@ namespace Materijalno.UI.Izvjestaji
 
                 _report = new ReportMedjuskladisniceJedna();
                 _report.Redbr = mat.Redbr;
-                _report.Kljnaz1 = mat.Kljnaz1;
+                _report.Kljnaz = mat.Kljnaz;
                 _report.Ident = mat.Ident;
                 _report.NazMat = tabmat.Nazmat;
                 _report.Kolic = mat.Kolic;
@@ -138,7 +138,7 @@ namespace Materijalno.UI.Izvjestaji
                 DataRow dr = reportDt.NewRow();
 
                 dr[0] = report.Redbr;
-                dr[1] = report.Kljnaz1;
+                dr[1] = report.Kljnaz;
                 dr[2] = report.Ident;
                 dr[3] = report.NazMat;
                 dr[4] = report.Kolic;
