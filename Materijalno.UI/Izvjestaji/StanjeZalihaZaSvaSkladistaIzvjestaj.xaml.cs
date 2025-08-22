@@ -48,7 +48,7 @@ namespace Materijalno.UI.Izvjestaji
             var dbContext = new materijalno_knjigovodstvoContext();
 
             MatList = new ObservableCollection<Mat>(dbContext.Mat
-                     .Where(row => row.Datun <= stanjeZalihaZaSvaSkladistavm.CurrentItemMat.Datun) // Remove specific Kljnaz filtering
+                     .Where(row => row.Datun <= stanjeZalihaZaSvaSkladistavm.CurrentItemMat.Datun && row.Ident != 0) // Remove specific Kljnaz filtering
                      .AsEnumerable() // Forces execution in-memory to enable GroupBy & OrderBy
                      .GroupBy(row => new { row.Kljnaz, row.Ident }) // Group by BOTH Kljnaz and Ident
                      .Select(grouped => new Mat
