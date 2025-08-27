@@ -6,7 +6,7 @@
              xmlns:vm="clr-namespace:Materijalno.ViewModel;assembly=Materijalno.ViewModel"
              xmlns:local="clr-namespace:Materijalno.UI"
              mc:Ignorable="d" 
-             d:DesignHeight="400" d:DesignWidth="700">
+             d:DesignHeight="600" d:DesignWidth="1500">
 
     <UserControl.Resources>
         <DataTemplate DataType="{x:Type vm:NaloziZaFinansijePrintanjeNalogaViewModel}">
@@ -84,7 +84,7 @@
                         </Style.Triggers>
                     </Style>
                 </WrapPanel.Resources>
-                <Button x:Name="btnFormiraj" Content="Štampa" FontSize="20" Width="110" Margin="5,5,0,5" Click="stampa_button" HorizontalAlignment="Left" Command="{Binding UnosCommand}" Visibility="{Binding Path=VidljivoOdabirVrsteIncidenta}"/>
+                <Button x:Name="btnFormiraj" Content="Štampa" FontSize="20" Width="110" Margin="5,5,0,5" HorizontalAlignment="Left" Command="{Binding PrintCommand}" Visibility="{Binding Path=VidljivoOdabirVrsteIncidenta}"/>
                 <!--<Button x:Name="btnIzlaz" FontSize="20" Content="Izlaz" Width="110" Margin="5,5,0,5" Grid.Column="1" HorizontalAlignment="Left" Command="{Binding IzmjenaCommand}" Visibility="{Binding Path=VidljivoOdabirVrsteIncidenta}"/>-->
             </WrapPanel>
         </Grid>

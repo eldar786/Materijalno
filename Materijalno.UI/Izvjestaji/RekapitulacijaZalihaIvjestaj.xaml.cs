@@ -50,7 +50,7 @@ namespace Materijalno.UI.Izvjestaji
             var dbContext = new materijalno_knjigovodstvoContext();
 
             MatList = new ObservableCollection<Mat>(dbContext.Mat
-                     .Where(row => row.Datnar <= rekapitulacijaZalihaViewModel.CurrentItemMat.Datnar) 
+                     .Where(row => row.Datnar <= rekapitulacijaZalihaViewModel.CurrentItemMat.Datnar && row.Ident != 0) 
                      .AsEnumerable() // Forces execution in-memory to enable GroupBy & OrderBy
                      .GroupBy(row => new { row.Kljnaz, row.Kontosklad }) // Group by BOTH Kljnaz and Kontosklad
                      .Select(grouped => new Mat

@@ -28,15 +28,15 @@ namespace Materijalno.UI
             InitializeComponent();
         }
 
-        private void stampa_button(object sender, RoutedEventArgs e)
-        {
-            if (DataContext is NaloziZaFinansijePrintanjeNalogaViewModel naloziZaFinansijePrintanjeNalogaViewModel)
-            {
-                NaloziZaFinansijePrintanjeNalogaIzvjestaj naloziZaFinansijePrintanjeNalogaIzvjestaj = new NaloziZaFinansijePrintanjeNalogaIzvjestaj(naloziZaFinansijePrintanjeNalogaViewModel);
+        //private void stampa_button(object sender, RoutedEventArgs e)
+        //{
+        //    if (DataContext is NaloziZaFinansijePrintanjeNalogaViewModel naloziZaFinansijePrintanjeNalogaViewModel)
+        //    {
+        //        NaloziZaFinansijePrintanjeNalogaIzvjestaj naloziZaFinansijePrintanjeNalogaIzvjestaj = new NaloziZaFinansijePrintanjeNalogaIzvjestaj(naloziZaFinansijePrintanjeNalogaViewModel);
 
-                // Dodajemo trenutni ViewModel u PrintWindow
-                naloziZaFinansijePrintanjeNalogaIzvjestaj.Show();
-            }
-        }
+        //        // Dodajemo trenutni ViewModel u PrintWindow
+        //        naloziZaFinansijePrintanjeNalogaIzvjestaj.Show();
+        //    }
+        //}
     }
 }
