@@ -84,7 +84,7 @@
                         </Style.Triggers>
                     </Style>
                 </WrapPanel.Resources>
-                <Button x:Name="btnFormiraj" Content="Formiraj" FontSize="20" Width="110" Margin="5,5,0,5" HorizontalAlignment="Left" Command="{Binding UnosCommand}" Visibility="{Binding Path=VidljivoOdabirVrsteIncidenta}"/>
+                <Button x:Name="btnFormiraj" Content="Formiraj" FontSize="20" Width="110" Margin="5,5,0,5" HorizontalAlignment="Left" Command="{Binding FormirajCommand}" Visibility="{Binding Path=VidljivoOdabirVrsteIncidenta}"/>
                 <!--<Button x:Name="btnIzlaz" FontSize="20" Content="Izlaz" Width="110" Margin="5,5,0,5" Grid.Column="1" HorizontalAlignment="Left" Command="{Binding IzmjenaCommand}" Visibility="{Binding Path=VidljivoOdabirVrsteIncidenta}"/>-->
                 </WrapPanel>
         </Grid>

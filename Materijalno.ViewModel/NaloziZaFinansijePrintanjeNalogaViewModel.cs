@@ -602,7 +602,8 @@ namespace Materijalno.ViewModel
             decimal? ukupnoNcValue = CurrentItemMat.Kolic * CurrentItemMat.Nc;
             //treba vidjeti kako da prebaci na DE culture???
             ukupnoNc = Math.Round((decimal)ukupnoNcValue, 9);
-            decimal? formmatedNc = decimal.Parse(ukupnoNc.ToString(), NumberStyles.AllowThousands | NumberStyles.AllowDecimalPoint, culture);
+            //decimal? formmatedNc = decimal.Parse(ukupnoNc.ToString(), NumberStyles.AllowThousands | NumberStyles.AllowDecimalPoint, culture);
+            decimal? formmatedNc = ukupnoNc;
             ukupnoNc = formmatedNc;
 
             //foreach (var mat in PrintList)
