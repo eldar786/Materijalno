@@ -175,7 +175,10 @@
                           <TextRuns>
                             <TextRun>
                               <Value>=Fields!Nc.Value</Value>
-                              <Style />
+                              <Style>
+                                <Format>n9</Format>
+                                <Language>bs-Latn-BA</Language>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style>
@@ -207,7 +210,10 @@
                           <TextRuns>
                             <TextRun>
                               <Value>=Fields!KolicRazlika.Value</Value>
-                              <Style />
+                              <Style>
+                                <Format>n2</Format>
+                                <Language>bs-Latn-BA</Language>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style>
@@ -239,7 +245,10 @@
                           <TextRuns>
                             <TextRun>
                               <Value>=Fields!KolicRazlikaVisak.Value</Value>
-                              <Style />
+                              <Style>
+                                <Format>n2</Format>
+                                <Language>bs-Latn-BA</Language>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style />
@@ -269,7 +278,10 @@
                           <TextRuns>
                             <TextRun>
                               <Value>=Fields!VrijedRazlika.Value</Value>
-                              <Style />
+                              <Style>
+                                <Format>n2</Format>
+                                <Language>bs-Latn-BA</Language>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style />
@@ -299,7 +311,10 @@
                           <TextRuns>
                             <TextRun>
                               <Value>=Fields!VrijedRazlikaVisak.Value</Value>
-                              <Style />
+                              <Style>
+                                <Format>n2</Format>
+                                <Language>bs-Latn-BA</Language>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style />
@@ -366,7 +381,10 @@
                           <TextRuns>
                             <TextRun>
                               <Value>=Format(Fields!Kolic.Value, "N2")</Value>
-                              <Style />
+                              <Style>
+                                <Format>n2</Format>
+                                <Language>bs-Latn-BA</Language>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style>
@@ -398,7 +416,10 @@
                           <TextRuns>
                             <TextRun>
                               <Value>=Fields!Vrijed.Value</Value>
-                              <Style />
+                              <Style>
+                                <Format>n2</Format>
+                                <Language>bs-Latn-BA</Language>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style>
@@ -430,7 +451,10 @@
                           <TextRuns>
                             <TextRun>
                               <Value>=Format(Fields!Kolic.Value, "N2")</Value>
-                              <Style />
+                              <Style>
+                                <Format>n2</Format>
+                                <Language>bs-Latn-BA</Language>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style>
@@ -462,7 +486,10 @@
                           <TextRuns>
                             <TextRun>
                               <Value>=Fields!Vrijed.Value</Value>
-                              <Style />
+                              <Style>
+                                <Format>n2</Format>
+                                <Language>bs-Latn-BA</Language>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style>
@@ -686,7 +713,10 @@
             <TextRuns>
               <TextRun>
                 <Value>=Sum(Fields!Vrijed.Value)</Value>
-                <Style />
+                <Style>
+                  <Format>n2</Format>
+                  <Language>bs-Latn-BA</Language>
+                </Style>
               </TextRun>
             </TextRuns>
             <Style />
@@ -727,7 +757,10 @@
             <TextRuns>
               <TextRun>
                 <Value>=Sum(Fields!Vrijed.Value)</Value>
-                <Style />
+                <Style>
+                  <Format>n2</Format>
+                  <Language>bs-Latn-BA</Language>
+                </Style>
               </TextRun>
             </TextRuns>
             <Style />
@@ -749,11 +782,77 @@
           <PaddingBottom>2pt</PaddingBottom>
         </Style>
       </Textbox>
+      <Textbox Name="Textbox11">
+        <CanGrow>true</CanGrow>
+        <KeepTogether>true</KeepTogether>
+        <Paragraphs>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Value>=Sum(Fields!VrijedRazlika.Value)</Value>
+                <Style>
+                  <Format>n2</Format>
+                  <Language>bs-Latn-BA</Language>
+                </Style>
+              </TextRun>
+            </TextRuns>
+            <Style />
+          </Paragraph>
+        </Paragraphs>
+        <rd:DefaultName>Textbox9</rd:DefaultName>
+        <Top>2.09903cm</Top>
+        <Left>20.44591cm</Left>
+        <Height>0.6cm</Height>
+        <Width>2.5cm</Width>
+        <ZIndex>5</ZIndex>
+        <Style>
+          <Border>
+            <Style>None</Style>
+          </Border>
+          <PaddingLeft>2pt</PaddingLeft>
+          <PaddingRight>2pt</PaddingRight>
+          <PaddingTop>2pt</PaddingTop>
+          <PaddingBottom>2pt</PaddingBottom>
+        </Style>
+      </Textbox>
+      <Textbox Name="Textbox12">
+        <CanGrow>true</CanGrow>
+        <KeepTogether>true</KeepTogether>
+        <Paragraphs>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Value>=Sum(Fields!VrijedRazlikaVisak.Value)</Value>
+                <Style>
+                  <Format>n2</Format>
+                  <Language>bs-Latn-BA</Language>
+                </Style>
+              </TextRun>
+            </TextRuns>
+            <Style />
+          </Paragraph>
+        </Paragraphs>
+        <rd:DefaultName>Textbox9</rd:DefaultName>
+        <Top>2.06375cm</Top>
+        <Left>23.01647cm</Left>
+        <Height>0.6cm</Height>
+        <Width>2.5cm</Width>
+        <ZIndex>6</ZIndex>
+        <Style>
+          <Border>
+            <Style>None</Style>
+          </Border>
+          <PaddingLeft>2pt</PaddingLeft>
+          <PaddingRight>2pt</PaddingRight>
+          <PaddingTop>2pt</PaddingTop>
+          <PaddingBottom>2pt</PaddingBottom>
+        </Style>
+      </Textbox>
     </ReportItems>
     <Height>1.45833in</Height>
     <Style />
   </Body>
-  <Width>9.98426in</Width>
+  <Width>11.09968in</Width>
   <Page>
     <PageHeader>
       <Height>3.57188cm</Height>
