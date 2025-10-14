@@ -480,7 +480,11 @@ namespace Materijalno.ViewModel
                             StaraSifra_Ime_List.Add(komitent);
                         }
                         //Daj mi ime na osnovu jednakosti i stavi ga u property string
-                        CurrentNazivZaSifruKomitenta = string.IsNullOrEmpty(currentItemMat.Analst) ? ""
+                        //CurrentNazivZaSifruKomitenta = string.IsNullOrEmpty(currentItemMat.Analst) ? ""
+                        //    : StaraSifra_Ime_List.FirstOrDefault(row => row.STARA_SIFRA == currentItemMat.Analst)?.IME;
+
+                        //Ako je null vrijednost za currentItemMat stavi da je prazan string
+                        CurrentNazivZaSifruKomitenta = string.IsNullOrEmpty(currentItemMat?.Analst) ? ""
                             : StaraSifra_Ime_List.FirstOrDefault(row => row.STARA_SIFRA == currentItemMat.Analst)?.IME;
                     }
                 }
@@ -809,6 +813,11 @@ namespace Materijalno.ViewModel
             }
             else
             {
+                if (CurrentIndex == 0)
+                {
+                    System.Windows.MessageBox.Show("Trenutno nema inventurnih listića", "Upozorenje", MessageBoxButton.OK, MessageBoxImage.Information);
+                    return;
+                }
                 CurrentItemMat = MatList[CurrentIndex];
             }
 
