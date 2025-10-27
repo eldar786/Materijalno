@@ -46,7 +46,7 @@ namespace Materijalno.ViewModel
             int maxBronsta = 0;
             var dbContext = new materijalno_knjigovodstvoContext();
 
-            //Prikupimo sve medjuskladisnice iz MAT tabele
+            //Prikupimo sve Zaduzenje prodavnice (status= "I") iz MAT tabele
             MatListZaFormiranje = new ObservableCollection<Mat>(dbContext.Mat
                                .Where(row => row.Status == "I" && row.Brfak == BrojMedjuskladisnice)
                                .OrderBy(row => row.Datun)

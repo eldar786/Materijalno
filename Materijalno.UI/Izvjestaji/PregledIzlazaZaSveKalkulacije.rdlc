@@ -421,8 +421,10 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Format(Fields!Datun.Value, "dd/MM/yyyy")</Value>
-                              <Style />
+                              <Value>=Format(Fields!Datun.Value, "dd.MM.yyyy")</Value>
+                              <Style>
+                                <Language>bs-Latn-BA</Language>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style />
@@ -453,7 +455,10 @@
                           <TextRuns>
                             <TextRun>
                               <Value>=Fields!Kolic.Value</Value>
-                              <Style />
+                              <Style>
+                                <Format>n2</Format>
+                                <Language>bs-Latn-BA</Language>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style>
@@ -517,7 +522,10 @@
                           <TextRuns>
                             <TextRun>
                               <Value>=Fields!Vrijed.Value</Value>
-                              <Style />
+                              <Style>
+                                <Format>n2</Format>
+                                <Language>bs-Latn-BA</Language>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style />
@@ -577,7 +585,10 @@
                           <TextRuns>
                             <TextRun>
                               <Value>=Fields!Vrijed.Value</Value>
-                              <Style />
+                              <Style>
+                                <Format>n2</Format>
+                                <Language>bs-Latn-BA</Language>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style>
@@ -804,6 +815,8 @@
                               <Value>=Sum(Fields!Vrijed.Value)</Value>
                               <Style>
                                 <FontWeight>Bold</FontWeight>
+                                <Format>n2</Format>
+                                <Language>bs-Latn-BA</Language>
                               </Style>
                             </TextRun>
                           </TextRuns>
@@ -1085,7 +1098,10 @@
                           <TextRuns>
                             <TextRun>
                               <Value>=Sum(Fields!Vrijed.Value)</Value>
-                              <Style />
+                              <Style>
+                                <Format>n2</Format>
+                                <Language>bs-Latn-BA</Language>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style />
@@ -1243,10 +1259,11 @@
             <Paragraph>
               <TextRuns>
                 <TextRun>
-                  <Value>=Format(First(Fields!Od.Value, "DataSet1"), "dd/MM/yyyy")</Value>
+                  <Value>=Format(First(Fields!Od.Value, "DataSet1"), "dd.MM.yyyy")</Value>
                   <Style>
                     <FontWeight>Bold</FontWeight>
                     <Format>d</Format>
+                    <Language>bs-Latn-BA</Language>
                   </Style>
                 </TextRun>
               </TextRuns>
@@ -1275,10 +1292,11 @@
             <Paragraph>
               <TextRuns>
                 <TextRun>
-                  <Value>=Format(First(Fields!Do.Value, "DataSet1"), "dd/MM/yyyy")</Value>
+                  <Value>=Format(First(Fields!Do.Value, "DataSet1"), "dd.MM.yyyy")</Value>
                   <Style>
                     <FontWeight>Bold</FontWeight>
                     <Format>d</Format>
+                    <Language>bs-Latn-BA</Language>
                   </Style>
                 </TextRun>
               </TextRuns>
@@ -1375,6 +1393,7 @@
                   <Value>=Format(DateValue(Now()), "dd.MM.yyyy")</Value>
                   <Style>
                     <Format>d</Format>
+                    <Language>bs-Latn-BA</Language>
                   </Style>
                 </TextRun>
               </TextRuns>

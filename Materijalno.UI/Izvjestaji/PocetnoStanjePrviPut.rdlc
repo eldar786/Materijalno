@@ -169,7 +169,10 @@
                           <TextRuns>
                             <TextRun>
                               <Value>=Fields!Kolic.Value</Value>
-                              <Style />
+                              <Style>
+                                <Format>n2</Format>
+                                <Language>bs-Latn-BA</Language>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style />
@@ -199,7 +202,10 @@
                           <TextRuns>
                             <TextRun>
                               <Value>=Fields!Nc.Value</Value>
-                              <Style />
+                              <Style>
+                                <Format>n9</Format>
+                                <Language>bs-Latn-BA</Language>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style>
@@ -231,7 +237,10 @@
                           <TextRuns>
                             <TextRun>
                               <Value>=Fields!Vrijed.Value</Value>
-                              <Style />
+                              <Style>
+                                <Format>n2</Format>
+                                <Language>bs-Latn-BA</Language>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style />
@@ -556,7 +565,10 @@
             <TextRuns>
               <TextRun>
                 <Value>=Sum(Fields!Vrijed.Value)</Value>
-                <Style />
+                <Style>
+                  <Format>n2</Format>
+                  <Language>bs-Latn-BA</Language>
+                </Style>
               </TextRun>
             </TextRuns>
             <Style />

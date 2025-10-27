@@ -152,7 +152,7 @@ namespace Materijalno.UI.Izvjestaji
                 dr[2] = report.Kolic;
                 dr[3] = report.Vrijed;
                 dr[4] = report.Datun;
-                dr[5] = report.Datnar;
+                dr[5] = (object)report.Datnar ?? DBNull.Value;
                 dr[6] = report.NazivOrg;
                 dr[7] = report.Kljnaz;
                 //dr[5] = report.Nazkont;

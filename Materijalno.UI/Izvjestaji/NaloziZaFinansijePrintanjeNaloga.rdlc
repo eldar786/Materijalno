@@ -168,7 +168,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Format(First(Fields!Datnsta.Value, "DataSet1"), "dd/MM/yyyy")</Value>
+                              <Value>=Format(First(Fields!Datnsta.Value, "DataSet1"), "dd.MM.yyyy")</Value>
                               <Style />
                             </TextRun>
                           </TextRuns>
@@ -201,7 +201,10 @@
                           <TextRuns>
                             <TextRun>
                               <Value>=Fields!Dug1st.Value</Value>
-                              <Style />
+                              <Style>
+                                <Format>n2</Format>
+                                <Language>bs-Latn-BA</Language>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style>
@@ -233,7 +236,10 @@
                           <TextRuns>
                             <TextRun>
                               <Value>=Abs(Fields!Pot1st.Value)</Value>
-                              <Style />
+                              <Style>
+                                <Format>n2</Format>
+                                <Language>bs-Latn-BA</Language>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style>
@@ -561,7 +567,10 @@
             <TextRuns>
               <TextRun>
                 <Value>=Sum(Fields!Dug1st.Value)</Value>
-                <Style />
+                <Style>
+                  <Format>n2</Format>
+                  <Language>bs-Latn-BA</Language>
+                </Style>
               </TextRun>
             </TextRuns>
             <Style />
@@ -591,7 +600,10 @@
             <TextRuns>
               <TextRun>
                 <Value>=Abs(Sum(Fields!Pot1st.Value))</Value>
-                <Style />
+                <Style>
+                  <Format>n2</Format>
+                  <Language>bs-Latn-BA</Language>
+                </Style>
               </TextRun>
             </TextRuns>
             <Style />

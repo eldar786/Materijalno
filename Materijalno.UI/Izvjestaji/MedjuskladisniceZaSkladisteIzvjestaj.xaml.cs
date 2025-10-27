@@ -53,7 +53,7 @@ namespace Materijalno.UI.Izvjestaji
 
             MatList = new ObservableCollection<Mat>(dbContext.Mat
                     .Where(row => row.Status == "M" // Filter by status 
-                            && row.Kljnaz == medjuskladisniceZaSkladistevm.CurrentItemMat.Kljnaz // Skladište
+                            && row.Kljnaz1 == medjuskladisniceZaSkladistevm.CurrentItemMat.Kljnaz // Skladište
                             && row.Datun >= medjuskladisniceZaSkladistevm.CurrentItemMat.Datun // Start date condition
                             && row.Datnar <= medjuskladisniceZaSkladistevm.CurrentItemMat.Datnar
                             && row.Medus != "1") // End date condition

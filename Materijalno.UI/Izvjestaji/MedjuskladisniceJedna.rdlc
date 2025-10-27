@@ -68,14 +68,14 @@
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="Kljnaz1">
+                    <Textbox Name="Kljnaz">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Fields!Kljnaz1.Value</Value>
+                              <Value>=Fields!Kljnaz.Value</Value>
                               <Style />
                             </TextRun>
                           </TextRuns>
@@ -84,7 +84,7 @@
                           </Style>
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>Kljnaz1</rd:DefaultName>
+                      <rd:DefaultName>Kljnaz</rd:DefaultName>
                       <Style>
                         <Border>
                           <Style>None</Style>
@@ -96,6 +96,7 @@
                         <PaddingBottom>2pt</PaddingBottom>
                       </Style>
                     </Textbox>
+                    <rd:Selected>true</rd:Selected>
                   </CellContents>
                 </TablixCell>
                 <TablixCell>
@@ -204,7 +205,10 @@
                           <TextRuns>
                             <TextRun>
                               <Value>=Replace(Replace(Format(CDbl(Fields!Kolic.Value), "#,###.00"), ",", "#"), ".", ",").Replace("#", ".")</Value>
-                              <Style />
+                              <Style>
+                                <Format>n2</Format>
+                                <Language>bs-Latn-BA</Language>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style>
@@ -236,7 +240,10 @@
                           <TextRuns>
                             <TextRun>
                               <Value>=Fields!Nc.Value</Value>
-                              <Style />
+                              <Style>
+                                <Format>n9</Format>
+                                <Language>bs-Latn-BA</Language>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style>
@@ -268,7 +275,10 @@
                           <TextRuns>
                             <TextRun>
                               <Value>=Fields!Vrijed.Value</Value>
-                              <Style />
+                              <Style>
+                                <Format>n2</Format>
+                                <Language>bs-Latn-BA</Language>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style>
@@ -347,7 +357,8 @@
               <TextRun>
                 <Value>=Fields!Datun.Value</Value>
                 <Style>
-                  <Format>dd/MM/yyyy</Format>
+                  <Format>dd.MM.yyyy</Format>
+                  <Language>bs-Latn-BA</Language>
                 </Style>
               </TextRun>
             </TextRuns>
@@ -762,7 +773,10 @@ ulaz materijala</Value>
             <TextRuns>
               <TextRun>
                 <Value>=Sum(Fields!Vrijed.Value)</Value>
-                <Style />
+                <Style>
+                  <Format>n2</Format>
+                  <Language>bs-Latn-BA</Language>
+                </Style>
               </TextRun>
             </TextRuns>
             <Style />
@@ -836,6 +850,7 @@ ulaz materijala</Value>
                   <Value>=Format(DateValue(Now()), "dd.MM.yyyy")</Value>
                   <Style>
                     <Format>d</Format>
+                    <Language>bs-Latn-BA</Language>
                   </Style>
                 </TextRun>
               </TextRuns>

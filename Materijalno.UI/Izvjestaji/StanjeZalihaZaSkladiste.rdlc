@@ -130,7 +130,10 @@
                           <TextRuns>
                             <TextRun>
                               <Value>=Fields!Kolic.Value</Value>
-                              <Style />
+                              <Style>
+                                <Format>n2</Format>
+                                <Language>bs-Latn-BA</Language>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style />
@@ -160,7 +163,10 @@
                           <TextRuns>
                             <TextRun>
                               <Value>=Fields!Nc.Value</Value>
-                              <Style />
+                              <Style>
+                                <Format>n9</Format>
+                                <Language>bs-Latn-BA</Language>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style />
@@ -190,7 +196,10 @@
                           <TextRuns>
                             <TextRun>
                               <Value>=Fields!Vrijed.Value</Value>
-                              <Style />
+                              <Style>
+                                <Format>n2</Format>
+                                <Language>bs-Latn-BA</Language>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style />
@@ -375,7 +384,10 @@
                           <TextRuns>
                             <TextRun>
                               <Value>=Sum(Fields!Vrijed.Value)</Value>
-                              <Style />
+                              <Style>
+                                <Format>n2</Format>
+                                <Language>bs-Latn-BA</Language>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style />
@@ -393,6 +405,7 @@
                         <PaddingBottom>2pt</PaddingBottom>
                       </Style>
                     </Textbox>
+                    <rd:Selected>true</rd:Selected>
                   </CellContents>
                 </TablixCell>
               </TablixCells>
@@ -757,9 +770,10 @@
             <Paragraph>
               <TextRuns>
                 <TextRun>
-                  <Value>=Format(First(Fields!Datun.Value, "DataSet1"), "dd/MM/yyyy")</Value>
+                  <Value>=Format(First(Fields!Datun.Value, "DataSet1"), "dd.MM.yyyy")</Value>
                   <Style>
                     <FontWeight>Bold</FontWeight>
+                    <Language>bs-Latn-BA</Language>
                   </Style>
                 </TextRun>
               </TextRuns>

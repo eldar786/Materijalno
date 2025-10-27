@@ -694,7 +694,12 @@ namespace Materijalno.ViewModel
             }
             else
             {
-                CurrentItemInv = InvList[CurrentIndex];
+                System.Windows.MessageBox.Show("Trenutno nema inventurnih listića", "Upozorenje", MessageBoxButton.OK, MessageBoxImage.Information);
+
+                return;
+
+                //Ovo je bilo od ranije, ostaviti za svaki slucaj
+                //CurrentItemInv = InvList[CurrentIndex];
             }
 
             //Nadji listu svih po *Ident* iz *TabelaMaterijala* i *CurrentItem* (Mat) i stavi u listu

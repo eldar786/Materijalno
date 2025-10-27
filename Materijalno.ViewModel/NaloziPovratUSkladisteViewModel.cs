@@ -153,7 +153,8 @@ namespace Materijalno.ViewModel
                                 cmd.Parameters.Add(":Aktivnost", OracleDbType.Int32).Value = 61;
                                 cmd.Parameters.Add(":Godina", OracleDbType.Int32).Value = DBNull.Value;
                                 cmd.Parameters.Add(":Nalog", OracleDbType.Int32).Value = 1234567;
-                                cmd.Parameters.Add(":Datnal", OracleDbType.Date).Value = DateTime.ParseExact("13.3.2025.", "d.M.yyyy.", null);
+                                //cmd.Parameters.Add(":Datnal", OracleDbType.Date).Value = DateTime.ParseExact("13.3.2025.", "d.M.yyyy.", null);
+                                cmd.Parameters.Add(":Datnal", OracleDbType.Date).Value = noviNalMat.Datnsta;
                                 cmd.Parameters.Add(":Proknjizen", OracleDbType.Varchar2).Value = "D";
                                 cmd.Parameters.Add(":Datum_Unosa", OracleDbType.Date).Value = DateTime.ParseExact("13.3.2025.", "d.M.yyyy.", null);
                                 cmd.Parameters.Add(":Radnik", OracleDbType.Int32).Value = null;
