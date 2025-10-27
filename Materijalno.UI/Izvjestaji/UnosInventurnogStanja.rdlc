@@ -199,7 +199,10 @@
                           <TextRuns>
                             <TextRun>
                               <Value>=Fields!Nc.Value</Value>
-                              <Style />
+                              <Style>
+                                <Format>n9</Format>
+                                <Language>bs-Latn-BA</Language>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style>
@@ -231,7 +234,10 @@
                           <TextRuns>
                             <TextRun>
                               <Value>=Fields!Vrijed.Value</Value>
-                              <Style />
+                              <Style>
+                                <Format>n9</Format>
+                                <Language>bs-Latn-BA</Language>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style />
@@ -249,6 +255,7 @@
                         <PaddingBottom>2pt</PaddingBottom>
                       </Style>
                     </Textbox>
+                    <rd:Selected>true</rd:Selected>
                   </CellContents>
                 </TablixCell>
               </TablixCells>
@@ -499,7 +506,7 @@
         <DataSetName>DataSet1</DataSetName>
         <Top>0.32604cm</Top>
         <Height>1.2cm</Height>
-        <Width>21.56314cm</Width>
+        <Width>21.56315cm</Width>
         <Style>
           <Border>
             <Style>None</Style>

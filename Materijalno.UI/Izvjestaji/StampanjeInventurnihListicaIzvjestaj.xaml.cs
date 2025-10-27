@@ -58,7 +58,7 @@ namespace Materijalno.UI.Izvjestaji
                         {
                             Ident = grouped.Key, // Ident remains the same
                             Kljnaz = stampanjeInventurnihListicavm.CurrentItemMat.Kljnaz,
-                            Nc = grouped.OrderBy(x => x.Datun).First().Nc, // Now works in-memory
+                            Nc = grouped.OrderBy(x => x.Datun).Last().Nc, // Now works in-memory
                             Datun = stampanjeInventurnihListicavm.CurrentItemMat.Datun,
                             Kolic = grouped.Sum(x => x.Kolic), // Sum up Kolic
                             Vrijed = grouped.Sum(x => x.Vrijed), // Sum up Vrijed

@@ -41,27 +41,22 @@ namespace Materijalno.ViewModel
             {
                 //Izbrisi sve iz tabela Mat, ostavi status "P"
                 var dbContext = new materijalno_knjigovodstvoContext();
-                //MAT
+
+                //MAT brisanje sa LINQ
                 MatList = new ObservableCollection<Mat>(dbContext.Mat.Where(row => row.Status != "P"));
                 foreach (Mat mat in MatList)
                 {
                     dbContext.Mat.Remove(mat);
                 }
-                dbContext.Database.ExecuteSqlRaw("TRUNCATE TABLE mat");
+                dbContext.SaveChanges();
+                //dbContext.Database.ExecuteSqlRaw("TRUNCATE TABLE mat");
 
-                //NALMAT - moze i koristenjem querya
-                var nalMatList = dbContext.Nalmat.ToList();
-                dbContext.Nalmat.RemoveRange(nalMatList);
-                //Query za brisanje koji radi brze a moze i LINQ
-                //dbContext.Database.ExecuteSqlRaw("DELETE FROM nalmat");
+
+                //NALMAT
                 dbContext.Database.ExecuteSqlRaw("TRUNCATE TABLE nalmat");
 
                 //INV
-                dbContext.Database.ExecuteSqlRaw("DELETE FROM inv");
                 dbContext.Database.ExecuteSqlRaw("TRUNCATE TABLE inv");
-
-                //Spasi bazu
-                dbContext.SaveChanges();
 
                 System.Windows.MessageBox.Show("Uspješno ste obavili postavku početnog stanja!", "Informacija", MessageBoxButton.OK, MessageBoxImage.Information);
             }

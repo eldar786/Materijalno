@@ -48,7 +48,7 @@ namespace Materijalno.UI.Izvjestaji
 
             MatList = new ObservableCollection<Mat>(dbContext.Mat
                      .Where(row => row.Kljnaz == pocetnoStanjePrviPutvm.CurrentItemMat.Kljnaz && row.Status == "P")
-                     .OrderBy(row => row.Ident)
+                     .OrderBy(row => row.Redbr)
                      .ToList());
 
             _tabelaMaterijala = dbContext.TabelaMaterijala.ToList();
@@ -117,7 +117,7 @@ namespace Materijalno.UI.Izvjestaji
 
                 lista.Add(_report);
             }
-            List<ReportPocetnoStanjePrviPut> listaSort = lista.OrderBy(o => o.Datun).ToList();
+            List<ReportPocetnoStanjePrviPut> listaSort = lista.OrderBy(o => o.Redbr).ToList();
 
             foreach (ReportPocetnoStanjePrviPut report in listaSort)
             {

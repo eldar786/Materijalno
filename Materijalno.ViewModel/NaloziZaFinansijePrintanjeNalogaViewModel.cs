@@ -450,7 +450,7 @@ namespace Materijalno.ViewModel
                             StaraSifra_Ime_List.Add(komitent);
                         }
                         //Daj mi ime na osnovu jednakosti i stavi ga u property string
-                        CurrentNazivZaSifruKomitenta = string.IsNullOrEmpty(currentItemMat.Analst) ? ""
+                        CurrentNazivZaSifruKomitenta = string.IsNullOrEmpty(currentItemMat?.Analst) ? ""
                             : StaraSifra_Ime_List.FirstOrDefault(row => row.STARA_SIFRA == currentItemMat.Analst)?.IME;
                     }
                 }
@@ -602,7 +602,8 @@ namespace Materijalno.ViewModel
             decimal? ukupnoNcValue = CurrentItemMat.Kolic * CurrentItemMat.Nc;
             //treba vidjeti kako da prebaci na DE culture???
             ukupnoNc = Math.Round((decimal)ukupnoNcValue, 9);
-            decimal? formmatedNc = decimal.Parse(ukupnoNc.ToString(), NumberStyles.AllowThousands | NumberStyles.AllowDecimalPoint, culture);
+            //decimal? formmatedNc = decimal.Parse(ukupnoNc.ToString(), NumberStyles.AllowThousands | NumberStyles.AllowDecimalPoint, culture);
+            decimal? formmatedNc = ukupnoNc;
             ukupnoNc = formmatedNc;
 
             //foreach (var mat in PrintList)
@@ -777,6 +778,8 @@ namespace Materijalno.ViewModel
             }
             else
             {
+                System.Windows.MessageBox.Show("Trenutno nema naloga", "Upozorenje", MessageBoxButton.OK, MessageBoxImage.Information);
+                return;
                 CurrentItemMat = MatList[CurrentIndex];
             }
 

@@ -305,8 +305,9 @@ namespace Materijalno.ViewModel
 
             string serverBackupPath = @"C:\Program Files\Microsoft SQL Server\MSSQL15.LUTRIJASQL\MSSQL\Backup\materijalno_knjigovodstvo_" + DateTime.Now.ToString("yyyyMMdd_HHmmss") + ".bak";
 
-            if (Directory.Exists(Path.GetDirectoryName(serverBackupPath)))
-            {
+            //Ovaj if je iskljucen jer ne mozemo citati sa localne strane server path
+            //if (Directory.Exists(Path.GetDirectoryName(serverBackupPath)))
+            //{
                 string backupQuery = $@"
             BACKUP DATABASE [materijalno_knjigovodstvo]
             TO DISK = N'{serverBackupPath}'
@@ -332,7 +333,7 @@ namespace Materijalno.ViewModel
                     // Handle error
                     System.Windows.MessageBox.Show(ex.Message, "Greška", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
-            }
+            //}
         }
 
         public object OdabraniVM

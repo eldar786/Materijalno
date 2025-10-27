@@ -1061,7 +1061,7 @@
                                         <ColumnDefinition/>
                                         <ColumnDefinition/>
                                     </Grid.ColumnDefinitions>
-                                    <Label Grid.Column="1" Foreground="Black" Grid.ColumnSpan="2" VerticalAlignment="Center" FontSize="15" Margin="0,0,0,0" Content="Ulaz u centralni magazin" Height="34"/>
+                                    <Label Grid.Column="1" Foreground="Black" Grid.ColumnSpan="2" VerticalAlignment="Center" FontSize="15" Margin="0,0,0,0" Content="Ulaz u centralni magacin" Height="34"/>
                                 </Grid>
                             </Button>
                             <Button x:Name="zaduzenjeProdavnice" Width="Auto" Height="30" HorizontalAlignment="Left" BorderBrush="{x:Null}" Margin="20,0,0,0" Command="{Binding ZaduzenjeProdavniceCommand}">
@@ -1324,7 +1324,7 @@
                     <TextBlock Height="70" Background="White" Width="320" Grid.ColumnSpan="7" DockPanel.Dock="Bottom" HorizontalAlignment="Left" VerticalAlignment="Bottom" 
                                Grid.Row="9" Foreground="#FFFF0303" FontWeight="Bold" Grid.Column="1">
                         <Run/>I N T E R N O<LineBreak/>UPOZORENJE: SVI DOKUMENTI I PODACI <LineBreak/>MOGU SE KORISTITI SAMO ZA <LineBreak/>INTERNU UPOTREBU!</TextBlock>
-                    <Image Source="/Ikone/Lutrija_logo.png" DockPanel.Dock="Bottom" HorizontalAlignment="Left" VerticalAlignment="Bottom" Grid.Row="9" Width="320"/>
+                    <Image Source="/Ikone/Lutrija_logo.png" DockPanel.Dock="Bottom" HorizontalAlignment="Left" VerticalAlignment="Bottom" Grid.Row="9" Width="300"/>
 
                 </StackPanel>
             </ScrollViewer>
