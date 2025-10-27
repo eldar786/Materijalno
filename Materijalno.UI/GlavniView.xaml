@@ -1324,7 +1324,7 @@
                     <TextBlock Height="70" Background="White" Width="320" Grid.ColumnSpan="7" DockPanel.Dock="Bottom" HorizontalAlignment="Left" VerticalAlignment="Bottom" 
                                Grid.Row="9" Foreground="#FFFF0303" FontWeight="Bold" Grid.Column="1">
                         <Run/>I N T E R N O<LineBreak/>UPOZORENJE: SVI DOKUMENTI I PODACI <LineBreak/>MOGU SE KORISTITI SAMO ZA <LineBreak/>INTERNU UPOTREBU!</TextBlock>
-                    <Image Source="/Ikone/Lutrija_logo.png" DockPanel.Dock="Bottom" HorizontalAlignment="Left" VerticalAlignment="Bottom" Grid.Row="9" Width="320"/>
+                    <Image Source="/Ikone/Lutrija_logo.png" DockPanel.Dock="Bottom" HorizontalAlignment="Left" VerticalAlignment="Bottom" Grid.Row="9" Width="300"/>
 
                 </StackPanel>
             </ScrollViewer>
