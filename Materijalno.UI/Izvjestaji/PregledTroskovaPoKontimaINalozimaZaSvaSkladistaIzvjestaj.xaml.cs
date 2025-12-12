@@ -139,8 +139,8 @@ namespace Materijalno.UI.Izvjestaji
                 //_report.NazMat = tabmat.Nazmat;
                 //_report.Kolic = mat.Kolic;
                 _report.Vrijed = mat.Vrijed;
-                _report.Datun = mat.Datun;
-                _report.Datnar = mat.Datnar;
+                _report.Datun = (DateTime)mat.Datun;
+                _report.Datnar = (DateTime)mat.Datnar;
                 _report.NazivOrg = tabsklad.NazivOrg;
                 _report.Kljnaz = mat.Kljnaz;
                 _report.Nazkont = tabkonto.Nazkont;

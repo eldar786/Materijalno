@@ -122,8 +122,8 @@ namespace Materijalno.UI.Izvjestaji
                 _report.Nc = mat.Nc;
                 _report.Vrijed = mat.Vrijed;
                 _report.Brfak = mat.Brfak;
-                _report.Datun = mat.Datun;
-                _report.Datnar = mat.Datnar;
+                _report.Datun = (DateTime)mat.Datun;
+                _report.Datnar = (DateTime)mat.Datnar;
                 _report.Brdok = mat.Brdok;
                 _report.TotalVrijednost = totalVrijednost;
                 _report.Konto1 = mat.Konto1;

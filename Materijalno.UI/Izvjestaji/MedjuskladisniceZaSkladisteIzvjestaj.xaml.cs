@@ -134,7 +134,7 @@ namespace Materijalno.UI.Izvjestaji
                 _report.Brdok = mat.Brdok;
                 //_report.TotalVrijednost = ukupnavrijednost.Vrijed;
                 _report.Od = (DateTime)_medjuskladisniceZaSkladistevm.CurrentItemMat.Datun;
-                _report.Do = _medjuskladisniceZaSkladistevm.CurrentItemMat.Datnar;
+                _report.Do = (DateTime)_medjuskladisniceZaSkladistevm.CurrentItemMat.Datnar;
                 _report.NazivOrg = tabsklad.NazivOrg;
 
 

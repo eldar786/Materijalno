@@ -96,7 +96,6 @@
                         <PaddingBottom>2pt</PaddingBottom>
                       </Style>
                     </Textbox>
-                    <rd:Selected>true</rd:Selected>
                   </CellContents>
                 </TablixCell>
                 <TablixCell>
@@ -389,7 +388,9 @@
             <TextRuns>
               <TextRun>
                 <Value>=Fields!Brdok.Value</Value>
-                <Style />
+                <Style>
+                  <Language>bs-Latn-BA</Language>
+                </Style>
               </TextRun>
             </TextRuns>
             <Style />

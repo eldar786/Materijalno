@@ -78,13 +78,13 @@ namespace Materijalno.ViewModel
                     Nalmat noviNalMat = new Nalmat
                     {
                         Rostav = 1,
-                        Datnsta = mat.Datun,
+                        Datnsta = (DateTime)mat.Datun,
                         Sifakt = 61,
                         Bronsta = maxBronsta + 1,
                         Sintstav = (int)mat.Kontosklad,
                         Brdokst = mat.Brdok,
                         Kukistav = 0,
-                        Datdokst = mat.Datnar,
+                        Datdokst = (DateTime)mat.Datnar,
                         Devsta = null,
                         Kurs = 0,
                         Datvalst = "  -   -",
@@ -112,13 +112,13 @@ namespace Materijalno.ViewModel
                     Nalmat noviNalMat = new Nalmat
                     {
                         Rostav = 1,
-                        Datnsta = mat.Datun,
+                        Datnsta = (DateTime)mat.Datun,
                         Sifakt = 61,
                         Bronsta = maxBronsta + 1,
                         Sintstav = (int)mat.Kontosklad,
                         Brdokst = mat.Brdok,
                         Kukistav = 0,
-                        Datdokst = mat.Datnar,
+                        Datdokst = (DateTime)mat.Datnar,
                         Devsta = null,
                         Kurs = 0,
                         Datvalst = "  -   -",

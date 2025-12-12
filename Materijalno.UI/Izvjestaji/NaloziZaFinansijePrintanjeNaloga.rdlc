@@ -846,7 +846,7 @@
             <Paragraph>
               <TextRuns>
                 <TextRun>
-                  <Value>=First(Fields!Bronsta.Value, "DataSet1")</Value>
+                  <Value>=First("000" &amp; Fields!Bronsta.Value, "DataSet1")</Value>
                   <Style>
                     <FontWeight>Bold</FontWeight>
                   </Style>

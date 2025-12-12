@@ -575,6 +575,7 @@
                               <Value>=Fields!Datun.Value</Value>
                               <Style>
                                 <Format>d</Format>
+                                <Language>bs-Latn-BA</Language>
                               </Style>
                             </TextRun>
                           </TextRuns>
@@ -604,6 +605,7 @@
                         <PaddingBottom>2pt</PaddingBottom>
                       </Style>
                     </Textbox>
+                    <rd:Selected>true</rd:Selected>
                   </CellContents>
                 </TablixCell>
                 <TablixCell>
@@ -773,8 +775,11 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=IIF(Fields!Status.Value = "M", Replace(FormatNumber(Fields!Kolic.Value * Fields!Nc.Value, 2), ".", ","), "0")</Value>
-                              <Style />
+                              <Value>=IIF(Fields!Status.Value = "M", (Fields!Kolic.Value * Fields!Nc.Value), 0)</Value>
+                              <Style>
+                                <Format>n2</Format>
+                                <Language>bs-Latn-BA</Language>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style />
@@ -811,8 +816,11 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=IIF(Fields!Status.Value = "I", Replace(FormatNumber(Fields!Kolic.Value * Fields!Nc.Value, 2), ".", ","), "0")</Value>
-                              <Style />
+                              <Value>=IIF(Fields!Status.Value = "I", (Fields!Kolic.Value * Fields!Nc.Value), 0)</Value>
+                              <Style>
+                                <Format>n2</Format>
+                                <Language>bs-Latn-BA</Language>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style />
@@ -987,8 +995,11 @@
           <Paragraph>
             <TextRuns>
               <TextRun>
-                <Value>=Replace(Format(Sum(IIf(Fields!Status.Value = "M", CDbl(Fields!Kolic.Value) * CDbl(Fields!Nc.Value), 0)), "N2"), ".", ",")</Value>
-                <Style />
+                <Value>=Sum(IIf(Fields!Status.Value = "M", CDbl(Fields!Kolic.Value) * CDbl(Fields!Nc.Value), 0))</Value>
+                <Style>
+                  <Format>n2</Format>
+                  <Language>bs-Latn-BA</Language>
+                </Style>
               </TextRun>
             </TextRuns>
             <Style />
@@ -1016,9 +1027,10 @@
           <Paragraph>
             <TextRuns>
               <TextRun>
-                <Value>=Format(First(Fields!Od.Value, "DataSet1"), "dd/MM/yyyy")</Value>
+                <Value>=Fields!Od.Value</Value>
                 <Style>
                   <Format>d</Format>
+                  <Language>bs-Latn-BA</Language>
                 </Style>
               </TextRun>
             </TextRuns>
@@ -1048,9 +1060,10 @@
           <Paragraph>
             <TextRuns>
               <TextRun>
-                <Value>=Format(First(Fields!Do.Value, "DataSet1"), "dd/MM/yyyy")</Value>
+                <Value>=Fields!Do.Value</Value>
                 <Style>
-                  <Format>d</Format>
+                  <Format>dd.MM.yyyy</Format>
+                  <Language>bs-Latn-BA</Language>
                 </Style>
               </TextRun>
             </TextRuns>
@@ -1080,8 +1093,17 @@
           <Paragraph>
             <TextRuns>
               <TextRun>
-                <Value>=Replace(Format(Sum(IIf(Fields!Status.Value = "I", CDbl(Fields!Kolic.Value) * CDbl(Fields!Nc.Value), 0)), "N2"), ".", ",")</Value>
-                <Style />
+                <Value>=Sum(
+IIf(
+Fields!Status.Value = "I", 
+Round(CDbl(Fields!Kolic.Value) * CDbl(Fields!Nc.Value), 2), 
+0
+)
+)</Value>
+                <Style>
+                  <Format>n2</Format>
+                  <Language>bs-Latn-BA</Language>
+                </Style>
               </TextRun>
             </TextRuns>
             <Style />

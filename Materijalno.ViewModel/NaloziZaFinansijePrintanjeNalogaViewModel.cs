@@ -31,6 +31,8 @@ namespace Materijalno.ViewModel
         private ApplicationViewModel _avm;
         private GlavniViewModel _gvm;
         private Mat currentItemMat;
+        private Nalmat currentItemNalMat;
+        private string brfak;
         private Mat currentItemMed;
         private Mat itemMat;
         public static Komitenti selectedKomitent;
@@ -70,6 +72,26 @@ namespace Materijalno.ViewModel
                 OnPropertyChanged(nameof(CurrentItemMat));
             }
         }
+
+        public Nalmat CurrentItemNalMat
+        {
+            get { return currentItemNalMat; }
+            set
+            {
+                currentItemNalMat = value;
+                OnPropertyChanged(nameof(CurrentItemNalMat));
+            }
+        }
+        public string Brfak
+        {
+            get { return brfak; }
+            set
+            {
+                brfak = value;
+                OnPropertyChanged(nameof(Brfak));
+            }
+        }
+
 
         public Mat CurrentItemMed
         {
@@ -146,31 +168,18 @@ namespace Materijalno.ViewModel
         public ObservableCollection<SifarnikSkladista> TebelaSkladistaList { get; set; }
         public ObservableCollection<SifarnikSkladista> TebelaSkladistaUlazaList { get; set; }
         public ObservableCollection<Mat> MatList { get; set; }
+        public ObservableCollection<Nalmat> NalMatList { get; set; }
         public ObservableCollection<Mat> PrintList { get; set; }
         public List<Komitenti> StaraSifra_Ime_List { get; set; }
 
         #endregion
 
         #region Commands
-
-        public RelayCommand NextButtonCommand { get; set; }
-        public RelayCommand PrethodniButtonCommand { get; set; }
-        public RelayCommand PrviButtonCommand { get; set; }
-        public RelayCommand ZadnjiButtonCommand { get; set; }
-        public RelayCommand BrisanjeCommand { get; set; }
         public RelayCommand UpdateCommand { get; set; }
-        public RelayCommand NovaMedjuskladisnicaCommand { get; set; }
-        public RelayCommand SpasiNovuKalkulacijuCommand { get; set; }
-        public RelayCommand NabavnaCijenaCommand { get; set; }
         //public RelayCommand PrintFullCommand { get; set; }
 
         //Potrebno uraditi ???
         public RelayCommand PrintCommand { get; set; }
-        public RelayCommand OtvoriKomitentListuCommand { get; set; }
-        public RelayCommand TraziSifruMaterijalaCommand { get; set; }
-        public RelayCommand OsvjeziCommand { get; set; }
-        public RelayCommand OdustaniCommand { get; set; }
-
         #endregion
 
         #region Constructor
@@ -179,150 +188,123 @@ namespace Materijalno.ViewModel
         {
 
             _gvm = gvm;
-            //Prilikom otvaranja Ulaza iz nove kalkulacije, treba promijeniti u false
-            isNovaKalkulacijaClicked = false;
-
             #region Commands
-            PrviButtonCommand = new RelayCommand(PrviButton, () => !isNovaKalkulacijaClicked);
-            NextButtonCommand = new RelayCommand(NextButton, () => !isNovaKalkulacijaClicked);
-            PrethodniButtonCommand = new RelayCommand(PrethodniButton, () => !isNovaKalkulacijaClicked);
-            ZadnjiButtonCommand = new RelayCommand(ZadnjiButton, () => !isNovaKalkulacijaClicked);
-            BrisanjeCommand = new RelayCommand(Brisanje, () => !isNovaKalkulacijaClicked);
+
             UpdateCommand = new RelayCommand(Update, () => !isNovaKalkulacijaClicked);
-            NovaMedjuskladisnicaCommand = new RelayCommand(NovaMedjuskladisnica, () => !isNovaKalkulacijaClicked);
-            SpasiNovuKalkulacijuCommand = new RelayCommand(SpasiNovuKalkulaciju, () => isNovaKalkulacijaClicked);
-            OdustaniCommand = new RelayCommand(Odustani, () => isNovaKalkulacijaClicked);
-
-            //TraziSifruMaterijalaCommand = new RelayCommand(Trazi, () => !isNovaKalkulacijaClicked);
             PrintCommand = new RelayCommand(Print, () => !isNovaKalkulacijaClicked);
-            NabavnaCijenaCommand = new RelayCommand(NabavnaCijena);
-            OsvjeziCommand = new RelayCommand(Osvjezi);
-            //PrintFullCommand = new RelayCommand(PrintFull);
 
-            //OtvoriKomitentListuCommand = new RelayCommand(OtvoriKomitentListu);
             #endregion
 
+            var dbContext = new materijalno_knjigovodstvoContext();
 
-            using (var dbContext = new materijalno_knjigovodstvoContext())
+            //Dodaj u listu gdje je kljnaz == 1000 i sortiraj po datumu iz kolone (datun)
+            //Neki datum preskoci, treba napraviti dobar data type za kolonu (datun) u sql bazi
+            //MatList = new ObservableCollection<Mat>(dbContext.Mat
+            //     .Where(row => row.Kljnaz1 >= 1000 && row.Kljnaz1 <= 1012 && row.Kljnaz >= 1000 && row.Kljnaz <= 1012 && row.Medus != "1")
+            //     .OrderBy(row => row.Datun)
+            //     .ToList());
+
+            NalMatList = new ObservableCollection<Nalmat>(dbContext.Nalmat
+                 .ToList());
+
+            if (NalMatList == null)
             {
-                NextButtonCommand = new RelayCommand(NextButton);
-                PrethodniButtonCommand = new RelayCommand(PrethodniButton);
-                PrviButtonCommand = new RelayCommand(PrviButton);
-                ZadnjiButtonCommand = new RelayCommand(ZadnjiButton);
-
-                //Dodaj u listu gdje je kljnaz == 1000 i sortiraj po datumu iz kolone (datun)
-                //Neki datum preskoci, treba napraviti dobar data type za kolonu (datun) u sql bazi
-                MatList = new ObservableCollection<Mat>(dbContext.Mat
-                     .Where(row => row.Kljnaz1 >= 1000 && row.Kljnaz1 <= 1012 && row.Kljnaz >= 1000 && row.Kljnaz <= 1012 && row.Medus != "1")
-                     .OrderBy(row => row.Datun)
-                     .ToList());
-
-                UpdateCurrentItemData(dbContext);
-
-                StaraSifra_Ime_List = DohvatiNazivKomitenta();
+                System.Windows.MessageBox.Show("Trenutno nema naloga", "Upozorenje", MessageBoxButton.OK, MessageBoxImage.Information);
+                return;
             }
+
+            //UpdateCurrentItemData(dbContext);
+
+            //StaraSifra_Ime_List = DohvatiNazivKomitenta();
+
         }
 
         public NaloziZaFinansijePrintanjeNalogaViewModel()
         {
         }
 
-        public NaloziZaFinansijePrintanjeNalogaViewModel(GlavniViewModel gvm, Mat CurrentItemMat)
-        {
-            _gvm = gvm;
-            this.CurrentItemMat = CurrentItemMat;
+        //public NaloziZaFinansijePrintanjeNalogaViewModel(GlavniViewModel gvm, Mat CurrentItemMat)
+        //{
+        //    _gvm = gvm;
+        //    this.CurrentItemMat = CurrentItemMat;
 
-            //Kada vraca iz Trazi Mat liste, treba da ostane isNovaKalkulacijaClicked = false; zbog buttona
-            if (isTraziClicked == true)
-            {
-                isNovaKalkulacijaClicked = false;
-            }
-            else
-            {
-                isNovaKalkulacijaClicked = true;
-            }
+        //    //Kada vraca iz Trazi Mat liste, treba da ostane isNovaKalkulacijaClicked = false; zbog buttona
+        //    if (isTraziClicked == true)
+        //    {
+        //        isNovaKalkulacijaClicked = false;
+        //    }
+        //    else
+        //    {
+        //        isNovaKalkulacijaClicked = true;
+        //    }
 
-            #region Commands
-            PrviButtonCommand = new RelayCommand(PrviButton, () => !isNovaKalkulacijaClicked);
-            NextButtonCommand = new RelayCommand(NextButton, () => !isNovaKalkulacijaClicked);
-            PrethodniButtonCommand = new RelayCommand(PrethodniButton, () => !isNovaKalkulacijaClicked);
-            ZadnjiButtonCommand = new RelayCommand(ZadnjiButton, () => !isNovaKalkulacijaClicked);
-            BrisanjeCommand = new RelayCommand(Brisanje, () => !isNovaKalkulacijaClicked);
-            UpdateCommand = new RelayCommand(Update, () => !isNovaKalkulacijaClicked);
-            NovaMedjuskladisnicaCommand = new RelayCommand(NovaMedjuskladisnica, () => !isNovaKalkulacijaClicked);
-            SpasiNovuKalkulacijuCommand = new RelayCommand(SpasiNovuKalkulaciju, () => isNovaKalkulacijaClicked);
-            OdustaniCommand = new RelayCommand(Odustani, () => isNovaKalkulacijaClicked);
+        //    #region Commands
+        //    UpdateCommand = new RelayCommand(Update, () => !isNovaKalkulacijaClicked);
+        //    PrintCommand = new RelayCommand(Print, () => !isNovaKalkulacijaClicked);
+            
+        //    #endregion
 
-            //TraziSifruMaterijalaCommand = new RelayCommand(Trazi, () => !isNovaKalkulacijaClicked);
-            PrintCommand = new RelayCommand(Print, () => !isNovaKalkulacijaClicked);
-            NabavnaCijenaCommand = new RelayCommand(NabavnaCijena);
-            OsvjeziCommand = new RelayCommand(Osvjezi);
-            //PrintFullCommand = new RelayCommand(PrintFull);
+        //    UpdateCommands();
 
-            //OtvoriKomitentListuCommand = new RelayCommand(OtvoriKomitentListu);
-            #endregion
+        //    using (var dbContext = new materijalno_knjigovodstvoContext())
+        //    {
+        //        //Dodaj u listu gdje je kljnaz == 1000 i sortiraj po datumu iz kolone (datun)
+        //        //Neki datum preskoci, treba napraviti dobar data type za kolonu (datun) u sql bazi
+        //        MatList = new ObservableCollection<Mat>(dbContext.Mat
+        //             .Where(row => row.Kljnaz1 >= 1000 && row.Kljnaz1 <= 1012 && row.Kljnaz >= 1000 && row.Kljnaz <= 1012 && row.Medus != "1")
+        //             .OrderBy(row => row.Datun)
+        //             .ToList());
 
-            UpdateCommands();
+        //        #region Custom UpdateCurrentItemData
+        //        //***Prilagodjena metoda UpdateCurrentItemData()***
 
-            using (var dbContext = new materijalno_knjigovodstvoContext())
-            {
-                //Dodaj u listu gdje je kljnaz == 1000 i sortiraj po datumu iz kolone (datun)
-                //Neki datum preskoci, treba napraviti dobar data type za kolonu (datun) u sql bazi
-                MatList = new ObservableCollection<Mat>(dbContext.Mat
-                     .Where(row => row.Kljnaz1 >= 1000 && row.Kljnaz1 <= 1012 && row.Kljnaz >= 1000 && row.Kljnaz <= 1012 && row.Medus != "1")
-                     .OrderBy(row => row.Datun)
-                     .ToList());
+        //        for (int i = 0; i < MatList.Count(); i++)
+        //        {
+        //            if (MatList[i].Id == CurrentItemMat.Id)
+        //            {
+        //                CurrentIndex = i;
+        //            }
+        //        }
 
-                #region Custom UpdateCurrentItemData
-                //***Prilagodjena metoda UpdateCurrentItemData()***
+        //        CurrentItemMat = (Mat)MatList.FirstOrDefault(row => row.Id == CurrentItemMat.Id);
 
-                for (int i = 0; i < MatList.Count(); i++)
-                {
-                    if (MatList[i].Id == CurrentItemMat.Id)
-                    {
-                        CurrentIndex = i;
-                    }
-                }
+        //        TebelaMaterijalaList = new ObservableCollection<TabelaMaterijala>(dbContext.TabelaMaterijala.Where(row => row.Ident == CurrentItemMat.Ident).ToList());
 
-                CurrentItemMat = (Mat)MatList.FirstOrDefault(row => row.Id == CurrentItemMat.Id);
+        //        //TebelaKontaList = new ObservableCollection<TabelaMaterijala>(dbContext.TabelaMaterijala.Where(row => row.Konto1 == CurrentItemMat.Konto1).ToList());
 
-                TebelaMaterijalaList = new ObservableCollection<TabelaMaterijala>(dbContext.TabelaMaterijala.Where(row => row.Ident == CurrentItemMat.Ident).ToList());
+        //        TebelaSkladistaList = new ObservableCollection<SifarnikSkladista>(dbContext.SifarnikSkladista.Where(row => row.Kljnaz == CurrentItemMat.Kljnaz).ToList());
 
-                //TebelaKontaList = new ObservableCollection<TabelaMaterijala>(dbContext.TabelaMaterijala.Where(row => row.Konto1 == CurrentItemMat.Konto1).ToList());
+        //        TebelaSkladistaUlazaList = new ObservableCollection<SifarnikSkladista>(dbContext.SifarnikSkladista.Where(row => row.Kljnaz == CurrentItemMat.Kljnaz1).ToList());
 
-                TebelaSkladistaList = new ObservableCollection<SifarnikSkladista>(dbContext.SifarnikSkladista.Where(row => row.Kljnaz == CurrentItemMat.Kljnaz).ToList());
+        //        //Nadji jednu vrijednost po *Ident* iz *TabelaMaterijala* i po Sifri materijala iz tabele *Mat*(col:*Ident*) i stavi u jedan property
 
-                TebelaSkladistaUlazaList = new ObservableCollection<SifarnikSkladista>(dbContext.SifarnikSkladista.Where(row => row.Kljnaz == CurrentItemMat.Kljnaz1).ToList());
+        //        CurrentItemTabMaterijala = dbContext.TabelaMaterijala.Where(row => row.Konto1 == CurrentItemMat.Konto1).FirstOrDefault();
 
-                //Nadji jednu vrijednost po *Ident* iz *TabelaMaterijala* i po Sifri materijala iz tabele *Mat*(col:*Ident*) i stavi u jedan property
+        //        //CurrentItemTabKonto1 = dbContext.TabelaMaterijala.Where(row => row.Konto1 == CurrentItemMat.Konto1).FirstOrDefault();
 
-                CurrentItemTabMaterijala = dbContext.TabelaMaterijala.Where(row => row.Konto1 == CurrentItemMat.Konto1).FirstOrDefault();
-
-                //CurrentItemTabKonto1 = dbContext.TabelaMaterijala.Where(row => row.Konto1 == CurrentItemMat.Konto1).FirstOrDefault();
-
-                CurrentItemTabSkladista = dbContext.SifarnikSkladista.Where(row => row.Kljnaz == CurrentItemMat.Kljnaz).FirstOrDefault();
-                CurrentItemTabSkladistaUlaza = dbContext.SifarnikSkladista.Where(row => row.Kljnaz == CurrentItemMat.Kljnaz1).FirstOrDefault();
+        //        CurrentItemTabSkladista = dbContext.SifarnikSkladista.Where(row => row.Kljnaz == CurrentItemMat.Kljnaz).FirstOrDefault();
+        //        CurrentItemTabSkladistaUlaza = dbContext.SifarnikSkladista.Where(row => row.Kljnaz == CurrentItemMat.Kljnaz1).FirstOrDefault();
 
 
-                if (StaraSifra_Ime_List != null)
-                {
-                    CurrentNazivZaSifruKomitenta = string.IsNullOrEmpty(CurrentItemMat.Analst) ? ""
-                        : StaraSifra_Ime_List.FirstOrDefault(row => row.STARA_SIFRA == CurrentItemMat.Analst)?.IME;
-                }
+        //        if (StaraSifra_Ime_List != null)
+        //        {
+        //            CurrentNazivZaSifruKomitenta = string.IsNullOrEmpty(CurrentItemMat.Analst) ? ""
+        //                : StaraSifra_Ime_List.FirstOrDefault(row => row.STARA_SIFRA == CurrentItemMat.Analst)?.IME;
+        //        }
 
-                if (selectedKomitent != null)
-                {
-                    CurrentItemMat.Analst = selectedKomitent.STARA_SIFRA;
-                    CurrentNazivZaSifruKomitenta = selectedKomitent.IME;
-                }
+        //        if (selectedKomitent != null)
+        //        {
+        //            CurrentItemMat.Analst = selectedKomitent.STARA_SIFRA;
+        //            CurrentNazivZaSifruKomitenta = selectedKomitent.IME;
+        //        }
 
-                selectedKomitent = null;
+        //        selectedKomitent = null;
 
-                #endregion 
+        //        #endregion 
 
-                StaraSifra_Ime_List = DohvatiNazivKomitenta();
-            }
-        }
+        //        StaraSifra_Ime_List = DohvatiNazivKomitenta();
+        //    }
+        //}
         #endregion
 
         #region Methods
@@ -706,20 +688,8 @@ namespace Materijalno.ViewModel
 
         private void UpdateCommands()
         {
-            PrviButtonCommand.RaiseCanExecuteChanged();
-            ZadnjiButtonCommand.RaiseCanExecuteChanged();
-            NextButtonCommand.RaiseCanExecuteChanged();
-            PrethodniButtonCommand.RaiseCanExecuteChanged();
-            SpasiNovuKalkulacijuCommand.RaiseCanExecuteChanged();
-            OdustaniCommand.RaiseCanExecuteChanged();
-            NovaMedjuskladisnicaCommand.RaiseCanExecuteChanged();
-            BrisanjeCommand.RaiseCanExecuteChanged();
             UpdateCommand.RaiseCanExecuteChanged();
-            TraziSifruMaterijalaCommand.RaiseCanExecuteChanged();
             PrintCommand.RaiseCanExecuteChanged();
-
-            SpasiNovuKalkulacijuCommand.RaiseCanExecuteChanged();
-            OdustaniCommand.RaiseCanExecuteChanged();
         }
 
         //Samo dostupno kada odemo na nova kalkulacija i da vrati na prethodni
@@ -765,14 +735,14 @@ namespace Materijalno.ViewModel
         // Ova metoda radi update CurrentItem i CurrentItemTabMaterijala based on the current index
         private void UpdateCurrentItemData(materijalno_knjigovodstvoContext dbContext)
         {
-            if (CurrentItemMat != null)
+            if (CurrentItemNalMat != null)
             {
                 for (int i = 0; i < MatList.Count(); i++)
                 {
-                    if (MatList[i].Id == CurrentItemMat.Id)
+                    if (NalMatList[i].Id == CurrentItemNalMat.Id)
                     {
                         CurrentIndex = i;
-                        CurrentItemMat = MatList[CurrentIndex];
+                        CurrentItemNalMat = NalMatList[CurrentIndex];
                     }
                 }
             }
@@ -780,7 +750,7 @@ namespace Materijalno.ViewModel
             {
                 System.Windows.MessageBox.Show("Trenutno nema naloga", "Upozorenje", MessageBoxButton.OK, MessageBoxImage.Information);
                 return;
-                CurrentItemMat = MatList[CurrentIndex];
+                CurrentItemNalMat = NalMatList[CurrentIndex];
             }
 
 

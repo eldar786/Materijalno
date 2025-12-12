@@ -55,8 +55,7 @@ namespace Materijalno.UI.Izvjestaji
             var dbContext = new materijalno_knjigovodstvoContext();
 
             NalMatList = new ObservableCollection<Nalmat>(dbContext.Nalmat
-                     .Where(row => row.Brfak == naloziZaFinansijePrintanjeNalogavm.CurrentItemMat.Brfak )
-                     .OrderBy(row => row.Datnsta)
+                     .Where(row => row.Brfak == naloziZaFinansijePrintanjeNalogavm.Brfak)
                      .ToList());
 
             _tabelaMaterijala = dbContext.TabelaMaterijala.ToList();

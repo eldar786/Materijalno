@@ -174,7 +174,7 @@ namespace Materijalno.UI.Izvjestaji
                 _report.Nc = mat.Nc;
                 _report.Vrijed = mat.Vrijed;
                
-                _report.Datun = mat.Datun;
+                _report.Datun = (DateTime)mat.Datun;
                 _report.NazivOrg = tabsklad.NazivOrg;
                 //_report.TotalVrijednost = ukupnavrijednost.Vrijed;
               

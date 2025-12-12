@@ -332,7 +332,14 @@ namespace Materijalno.ViewModel
             int? minValue_SifraMat = dbContext.Mat
                 .Min(row => row.Ident);
 
-            if (CurrentItemMat.Kljnaz == 999 && CurrentItemMat.Kljnaz <= 1012)
+            if (CurrentItemMat == null)
+            {
+                System.Windows.MessageBox.Show("Skladište nije uneseno!", "Upozorenje", MessageBoxButton.OK, MessageBoxImage.Information);
+
+                return;
+            }
+
+            if (CurrentItemMat.Kljnaz == 999 && CurrentItemMat.Kljnaz <= 1012 && CurrentItemMat.Kljnaz == 0)
             {
                 System.Windows.MessageBox.Show("Ne možete praviti izlaz iz Centralnog magacina!", "Upozorenje", MessageBoxButton.OK, MessageBoxImage.Information);
                 CurrentItemMat.Kljnaz = 0;

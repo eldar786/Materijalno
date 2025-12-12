@@ -508,6 +508,13 @@ namespace Materijalno.ViewModel
             int? minValue_SifraMat = dbContext.TabelaMaterijala
                 .Min(row => row.Ident);
 
+            if (CurrentItemInv == null)
+            {
+                System.Windows.MessageBox.Show("Skladište nije uneseno!", "Upozorenje", MessageBoxButton.OK, MessageBoxImage.Information);
+
+                return;
+            }
+
 
             if (CurrentItemInv.Kljnaz < minValue_Skladiste || CurrentItemInv.Kljnaz > maxValue_Skladiste)
             {

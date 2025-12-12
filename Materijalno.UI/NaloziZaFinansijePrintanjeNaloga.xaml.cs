@@ -38,5 +38,10 @@ namespace Materijalno.UI
                 naloziZaFinansijePrintanjeNalogaIzvjestaj.Show();
             }
         }
+
+        private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+
+        }
     }
 }
