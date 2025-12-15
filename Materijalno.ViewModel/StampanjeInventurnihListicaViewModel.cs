@@ -804,9 +804,17 @@ namespace Materijalno.ViewModel
         //}
 
 
-        // Ova metoda radi update CurrentItem i CurrentItemTabMaterijala based on the current index
-        private void UpdateCurrentItemData(materijalno_knjigovodstvoContext dbContext)
+        private void UpdateCurrentItemDataa(materijalno_knjigovodstvoContext dbContext)
         {
+            if (MatList == null || MatList.Count == 0)
+            {
+                System.Windows.MessageBox.Show("Inventurna lista je prazna!", "Potvrda", MessageBoxButton.OK, MessageBoxImage.Information);
+                return;
+            }
+            if (CurrentItemMat !=  null)
+            {
+
+            }
             if (CurrentItemMat != null)
             {
                 for (int i = 0; i < MatList.Count(); i++)
@@ -820,11 +828,32 @@ namespace Materijalno.ViewModel
             }
             else
             {
-                if (CurrentIndex == 0)
+                CurrentItemMat = MatList[CurrentIndex];
+            }
+        }
+
+        // Ova metoda radi update CurrentItem i CurrentItemTabMaterijala based on the current index
+        private void UpdateCurrentItemData(materijalno_knjigovodstvoContext dbContext)
+        {
+            if (MatList == null || MatList.Count == 0)
+            {
+                System.Windows.MessageBox.Show("Trenutno nema inventurnih listića!", "Potvrda", MessageBoxButton.OK, MessageBoxImage.Information);
+                return;
+            }
+
+            if (CurrentItemMat != null)
+            {
+                for (int i = 0; i < MatList.Count(); i++)
                 {
-                    System.Windows.MessageBox.Show("Trenutno nema inventurnih listića", "Upozorenje", MessageBoxButton.OK, MessageBoxImage.Information);
-                    return;
+                    if (MatList[i].Id == CurrentItemMat.Id)
+                    {
+                        CurrentIndex = i;
+                        CurrentItemMat = MatList[CurrentIndex];
+                    }
                 }
+            }
+            else
+            {
                 CurrentItemMat = MatList[CurrentIndex];
             }
 

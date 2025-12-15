@@ -686,7 +686,11 @@ namespace Materijalno.ViewModel
         // Ova metoda radi update CurrentItem i CurrentItemTabMaterijala based on the current index
         private void UpdateCurrentItemData(materijalno_knjigovodstvoContext dbContext)
         {
-
+            if (InvList == null || InvList.Count == 0)
+            {
+                System.Windows.MessageBox.Show("Inventurna lista je prazna!", "Potvrda", MessageBoxButton.OK, MessageBoxImage.Information);
+                return;
+            }
 
             if (CurrentItemInv != null)
             {
@@ -701,12 +705,7 @@ namespace Materijalno.ViewModel
             }
             else
             {
-                System.Windows.MessageBox.Show("Trenutno nema inventurnih listića", "Upozorenje", MessageBoxButton.OK, MessageBoxImage.Information);
-
-                return;
-
-                //Ovo je bilo od ranije, ostaviti za svaki slucaj
-                //CurrentItemInv = InvList[CurrentIndex];
+                CurrentItemInv = InvList[CurrentIndex];
             }
 
             //Nadji listu svih po *Ident* iz *TabelaMaterijala* i *CurrentItem* (Mat) i stavi u listu
