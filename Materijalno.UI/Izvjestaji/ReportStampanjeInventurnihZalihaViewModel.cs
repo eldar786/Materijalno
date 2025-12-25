@@ -52,6 +52,12 @@ namespace Materijalno.UI.Izvjestaji
         public decimal? VrijedRazlikaVisak { get; set; }
         public decimal? VrijedRazlikaManjak { get; set; }
 
+        //Ovo je potrebno da bi u izvjestaju prikazivao podatke iz dvije razlicite tabele 'Mat' i 'Inv'
+        public int MatKolic { get; set; }
+        public decimal MatVrijed { get; set; }
+        public int InvKolic { get; set; }
+        public decimal InvVrijed { get; set; }
+
         public ObservableCollection<Inv> InvList;
 
         public UnosInventurnogStanjaViewModel orgViewModel = new UnosInventurnogStanjaViewModel();

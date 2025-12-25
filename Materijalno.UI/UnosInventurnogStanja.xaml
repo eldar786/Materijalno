@@ -96,7 +96,7 @@
         </TextBox>
 
         <Label Grid.Row="6" Grid.Column="0" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="18">Red. broj</Label>
-        <TextBox Grid.Row="6" Text="{Binding CurrentItemInv.Redbr}" IsEnabled="False" KeyDown="TextBox_KeyDown" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="18"  Width="120"/>
+        <TextBox Grid.Row="6" Text="{Binding CurrentItemInv.Redbr}" IsEnabled="True" KeyDown="TextBox_KeyDown" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="18"  Width="120"/>
 
 
         <Label Grid.Row="6" Grid.Column="3" Margin="0,0,5,0" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="18">Ukupna vrijednost</Label>
@@ -200,7 +200,7 @@
                 <Button x:Name="btnSljedeci" FontSize="18" Content="Sljedeci" Width="100" Margin="5,5,0,5" Grid.Column="1" HorizontalAlignment="Left" Command="{Binding NextButtonCommand}"  />
                 <Button x:Name="btnNovaStavka" Content="Nova stavka" FontSize="18" Width="130" Margin="5,5,0,5" HorizontalAlignment="Left" Command="{Binding NovaStavkaCommand}" IsEnabled="False" />
                 <Button x:Name="btnIzmjena" Content="Izmjena" FontSize="18" Width="100" Margin="5,5,0,5" HorizontalAlignment="Left" Command="{Binding UpdateCommand}"/>
-                <Button x:Name="btnSlijedecaStavka" Content="Slij. stavka" FontSize="18" Width="130" Margin="5,5,0,5" HorizontalAlignment="Left" Command="{Binding NextButtonCommand}" IsEnabled="False"/>
+                <Button x:Name="btnSlijedecaStavka" Content="Slij. stavka" FontSize="18" Width="130" Margin="5,5,0,5" HorizontalAlignment="Left" Command="{Binding SlijStavkaButtonCommand}" IsEnabled="False"/>
                 <Button x:Name="btnOdustani" Content="Odustani" FontSize="18" Width="110" Margin="5,5,0,5" HorizontalAlignment="Left" Command="{Binding OdustaniCommand}"/>
                 <Button x:Name="btnBrisanje" Content="Brisanje" FontSize="18" Width="100" Margin="5,5,0,5" HorizontalAlignment="Left" Command="{Binding BrisanjeCommand}"/>
                 <!--<Button x:Name="btnIzlaz" Content="Izlaz" FontSize="18" Width="110" Margin="5,5,0,5" HorizontalAlignment="Left" Command="{Binding IzlazCommand}" />-->

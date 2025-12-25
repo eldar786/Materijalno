@@ -24,13 +24,13 @@
               <Width>2.39417cm</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>1.92983cm</Width>
+              <Width>2.48546cm</Width>
             </TablixColumn>
             <TablixColumn>
               <Width>1.94438cm</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>1.91792cm</Width>
+              <Width>2.42063cm</Width>
             </TablixColumn>
           </TablixColumns>
           <TablixRows>
@@ -142,7 +142,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>Cijena</Value>
+                              <Value>Cijena:</Value>
                               <Style />
                             </TextRun>
                           </TextRuns>
@@ -174,7 +174,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Fields!Nc.Value</Value>
+                              <Value>=IIF(IsNothing(Fields!Nc.Value), 0, Fields!Nc.Value)</Value>
                               <Style>
                                 <Format>n9</Format>
                                 <Language>bs-Latn-BA</Language>
@@ -202,14 +202,22 @@
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="KolicRazlika">
+                    <Textbox Name="KolicRazlikaManjak">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Fields!KolicRazlika.Value</Value>
+                              <Value>=IIF(
+    IsNothing(Fields!InvKolic.Value) OR IsNothing(Fields!MatKolic.Value),
+    0,
+    IIF(
+        Fields!InvKolic.Value &lt; Fields!MatKolic.Value,
+        Fields!MatKolic.Value - Fields!InvKolic.Value,
+        0
+    )
+)</Value>
                               <Style>
                                 <Format>n2</Format>
                                 <Language>bs-Latn-BA</Language>
@@ -221,7 +229,7 @@
                           </Style>
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>KolicRazlika</rd:DefaultName>
+                      <rd:DefaultName>KolicRazlikaManjak</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
@@ -244,7 +252,15 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Fields!KolicRazlikaVisak.Value</Value>
+                              <Value>=IIF(
+    IsNothing(Fields!InvKolic.Value) OR IsNothing(Fields!MatKolic.Value),
+    0,
+    IIF(
+        Fields!InvKolic.Value &gt; Fields!MatKolic.Value,
+        Fields!InvKolic.Value - Fields!MatKolic.Value,
+        0
+    )
+)</Value>
                               <Style>
                                 <Format>n2</Format>
                                 <Language>bs-Latn-BA</Language>
@@ -270,14 +286,22 @@
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="VrijedRazlika">
+                    <Textbox Name="VrijedRazlikaManjak">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Fields!VrijedRazlika.Value</Value>
+                              <Value>=IIF(
+    IsNothing(Fields!InvVrijed.Value) OR IsNothing(Fields!MatVrijed.Value),
+    0,
+    IIF(
+        Fields!InvVrijed.Value &lt; Fields!MatVrijed.Value,
+        Fields!MatVrijed.Value - Fields!InvVrijed.Value,
+        0
+    )
+)</Value>
                               <Style>
                                 <Format>n2</Format>
                                 <Language>bs-Latn-BA</Language>
@@ -287,7 +311,7 @@
                           <Style />
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>VrijedRazlika</rd:DefaultName>
+                      <rd:DefaultName>VrijedRazlikaManjak</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
@@ -310,7 +334,15 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Fields!VrijedRazlikaVisak.Value</Value>
+                              <Value>=IIF(
+    IsNothing(Fields!InvVrijed.Value) OR IsNothing(Fields!MatVrijed.Value),
+    0,
+    IIF(
+        Fields!InvVrijed.Value &gt; Fields!MatVrijed.Value,
+        Fields!InvVrijed.Value - Fields!MatVrijed.Value,
+        0
+    )
+)</Value>
                               <Style>
                                 <Format>n2</Format>
                                 <Language>bs-Latn-BA</Language>
@@ -373,14 +405,14 @@
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="Kolic1">
+                    <Textbox Name="InvKolic">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Format(Fields!Kolic.Value, "N2")</Value>
+                              <Value>=Fields!InvKolic.Value</Value>
                               <Style>
                                 <Format>n2</Format>
                                 <Language>bs-Latn-BA</Language>
@@ -392,7 +424,7 @@
                           </Style>
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>Kolic1</rd:DefaultName>
+                      <rd:DefaultName>InvKolic</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
@@ -408,14 +440,14 @@
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="Vrijed1">
+                    <Textbox Name="InvVrijed">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Fields!Vrijed.Value</Value>
+                              <Value>=Fields!InvVrijed.Value</Value>
                               <Style>
                                 <Format>n2</Format>
                                 <Language>bs-Latn-BA</Language>
@@ -427,7 +459,7 @@
                           </Style>
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>Vrijed1</rd:DefaultName>
+                      <rd:DefaultName>InvVrijed</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
@@ -443,14 +475,14 @@
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="Kolic2">
+                    <Textbox Name="MatVrijed">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Format(Fields!Kolic.Value, "N2")</Value>
+                              <Value>=Fields!MatKolic.Value</Value>
                               <Style>
                                 <Format>n2</Format>
                                 <Language>bs-Latn-BA</Language>
@@ -462,7 +494,7 @@
                           </Style>
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>Kolic2</rd:DefaultName>
+                      <rd:DefaultName>MatVrijed</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
@@ -478,14 +510,14 @@
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="Vrijed2">
+                    <Textbox Name="MatKolic">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Fields!Vrijed.Value</Value>
+                              <Value>=Fields!MatVrijed.Value</Value>
                               <Style>
                                 <Format>n2</Format>
                                 <Language>bs-Latn-BA</Language>
@@ -497,7 +529,7 @@
                           </Style>
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>Vrijed2</rd:DefaultName>
+                      <rd:DefaultName>MatKolic</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
@@ -669,7 +701,7 @@
         <DataSetName>DataSet1</DataSetName>
         <Top>0.10583cm</Top>
         <Height>1.2cm</Height>
-        <Width>25.2916cm</Width>
+        <Width>26.34994cm</Width>
         <Style>
           <Border>
             <Style>None</Style>
@@ -712,7 +744,7 @@
           <Paragraph>
             <TextRuns>
               <TextRun>
-                <Value>=Sum(Fields!Vrijed.Value)</Value>
+                <Value>=Sum(Fields!InvVrijed.Value)</Value>
                 <Style>
                   <Format>n2</Format>
                   <Language>bs-Latn-BA</Language>
@@ -741,7 +773,7 @@
       <Line Name="Line5">
         <Top>2.06375cm</Top>
         <Height>0cm</Height>
-        <Width>25.36001cm</Width>
+        <Width>26.34994cm</Width>
         <ZIndex>3</ZIndex>
         <Style>
           <Border>
@@ -756,7 +788,7 @@
           <Paragraph>
             <TextRuns>
               <TextRun>
-                <Value>=Sum(Fields!Vrijed.Value)</Value>
+                <Value>=Sum(Fields!MatVrijed.Value)</Value>
                 <Style>
                   <Format>n2</Format>
                   <Language>bs-Latn-BA</Language>
@@ -782,39 +814,6 @@
           <PaddingBottom>2pt</PaddingBottom>
         </Style>
       </Textbox>
-      <Textbox Name="Textbox11">
-        <CanGrow>true</CanGrow>
-        <KeepTogether>true</KeepTogether>
-        <Paragraphs>
-          <Paragraph>
-            <TextRuns>
-              <TextRun>
-                <Value>=Sum(Fields!VrijedRazlika.Value)</Value>
-                <Style>
-                  <Format>n2</Format>
-                  <Language>bs-Latn-BA</Language>
-                </Style>
-              </TextRun>
-            </TextRuns>
-            <Style />
-          </Paragraph>
-        </Paragraphs>
-        <rd:DefaultName>Textbox9</rd:DefaultName>
-        <Top>2.09903cm</Top>
-        <Left>20.44591cm</Left>
-        <Height>0.6cm</Height>
-        <Width>2.5cm</Width>
-        <ZIndex>5</ZIndex>
-        <Style>
-          <Border>
-            <Style>None</Style>
-          </Border>
-          <PaddingLeft>2pt</PaddingLeft>
-          <PaddingRight>2pt</PaddingRight>
-          <PaddingTop>2pt</PaddingTop>
-          <PaddingBottom>2pt</PaddingBottom>
-        </Style>
-      </Textbox>
       <Textbox Name="Textbox12">
         <CanGrow>true</CanGrow>
         <KeepTogether>true</KeepTogether>
@@ -822,7 +821,7 @@
           <Paragraph>
             <TextRuns>
               <TextRun>
-                <Value>=Sum(Fields!VrijedRazlikaVisak.Value)</Value>
+                <Value>=First(Fields!VrijedRazlikaManjak.Value, "DataSet1")</Value>
                 <Style>
                   <Format>n2</Format>
                   <Language>bs-Latn-BA</Language>
@@ -834,7 +833,40 @@
         </Paragraphs>
         <rd:DefaultName>Textbox9</rd:DefaultName>
         <Top>2.06375cm</Top>
-        <Left>23.01647cm</Left>
+        <Left>23.86152cm</Left>
+        <Height>0.6cm</Height>
+        <Width>2.80591cm</Width>
+        <ZIndex>5</ZIndex>
+        <Style>
+          <Border>
+            <Style>None</Style>
+          </Border>
+          <PaddingLeft>2pt</PaddingLeft>
+          <PaddingRight>2pt</PaddingRight>
+          <PaddingTop>2pt</PaddingTop>
+          <PaddingBottom>2pt</PaddingBottom>
+        </Style>
+      </Textbox>
+      <Textbox Name="VrijedRazlikaVisak1">
+        <CanGrow>true</CanGrow>
+        <KeepTogether>true</KeepTogether>
+        <Paragraphs>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Value>=First(Fields!VrijedRazlikaVisak.Value, "DataSet1")</Value>
+                <Style>
+                  <Format>n2</Format>
+                  <Language>bs-Latn-BA</Language>
+                </Style>
+              </TextRun>
+            </TextRuns>
+            <Style />
+          </Paragraph>
+        </Paragraphs>
+        <rd:DefaultName>VrijedRazlikaVisak1</rd:DefaultName>
+        <Top>2.06375cm</Top>
+        <Left>21.36152cm</Left>
         <Height>0.6cm</Height>
         <Width>2.5cm</Width>
         <ZIndex>6</ZIndex>
@@ -849,7 +881,7 @@
         </Style>
       </Textbox>
     </ReportItems>
-    <Height>1.45833in</Height>
+    <Height>1.54747in</Height>
     <Style />
   </Body>
   <Width>11.09968in</Width>
@@ -949,7 +981,7 @@
             <Paragraph>
               <TextRuns>
                 <TextRun>
-                  <Value>Cijena</Value>
+                  <Value>Količina</Value>
                   <Style />
                 </TextRun>
               </TextRuns>
@@ -979,7 +1011,7 @@
             <Paragraph>
               <TextRuns>
                 <TextRun>
-                  <Value>Količina</Value>
+                  <Value>Vrijednost</Value>
                   <Style />
                 </TextRun>
               </TextRuns>
@@ -990,7 +1022,7 @@
           <Top>2.36788cm</Top>
           <Left>14.66719cm</Left>
           <Height>0.6cm</Height>
-          <Width>1.65735cm</Width>
+          <Width>1.85704cm</Width>
           <ZIndex>5</ZIndex>
           <Style>
             <Border>
@@ -1447,13 +1479,41 @@
         <CommandText>/* Local Query */</CommandText>
       </Query>
       <Fields>
+        <Field Name="Analst">
+          <DataField>Analst</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Brdok">
+          <DataField>Brdok</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Brfak">
+          <DataField>Brfak</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Brnar">
+          <DataField>Brnar</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Cartro">
+          <DataField>Cartro</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
         <Field Name="Datnar">
           <DataField>Datnar</DataField>
-          <rd:TypeName>System.DateTime</rd:TypeName>
+          <rd:TypeName>System.Nullable`1[[System.DateTime, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]</rd:TypeName>
         </Field>
         <Field Name="Datun">
           <DataField>Datun</DataField>
-          <rd:TypeName>System.DateTime</rd:TypeName>
+          <rd:TypeName>System.Nullable`1[[System.DateTime, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]</rd:TypeName>
+        </Field>
+        <Field Name="Fcj">
+          <DataField>Fcj</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Fvrijed">
+          <DataField>Fvrijed</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
         </Field>
         <Field Name="Id">
           <DataField>Id</DataField>
@@ -1463,16 +1523,68 @@
           <DataField>Ident</DataField>
           <rd:TypeName>System.Nullable`1[[System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]</rd:TypeName>
         </Field>
+        <Field Name="InvKolic">
+          <DataField>InvKolic</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="InvVrijed">
+          <DataField>InvVrijed</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
         <Field Name="Kljnaz">
           <DataField>Kljnaz</DataField>
-          <rd:TypeName>System.Nullable`1[[System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]</rd:TypeName>
+          <rd:TypeName>System.Int32</rd:TypeName>
         </Field>
         <Field Name="Kolic">
           <DataField>Kolic</DataField>
           <rd:TypeName>System.Nullable`1[[System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]</rd:TypeName>
         </Field>
+        <Field Name="KolicRazlika">
+          <DataField>KolicRazlika</DataField>
+          <rd:TypeName>System.Nullable`1[[System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]</rd:TypeName>
+        </Field>
+        <Field Name="KolicRazlikaManjak">
+          <DataField>KolicRazlikaManjak</DataField>
+          <rd:TypeName>System.Nullable`1[[System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]</rd:TypeName>
+        </Field>
+        <Field Name="KolicRazlikaVisak">
+          <DataField>KolicRazlikaVisak</DataField>
+          <rd:TypeName>System.Nullable`1[[System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]</rd:TypeName>
+        </Field>
+        <Field Name="Konto1">
+          <DataField>Konto1</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="Konto2">
+          <DataField>Konto2</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Kontosklad">
+          <DataField>Kontosklad</DataField>
+          <rd:TypeName>System.Nullable`1[[System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]</rd:TypeName>
+        </Field>
+        <Field Name="Kontosklad1">
+          <DataField>Kontosklad1</DataField>
+          <rd:TypeName>System.Nullable`1[[System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]</rd:TypeName>
+        </Field>
+        <Field Name="MatKolic">
+          <DataField>MatKolic</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="MatVrijed">
+          <DataField>MatVrijed</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="Mjtst">
+          <DataField>Mjtst</DataField>
+          <rd:TypeName>System.Nullable`1[[System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]</rd:TypeName>
+        </Field>
         <Field Name="NazivOrg">
           <DataField>NazivOrg</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Nazkont">
+          <DataField>Nazkont</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
         <Field Name="NazMat">
@@ -1481,45 +1593,65 @@
         </Field>
         <Field Name="Nc">
           <DataField>Nc</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="Ourst">
+          <DataField>Ourst</DataField>
+          <rd:TypeName>System.Nullable`1[[System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]</rd:TypeName>
+        </Field>
+        <Field Name="Porppp">
+          <DataField>Porppp</DataField>
           <rd:TypeName>System.Nullable`1[[System.Decimal, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]</rd:TypeName>
+        </Field>
+        <Field Name="Ppp">
+          <DataField>Ppp</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
         </Field>
         <Field Name="Redbr">
           <DataField>Redbr</DataField>
           <rd:TypeName>System.Nullable`1[[System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]</rd:TypeName>
         </Field>
-        <Field Name="KolicRazlika">
-          <DataField>KolicRazlika</DataField>
-          <rd:TypeName>System.Nullable`1[[System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]</rd:TypeName>
+        <Field Name="Status">
+          <DataField>Status</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
         </Field>
-        <Field Name="KolicRazlikaVisak">
-          <DataField>KolicRazlikaVisak</DataField>
-          <rd:TypeName>System.Nullable`1[[System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]</rd:TypeName>
+        <Field Name="Tarifa">
+          <DataField>Tarifa</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
         </Field>
-        <Field Name="KolicRazlikaManjak">
-          <DataField>KolicRazlikaManjak</DataField>
-          <rd:TypeName>System.Nullable`1[[System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]</rd:TypeName>
+        <Field Name="Troskovi">
+          <DataField>Troskovi</DataField>
+          <rd:TypeName>System.Nullable`1[[System.Decimal, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]</rd:TypeName>
+        </Field>
+        <Field Name="Trospe">
+          <DataField>Trospe</DataField>
+          <rd:TypeName>System.Nullable`1[[System.Decimal, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]</rd:TypeName>
         </Field>
         <Field Name="Vrijed">
           <DataField>Vrijed</DataField>
-          <rd:TypeName>System.Nullable`1[[System.Decimal, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]</rd:TypeName>
+          <rd:TypeName>System.Decimal</rd:TypeName>
         </Field>
         <Field Name="VrijedRazlika">
           <DataField>VrijedRazlika</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="VrijedRazlikaManjak">
+          <DataField>VrijedRazlikaManjak</DataField>
           <rd:TypeName>System.Nullable`1[[System.Decimal, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]</rd:TypeName>
         </Field>
         <Field Name="VrijedRazlikaVisak">
           <DataField>VrijedRazlikaVisak</DataField>
           <rd:TypeName>System.Nullable`1[[System.Decimal, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]</rd:TypeName>
         </Field>
-        <Field Name="VrijedRazlikaManjak">
-          <DataField>VrijedRazlikaManjak</DataField>
-          <rd:TypeName>System.Nullable`1[[System.Decimal, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]</rd:TypeName>
+        <Field Name="Zavtro">
+          <DataField>Zavtro</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
         </Field>
       </Fields>
       <rd:DataSetInfo>
         <rd:DataSetName>Materijalno.UI.Izvjestaji</rd:DataSetName>
-        <rd:TableName>ReportDnevnik</rd:TableName>
-        <rd:ObjectDataSourceType>Materijalno.UI.Izvjestaji.ReportDnevnik, Materijalno.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</rd:ObjectDataSourceType>
+        <rd:TableName>ReportStampanjeInventurnihZalihaViewModel</rd:TableName>
+        <rd:ObjectDataSourceType>Materijalno.UI.Izvjestaji.ReportStampanjeInventurnihZalihaViewModel, Materijalno.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</rd:ObjectDataSourceType>
       </rd:DataSetInfo>
     </DataSet>
   </DataSets>

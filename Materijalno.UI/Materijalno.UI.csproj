@@ -897,6 +897,7 @@
     <None Include="Properties\DataSources\Materijalno.UI.Izvjestaji.ReportNaloziZaFinansijePrintanjeNaloga.datasource" />
     <None Include="Properties\DataSources\Materijalno.UI.Izvjestaji.ReportPregledIzlazaZaSveKalkulacije.datasource" />
     <None Include="Properties\DataSources\Materijalno.UI.Izvjestaji.ReportSkladiste.datasource" />
+    <None Include="Properties\DataSources\Materijalno.UI.Izvjestaji.ReportStampanjeInventurnihZalihaViewModel.datasource" />
     <None Include="Properties\DataSources\Materijalno.UI.Izvjestaji.StanjeZalihaZaSkladisteIzvjestaj.datasource" />
     <None Include="Properties\DataSources\Materijalno.UI.Izvjestaji.StanjeZalihaZaSvaSkladistaIzvjestaj.datasource" />
     <None Include="Properties\DataSources\Materijalno.UI.Properties.Resources.datasource" />

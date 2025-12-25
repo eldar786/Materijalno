@@ -803,34 +803,34 @@ namespace Materijalno.ViewModel
         //    _gvm.OdabraniVM = new KomitentiListaViewModel(this, _gvm);
         //}
 
+        //Ovo ne treba samo sam dodao radi uporedjivanja, provjeriti prije brisanja
+        //private void UpdateCurrentItemDataa(materijalno_knjigovodstvoContext dbContext)
+        //{
+        //    if (MatList == null || MatList.Count == 0)
+        //    {
+        //        System.Windows.MessageBox.Show("Inventurna lista je prazna!", "Potvrda", MessageBoxButton.OK, MessageBoxImage.Information);
+        //        return;
+        //    }
+        //    if (CurrentItemMat !=  null)
+        //    {
 
-        private void UpdateCurrentItemDataa(materijalno_knjigovodstvoContext dbContext)
-        {
-            if (MatList == null || MatList.Count == 0)
-            {
-                System.Windows.MessageBox.Show("Inventurna lista je prazna!", "Potvrda", MessageBoxButton.OK, MessageBoxImage.Information);
-                return;
-            }
-            if (CurrentItemMat !=  null)
-            {
-
-            }
-            if (CurrentItemMat != null)
-            {
-                for (int i = 0; i < MatList.Count(); i++)
-                {
-                    if (MatList[i].Id == CurrentItemMat.Id)
-                    {
-                        CurrentIndex = i;
-                        CurrentItemMat = MatList[CurrentIndex];
-                    }
-                }
-            }
-            else
-            {
-                CurrentItemMat = MatList[CurrentIndex];
-            }
-        }
+        //    }
+        //    if (CurrentItemMat != null)
+        //    {
+        //        for (int i = 0; i < MatList.Count(); i++)
+        //        {
+        //            if (MatList[i].Id == CurrentItemMat.Id)
+        //            {
+        //                CurrentIndex = i;
+        //                CurrentItemMat = MatList[CurrentIndex];
+        //            }
+        //        }
+        //    }
+        //    else
+        //    {
+        //        CurrentItemMat = MatList[CurrentIndex];
+        //    }
+        //}
 
         // Ova metoda radi update CurrentItem i CurrentItemTabMaterijala based on the current index
         private void UpdateCurrentItemData(materijalno_knjigovodstvoContext dbContext)

@@ -512,7 +512,10 @@ namespace Materijalno.ViewModel
             {
                 System.Windows.MessageBox.Show("Skladište nije uneseno!", "Upozorenje", MessageBoxButton.OK, MessageBoxImage.Information);
 
-                return;
+                CurrentItemInv = new Inv();
+                //  default vrijednost:
+                CurrentItemInv.Kljnaz = 1000;
+                //return;
             }
 
 
@@ -524,10 +527,13 @@ namespace Materijalno.ViewModel
                 CurrentItemInv.Kljnaz = 0;
             }
 
-            if (CurrentItemInv.Ident < minValue_SifraMat || CurrentItemInv.Ident > maxValue_SifraMat)
+            if (CurrentItemInv.Ident != null && CurrentItemInv.Ident != 0)
             {
-                System.Windows.MessageBox.Show("Materijal ne postoji!", "Upozorenje", MessageBoxButton.OK, MessageBoxImage.Information);
-                CurrentItemInv.Ident = 0;
+                if (CurrentItemInv.Ident < minValue_SifraMat || CurrentItemInv.Ident > maxValue_SifraMat)
+                {
+                    System.Windows.MessageBox.Show("Materijal ne postoji!", "Upozorenje", MessageBoxButton.OK, MessageBoxImage.Information);
+                    CurrentItemInv.Ident = 0;
+                }
             }
 
 
@@ -686,43 +692,121 @@ namespace Materijalno.ViewModel
         // Ova metoda radi update CurrentItem i CurrentItemTabMaterijala based on the current index
         private void UpdateCurrentItemData(materijalno_knjigovodstvoContext dbContext)
         {
+            // Always guarantee CurrentItemInv exists (important for bindings)
+            if (CurrentItemInv == null)
+                CurrentItemInv = new Inv();
+
+            // =====================================================
+            // CASE 1: InvList is EMPTY → Mat-only scenario
+            // =====================================================
             if (InvList == null || InvList.Count == 0)
             {
-                System.Windows.MessageBox.Show("Inventurna lista je prazna!", "Potvrda", MessageBoxButton.OK, MessageBoxImage.Information);
-                return;
+                // --- MATERIAL ---
+                if (CurrentItemInv.Ident != null && CurrentItemInv.Ident != 0)
+                {
+                    TebelaMaterijalaList = new ObservableCollection<TabelaMaterijala>(
+                        dbContext.TabelaMaterijala
+                            .Where(row => row.Ident == CurrentItemInv.Ident)
+                            .ToList());
+
+                    CurrentItemTabMaterijala = dbContext.TabelaMaterijala
+                        .FirstOrDefault(row => row.Ident == CurrentItemInv.Ident);
+
+                    CurrentItemTabMaterijalaK = dbContext.TabelaMaterijala
+                        .FirstOrDefault(row => row.Konto1 == CurrentItemInv.Konto1);
+
+                    CurrentItemTabMaterijalaK2 = dbContext.TabelaMaterijala
+                        .FirstOrDefault(row => row.Konto2 == CurrentItemInv.Konto2);
+                }
+                else
+                {
+                    TebelaMaterijalaList = new ObservableCollection<TabelaMaterijala>();
+                    CurrentItemTabMaterijala = null;
+                    CurrentItemTabMaterijalaK = null;
+                    CurrentItemTabMaterijalaK2 = null;
+                }
+
+                // --- WAREHOUSE ---
+                if (CurrentItemInv.Kljnaz != null && CurrentItemInv.Kljnaz != 0)
+                {
+                    CurrentItemTabSkladista = dbContext.SifarnikSkladista
+                        .FirstOrDefault(row => row.Kljnaz == CurrentItemInv.Kljnaz);
+                }
+                else
+                {
+                    CurrentItemTabSkladista = null;
+                }
+
+                // --- KOMITENT ---
+                if (StaraSifra_Ime_List != null)
+                {
+                    CurrentNazivZaSifruKomitenta = string.IsNullOrEmpty(CurrentItemInv.Analst)
+                        ? ""
+                        : StaraSifra_Ime_List
+                            .FirstOrDefault(row => row.STARA_SIFRA == CurrentItemInv.Analst)
+                            ?.IME;
+                }
+
+                if (selectedKomitent != null)
+                {
+                    CurrentItemInv.Analst = selectedKomitent.STARA_SIFRA;
+                    CurrentNazivZaSifruKomitenta = selectedKomitent.IME;
+                }
+
+                selectedKomitent = null;
+                return; // <-- done for Mat-only case
             }
 
-            if (CurrentItemInv != null)
+            // =====================================================
+            // CASE 2: InvList HAS DATA → normal navigation
+            // =====================================================
+            if (CurrentItemInv.Id != 0)
             {
-                for (int i = 0; i < InvList.Count(); i++)
+                for (int i = 0; i < InvList.Count; i++)
                 {
                     if (InvList[i].Id == CurrentItemInv.Id)
                     {
                         CurrentIndex = i;
-                        CurrentItemInv = InvList[CurrentIndex];
+                        break;
                     }
                 }
             }
-            else
-            {
-                CurrentItemInv = InvList[CurrentIndex];
-            }
 
-            //Nadji listu svih po *Ident* iz *TabelaMaterijala* i *CurrentItem* (Mat) i stavi u listu
-            TebelaMaterijalaList = new ObservableCollection<TabelaMaterijala>(dbContext.TabelaMaterijala.Where(row => row.Ident == CurrentItemInv.Ident).ToList());
+            if (CurrentIndex < 0)
+                CurrentIndex = 0;
 
-            //Nadji jednu vrijednost po *Ident* iz *TabelaMaterijala* i po Sifri materijala iz tabele *Mat*(col:*Ident*) i stavi u jedan property
-            CurrentItemTabMaterijala = dbContext.TabelaMaterijala.Where(row => row.Ident == CurrentItemInv.Ident).FirstOrDefault();
-            CurrentItemTabMaterijalaK = dbContext.TabelaMaterijala.Where(row => row.Ident == CurrentItemInv.Ident).FirstOrDefault();
-            CurrentItemTabMaterijalaK2 = dbContext.TabelaMaterijala.Where(row => row.Konto2 == CurrentItemInv.Konto2).FirstOrDefault();
-            CurrentItemTabSkladista = dbContext.SifarnikSkladista.Where(row => row.Kljnaz == CurrentItemInv.Kljnaz).FirstOrDefault();
+            if (CurrentIndex >= InvList.Count)
+                CurrentIndex = InvList.Count - 1;
 
-            //Ako lista nije popunjena iz linked server (oracle baza), onda ce preskociti i pozivati u konstruktoru preko druge metode i
-            //popuniti CurrentNazivZaSifruKomitenta. Ovo radimo da ne bi ponovo popunjavali listu iz oracle baze, zbog brzeg rada aplikacije
+            CurrentItemInv = InvList[CurrentIndex];
+
+            // --- MATERIAL ---
+            TebelaMaterijalaList = new ObservableCollection<TabelaMaterijala>(
+                dbContext.TabelaMaterijala
+                    .Where(row => row.Ident == CurrentItemInv.Ident)
+                    .ToList());
+
+            CurrentItemTabMaterijala = dbContext.TabelaMaterijala
+                .FirstOrDefault(row => row.Ident == CurrentItemInv.Ident);
+
+            CurrentItemTabMaterijalaK = dbContext.TabelaMaterijala
+                .FirstOrDefault(row => row.Konto1 == CurrentItemInv.Konto1);
+
+            CurrentItemTabMaterijalaK2 = dbContext.TabelaMaterijala
+                .FirstOrDefault(row => row.Konto2 == CurrentItemInv.Konto2);
+
+            // --- WAREHOUSE ---
+            CurrentItemTabSkladista = dbContext.SifarnikSkladista
+                .FirstOrDefault(row => row.Kljnaz == CurrentItemInv.Kljnaz);
+
+            // --- KOMITENT ---
             if (StaraSifra_Ime_List != null)
             {
-                CurrentNazivZaSifruKomitenta = string.IsNullOrEmpty(CurrentItemInv.Analst) ? ""
-                    : StaraSifra_Ime_List.FirstOrDefault(row => row.STARA_SIFRA == CurrentItemInv.Analst)?.IME;
+                CurrentNazivZaSifruKomitenta = string.IsNullOrEmpty(CurrentItemInv.Analst)
+                    ? ""
+                    : StaraSifra_Ime_List
+                        .FirstOrDefault(row => row.STARA_SIFRA == CurrentItemInv.Analst)
+                        ?.IME;
             }
 
             if (selectedKomitent != null)
@@ -733,6 +817,7 @@ namespace Materijalno.ViewModel
 
             selectedKomitent = null;
         }
+
 
         protected virtual void OnPropertyChanged(string propertyName)
         {
