@@ -774,7 +774,7 @@ namespace Materijalno.ViewModel
                     ukupnoIzlaziMaterijal += item.Kolic;
                 }
 
-                int? stvarnoStanje = pocetnoStanje + ukupnoUlaziMaterijal - (-ukupnoIzlaziMaterijal);
+                int? stvarnoStanje = pocetnoStanje + ukupnoUlaziMaterijal - (ukupnoIzlaziMaterijal);
 
                 if (stvarnoStanje < 0)
                 {
