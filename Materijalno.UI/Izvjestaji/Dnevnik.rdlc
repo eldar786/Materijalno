@@ -96,7 +96,7 @@
         <Top>2.38125cm</Top>
         <Left>0.5145cm</Left>
         <Height>0cm</Height>
-        <Width>22.09758cm</Width>
+        <Width>22.50815cm</Width>
         <ZIndex>3</ZIndex>
         <Style>
           <Border>
@@ -108,7 +108,7 @@
         <Top>4.39209cm</Top>
         <Left>0.5145cm</Left>
         <Height>0cm</Height>
-        <Width>22.09758cm</Width>
+        <Width>22.50815cm</Width>
         <ZIndex>4</ZIndex>
         <Style>
           <Border>
@@ -217,14 +217,16 @@
                 <Style />
               </TextRun>
             </TextRuns>
-            <Style />
+            <Style>
+              <TextAlign>Center</TextAlign>
+            </Style>
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox11</rd:DefaultName>
         <Top>3.65098cm</Top>
-        <Left>3.47466cm</Left>
+        <Left>2.41699cm</Left>
         <Height>0.6cm</Height>
-        <Width>5.06646cm</Width>
+        <Width>4.93012cm</Width>
         <ZIndex>8</ZIndex>
         <Style>
           <Border>
@@ -247,14 +249,16 @@
                 <Style />
               </TextRun>
             </TextRuns>
-            <Style />
+            <Style>
+              <TextAlign>Center</TextAlign>
+            </Style>
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox12</rd:DefaultName>
         <Top>3.65098cm</Top>
         <Left>9.88001cm</Left>
         <Height>0.6cm</Height>
-        <Width>1.33583cm</Width>
+        <Width>1.45524cm</Width>
         <ZIndex>9</ZIndex>
         <Style>
           <Border>
@@ -277,14 +281,16 @@
                 <Style />
               </TextRun>
             </TextRuns>
-            <Style />
+            <Style>
+              <TextAlign>Center</TextAlign>
+            </Style>
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox13</rd:DefaultName>
         <Top>3.65098cm</Top>
-        <Left>11.68327cm</Left>
+        <Left>12.38001cm</Left>
         <Height>0.6cm</Height>
-        <Width>1.33583cm</Width>
+        <Width>1.63036cm</Width>
         <ZIndex>10</ZIndex>
         <Style>
           <Border>
@@ -307,14 +313,16 @@
                 <Style />
               </TextRun>
             </TextRuns>
-            <Style />
+            <Style>
+              <TextAlign>Center</TextAlign>
+            </Style>
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox14</rd:DefaultName>
         <Top>2.85433cm</Top>
-        <Left>10.59438cm</Left>
+        <Left>10.75313cm</Left>
         <Height>0.6cm</Height>
-        <Width>1.78562cm</Width>
+        <Width>2.23541cm</Width>
         <ZIndex>11</ZIndex>
         <Style>
           <Border>
@@ -337,12 +345,14 @@
                 <Style />
               </TextRun>
             </TextRuns>
-            <Style />
+            <Style>
+              <TextAlign>Center</TextAlign>
+            </Style>
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox15</rd:DefaultName>
         <Top>3.65098cm</Top>
-        <Left>14.75654cm</Left>
+        <Left>15.51029cm</Left>
         <Height>0.6cm</Height>
         <Width>1.41521cm</Width>
         <ZIndex>12</ZIndex>
@@ -367,14 +377,16 @@
                 <Style />
               </TextRun>
             </TextRuns>
-            <Style />
+            <Style>
+              <TextAlign>Center</TextAlign>
+            </Style>
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox16</rd:DefaultName>
-        <Top>3.65098cm</Top>
-        <Left>17.89445cm</Left>
+        <Top>3.68626cm</Top>
+        <Left>18.23841cm</Left>
         <Height>0.6cm</Height>
-        <Width>1.49458cm</Width>
+        <Width>1.51813cm</Width>
         <ZIndex>13</ZIndex>
         <Style>
           <Border>
@@ -397,12 +409,14 @@
                 <Style />
               </TextRun>
             </TextRuns>
-            <Style />
+            <Style>
+              <TextAlign>Center</TextAlign>
+            </Style>
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox16</rd:DefaultName>
-        <Top>3.65098cm</Top>
-        <Left>20.10288cm</Left>
+        <Top>3.68626cm</Top>
+        <Left>20.7908cm</Left>
         <Height>0.6cm</Height>
         <Width>1.81208cm</Width>
         <ZIndex>14</ZIndex>
@@ -427,14 +441,16 @@
                 <Style />
               </TextRun>
             </TextRuns>
-            <Style />
+            <Style>
+              <TextAlign>Center</TextAlign>
+            </Style>
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox18</rd:DefaultName>
         <Top>2.85433cm</Top>
-        <Left>19.0057cm</Left>
+        <Left>19.16445cm</Left>
         <Height>0.6cm</Height>
-        <Width>1.91792cm</Width>
+        <Width>2.15605cm</Width>
         <ZIndex>15</ZIndex>
         <Style>
           <Border>
@@ -450,28 +466,28 @@
         <TablixBody>
           <TablixColumns>
             <TablixColumn>
-              <Width>1.04765cm</Width>
+              <Width>2.02596cm</Width>
             </TablixColumn>
             <TablixColumn>
               <Width>2.23717cm</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>3.48087cm</Width>
+              <Width>2.37545cm</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>1.89756cm</Width>
+              <Width>2.15468cm</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>1.62996cm</Width>
+              <Width>2.73765cm</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>2.33486cm</Width>
+              <Width>2.59647cm</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>4.63432cm</Width>
+              <Width>3.28035cm</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>2.87631cm</Width>
+              <Width>2.46574cm</Width>
             </TablixColumn>
             <TablixColumn>
               <Width>2.75815cm</Width>
@@ -495,7 +511,7 @@
                             </TextRun>
                           </TextRuns>
                           <Style>
-                            <TextAlign>Left</TextAlign>
+                            <TextAlign>Center</TextAlign>
                           </Style>
                         </Paragraph>
                       </Paragraphs>
@@ -580,7 +596,7 @@
                             </TextRun>
                           </TextRuns>
                           <Style>
-                            <TextAlign>Left</TextAlign>
+                            <TextAlign>Center</TextAlign>
                           </Style>
                         </Paragraph>
                       </Paragraphs>
@@ -605,7 +621,6 @@
                         <PaddingBottom>2pt</PaddingBottom>
                       </Style>
                     </Textbox>
-                    <rd:Selected>true</rd:Selected>
                   </CellContents>
                 </TablixCell>
                 <TablixCell>
@@ -621,7 +636,9 @@
                               <Style />
                             </TextRun>
                           </TextRuns>
-                          <Style />
+                          <Style>
+                            <TextAlign>Center</TextAlign>
+                          </Style>
                         </Paragraph>
                       </Paragraphs>
                       <rd:DefaultName>Textbox139</rd:DefaultName>
@@ -656,11 +673,13 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=IIF(Fields!Status.Value = "M", Fields!Kolic.Value, 0)</Value>
+                              <Value>=IIF(Fields!Vrijed.Value &gt; 0, Fields!Kolic.Value, 0)</Value>
                               <Style />
                             </TextRun>
                           </TextRuns>
-                          <Style />
+                          <Style>
+                            <TextAlign>Center</TextAlign>
+                          </Style>
                         </Paragraph>
                       </Paragraphs>
                       <rd:DefaultName>Kolic</rd:DefaultName>
@@ -695,11 +714,13 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=IIF(Fields!Status.Value = "I", Fields!Kolic.Value, 0)</Value>
+                              <Value>=IIF(Fields!Vrijed.Value &lt; 0, Fields!Kolic.Value, 0)</Value>
                               <Style />
                             </TextRun>
                           </TextRuns>
-                          <Style />
+                          <Style>
+                            <TextAlign>Center</TextAlign>
+                          </Style>
                         </Paragraph>
                       </Paragraphs>
                       <rd:DefaultName>Kolic1</rd:DefaultName>
@@ -734,7 +755,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=IIF(Fields!Status.Value = "I", Fields!Nc.Value, "")</Value>
+                              <Value>=IIF(Fields!Status.Value = "U", Fields!Nc.Value, 0)</Value>
                               <Style />
                             </TextRun>
                           </TextRuns>
@@ -775,14 +796,24 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=IIF(Fields!Status.Value = "M", (Fields!Kolic.Value * Fields!Nc.Value), 0)</Value>
+                              <Value>=IIF(
+    Fields!Vrijed.Value &gt; 0,
+    IIF(
+        IsNothing(Fields!Vrijed.Value),
+        0,
+        Fields!Vrijed.Value
+    ),
+    0
+)</Value>
                               <Style>
                                 <Format>n2</Format>
                                 <Language>bs-Latn-BA</Language>
                               </Style>
                             </TextRun>
                           </TextRuns>
-                          <Style />
+                          <Style>
+                            <TextAlign>Center</TextAlign>
+                          </Style>
                         </Paragraph>
                       </Paragraphs>
                       <Style>
@@ -816,14 +847,24 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=IIF(Fields!Status.Value = "I", (Fields!Kolic.Value * Fields!Nc.Value), 0)</Value>
+                              <Value>=IIF(
+    Fields!Vrijed.Value &lt; 0,
+    IIF(
+        IsNothing(Fields!Vrijed.Value),
+        0,
+        Fields!Vrijed.Value
+    ),
+    0
+)</Value>
                               <Style>
                                 <Format>n2</Format>
                                 <Language>bs-Latn-BA</Language>
                               </Style>
                             </TextRun>
                           </TextRuns>
-                          <Style />
+                          <Style>
+                            <TextAlign>Center</TextAlign>
+                          </Style>
                         </Paragraph>
                       </Paragraphs>
                       <Style>
@@ -879,7 +920,7 @@
         <Top>4.74844cm</Top>
         <Left>0.39103cm</Left>
         <Height>0.6cm</Height>
-        <Width>22.89685cm</Width>
+        <Width>22.63162cm</Width>
         <ZIndex>16</ZIndex>
         <Style>
           <Border>
@@ -898,14 +939,16 @@
                 <Style />
               </TextRun>
             </TextRuns>
-            <Style />
+            <Style>
+              <TextAlign>Center</TextAlign>
+            </Style>
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox196</rd:DefaultName>
         <Top>6.82307cm</Top>
-        <Left>14.75654cm</Left>
+        <Left>14.51841cm</Left>
         <Height>0.6cm</Height>
-        <Width>2.5cm</Width>
+        <Width>3.28035cm</Width>
         <ZIndex>17</ZIndex>
         <Style>
           <Border>
@@ -957,14 +1000,16 @@
                 <Style />
               </TextRun>
             </TextRuns>
-            <Style />
+            <Style>
+              <TextAlign>Center</TextAlign>
+            </Style>
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox1</rd:DefaultName>
         <Top>3.65098cm</Top>
         <Left>0.5145cm</Left>
         <Height>0.6cm</Height>
-        <Width>2.5cm</Width>
+        <Width>1.57396cm</Width>
         <ZIndex>19</ZIndex>
         <Style>
           <Border>
@@ -980,7 +1025,7 @@
         <Top>6.29709cm</Top>
         <Left>0.5145cm</Left>
         <Height>0cm</Height>
-        <Width>22.09758cm</Width>
+        <Width>22.50815cm</Width>
         <ZIndex>20</ZIndex>
         <Style>
           <Border>
@@ -995,20 +1040,32 @@
           <Paragraph>
             <TextRuns>
               <TextRun>
-                <Value>=Sum(IIf(Fields!Status.Value = "M", CDbl(Fields!Kolic.Value) * CDbl(Fields!Nc.Value), 0))</Value>
+                <Value>=Sum(
+    IIF(
+        Fields!Vrijed.Value &gt; 0,
+        IIF(
+            IsNothing(Fields!Vrijed.Value),
+            0,
+            CDbl(Fields!Vrijed.Value)
+        ),
+        0
+    )
+)</Value>
                 <Style>
                   <Format>n2</Format>
                   <Language>bs-Latn-BA</Language>
                 </Style>
               </TextRun>
             </TextRuns>
-            <Style />
+            <Style>
+              <TextAlign>Center</TextAlign>
+            </Style>
           </Paragraph>
         </Paragraphs>
         <Top>6.82307cm</Top>
-        <Left>17.25654cm</Left>
+        <Left>17.79876cm</Left>
         <Height>0.6cm</Height>
-        <Width>2.5cm</Width>
+        <Width>2.46574cm</Width>
         <ZIndex>21</ZIndex>
         <Style>
           <Border>
@@ -1034,7 +1091,9 @@
                 </Style>
               </TextRun>
             </TextRuns>
-            <Style />
+            <Style>
+              <TextAlign>Left</TextAlign>
+            </Style>
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Od</rd:DefaultName>
@@ -1067,7 +1126,9 @@
                 </Style>
               </TextRun>
             </TextRuns>
-            <Style />
+            <Style>
+              <TextAlign>Left</TextAlign>
+            </Style>
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Do</rd:DefaultName>
@@ -1094,11 +1155,15 @@
             <TextRuns>
               <TextRun>
                 <Value>=Sum(
-IIf(
-Fields!Status.Value = "I", 
-Round(CDbl(Fields!Kolic.Value) * CDbl(Fields!Nc.Value), 2), 
-0
-)
+    IIF(
+        Fields!Vrijed.Value &lt; 0,
+        IIF(
+            IsNothing(Fields!Vrijed.Value),
+            0,
+            CDbl(Fields!Vrijed.Value)
+        ),
+        0
+    )
 )</Value>
                 <Style>
                   <Format>n2</Format>
@@ -1106,14 +1171,16 @@ Round(CDbl(Fields!Kolic.Value) * CDbl(Fields!Nc.Value), 2),
                 </Style>
               </TextRun>
             </TextRuns>
-            <Style />
+            <Style>
+              <TextAlign>Center</TextAlign>
+            </Style>
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox9</rd:DefaultName>
         <Top>6.82307cm</Top>
-        <Left>20.52265cm</Left>
+        <Left>20.2645cm</Left>
         <Height>0.6cm</Height>
-        <Width>2.5cm</Width>
+        <Width>3.68419cm</Width>
         <ZIndex>24</ZIndex>
         <Style>
           <Border>

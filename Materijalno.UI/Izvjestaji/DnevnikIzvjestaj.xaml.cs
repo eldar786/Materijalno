@@ -54,9 +54,9 @@ namespace Materijalno.UI.Izvjestaji
             MatList = new ObservableCollection<Mat>(dbContext.Mat
                 .Where(row => row.Ident == dnevnikvm.CurrentItemMat.Ident
                             && row.Kljnaz == dnevnikvm.CurrentItemMat.Kljnaz
-                            && (row.Status == "M" && row.Medus == "1" || row.Status == "I")
                              && row.Datun >= dnevnikvm.CurrentItemMat.Datun &&
-                             row.Datnar <= dnevnikvm.CurrentItemMat.Datnar)
+                             row.Datnar <= dnevnikvm.CurrentItemMat.Datnar &&
+                             row.Status != "P")
                 .OrderBy(row => row.Datun)
                 .ToList());
 
