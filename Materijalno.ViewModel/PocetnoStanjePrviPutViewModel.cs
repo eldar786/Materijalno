@@ -970,6 +970,13 @@ namespace Materijalno.ViewModel
 
         private void UpdateSumVrijed()
         {
+            var dbContext = new materijalno_knjigovodstvoContext();
+
+            MatList = new ObservableCollection<Mat>(dbContext.Mat
+                     .Where(row => row.Kljnaz >= 1000 && row.Kljnaz <= 1012 && row.Status == "P")
+                     .OrderBy(row => row.Datun)
+                     .ToList());
+
             if (CurrentItemMat?.Kljnaz != null)
             {
                 int currentKljnaz = CurrentItemMat.Kljnaz.Value;

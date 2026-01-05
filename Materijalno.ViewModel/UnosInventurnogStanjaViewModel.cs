@@ -423,6 +423,12 @@ namespace Materijalno.ViewModel
 
         private void NextButton()
         {
+            if (InvList == null || InvList.Count == 0)
+            {
+                CurrentItemInv = null;
+                System.Windows.MessageBox.Show("Inventurna lista je prazna", "Upozorenje", MessageBoxButton.OK, MessageBoxImage.Information);
+                return; // or handle empty list case
+            }
 
             using (var dbContext = new materijalno_knjigovodstvoContext())
             {
@@ -441,6 +447,13 @@ namespace Materijalno.ViewModel
         }
         private void PrethodniButton()
         {
+            if (InvList == null || InvList.Count == 0)
+            {
+                CurrentItemInv = null;
+                System.Windows.MessageBox.Show("Inventurna lista je prazna", "Upozorenje", MessageBoxButton.OK, MessageBoxImage.Information);
+                return; // or handle empty list case
+            }
+
             using (var dbContext = new materijalno_knjigovodstvoContext())
             {
                 if (CurrentIndex == 0)
@@ -457,6 +470,13 @@ namespace Materijalno.ViewModel
         }
         private void PrviButton()
         {
+            if (InvList == null || InvList.Count == 0)
+            {
+                CurrentItemInv = null;
+                System.Windows.MessageBox.Show("Inventurna lista je prazna", "Upozorenje", MessageBoxButton.OK, MessageBoxImage.Information);
+                return; // or handle empty list case
+            }
+
             using (var dbContext = new materijalno_knjigovodstvoContext())
             {
                 CurrentIndex = 0;
@@ -467,6 +487,13 @@ namespace Materijalno.ViewModel
         }
         private void ZadnjiButton()
         {
+            if (InvList == null || InvList.Count == 0)
+            {
+                CurrentItemInv = null;
+                System.Windows.MessageBox.Show("Inventurna lista je prazna", "Upozorenje", MessageBoxButton.OK, MessageBoxImage.Information);
+                return; // or handle empty list case
+            }
+
             using (var dbContext = new materijalno_knjigovodstvoContext())
             {
                 CurrentIndex = InvList.Count - 1;
@@ -478,6 +505,13 @@ namespace Materijalno.ViewModel
         }
         private void Brisanje()
         {
+            if (InvList == null || InvList.Count == 0)
+            {
+                CurrentItemInv = null;
+                System.Windows.MessageBox.Show("Inventurna lista je prazna", "Upozorenje", MessageBoxButton.OK, MessageBoxImage.Information);
+                return; // or handle empty list case
+            } 
+
             using (var dbContext = new materijalno_knjigovodstvoContext())
             {
                 CurrentItemInv = InvList[CurrentIndex];
@@ -504,10 +538,15 @@ namespace Materijalno.ViewModel
         //Update forme sa novim unesenim vrijednostima
         private void Update()
         {
+            if (InvList == null || InvList.Count == 0)
+            {
+                CurrentItemInv = null;
+                System.Windows.MessageBox.Show("Inventurna lista je prazna", "Upozorenje", MessageBoxButton.OK, MessageBoxImage.Information);
+                return; // or handle empty list case
+            }
+
             using (var dbContext = new materijalno_knjigovodstvoContext())
             {
-
-
                 if (CurrentItemInv.Kljnaz != null)
                 {
                     CurrentItemInv.Kontosklad = dbContext.SifarnikMaterijalSkladisteKonto
@@ -531,6 +570,13 @@ namespace Materijalno.ViewModel
 
         private void Trazi()
         {
+            if (InvList == null || InvList.Count == 0)
+            {
+                CurrentItemInv = null;
+                System.Windows.MessageBox.Show("Inventurna lista je prazna", "Upozorenje", MessageBoxButton.OK, MessageBoxImage.Information);
+                return; // or handle empty list case
+            }
+
             _gvm.OdabraniVM = new InvListaViewModel(this, _gvm);
         }
 
