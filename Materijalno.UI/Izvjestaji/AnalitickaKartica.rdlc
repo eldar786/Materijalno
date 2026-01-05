@@ -374,7 +374,9 @@
                 <Style />
               </TextRun>
             </TextRuns>
-            <Style />
+            <Style>
+              <TextAlign>Center</TextAlign>
+            </Style>
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox13</rd:DefaultName>
@@ -464,12 +466,14 @@
                 <Style />
               </TextRun>
             </TextRuns>
-            <Style />
+            <Style>
+              <TextAlign>Center</TextAlign>
+            </Style>
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox16</rd:DefaultName>
         <Top>4.47173cm</Top>
-        <Left>16.75033cm</Left>
+        <Left>17.7586cm</Left>
         <Height>0.6cm</Height>
         <Width>1.49458cm</Width>
         <ZIndex>17</ZIndex>
@@ -494,12 +498,14 @@
                 <Style />
               </TextRun>
             </TextRuns>
-            <Style />
+            <Style>
+              <TextAlign>Center</TextAlign>
+            </Style>
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox16</rd:DefaultName>
         <Top>4.47173cm</Top>
-        <Left>18.95876cm</Left>
+        <Left>20.22876cm</Left>
         <Height>0.6cm</Height>
         <Width>1.81208cm</Width>
         <ZIndex>18</ZIndex>
@@ -524,7 +530,9 @@
                 <Style />
               </TextRun>
             </TextRuns>
-            <Style />
+            <Style>
+              <TextAlign>Center</TextAlign>
+            </Style>
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox18</rd:DefaultName>
@@ -795,7 +803,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=IIF(Fields!Status.Value = "M" OR Fields!Status.Value = "P", Fields!Kolic.Value, 0)</Value>
+                              <Value>=IIF(Fields!Vrijed.Value &gt; 0, Fields!Kolic.Value, 0)</Value>
                               <Style>
                                 <Format>n2</Format>
                                 <Language>hr-BA</Language>
@@ -837,7 +845,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=IIF(Fields!Status.Value = "I", Fields!Kolic.Value, 0)</Value>
+                              <Value>=IIF(Fields!Vrijed.Value &lt; 0, Fields!Kolic.Value, 0)</Value>
                               <Style>
                                 <Format>n2</Format>
                                 <Language>hr-BA</Language>
@@ -920,7 +928,15 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=IIF(Fields!Status.Value = "M" OR Fields!Status.Value = "P", Fields!Kolic.Value * Fields!Nc.Value, 0)</Value>
+                              <Value>=IIF(
+    Fields!Vrijed.Value &gt; 0,
+    IIF(
+        IsNothing(Fields!Vrijed.Value),
+        0,
+        Fields!Vrijed.Value
+    ),
+    0
+)</Value>
                               <Style>
                                 <Format>n2</Format>
                                 <Language>hr-BA</Language>
@@ -928,7 +944,7 @@
                             </TextRun>
                           </TextRuns>
                           <Style>
-                            <TextAlign>Left</TextAlign>
+                            <TextAlign>Center</TextAlign>
                           </Style>
                         </Paragraph>
                       </Paragraphs>
@@ -963,14 +979,24 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=IIF(Fields!Status.Value = "I", Replace(FormatNumber(Fields!Kolic.Value * Fields!Nc.Value, 2), ".", ","), "0")</Value>
+                              <Value>=IIF(
+    Fields!Vrijed.Value &lt; 0,
+    IIF(
+        IsNothing(Fields!Vrijed.Value),
+        0,
+        Fields!Vrijed.Value
+    ),
+    0
+)</Value>
                               <Style>
                                 <Format>n2</Format>
                                 <Language>hr-BA</Language>
                               </Style>
                             </TextRun>
                           </TextRuns>
-                          <Style />
+                          <Style>
+                            <TextAlign>Center</TextAlign>
+                          </Style>
                         </Paragraph>
                       </Paragraphs>
                       <Style>
@@ -1041,7 +1067,9 @@
           <Paragraph>
             <TextRuns>
               <TextRun>
-                <Value>=Sum(IIf(Fields!Status.Value = "M" OR Fields!Status.Value = "P", Fields!Kolic.Value, 0))</Value>
+                <Value>=Sum(
+IIF(Fields!Vrijed.Value &gt; 0, Fields!Kolic.Value, 0)
+)</Value>
                 <Style>
                   <Format>n2</Format>
                   <Language>hr-BA</Language>
@@ -1074,7 +1102,9 @@
           <Paragraph>
             <TextRuns>
               <TextRun>
-                <Value>=Sum(IIf(Fields!Status.Value = "I", Fields!Kolic.Value, 0))</Value>
+                <Value>=Sum(
+IIF(Fields!Vrijed.Value &lt; 0, Fields!Kolic.Value, 0)
+)</Value>
                 <Style>
                   <Format>n2</Format>
                   <Language>hr-BA</Language>
@@ -1108,11 +1138,15 @@
             <TextRuns>
               <TextRun>
                 <Value>=Sum(
-  IIf(
-    Fields!Status.Value = "M" OR Fields!Status.Value = "P",
-    Round(CDbl(Fields!Kolic.Value) * CDbl(Fields!Nc.Value), 2),
-    Nothing
-  )
+    IIF(
+        Fields!Vrijed.Value &gt; 0,
+        IIF(
+            IsNothing(Fields!Vrijed.Value),
+            0,
+            CDbl(Fields!Vrijed.Value)
+        ),
+        0
+    )
 )</Value>
                 <Style>
                   <Format>n2</Format>
@@ -1147,11 +1181,15 @@
             <TextRuns>
               <TextRun>
                 <Value>=Sum(
-  IIf(
-    Fields!Status.Value = "I",
-    Round(CDbl(Fields!Kolic.Value) * CDbl(Fields!Nc.Value), 2),
-    Nothing
-  )
+    IIF(
+        Fields!Vrijed.Value &lt; 0,
+        IIF(
+            IsNothing(Fields!Vrijed.Value),
+            0,
+            CDbl(Fields!Vrijed.Value)
+        ),
+        0
+    )
 )</Value>
                 <Style>
                   <Format>n2</Format>
@@ -1185,11 +1223,17 @@
           <Paragraph>
             <TextRuns>
               <TextRun>
-                <Value>=Sum(IIf(
-  Fields!Status.Value="M" OR Fields!Status.Value="I" OR Fields!Status.Value="P",
-  Round(CDbl(Fields!Kolic.Value)*CDbl(Fields!Nc.Value), 2),
-  0
-))</Value>
+                <Value>=Sum(
+    IIF(
+        Fields!Vrijed.Value &gt; 0,
+        Fields!Vrijed.Value,
+        IIF(
+            Fields!Vrijed.Value &lt; 0,
+            Fields!Vrijed.Value,
+            0
+        )
+    )
+)</Value>
                 <Style>
                   <FontWeight>Bold</FontWeight>
                   <Format>n2</Format>
@@ -1223,8 +1267,17 @@
           <Paragraph>
             <TextRuns>
               <TextRun>
-                <Value>=Sum(IIf(Fields!Status.Value = "M" OR Fields!Status.Value = "P", Fields!Kolic.Value, 0)) + 
-Sum(IIf(Fields!Status.Value = "I", Fields!Kolic.Value, 0))</Value>
+                <Value>=Sum(
+    IIF(
+        Fields!Vrijed.Value &gt; 0,
+        Fields!Kolic.Value,
+        IIF(
+            Fields!Vrijed.Value &lt; 0,
+            Fields!Kolic.Value,
+            0
+        )
+    )
+)</Value>
                 <Style>
                   <FontWeight>Bold</FontWeight>
                   <Format>n2</Format>
