@@ -51,13 +51,21 @@ namespace Materijalno.UI.Izvjestaji
 
             var dbContext = new materijalno_knjigovodstvoContext();
 
-            MatList = new ObservableCollection<Mat>(dbContext.Mat
-                .Where(row => row.Status == "I" // Filter by status 
-                            && row.Kljnaz == pregledIzlazaZaSveKalkulacijevm.CurrentItemMat.Kljnaz // Skladište
-                            && row.Datun >= pregledIzlazaZaSveKalkulacijevm.CurrentItemMat.Datun // Start date condition
-                            && row.Datnar <= pregledIzlazaZaSveKalkulacijevm.CurrentItemMat.Datnar) // End date condition
-                     .OrderBy(row => row.Datun) // Sort by start date
-                     .ToList());
+            var startDate = pregledIzlazaZaSveKalkulacijevm.CurrentItemMat.Datun.Value.Date;
+            var endDateExclusive =
+                pregledIzlazaZaSveKalkulacijevm.CurrentItemMat.Datnar.Value.Date.AddDays(1);
+
+            MatList = new ObservableCollection<Mat>(
+                dbContext.Mat
+                    .Where(row =>
+                        row.Status == "I" &&
+                        row.Kljnaz == pregledIzlazaZaSveKalkulacijevm.CurrentItemMat.Kljnaz &&
+                        row.Datun >= startDate &&
+                        row.Datun < endDateExclusive
+                    )
+                    .OrderBy(row => row.Datun)
+                    .ToList()
+            );
 
             _tabelaMaterijala = dbContext.TabelaMaterijala.ToList();
             _tabelaSkladista = dbContext.SifarnikSkladista.ToList();

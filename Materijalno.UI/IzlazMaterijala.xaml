@@ -147,7 +147,7 @@
         </Button>-->
 
         <Label Grid.Row="1" Grid.Column="0" Margin="0,0,0,0" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="18">Skladište</Label>
-        <TextBox Text="{Binding CurrentItemMat.Kljnaz}" Name="OpBroj" Grid.Row="1" KeyDown="TextBox_KeyDown"  Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left" FontWeight="Bold"  Width="120" FontSize="18">
+        <TextBox Text="{Binding CurrentItemMat.Kljnaz, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Name="OpBroj" Grid.Row="1" KeyDown="TextBox_KeyDown"  Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left" FontWeight="Bold"  Width="120" FontSize="18">
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="LostFocus">
                     <i:InvokeCommandAction Command="{Binding OsvjeziCommand}" />

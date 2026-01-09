@@ -94,7 +94,7 @@ namespace Materijalno.ViewModel
             set
             {
                 currentItemTabSkladista = value;
-                OnPropertyChanged(nameof(currentItemTabSkladista));
+                OnPropertyChanged(nameof(CurrentItemTabSkladista));
             }
         }
 
@@ -345,11 +345,80 @@ namespace Materijalno.ViewModel
 
         public void NabavnaCijena()
         {
+            var currentId = CurrentItemMat.Id;
+
+            if (CurrentItemMat.Kolic > 0)
+            {
+                CurrentItemMat.Kolic = -CurrentItemMat.Kolic;
+            }
+
+            
+
             var dbContext = new materijalno_knjigovodstvoContext();
 
-            CurrentItemMat.Nc = dbContext.Mat
-                .Where(row => row.Ident == CurrentItemMat.Ident)
-                .Select(row => row.Nc).FirstOrDefault();
+            int brojRedovaSaStatusomI = dbContext.Mat.Where(row =>
+                row.Ident == CurrentItemMat.Ident &&
+                row.Kljnaz == CurrentItemMat.Kljnaz &&
+                row.Status == "I").Count();
+
+            
+
+            //Ako nema redova sa Kolonom 'status' = "I" za to CurrentItemMat.Kljnaz, onda uzimamo vrijednost kolone 'Nc' sa Kolonom 'status' = "P" za to skladište(CurrentItemMat.Kljnaz)
+            //Ako ima redova sa Kolonom 'status' = "I", onda uzmemo (Sum)Vrijed(i sa kolonom 'status' = 'P') / (Sum)Kolic(i sa kolonom status = 'P')
+
+            // 1) Provjeri ima li "I" redova za taj materijal i skladište
+         
+            bool imaI = dbContext.Mat.Any(row =>
+                row.Ident == CurrentItemMat.Ident &&
+                row.Kljnaz == CurrentItemMat.Kljnaz &&
+                row.Status == "I");
+
+            //Ovo sam stavio da bi racunao sam iz statusa 'P', da ne uzima nove vrijednosti koje unosimo, je prilikom kriranja novog zaduzenje, automatksi se kreira novi red
+            // i onda ce uzimati vrijednosti iz novog reda i kalkulacija moze biti netacna
+            if (brojRedovaSaStatusomI <= 1)
+            {
+                imaI = false;
+            }
+
+            // 2) Ako nema "I" → uzmi Nc iz "P" reda (npr. zadnji po datumu / id)
+            if (!imaI)
+            {
+                CurrentItemMat.Nc = dbContext.Mat
+                    .Where(row => row.Ident == CurrentItemMat.Ident && row.Kljnaz == CurrentItemMat.Kljnaz && row.Status == "P")
+                    .OrderByDescending(r => r.Datun)          // ili .OrderByDescending(r => r.Id)
+                    .Select(r => (decimal?)r.Nc)
+                    .FirstOrDefault() ?? 0m;
+
+                return;
+            }
+
+            // 3) Ako ima "I" → izračunaj Sum(Vrijed)/Sum(Kolic) iz "P" redova i "I" redova
+            var sums = dbContext.Mat
+            .Where(r =>
+                r.Ident == CurrentItemMat.Ident &&
+                r.Kljnaz == CurrentItemMat.Kljnaz &&
+                r.Id != currentId &&
+                (imaI ? (r.Status == "P" || r.Status == "I" || r.Status == "M" || r.Status == "V" || r.Status == "U")
+                      : (r.Status == "P")))
+            .GroupBy(_ => 1)
+            .Select(g => new
+            {
+                SumVrijed = (decimal?)Math.Round((decimal)g.Sum(x => x.Vrijed),9) ?? 0m,
+                SumKolic = (decimal?)g.Sum(x => x.Kolic) ?? 0m
+            })
+            .FirstOrDefault();
+
+            CurrentItemMat.Nc =
+                (sums == null || sums.SumKolic == 0m)
+                    ? 0m
+                    : (sums.SumVrijed / sums.SumKolic);
+
+            // optional: round to 9 decimals
+            CurrentItemMat.Nc = (decimal?)Math.Round((decimal)CurrentItemMat.Nc, 9, MidpointRounding.AwayFromZero);
+
+            //CurrentItemMat.Nc = dbContext.Mat
+            //    .Where(row => row.Ident == CurrentItemMat.Ident)
+            //    .Select(row => row.Nc).FirstOrDefault();
 
             var culture = new CultureInfo("de-DE");
 
@@ -747,7 +816,7 @@ namespace Materijalno.ViewModel
                 //1. Iz pocetnog stanja za trenutnu godinu uzmemo vrijednost materijala za dato skladiste
                 //2. Onda od pocetnog stanja + Ulazi(za taj magacin i taj materijal) - Izlazi(za taj magacin i taj materijal)
                 //3. Ako je Izlaz Vrijednost ili količine veci od stvarne zalihe materijala tj. ako ode ispod nule onda izbaci poruku
-
+                //4. Medjuskladisnica kako to sabirati ili oduzimati
                 int? ukupnoUlaziMaterijal = new int();
                 int? ukupnoIzlaziMaterijal = new int();
 
@@ -774,11 +843,27 @@ namespace Materijalno.ViewModel
                     ukupnoIzlaziMaterijal += item.Kolic;
                 }
 
-                int? stvarnoStanje = pocetnoStanje + ukupnoUlaziMaterijal - (ukupnoIzlaziMaterijal);
+                //MEĐUSKLADIŠNICA
+                int ukupnoMedjuskladisnica = dbContext.Mat
+                .Where(row =>
+                    row.Kljnaz == currentItemMat.Kljnaz &&
+                    row.Ident == currentItemMat.Ident &&
+                    row.Status == "M")
+                .Sum(row => (int?)row.Kolic) ?? 0;
+
+                //Povrat
+                int ukupnoPovrat = dbContext.Mat
+                .Where(row =>
+                    row.Kljnaz == currentItemMat.Kljnaz &&
+                    row.Ident == currentItemMat.Ident &&
+                    row.Status == "V")
+                .Sum(row => (int?)row.Kolic) ?? 0;
+
+                int? stvarnoStanje = pocetnoStanje + ukupnoUlaziMaterijal + ukupnoIzlaziMaterijal + ukupnoMedjuskladisnica + ukupnoPovrat;
 
                 if (stvarnoStanje < 0)
                 {
-                    System.Windows.MessageBox.Show("Količina je veća od zaliha materijala!", "Upozorenje", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    System.Windows.MessageBox.Show("Količina je veća od zaliha materijala! " + stvarnoStanje, "Upozorenje", MessageBoxButton.OK, MessageBoxImage.Warning);
                     
                     return false;
                 }
