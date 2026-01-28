@@ -76,7 +76,7 @@ namespace Materijalno.ViewModel
             set
             {
                 currentItemTabMaterijala = value;
-                OnPropertyChanged(nameof(currentItemTabMaterijala));
+                OnPropertyChanged(nameof(CurrentItemTabMaterijala));
             }
         }
 
@@ -176,7 +176,12 @@ namespace Materijalno.ViewModel
                     .OrderBy(row => row.Datun)
                     .ToList());
 
+
+
+                
                 UpdateCurrentItemData(dbContext);
+                
+                
 
                 StaraSifra_Ime_List = DohvatiNazivKomitenta();
             }
@@ -278,7 +283,9 @@ namespace Materijalno.ViewModel
             var dbContext = new materijalno_knjigovodstvoContext();
 
             decimal? inputValue1 = CurrentItemMat.Vrijed;
+            //Troskovi speditera
             decimal? inputValue2 = CurrentItemMat.Trospe;
+            //Iznos PDV-a (iskljucen iz kalkulacije za izracun NC)
             decimal? inputValue3 = CurrentItemMat.Porppp;
             decimal? inputValue4 = CurrentItemMat.Troskovi;
             decimal carinaValue = 0.00m;
@@ -298,12 +305,15 @@ namespace Materijalno.ViewModel
             decimal? value1 = inputValue1.HasValue ? (decimal?)inputValue1.Value : 0;
 
             decimal? value2 = inputValue2.HasValue ? (decimal?)inputValue2.Value : 0;
-
+            // Iznos PDV-a
             decimal? value3 = inputValue3.HasValue ? (decimal?)inputValue3.Value : 0;
 
             decimal? value4 = inputValue4.HasValue ? (decimal?)inputValue4.Value : 0;
 
-            decimal? sum = value1 + value2 + value3 + value4 + carinaValue;
+            //Vjerovatno nam ne trebaju ostale vrijednosti za izracuj NC - Dovoljno je vrijed/kolic
+            //decimal? sum = value1 + value2 + value4 + carinaValue;
+
+            decimal? sum = value1;
             
             if (CurrentItemMat.Kolic.HasValue && CurrentItemMat.Kolic.Value != 0)
             {
@@ -423,6 +433,21 @@ namespace Materijalno.ViewModel
         {
             using (var dbContext = new materijalno_knjigovodstvoContext())
             {
+                if (MatList == null || MatList.Count == 0)
+                {
+                    CurrentItemMat = null;
+                    System.Windows.MessageBox.Show("Nema podataka za brisanje.", "Upozorenje",
+                        MessageBoxButton.OK, MessageBoxImage.Information);
+                    return;
+                }
+
+                // 2) Guard: invalid index -> clamp
+                if (CurrentIndex < 0) CurrentIndex = 0;
+                if (CurrentIndex >= MatList.Count) CurrentIndex = MatList.Count - 1;
+
+                // 3) Get the current item safely
+                var itemToDelete = MatList[CurrentIndex];
+
                 CurrentItemMat = MatList[CurrentIndex];
 
                 var resultMessageBox = System.Windows.MessageBox.Show("Želite li obrisati tekući podatak? ", "Upozorenje", MessageBoxButton.YesNo, MessageBoxImage.Question);
@@ -434,12 +459,25 @@ namespace Materijalno.ViewModel
 
                     MatList.Remove(CurrentItemMat);
 
-                    currentItemMat = null;
+                    //currentItemMat = null;
                 }
                 else if (resultMessageBox == MessageBoxResult.No)
                 {
                     return;
                 }
+
+                //Kada zadnji brise, ne vraca index
+                //Jedna opcija jeste da ponovo ocitamo MatListu
+                //Ako je CurrentIndex zadnji broj kao kod MatList.Count onda nakon brisanja da ide CurrentIdex - 1
+                if (MatList.Count == CurrentIndex)
+                {
+                    CurrentItemMat = MatList[CurrentIndex - 1];
+                }
+                else
+                {
+                    CurrentItemMat = MatList[CurrentIndex];
+                }
+
                 UpdateCurrentItemData(dbContext);
             }
         }
@@ -563,6 +601,7 @@ namespace Materijalno.ViewModel
         {
             //Prolazi ponovo provjeru CanExecute
             isNovaKalkulacijaClicked = true;
+            //Provjeriti da li treba IsOdustaniEnabled = true;?
 
             UpdateCommands();
 
@@ -718,6 +757,11 @@ namespace Materijalno.ViewModel
             }
             else
             {
+                MatList = new ObservableCollection<Mat>(dbContext.Mat
+                    .Where(row => row.Kljnaz == 1000 && row.Status == "U")
+                    .OrderBy(row => row.Datun)
+                    .ToList());
+
                 CurrentItemMat = MatList[CurrentIndex];
             }
 

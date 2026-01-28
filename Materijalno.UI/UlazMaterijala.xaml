@@ -192,7 +192,7 @@
         </TextBox>
 
         <!--Na osnovu sifre materijala dati naziv iz druge tabele "tabela materijala"-->
-        <TextBox Text="{Binding CurrentItemTabMaterijala.Nazmat}" Grid.Row="5" Grid.Column="4" Margin="-430,0,0,0" VerticalAlignment="Center" FontSize="18"  Width="400" IsEnabled="False"/>
+        <TextBox Text="{Binding CurrentItemTabMaterijala.Nazmat, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.Row="5" Grid.Column="4" Margin="-430,0,0,0" VerticalAlignment="Center" FontSize="18"  Width="400" IsEnabled="False"/>
 
         <Label Grid.Row="6" Grid.Column="2" VerticalAlignment="Center" Margin="-60,0,0,0" FontSize="18">Količina</Label>
         <TextBox Text="{Binding CurrentItemMat.Kolic, StringFormat=N2, TargetNullValue='0', ConverterCulture='de-DE', UpdateSourceTrigger=PropertyChanged}" Grid.Row="6" KeyDown="TextBox_KeyDown" Grid.Column="2" Margin="45,0,0,0" VerticalAlignment="Center"  FontSize="18"  Width="180">

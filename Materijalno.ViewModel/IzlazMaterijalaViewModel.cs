@@ -74,7 +74,7 @@ namespace Materijalno.ViewModel
             set
             {
                 currentItemPovrat = value;
-                OnPropertyChanged(nameof(currentItemPovrat));
+                OnPropertyChanged(nameof(CurrentItemPovrat));
             }
         }
 
@@ -84,7 +84,7 @@ namespace Materijalno.ViewModel
             set
             {
                 currentItemTabMaterijala = value;
-                OnPropertyChanged(nameof(currentItemTabMaterijala));
+                OnPropertyChanged(nameof(CurrentItemTabMaterijala));
             }
         }
 
@@ -352,58 +352,26 @@ namespace Materijalno.ViewModel
                 CurrentItemMat.Kolic = -CurrentItemMat.Kolic;
             }
 
-            
-
             var dbContext = new materijalno_knjigovodstvoContext();
 
-            int brojRedovaSaStatusomI = dbContext.Mat.Where(row =>
-                row.Ident == CurrentItemMat.Ident &&
-                row.Kljnaz == CurrentItemMat.Kljnaz &&
-                row.Status == "I").Count();
-
             
-
-            //Ako nema redova sa Kolonom 'status' = "I" za to CurrentItemMat.Kljnaz, onda uzimamo vrijednost kolone 'Nc' sa Kolonom 'status' = "P" za to skladište(CurrentItemMat.Kljnaz)
-            //Ako ima redova sa Kolonom 'status' = "I", onda uzmemo (Sum)Vrijed(i sa kolonom 'status' = 'P') / (Sum)Kolic(i sa kolonom status = 'P')
-
-            // 1) Provjeri ima li "I" redova za taj materijal i skladište
-         
-            bool imaI = dbContext.Mat.Any(row =>
-                row.Ident == CurrentItemMat.Ident &&
-                row.Kljnaz == CurrentItemMat.Kljnaz &&
-                row.Status == "I");
-
-            //Ovo sam stavio da bi racunao sam iz statusa 'P', da ne uzima nove vrijednosti koje unosimo, je prilikom kriranja novog zaduzenje, automatksi se kreira novi red
-            // i onda ce uzimati vrijednosti iz novog reda i kalkulacija moze biti netacna
-            if (brojRedovaSaStatusomI <= 1)
-            {
-                imaI = false;
-            }
-
-            // 2) Ako nema "I" → uzmi Nc iz "P" reda (npr. zadnji po datumu / id)
-            if (!imaI)
-            {
-                CurrentItemMat.Nc = dbContext.Mat
-                    .Where(row => row.Ident == CurrentItemMat.Ident && row.Kljnaz == CurrentItemMat.Kljnaz && row.Status == "P")
-                    .OrderByDescending(r => r.Datun)          // ili .OrderByDescending(r => r.Id)
-                    .Select(r => (decimal?)r.Nc)
-                    .FirstOrDefault() ?? 0m;
-
-                return;
-            }
-
             // 3) Ako ima "I" → izračunaj Sum(Vrijed)/Sum(Kolic) iz "P" redova i "I" redova
             var sums = dbContext.Mat
             .Where(r =>
                 r.Ident == CurrentItemMat.Ident &&
                 r.Kljnaz == CurrentItemMat.Kljnaz &&
-                r.Id != currentId &&
-                (imaI ? (r.Status == "P" || r.Status == "I" || r.Status == "M" || r.Status == "V" || r.Status == "U")
-                      : (r.Status == "P")))
+                r.Id != currentId && // isključi trenutni red, da ne bi uzimao kolicinu i vrijed (Vidjeti kako ovo radi za UPDATE)
+                (
+                    r.Status == "P" ||
+                    r.Status == "U" ||
+                    r.Status == "V" ||
+                    r.Status == "I" ||
+                    r.Status == "M"      
+                ))
             .GroupBy(_ => 1)
             .Select(g => new
             {
-                SumVrijed = (decimal?)Math.Round((decimal)g.Sum(x => x.Vrijed),9) ?? 0m,
+                SumVrijed = (decimal?)g.Sum(x => x.Vrijed) ?? 0m,
                 SumKolic = (decimal?)g.Sum(x => x.Kolic) ?? 0m
             })
             .FirstOrDefault();
@@ -414,7 +382,8 @@ namespace Materijalno.ViewModel
                     : (sums.SumVrijed / sums.SumKolic);
 
             // optional: round to 9 decimals
-            CurrentItemMat.Nc = (decimal?)Math.Round((decimal)CurrentItemMat.Nc, 9, MidpointRounding.AwayFromZero);
+            //CurrentItemMat.Nc = (decimal?)Math.Round((decimal)CurrentItemMat.Nc, 9, MidpointRounding.AwayFromZero);
+            CurrentItemMat.Nc = Math.Round(CurrentItemMat.Nc ?? 0m, 9, MidpointRounding.AwayFromZero);
 
             //CurrentItemMat.Nc = dbContext.Mat
             //    .Where(row => row.Ident == CurrentItemMat.Ident)
@@ -594,6 +563,14 @@ namespace Materijalno.ViewModel
         {
             using (var dbContext = new materijalno_knjigovodstvoContext())
             {
+                if (MatList == null || MatList.Count == 0)
+                {
+                    CurrentItemMat = null;
+                    System.Windows.MessageBox.Show("Nema podataka za brisanje.", "Upozorenje",
+                        MessageBoxButton.OK, MessageBoxImage.Information);
+                    return;
+                }
+
                 CurrentItemMat = MatList[CurrentIndex];
 
                 var resultMessageBox = System.Windows.MessageBox.Show("Želite li obrisati tekući podatak? ", "Upozorenje", MessageBoxButton.YesNo, MessageBoxImage.Question);
@@ -718,10 +695,10 @@ namespace Materijalno.ViewModel
         {
             var dbContext = new materijalno_knjigovodstvoContext();
 
-            MatList = new ObservableCollection<Mat>(dbContext.Mat
+            var MatList = dbContext.Mat
                                .Where(row => row.Status == "I")
                                .OrderBy(row => row.Datun)
-                               .ToList());
+                               .ToList();
 
             //Proci kroz MatListu i naci posljednji "brfak" i dodati +1
             var posljednjiBrfak = MatList
