@@ -60,6 +60,7 @@ namespace Materijalno.ViewModel
 
                 dbContext.Database.ExecuteSqlRaw("TRUNCATE TABLE mat");
                 //Nakon brisanja tabele dodajemo po jednu praznu vrijednost za svaki status, da ne bi poslije pravio problem prilikom otvaranja
+                //Dodati za status "M" Medus = 1 (Provjeriti kako radi u praksi)
                 dbContext.Database.ExecuteSqlRaw(@"
                 INSERT INTO mat
                 (
@@ -69,13 +70,14 @@ namespace Materijalno.ViewModel
                     nc,
                     vrijed,
                     status,
-                    kontosklad
+                    kontosklad,
+                    medus
                 )
                 VALUES
-                (1001, NULL, 0, 0, 0.00, 'I', NULL),
-                (1000, 1000, 0, 0, 0.00, 'M', 1),
-                (1001, NULL, 0, 0, 0.00, 'V', NULL),
-                (1000, NULL, 0, 0, 0.00, 'U', NULL);
+                (1001, NULL, 0, 0, 0.00, 'I', NULL, ''),
+                (1000, 1000, 0, 0, 0.00, 'M', 1, '1'),
+                (1001, NULL, 0, 0, 0.00, 'V', NULL, ''),
+                (1000, NULL, 0, 0, 0.00, 'U', NULL, '');
                 ");
 
                 // Transfer INV -> MAT (PRIJE TRUNCATE INV)

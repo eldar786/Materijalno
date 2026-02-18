@@ -302,7 +302,7 @@ namespace Materijalno.ViewModel
 
             var culture = new CultureInfo("de-DE");
 
-            decimal? value1 = inputValue1.HasValue ? (decimal?)inputValue1.Value : 0;
+                decimal? value1 = inputValue1.HasValue ? (decimal?)inputValue1.Value : 0;
 
             decimal? value2 = inputValue2.HasValue ? (decimal?)inputValue2.Value : 0;
             // Iznos PDV-a
@@ -313,7 +313,7 @@ namespace Materijalno.ViewModel
             //Vjerovatno nam ne trebaju ostale vrijednosti za izracuj NC - Dovoljno je vrijed/kolic
             //decimal? sum = value1 + value2 + value4 + carinaValue;
 
-            decimal? sum = value1;
+            decimal? sum = value1 + value2 + value3 + value4;
             
             if (CurrentItemMat.Kolic.HasValue && CurrentItemMat.Kolic.Value != 0)
             {
@@ -580,16 +580,23 @@ namespace Materijalno.ViewModel
             ).Select(x => x.Brfak)
             .FirstOrDefault();
 
-            var parts = posljednjiBrfak.Split('-');
-            if (parts.Length == 2 && int.TryParse(parts[1], out int number)) // Parsiraj drugi dio (poslije -)
+            if (posljednjiBrfak != null)
             {
-                number++; // Povecaj za jedan
-                posljednjiBrfak = $"{parts[0]}-{number}"; // Dodaj dvije cjeline u posljednjiBrfak
+                var parts = posljednjiBrfak.Split('-');
+                if (parts.Length == 2 && int.TryParse(parts[1], out int number)) // Parsiraj drugi dio (poslije -)
+                {
+                    number++; // Povecaj za jedan
+                    posljednjiBrfak = $"{parts[0]}-{number}"; // Dodaj dvije cjeline u posljednjiBrfak
+                }
+            }
+            else
+            {
+                posljednjiBrfak = "10-1";
             }
             //Stavili smo if, jer pada kada brisemo, CurrentItemMat.Brfak bude null
             //if (CurrentItemMat.Brfak != null)
             //{
-                CurrentItemMat.Brfak = posljednjiBrfak;
+            CurrentItemMat.Brfak = posljednjiBrfak;
             //}
         }
 

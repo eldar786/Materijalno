@@ -713,11 +713,18 @@ namespace Materijalno.ViewModel
             ).Select(x => x.Brfak)
             .FirstOrDefault();
 
-            var parts = posljednjiBrfak.Split('-');
-            if (parts.Length == 2 && int.TryParse(parts[1], out int number)) // Parsiraj drugi dio (poslije -)
+            if (posljednjiBrfak != null)
             {
-                number++; // Povecaj za jedan
-                posljednjiBrfak = $"{parts[0]}-{number}"; // Dodaj dvije cjeline u posljednjiBrfak
+                var parts = posljednjiBrfak.Split('-');
+                if (parts.Length == 2 && int.TryParse(parts[1], out int number)) // Parsiraj drugi dio (poslije -)
+                {
+                    number++; // Povecaj za jedan
+                    posljednjiBrfak = $"{parts[0]}-{number}"; // Dodaj dvije cjeline u posljednjiBrfak
+                }
+            }
+            else
+            {
+                posljednjiBrfak = "M-1";
             }
             //Stavili smo if, jer pada kada brisemo, CurrentItemMat.Brfak bude null
             //if (CurrentItemMat.Brfak != null)
@@ -805,7 +812,9 @@ namespace Materijalno.ViewModel
                     Medus = "1",
 
                     Ident = CurrentItemMat.Ident,
+                    Datun = CurrentItemMat.Datun,
                     Brdok = CurrentItemMat.Brdok,
+                    Datnar = CurrentItemMat.Datnar,
                     Brfak = CurrentItemMat.Brfak,
                     Nc = CurrentItemMat.Nc,
                     Redbr = CurrentItemMat.Redbr,
