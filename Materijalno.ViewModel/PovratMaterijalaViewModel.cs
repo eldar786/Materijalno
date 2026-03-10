@@ -827,8 +827,14 @@ namespace Materijalno.ViewModel
                     UpdateCommands();
                     //Prije odustajanja dohvati zadnji index, da bi mogao vratiti u pogledu, da ne ide na pocetak??
 
-                    dbContext.Mat.Remove(CurrentItemMat);
-                    dbContext.SaveChanges();
+                    var matForDelete = dbContext.Mat
+                .FirstOrDefault(x => x.Id == CurrentItemMat.Id);
+
+                    if (matForDelete != null)
+                    {
+                        dbContext.Mat.Remove(matForDelete);
+                        dbContext.SaveChanges();
+                    }
 
                     MatList.Remove(CurrentItemMat);
 

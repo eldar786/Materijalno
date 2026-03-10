@@ -183,7 +183,7 @@
         <TextBox Grid.Row="4" Text="{Binding CurrentItemMat.Brdok}" KeyDown="TextBox_KeyDown" Grid.Column="4" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="18"  Width="120"/>
 
         <Label Grid.Row="5" Grid.Column="0" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="18">Red.br</Label>
-        <TextBox Grid.Row="5" Text="{Binding CurrentItemMat.Redbr}" KeyDown="TextBox_KeyDown" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="18"  Width="170"/>
+        <TextBox Grid.Row="5" Text="{Binding CurrentItemMat.Redbr, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" KeyDown="TextBox_KeyDown" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="18"  Width="170"/>
 
         <Label Grid.Row="5" Grid.Column="2" Margin="-50,0,0,0"  VerticalAlignment="Center" FontSize="18">Šifra materijala</Label>
         <!--treba otvorit tabelu-->
@@ -266,8 +266,8 @@
 
                 <Button x:Name="btnPrvi" Content="Prvi" FontSize="18" Width="110" Margin="80,5,-60,5"  Command="{Binding PrviButtonCommand}" Visibility="{Binding Path=VidljivoOdabirVrsteIncidenta}"/>
                 <Button x:Name="btnZadnji" FontSize="18" Content="Zadnji" Width="110" Margin="20,5,-60,5" Grid.Column="1" Command="{Binding ZadnjiButtonCommand}" Visibility="{Binding Path=VidljivoOdabirVrsteIncidenta}"/>
-                <Button x:Name="btnTrazi" Content="Traži" FontSize="18" Width="110" Margin="25,5,0,5" HorizontalAlignment="Left" Command="{Binding TraziSifruMaterijalaCommand}" Visibility="{Binding Path=VidljivoOdabirVrsteIncidenta}"/>
-                <Button x:Name="btnNovaMedjuskladisnica" Content="Nova međuskladišnica" FontSize="18" Width="190" Margin="-15,5,0,5" HorizontalAlignment="Left" Command="{Binding NovaMedjuskladisnicaCommand}" Visibility="{Binding Path=VidljivoOdabirVrsteIncidenta}"/>
+                <Button x:Name="btnTrazi" Content="Traži" FontSize="18" Width="110" Margin="25,5,0,5" HorizontalAlignment="Left" Command="{Binding TraziSifruMaterijalaCommand}"/>
+                <Button x:Name="btnNovaMedjuskladisnica" Content="Nova međuskladišnica" FontSize="18" Width="190" Margin="-15,5,0,5" HorizontalAlignment="Left" Command="{Binding NovaMedjuskladisnicaCommand}" />
                 <Button x:Name="btnSnimi" Content="Snimi" FontSize="18" Width="140" Margin="0,0,0,0" HorizontalAlignment="Left" Command="{Binding SpasiNovuKalkulacijuCommand}" />
                 <!--<Button x:Name="btnStampa1" Content="Štampa " FontSize="18" Width="155" Margin="-40,0,0,0" HorizontalAlignment="Left" Command="{Binding PrintCommand}" />-->
                 <!--<Button x:Name="btnKrajFakture" Content="Kraj međ." FontSize="18" Width="130" Margin="-15,5,0,5" HorizontalAlignment="Left" Command="{Binding KrajMedjuskladisniceCommand}" Visibility="{Binding Path=VidljivoOdabirVrsteIncidenta}"/>-->
@@ -317,10 +317,11 @@
                     </Style>
                 </WrapPanel.Resources>
                 <Button x:Name="btnNovaStavka" Content="Nova stavka" FontSize="18" Width="130" Margin="5,5,0,5" HorizontalAlignment="Left" Command="{Binding NovaStavkaCommand}" IsEnabled="False"/>
-                <Button x:Name="btnSlijedecaStavka" Content="Slij. stavka" FontSize="18" Width="130" Margin="5,5,0,5" HorizontalAlignment="Left" Command="{Binding NextButtonCommand}" IsEnabled="False"/>
+                <Button x:Name="btnSlijedecaStavka" Content="Slij. stavka" FontSize="18" Width="130" Margin="5,5,0,5" HorizontalAlignment="Left" Command="{Binding SlijStavkaButtonCommand}" />
                 <Button x:Name="btnBrisanje" Content="Brisanje" FontSize="18" Width="100" Margin="5,5,0,5" HorizontalAlignment="Left" Command="{Binding BrisanjeCommand}" Visibility="{Binding Path=VidljivoOdabirVrsteIncidenta}"/>
                 <Button x:Name="btnOdustani" Content="Odustani" FontSize="18" Width="110" Margin="5,5,0,5" HorizontalAlignment="Left" Command="{Binding OdustaniCommand}" Visibility="{Binding Path=VidljivoOdabirVrsteIncidenta}"/>
-                <Button x:Name="btnIzlaz" Content="Izlaz" FontSize="18" Width="110" Margin="5,5,0,5" HorizontalAlignment="Left" Command="{Binding IzlazCommand}" Visibility="{Binding Path=VidljivoOdabirVrsteIncidenta}"/>
+                <!--<Button x:Name="btnIzlaz" Content="Izlaz" FontSize="18" Width="110" Margin="5,5,0,5" HorizontalAlignment="Left" Command="{Binding IzlazCommand}" Visibility="{Binding Path=VidljivoOdabirVrsteIncidenta}"/>-->
+                <Button x:Name="btnIzlaz" Content="Izlaz" FontSize="18" Width="110" Margin="5,5,0,5" HorizontalAlignment="Left" Command="{Binding IzlazCommand}" IsEnabled="True" />
             </WrapPanel>
         </Grid>
     </Grid>

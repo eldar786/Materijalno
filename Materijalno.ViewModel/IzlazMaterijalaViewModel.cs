@@ -502,7 +502,6 @@ namespace Materijalno.ViewModel
                     System.Windows.MessageBox.Show("Došli ste do zadnjeg podatka", "Upozorenje", MessageBoxButton.OK, MessageBoxImage.Information);
 
                     //UpdateCurrentItemDataPovrat(dbContext);
-                    System.Windows.MessageBox.Show("Došli ste do zadnjeg podatka", "Upozorenje", MessageBoxButton.OK, MessageBoxImage.Information);
 
                     return;
                 }
@@ -713,11 +712,18 @@ namespace Materijalno.ViewModel
             ).Select(x => x.Brfak)
             .FirstOrDefault();
 
-            var parts = posljednjiBrfak.Split('-');
-            if (parts.Length == 2 && int.TryParse(parts[1], out int number)) // Parsiraj drugi dio (poslije -)
+            if (posljednjiBrfak != null)
             {
-                number++; // Povecaj za jedan
-                posljednjiBrfak = $"{parts[0]}-{number}"; // Dodaj dvije cjeline u posljednjiBrfak
+                var parts = posljednjiBrfak.Split('-');
+                if (parts.Length == 2 && int.TryParse(parts[1], out int number)) // Parsiraj drugi dio (poslije -)
+                {
+                    number++; // Povecaj za jedan
+                    posljednjiBrfak = $"{parts[0]}-{number}"; // Dodaj dvije cjeline u posljednjiBrfak
+                }
+            }
+            else
+            {
+                posljednjiBrfak = "61-1";
             }
             //Stavili smo if, jer pada kada brisemo, CurrentItemMat.Brfak bude null
             //if (CurrentItemMat.Brfak != null)
@@ -964,8 +970,14 @@ namespace Materijalno.ViewModel
                     UpdateCommands();
                     //Prije odustajanja dohvati zadnji index, da bi mogao vratiti u pogledu, da ne ide na pocetak??
 
-                    dbContext.Mat.Remove(CurrentItemMat);
-                    dbContext.SaveChanges();
+                    var matForDelete = dbContext.Mat
+                .FirstOrDefault(x => x.Id == CurrentItemMat.Id);
+
+                    if (matForDelete != null)
+                    {
+                        dbContext.Mat.Remove(matForDelete);
+                        dbContext.SaveChanges();
+                    }
 
                     MatList.Remove(CurrentItemMat);
 
@@ -973,7 +985,7 @@ namespace Materijalno.ViewModel
 
                     CurrentItemMat = null;
 
-                    _gvm.OdabraniVM = new IzlazMaterijalaViewModel(_gvm);
+                    _gvm.OdabraniVM = new MedjuskladisnicaViewModel(_gvm);
                 }
                 else if (resultMessageBox == MessageBoxResult.No)
                 {
