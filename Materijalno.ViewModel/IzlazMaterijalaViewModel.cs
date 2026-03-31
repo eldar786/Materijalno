@@ -625,6 +625,11 @@ namespace Materijalno.ViewModel
                     .FirstOrDefault();
                 }
 
+                if (ValidacijaZaliheMaterijala() == false)
+                {
+                    return;
+                }
+
                 dbContext.Update(CurrentItemMat);
                 dbContext.SaveChanges();
 
@@ -881,13 +886,6 @@ namespace Materijalno.ViewModel
                     .FirstOrDefault();
                 }
 
-                if (ValidacijaZaliheMaterijala() == false)
-                {
-                    return;
-                }
-
-                //Pc stanje + Ulazi + Izlazi (to je stvarno stanje) ako je novi izlaz veci od stavrnog stanja onda treba da izbaci gresku poruku
-
                 //Ako validacija ne prodje, tj. ako fali neko polje
                 if (ValidacijaSpasi() == false)
                 {
@@ -895,6 +893,15 @@ namespace Materijalno.ViewModel
 
                     return;
                 }
+
+                if (ValidacijaZaliheMaterijala() == false)
+                {
+                    return;
+                }
+
+                //Pc stanje + Ulazi + Izlazi (to je stvarno stanje) ako je novi izlaz veci od stavrnog stanja onda treba da izbaci gresku poruku
+
+               
 
                 dbContext.Update(CurrentItemMat);
                 dbContext.SaveChanges();

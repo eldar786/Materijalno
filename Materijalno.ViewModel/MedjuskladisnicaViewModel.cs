@@ -747,6 +747,20 @@ namespace Materijalno.ViewModel
                     .FirstOrDefault();
                 }
 
+                //Provjeriti
+                if (ValidacijaZaliheMaterijala() == false)
+                {
+                    return;
+                }
+
+                //Ako validacija ne prodje, tj. ako fali neko polje
+                if (ValidacijaSpasi() == false)
+                {
+                    System.Windows.MessageBox.Show("Molimo unesite sva polja!", "Upozorenje", MessageBoxButton.OK, MessageBoxImage.Warning);
+
+                    return;
+                }
+
                 dbContext.Update(CurrentItemMat);
                 dbContext.SaveChanges();
 
