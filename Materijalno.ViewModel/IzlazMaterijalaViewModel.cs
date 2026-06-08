@@ -287,7 +287,8 @@ namespace Materijalno.ViewModel
 
             BrojKalkulacijeCommand = new RelayCommand(BrojKalkulacije);
             OtvoriKomitentListuCommand = new RelayCommand(OtvoriKomitentListu);
-            SlijStavkaButtonCommand = new RelayCommand(SlijStavkaButton, () => !IsNovaKalkulacijaClicked);
+            SlijStavkaButtonCommand = new RelayCommand(SlijStavkaButton);
+
             #endregion
 
             UpdateCommands();

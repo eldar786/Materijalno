@@ -55,11 +55,11 @@ namespace Materijalno.ViewModel
             OdaberiMatCommand = new RelayCommand(OdaberiMat);
         }
         
-        public MatListaViewModel(IzlazMaterijalaViewModel ilazMaterijalaViewModel, GlavniViewModel glavniViewModel)
+        public MatListaViewModel(IzlazMaterijalaViewModel izlazMaterijalaViewModel, GlavniViewModel glavniViewModel)
         {
-            MatList = ilazMaterijalaViewModel.MatList;
+            MatList = izlazMaterijalaViewModel.MatList;
             _gvm = glavniViewModel;
-            CurrentItemMat = ilazMaterijalaViewModel.CurrentItemMat;
+            CurrentItemMat = izlazMaterijalaViewModel.CurrentItemMat;
             OdaberiMatCommand = new RelayCommand(OdaberiMatIzlaz);
         }
         

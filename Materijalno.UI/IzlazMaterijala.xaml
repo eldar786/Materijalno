@@ -177,13 +177,16 @@
 
         <Label Grid.Row="5" Grid.Column="2" Margin="-125,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="18">Šifra materijala</Label>
 
-        <TextBox Grid.Row="5" Text="{Binding CurrentItemMat.Ident}" Grid.Column="3" Margin="-270,0,0,0" KeyDown="TextBox_KeyDown"  VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="18"  Width="120">
-            <i:Interaction.Triggers>
-                <i:EventTrigger EventName="LostFocus">
-                    <i:InvokeCommandAction Command="{Binding OsvjeziCommand}" />
-                </i:EventTrigger>
-            </i:Interaction.Triggers>
-        </TextBox>
+        <!-- Ensure the source (CurrentItemMat.Ident) is updated as the user types so
+             the LostFocus trigger will see the latest value when invoking the command. -->
+        <TextBox Grid.Row="5" Grid.Column="3" Margin="-270,0,0,0" KeyDown="TextBox_KeyDown" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="18" Width="120"
+                 Text="{Binding CurrentItemMat.Ident, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" >
+             <i:Interaction.Triggers>
+                 <i:EventTrigger EventName="LostFocus">
+                     <i:InvokeCommandAction Command="{Binding OsvjeziCommand}" />
+                 </i:EventTrigger>
+             </i:Interaction.Triggers>
+         </TextBox>
         <TextBox Grid.Row="5" Text="{Binding CurrentItemTabMaterijala.Nazmat}" IsReadOnly="True" Grid.Column="4" Margin="-370,0,0,0" KeyDown="TextBox_KeyDown"  VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="18"  Width="400" IsEnabled="False"/>
 
         <Label Grid.Row="6" Grid.Column="1" KeyDown="TextBox_KeyDown"  HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="18">Ekonomska jedinica</Label>
@@ -281,6 +284,7 @@
                         <Setter Property="Background" Value="#DDEAFB"/>
                         <Setter Property="Foreground" Value="#2D2D2D"/>
                         <Setter Property="BorderBrush" Value="#B0C7E3"/>
+                        
                         <Setter Property="BorderThickness" Value="1.5"/>
                         <Setter Property="FontWeight" Value="SemiBold"/>
                         <Setter Property="Height" Value="45"/>
@@ -311,7 +315,7 @@
                         </Style.Triggers>
                     </Style>
                 </StackPanel.Resources>
-                <Button x:Name="btnSlijedecaStavka" FontSize="18" Width="130" Margin="5,5,0,5" HorizontalAlignment="Left" Content="Slij. stavka"  Command="{Binding SlijStavkaButtonCommand}" />
+                <Button x:Name="btnSlijedecaStavka" FontSize="18" Width="130" Margin="5,5,0,5" HorizontalAlignment="Left" Content="Slij. stavka"  Command="{Binding SlijStavkaButtonCommand}" IsEnabled="True"/>
                 <Button x:Name="btnNovaStavka" Content="Nova stavka" FontSize="18" Width="130" Margin="5,5,0,5" HorizontalAlignment="Left" Command="{Binding NovaStavkaCommand}" IsEnabled="False" />
                 <Button x:Name="btnIzmjenaStavka" FontSize="18" Width="130" Margin="5,5,0,5" HorizontalAlignment="Left"  Content="Izmjena" Command="{Binding UpdateCommand}" />
                 <Button Content="Odustani" FontSize="18" Width="110" Margin="5,5,0,5" HorizontalAlignment="Left" Command="{Binding OdustaniCommand}" />

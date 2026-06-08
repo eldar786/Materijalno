@@ -255,7 +255,7 @@ namespace Materijalno.ViewModel
             //PrintFullCommand = new RelayCommand(PrintFull);
 
             OtvoriKomitentListuCommand = new RelayCommand(OtvoriKomitentListu);
-            SlijStavkaButtonCommand = new RelayCommand(SlijStavkaButton, () => IsNovaKalkulacijaClicked);
+            SlijStavkaButtonCommand = new RelayCommand(SlijStavkaButton);
             IzlazCommand = new RelayCommand(Izlaz, () => isIzlazEnable);
             #endregion
 
