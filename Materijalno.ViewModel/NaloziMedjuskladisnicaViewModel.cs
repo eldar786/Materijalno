@@ -61,6 +61,17 @@ namespace Materijalno.ViewModel
                                .OrderBy(row => row.Datun)
                                .ToList());
 
+            if (MatListZaFormiranje.Count == 0)
+            {
+                System.Windows.MessageBox.Show(
+                    "Broj Međuskladišnice ne postoji.",
+                    "Upozorenje",
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Warning);
+
+                return;
+            }
+
             NalMatList = new ObservableCollection<Nalmat>(dbContext.Nalmat.ToList());
 
             //Ako lista nije prazna onda trazi najveci broj u koloni "Bronsta"

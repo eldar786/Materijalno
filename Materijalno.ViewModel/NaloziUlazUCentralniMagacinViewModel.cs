@@ -48,9 +48,20 @@ namespace Materijalno.ViewModel
 
             //Prikupimo sve medjuskladisnice iz MAT tabele
             MatListZaFormiranje = new ObservableCollection<Mat>(dbContext.Mat
-                               .Where(row => row.Status == "M" && row.Brfak == BrojMedjuskladisnice)
+                               .Where(row => row.Status == "U" && row.Brfak == BrojMedjuskladisnice)
                                .OrderBy(row => row.Datun)
                                .ToList());
+
+            if (MatListZaFormiranje.Count == 0)
+            {
+                System.Windows.MessageBox.Show(
+                    "Broj Ulaza ne postoji.",
+                    "Upozorenje",
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Warning);
+
+                return;
+            }
 
             NalMatList = new ObservableCollection<Nalmat>(dbContext.Nalmat.ToList());
 
