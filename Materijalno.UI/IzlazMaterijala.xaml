@@ -159,7 +159,7 @@
 
         <Label Grid.Row="2" Grid.Column="0" KeyDown="TextBox_KeyDown"  HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="18">Datum kalkulacije</Label>
 
-        <DatePicker Grid.Row="2" SelectedDate="{Binding CurrentItemMat.Datun, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" PreviewKeyDown="DatePicker_PreviewKeyDown"
+        <DatePicker Grid.Row="2"  SelectedDate="{Binding CurrentItemMat.Datun, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" PreviewKeyDown="DatePicker_PreviewKeyDown"
             Loaded="DatePicker_Loaded" Grid.Column="1"  HorizontalAlignment="Left" Height="30" FontSize="18" Width="120" />
 
         <Label Grid.Row="2" Grid.Column="3" Margin="0,0,100,0" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="18" >Broj kalkulacije</Label>
