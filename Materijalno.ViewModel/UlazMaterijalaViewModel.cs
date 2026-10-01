@@ -625,6 +625,11 @@ namespace Materijalno.ViewModel
 
                 CurrentItemMat.Status = "U";
                 CurrentItemMat.Kljnaz1 = 0;
+                CurrentItemMat.Brnar = "";
+                CurrentItemMat.Konto2 = "";
+                CurrentItemMat.Kontosklad1 = 0;
+
+                
 
                 dbContext.Add(CurrentItemMat);  
                 dbContext.SaveChanges();

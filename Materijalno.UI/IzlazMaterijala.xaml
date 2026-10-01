@@ -20,7 +20,7 @@
 
     </UserControl.Resources>
 
-    <Grid>
+    <Grid Background="AliceBlue">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="*"/>
@@ -169,7 +169,8 @@
         <TextBox Grid.Row="3" Text="{Binding CurrentItemMat.Brdok}" Grid.Column="1" KeyDown="TextBox_KeyDown" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="18"  Width="120"/>
 
         <Label Grid.Row="3" Grid.Column="3" Margin="0,0,100,0" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="18">Datum otpremnice</Label>
-        <DatePicker SelectedDate="{Binding CurrentItemMat.Datnar, UpdateSourceTrigger=PropertyChanged}" Grid.Row="3" Grid.Column="4" Margin="-90,0,0,0" KeyDown="TextBox_KeyDown"  HorizontalAlignment="Left" Height="30" FontSize="18" Width="120" Name="dtpOd1" />
+        <DatePicker SelectedDate="{Binding CurrentItemMat.Datnar, Mode=TwoWay, UpdateSourceTrigger =PropertyChanged}" Grid.Row="3" Grid.Column="4" Margin="-90,0,0,0" PreviewKeyDown="DatePicker_PreviewKeyDown"
+    Loaded="DatePicker_Loaded" HorizontalAlignment="Left" Height="30" FontSize="18" Width="120" Name="dtpOd1" />
 
         <Label Grid.Row="5" Grid.Column="0" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="18">Red.br</Label>
         <TextBox Text="{Binding CurrentItemMat.Redbr, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  Grid.Row="5" Grid.Column="1" KeyDown="TextBox_KeyDown"  VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="18"  Width="120">
@@ -197,7 +198,7 @@
         <TextBox Grid.Row="6" Text="{Binding CurrentItemMat.Mjtst,TargetNullValue='000000'}" Grid.Column="4" Margin="-90,0,0,0" KeyDown="TextBox_KeyDown"  VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="18"  Width="120"/>
 
         <Label Grid.Row="7" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="18">Količina</Label>
-        <TextBox Grid.Row="7" Text="{Binding CurrentItemMat.Kolic, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, TargetNullValue='0,00', ConverterCulture='de-DE'}" Grid.Column="2" KeyDown="TextBox_KeyDown"  VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="18"  Width="120">
+        <TextBox Grid.Row="7" Text="{Binding CurrentItemMat.Kolic, UpdateSourceTrigger=LostFocus, StringFormat=N2, Mode=TwoWay, ConverterCulture='de-DE'}" Grid.Column="2" KeyDown="TextBox_KeyDown"  VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="18"  Width="120">
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="LostFocus">
                     <i:InvokeCommandAction Command="{Binding NabavnaCijenaCommand}" />

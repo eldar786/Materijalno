@@ -394,10 +394,10 @@ namespace Materijalno.ViewModel
             var dbContext = new materijalno_knjigovodstvoContext();
 
             // Kljnaz kolona
-            int? maxValue_Skladiste = dbContext.Mat
+            int? maxValue_Skladiste = dbContext.SifarnikSkladista
                 .Max(row => row.Kljnaz);
 
-            int? minValue_Skladiste = dbContext.Mat
+            int? minValue_Skladiste = dbContext.SifarnikSkladista
                 .Min(row => row.Kljnaz);
 
             // Kljnaz1 kolona
@@ -895,6 +895,12 @@ namespace Materijalno.ViewModel
             {
                 CurrentItemMat.Ourst = 000;
                 CurrentItemMat.Mjtst = 000000;
+            }
+
+            else if (CurrentItemMat.Vrijed == null || CurrentItemMat.Nc == null)
+            {
+                CurrentItemMat.Vrijed = 0;
+                CurrentItemMat.Nc = 0;
             }
 
             //Ovo smo morali rucno za sada, dok se ne uradi validacija u xamlu

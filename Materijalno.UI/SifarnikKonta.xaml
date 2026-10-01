@@ -9,107 +9,656 @@
              d:DesignHeight="450" d:DesignWidth="900">
 
     <UserControl.Resources>
+
         <DataTemplate DataType="{x:Type vm:SifarnikKontaViewModel}">
             <local:SifarnikKonta/>
         </DataTemplate>
+
+
+        <!-- COLORS -->
+        <SolidColorBrush x:Key="PageBackgroundBrush" Color="#F4F7FB"/>
+        <SolidColorBrush x:Key="CardBackgroundBrush" Color="#FFFFFF"/>
+
+        <SolidColorBrush x:Key="PrimaryBrush" Color="#2563EB"/>
+        <SolidColorBrush x:Key="PrimaryHoverBrush" Color="#1D4ED8"/>
+        <SolidColorBrush x:Key="PrimaryPressedBrush" Color="#1E40AF"/>
+        <SolidColorBrush x:Key="PrimaryLightBrush" Color="#EEF5FF"/>
+
+        <SolidColorBrush x:Key="TextPrimaryBrush" Color="#1F2937"/>
+        <SolidColorBrush x:Key="TextSecondaryBrush" Color="#667085"/>
+
+        <SolidColorBrush x:Key="BorderBrushLight" Color="#E4E7EC"/>
+        <SolidColorBrush x:Key="HoverBrush" Color="#F7FAFC"/>
+
+        <SolidColorBrush x:Key="DangerLightBrush" Color="#FFF1F1"/>
+        <SolidColorBrush x:Key="DangerBorderBrush" Color="#F0B4B4"/>
+        <SolidColorBrush x:Key="DangerBrush" Color="#E5484D"/>
+
+
+        <!-- NORMAL ACTION BUTTON -->
+        <Style x:Key="ActionButtonStyle"
+           TargetType="Button">
+
+            <Setter Property="Width" Value="44"/>
+            <Setter Property="Height" Value="44"/>
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="BorderBrush" Value="{StaticResource BorderBrushLight}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Padding" Value="8"/>
+
+            <Setter Property="Template">
+                <Setter.Value>
+
+                    <ControlTemplate TargetType="Button">
+
+                        <Border x:Name="ButtonBorder"
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            CornerRadius="8">
+
+                            <ContentPresenter
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"/>
+
+                        </Border>
+
+                        <ControlTemplate.Triggers>
+
+                            <Trigger Property="IsMouseOver" Value="True">
+
+                                <Setter TargetName="ButtonBorder"
+                                    Property="Background"
+                                    Value="#F2F6FC"/>
+
+                                <Setter TargetName="ButtonBorder"
+                                    Property="BorderBrush"
+                                    Value="#98A2B3"/>
+
+                            </Trigger>
+
+                            <Trigger Property="IsPressed" Value="True">
+
+                                <Setter TargetName="ButtonBorder"
+                                    Property="Background"
+                                    Value="#E8EEF7"/>
+
+                            </Trigger>
+
+                            <Trigger Property="IsEnabled" Value="False">
+
+                                <Setter Property="Opacity"
+                                    Value="0.45"/>
+
+                            </Trigger>
+
+                        </ControlTemplate.Triggers>
+
+                    </ControlTemplate>
+
+                </Setter.Value>
+            </Setter>
+
+        </Style>
+
+
+        <!-- DELETE BUTTON -->
+        <Style x:Key="DeleteActionButtonStyle"
+           TargetType="Button"
+           BasedOn="{StaticResource ActionButtonStyle}">
+
+            <Setter Property="BorderBrush"
+                Value="{StaticResource DangerBorderBrush}"/>
+
+            <Setter Property="Template">
+                <Setter.Value>
+
+                    <ControlTemplate TargetType="Button">
+
+                        <Border x:Name="DeleteBorder"
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            CornerRadius="8">
+
+                            <ContentPresenter
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"/>
+
+                        </Border>
+
+                        <ControlTemplate.Triggers>
+
+                            <Trigger Property="IsMouseOver" Value="True">
+
+                                <Setter TargetName="DeleteBorder"
+                                    Property="Background"
+                                    Value="{StaticResource DangerLightBrush}"/>
+
+                                <Setter TargetName="DeleteBorder"
+                                    Property="BorderBrush"
+                                    Value="{StaticResource DangerBrush}"/>
+
+                            </Trigger>
+
+                            <Trigger Property="IsPressed" Value="True">
+
+                                <Setter TargetName="DeleteBorder"
+                                    Property="Background"
+                                    Value="#FFE4E4"/>
+
+                            </Trigger>
+
+                            <Trigger Property="IsEnabled" Value="False">
+
+                                <Setter Property="Opacity"
+                                    Value="0.45"/>
+
+                            </Trigger>
+
+                        </ControlTemplate.Triggers>
+
+                    </ControlTemplate>
+
+                </Setter.Value>
+            </Setter>
+
+        </Style>
+
+
+        <!-- PRIMARY ADD BUTTON -->
+        <Style x:Key="PrimaryActionButtonStyle"
+           TargetType="Button">
+
+            <Setter Property="Width" Value="44"/>
+            <Setter Property="Height" Value="44"/>
+            <Setter Property="Background"
+                Value="{StaticResource PrimaryBrush}"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Padding" Value="8"/>
+
+            <Setter Property="Template">
+                <Setter.Value>
+
+                    <ControlTemplate TargetType="Button">
+
+                        <Border x:Name="PrimaryBorder"
+                            Background="{TemplateBinding Background}"
+                            CornerRadius="8">
+
+                            <ContentPresenter
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"/>
+
+                        </Border>
+
+                        <ControlTemplate.Triggers>
+
+                            <Trigger Property="IsMouseOver"
+                                 Value="True">
+
+                                <Setter TargetName="PrimaryBorder"
+                                    Property="Background"
+                                    Value="{StaticResource PrimaryHoverBrush}"/>
+
+                            </Trigger>
+
+                            <Trigger Property="IsPressed"
+                                 Value="True">
+
+                                <Setter TargetName="PrimaryBorder"
+                                    Property="Background"
+                                    Value="{StaticResource PrimaryPressedBrush}"/>
+
+                            </Trigger>
+
+                            <Trigger Property="IsEnabled"
+                                 Value="False">
+
+                                <Setter Property="Opacity"
+                                    Value="0.45"/>
+
+                            </Trigger>
+
+                        </ControlTemplate.Triggers>
+
+                    </ControlTemplate>
+
+                </Setter.Value>
+            </Setter>
+
+        </Style>
+
+
+        <!-- EDIT BUTTON INSIDE TABLE -->
+        <Style x:Key="TableIconButtonStyle"
+           TargetType="Button">
+
+            <Setter Property="Width" Value="34"/>
+            <Setter Property="Height" Value="34"/>
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Padding" Value="6"/>
+
+            <Setter Property="Template">
+                <Setter.Value>
+
+                    <ControlTemplate TargetType="Button">
+
+                        <Border x:Name="TableButtonBorder"
+                            Background="{TemplateBinding Background}"
+                            CornerRadius="6">
+
+                            <ContentPresenter
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"/>
+
+                        </Border>
+
+                        <ControlTemplate.Triggers>
+
+                            <Trigger Property="IsMouseOver"
+                                 Value="True">
+
+                                <Setter TargetName="TableButtonBorder"
+                                    Property="Background"
+                                    Value="{StaticResource PrimaryLightBrush}"/>
+
+                            </Trigger>
+
+                            <Trigger Property="IsPressed"
+                                 Value="True">
+
+                                <Setter TargetName="TableButtonBorder"
+                                    Property="Background"
+                                    Value="#DCE9FF"/>
+
+                            </Trigger>
+
+                        </ControlTemplate.Triggers>
+
+                    </ControlTemplate>
+
+                </Setter.Value>
+            </Setter>
+
+        </Style>
+
+
+        <!-- GRIDVIEW HEADER -->
+        <Style TargetType="{x:Type GridViewColumnHeader}">
+
+            <Setter Property="Height" Value="42"/>
+            <Setter Property="Background" Value="#F8FAFC"/>
+            <Setter Property="Foreground" Value="#344054"/>
+            <Setter Property="FontFamily" Value="Segoe UI"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="FontSize" Value="13.5"/>
+
+            <Setter Property="BorderBrush"
+                Value="{StaticResource BorderBrushLight}"/>
+
+            <Setter Property="BorderThickness"
+                Value="0,0,1,1"/>
+
+            <Setter Property="HorizontalContentAlignment"
+                Value="Left"/>
+
+            <Setter Property="Padding"
+                Value="14,0"/>
+
+            <Setter Property="Template">
+                <Setter.Value>
+
+                    <ControlTemplate TargetType="{x:Type GridViewColumnHeader}">
+
+                        <Border
+                        Background="{TemplateBinding Background}"
+                        BorderBrush="{TemplateBinding BorderBrush}"
+                        BorderThickness="{TemplateBinding BorderThickness}">
+
+                            <ContentPresenter
+                            Margin="{TemplateBinding Padding}"
+                            VerticalAlignment="Center"
+                            HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"/>
+
+                        </Border>
+
+                    </ControlTemplate>
+
+                </Setter.Value>
+            </Setter>
+
+        </Style>
+
     </UserControl.Resources>
 
-    <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
-        </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
 
-            <RowDefinition/>
-            <RowDefinition/>
+    <Grid Background="{StaticResource PageBackgroundBrush}">
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
-        <TextBlock Text="ŠIFARNIK KONTA" FontSize="18" Margin="450,0,0,0" FontWeight="Bold" Grid.Column="0" Grid.ColumnSpan="4" VerticalAlignment="Center" HorizontalAlignment="Center" />
 
-        <Border Background="AliceBlue" Grid.Row="1" Grid.RowSpan="10" Grid.Column="0" Grid.ColumnSpan="6"/>
-        
-        <!--<Border Background="AliceBlue" BorderBrush="Silver" BorderThickness="1,0,1,1" Grid.Row="1" Grid.RowSpan="10" Grid.Column="0" Grid.ColumnSpan="6"/>
-        <Label Content="{Binding Path=OdabranaOpcija, FallbackValue='odabrana_opcija'}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center"  VerticalAlignment="Center" Foreground="Black" FontSize="14" FontWeight="Bold" Height="34" Margin="0,-30,-128,28" Grid.Column="1" Grid.Row="1"/>-->
+        <!-- ====================================================== -->
+        <!-- HEADER                                                 -->
+        <!-- ====================================================== -->
 
-        <!--<Label Grid.Row="1" Grid.Column="1" Margin="40,0,0,0" VerticalAlignment="Center" FontSize="18">Sort:</Label>
-        <ComboBox Grid.Row="1" Grid.Column="2" Margin="-140,0,140,0" VerticalAlignment="Center" Height="30"/>-->
+        <Grid Grid.Row="0"
+          Margin="30,24,30,20">
 
-        <!--<Label Grid.Row="1" Grid.Column="3" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="18" >Filter:</Label>
-        <RadioButton Grid.Row="1" Grid.Column="4" Margin="0,20,0,16" Content="Iskljucen"/>
-        <RadioButton Grid.Row="1"  Grid.Column="4" Content="Ukljucen" Margin="0,60,0,46" Grid.RowSpan="2"/>-->
-
-        <Button Background="White" Grid.Row="1" Grid.Column="4" x:Name="btnStampa"  FontSize="18" Width="50" Margin="200,5,0,20" HorizontalAlignment="Left" Click="stampa_button">
-            <Image Source="/Ikone/printer.png" Stretch="Uniform"/>
-            <Button.ToolTip>
-                <ToolTip Content="Print"/>
-            </Button.ToolTip>
-        </Button>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
 
 
-        <ListView Grid.Row="2" FontSize="18" Grid.RowSpan="4" Grid.Column="1" Grid.ColumnSpan="4" Name="GrKomitenti" ItemsSource="{Binding SifarnikKontaList}" SelectedValue="{Binding SelectedSifarnikKonta}">
-            <ListView.View>
-                <GridView>
-                    <GridViewColumn  Width="50">
-                        <GridViewColumn.CellTemplate>
-                            <DataTemplate>
-                                <Button Background="White" Command="{Binding DataContext.IzmjenaSifarnikKontaFormCommand, RelativeSource={RelativeSource AncestorType={x:Type ListView}}}" HorizontalAlignment="Center">
-                                    <Image Source="/Ikone/uredi3.png" Width="35" Height="34"/>
-                                    <Button.ToolTip>
-                                        <ToolTip Content="Uredi"/>
-                                    </Button.ToolTip>
-                                </Button>
-                            </DataTemplate>
-                        </GridViewColumn.CellTemplate>
-                    </GridViewColumn>
-                    
-                    <GridViewColumn Header="Sifkonta" DisplayMemberBinding="{Binding Sifkonta}" 
-                                    Width="150"></GridViewColumn>
-                    <GridViewColumn Header="Nazkonta" DisplayMemberBinding="{Binding Nazkont}" 
-                                    Width="360"></GridViewColumn>
-                </GridView>
-            </ListView.View>
-        </ListView>
+            <StackPanel Grid.Column="0"
+                    VerticalAlignment="Center">
 
-        <Grid Grid.Row="6" Grid.Column="3" Grid.ColumnSpan="4" HorizontalAlignment="Center" VerticalAlignment="Center">
-            <StackPanel Orientation="Horizontal" VerticalAlignment="Top" Grid.ColumnSpan="1">
-                <Button Background="White" x:Name="btnIzmjena" Command="{Binding IzmjenaSifarnikKontaFormCommand}" FontSize="18" Width="50"  Margin="0,0,20,0" Grid.Column="1" HorizontalAlignment="Left">
-                    <Image Source="/Ikone/uredi3.png" Stretch="Uniform"/>
+                <TextBlock
+                Text="ŠIFARNIK KONTA"
+                FontFamily="Segoe UI"
+                FontSize="22"
+                FontWeight="SemiBold"
+                Foreground="{StaticResource TextPrimaryBrush}"/>
+
+                <TextBlock
+                Text="Pregled i upravljanje kontima"
+                Margin="0,4,0,0"
+                FontFamily="Segoe UI"
+                FontSize="12.5"
+                Foreground="{StaticResource TextSecondaryBrush}"/>
+
+            </StackPanel>
+
+
+            <!-- PRINT -->
+            <Button
+            Grid.Column="1"
+            x:Name="btnStampa"
+            Style="{StaticResource ActionButtonStyle}"
+            Click="stampa_button"
+            VerticalAlignment="Center">
+
+                <Image
+                Source="/Ikone/printer.png"
+                Width="22"
+                Height="22"
+                Stretch="Uniform"/>
+
+                <Button.ToolTip>
+                    <ToolTip Content="Print"/>
+                </Button.ToolTip>
+
+            </Button>
+
+        </Grid>
+
+
+        <!-- ====================================================== -->
+        <!-- TABLE CARD                                             -->
+        <!-- ====================================================== -->
+
+        <Border
+        Grid.Row="1"
+        Margin="30,0,30,0"
+        Background="{StaticResource CardBackgroundBrush}"
+        BorderBrush="{StaticResource BorderBrushLight}"
+        BorderThickness="1"
+        CornerRadius="10"
+        SnapsToDevicePixels="True">
+
+
+            <ListView
+            Name="GrKomitenti"
+            ItemsSource="{Binding SifarnikKontaList}"
+            SelectedValue="{Binding SelectedSifarnikKonta}"
+            Background="White"
+            BorderThickness="0"
+            FontFamily="Segoe UI"
+            FontSize="15"
+            Foreground="{StaticResource TextPrimaryBrush}"
+            HorizontalContentAlignment="Stretch"
+            ScrollViewer.HorizontalScrollBarVisibility="Auto"
+            ScrollViewer.VerticalScrollBarVisibility="Auto">
+
+
+                <!-- ROW STYLE -->
+                <ListView.ItemContainerStyle>
+
+                    <Style TargetType="ListViewItem">
+
+                        <Setter Property="HorizontalContentAlignment"
+                            Value="Stretch"/>
+
+                        <Setter Property="VerticalContentAlignment"
+                            Value="Center"/>
+
+                        <Setter Property="Padding"
+                            Value="0"/>
+
+                        <Setter Property="Margin"
+                            Value="0"/>
+
+                        <Setter Property="MinHeight"
+                            Value="46"/>
+
+                        <Setter Property="Background"
+                            Value="White"/>
+
+                        <Setter Property="BorderBrush"
+                            Value="#EEF1F4"/>
+
+                        <Setter Property="BorderThickness"
+                            Value="0,0,0,1"/>
+
+
+                        <Setter Property="Template">
+                            <Setter.Value>
+
+                                <ControlTemplate TargetType="ListViewItem">
+
+                                    <Border
+                                    x:Name="RowBorder"
+                                    Background="{TemplateBinding Background}"
+                                    BorderBrush="{TemplateBinding BorderBrush}"
+                                    BorderThickness="{TemplateBinding BorderThickness}">
+
+                                        <GridViewRowPresenter
+                                        Content="{TemplateBinding Content}"
+                                        Columns="{TemplateBinding GridView.ColumnCollection}"
+                                        HorizontalAlignment="Stretch"
+                                        VerticalAlignment="Center"/>
+
+                                    </Border>
+
+
+                                    <ControlTemplate.Triggers>
+
+                                        <Trigger Property="IsMouseOver"
+                                             Value="True">
+
+                                            <Setter
+                                            TargetName="RowBorder"
+                                            Property="Background"
+                                            Value="{StaticResource HoverBrush}"/>
+
+                                        </Trigger>
+
+
+                                        <Trigger Property="IsSelected"
+                                             Value="True">
+
+                                            <Setter
+                                            TargetName="RowBorder"
+                                            Property="Background"
+                                            Value="{StaticResource PrimaryLightBrush}"/>
+
+                                            <Setter
+                                            Property="Foreground"
+                                            Value="{StaticResource PrimaryBrush}"/>
+
+                                        </Trigger>
+
+                                    </ControlTemplate.Triggers>
+
+                                </ControlTemplate>
+
+                            </Setter.Value>
+                        </Setter>
+
+                    </Style>
+
+                </ListView.ItemContainerStyle>
+
+
+                <!-- ================================================== -->
+                <!-- COLUMNS                                            -->
+                <!-- ================================================== -->
+
+                <ListView.View>
+
+                    <GridView>
+
+
+                        <!-- EDIT BUTTON -->
+                        <GridViewColumn Width="60">
+
+                            <GridViewColumn.CellTemplate>
+
+                                <DataTemplate>
+
+                                    <Button
+                                    Style="{StaticResource TableIconButtonStyle}"
+                                    Command="{Binding DataContext.IzmjenaSifarnikKontaFormCommand,
+                                                      RelativeSource={RelativeSource AncestorType={x:Type ListView}}}"
+                                    HorizontalAlignment="Center">
+
+                                        <Image
+                                        Source="/Ikone/uredi3.png"
+                                        Width="20"
+                                        Height="20"
+                                        Stretch="Uniform"/>
+
+                                        <Button.ToolTip>
+                                            <ToolTip Content="Uredi"/>
+                                        </Button.ToolTip>
+
+                                    </Button>
+
+                                </DataTemplate>
+
+                            </GridViewColumn.CellTemplate>
+
+                        </GridViewColumn>
+
+
+                        <GridViewColumn
+                        Header="Šifra konta"
+                        DisplayMemberBinding="{Binding Sifkonta}"
+                        Width="220"/>
+
+
+                        <GridViewColumn
+                        Header="Naziv konta"
+                        DisplayMemberBinding="{Binding Nazkont}"
+                        Width="520"/>
+
+
+                    </GridView>
+
+                </ListView.View>
+
+            </ListView>
+
+        </Border>
+
+
+        <!-- ====================================================== -->
+        <!-- BOTTOM ACTION BUTTONS                                  -->
+        <!-- ====================================================== -->
+
+        <Grid
+        Grid.Row="2"
+        Margin="30,14,30,24">
+
+            <StackPanel
+            Orientation="Horizontal"
+            HorizontalAlignment="Right">
+
+
+                <!-- EDIT SELECTED -->
+                <Button
+                x:Name="btnIzmjena"
+                Command="{Binding IzmjenaSifarnikKontaFormCommand}"
+                Style="{StaticResource ActionButtonStyle}"
+                Margin="0,0,10,0">
+
+                    <Image
+                    Source="/Ikone/uredi3.png"
+                    Width="22"
+                    Height="22"
+                    Stretch="Uniform"/>
+
                     <Button.ToolTip>
                         <ToolTip Content="Uredi"/>
                     </Button.ToolTip>
+
                 </Button>
 
-                <Button Background="White" x:Name="btnBrisanje" FontSize="18" Width="50" Margin="0,0,20,0" HorizontalAlignment="Left" Command="{Binding DeleteSifarnikKontaCommand}" >
-                    <Image Source="/Ikone/obrisi.png" Stretch="Uniform"/>
+
+                <!-- DELETE -->
+                <Button
+                x:Name="btnBrisanje"
+                Command="{Binding DeleteSifarnikKontaCommand}"
+                Style="{StaticResource DeleteActionButtonStyle}"
+                Margin="0,0,10,0">
+
+                    <Image
+                    Source="/Ikone/obrisi.png"
+                    Width="22"
+                    Height="22"
+                    Stretch="Uniform"/>
+
                     <Button.ToolTip>
                         <ToolTip Content="Obriši"/>
                     </Button.ToolTip>
+
                 </Button>
 
-                <Button Background="White" x:Name="btnUnos" FontSize="18" Width="50"  Margin="0,0,-45,0" HorizontalAlignment="Left" Command="{Binding OpenSifarnikKontaFormCommand, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" >
-                    <Image Source="/Ikone/dodaj.png" Stretch="Uniform"/>
+
+                <!-- ADD -->
+                <Button
+                x:Name="btnUnos"
+                Command="{Binding OpenSifarnikKontaFormCommand,
+                                  Mode=TwoWay,
+                                  UpdateSourceTrigger=PropertyChanged}"
+                Style="{StaticResource PrimaryActionButtonStyle}">
+
+                    <Image
+                    Source="/Ikone/dodaj.png"
+                    Width="22"
+                    Height="22"
+                    Stretch="Uniform"/>
+
                     <Button.ToolTip>
                         <ToolTip Content="Dodaj"/>
                     </Button.ToolTip>
+
                 </Button>
+
+
             </StackPanel>
+
         </Grid>
+
     </Grid>
+
 </UserControl>
