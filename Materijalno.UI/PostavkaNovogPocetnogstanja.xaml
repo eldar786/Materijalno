@@ -9,75 +9,180 @@
              d:DesignHeight="500" d:DesignWidth="900">
 
     <UserControl.Resources>
+
         <DataTemplate DataType="{x:Type vm:PostavkaNovogPocetnogstanjaViewModel}">
             <local:PostavkaNovogPocetnogstanja/>
         </DataTemplate>
+
+
+        <!-- COLORS -->
+        <SolidColorBrush x:Key="PageBackgroundBrush" Color="#F4F7FB"/>
+        <SolidColorBrush x:Key="CardBackgroundBrush" Color="#FFFFFF"/>
+
+        <SolidColorBrush x:Key="PrimaryBrush" Color="#2563EB"/>
+        <SolidColorBrush x:Key="PrimaryHoverBrush" Color="#1D4ED8"/>
+        <SolidColorBrush x:Key="PrimaryPressedBrush" Color="#1E40AF"/>
+
+        <SolidColorBrush x:Key="TextPrimaryBrush" Color="#1F2937"/>
+        <SolidColorBrush x:Key="TextSecondaryBrush" Color="#667085"/>
+
+        <SolidColorBrush x:Key="BorderBrushLight" Color="#D8E0EA"/>
+
+
+        <!-- PRIMARY BUTTON -->
+        <Style x:Key="PrimaryButtonStyle"
+           TargetType="Button">
+
+            <Setter Property="Width" Value="150"/>
+            <Setter Property="Height" Value="44"/>
+            <Setter Property="FontFamily" Value="Segoe UI"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Foreground" Value="White"/>
+
+            <Setter Property="Background"
+                Value="{StaticResource PrimaryBrush}"/>
+
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Cursor" Value="Hand"/>
+
+            <Setter Property="Template">
+                <Setter.Value>
+
+                    <ControlTemplate TargetType="Button">
+
+                        <Border
+                        x:Name="PrimaryBorder"
+                        Background="{TemplateBinding Background}"
+                        CornerRadius="8">
+
+                            <ContentPresenter
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"/>
+
+                        </Border>
+
+                        <ControlTemplate.Triggers>
+
+                            <Trigger Property="IsMouseOver"
+                                 Value="True">
+
+                                <Setter
+                                TargetName="PrimaryBorder"
+                                Property="Background"
+                                Value="{StaticResource PrimaryHoverBrush}"/>
+
+                            </Trigger>
+
+                            <Trigger Property="IsPressed"
+                                 Value="True">
+
+                                <Setter
+                                TargetName="PrimaryBorder"
+                                Property="Background"
+                                Value="{StaticResource PrimaryPressedBrush}"/>
+
+                            </Trigger>
+
+                            <Trigger Property="IsEnabled"
+                                 Value="False">
+
+                                <Setter Property="Opacity"
+                                    Value="0.45"/>
+
+                            </Trigger>
+
+                        </ControlTemplate.Triggers>
+
+                    </ControlTemplate>
+
+                </Setter.Value>
+            </Setter>
+
+        </Style>
+
     </UserControl.Resources>
 
 
-    <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
-        </Grid.ColumnDefinitions>
+    <Grid Background="{StaticResource PageBackgroundBrush}">
+
         <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition/>
         </Grid.RowDefinitions>
 
-        <Border Background="AliceBlue" BorderBrush="Silver" BorderThickness="1,0,1,1" Grid.Row="0" Grid.RowSpan="10" Grid.Column="0" Grid.ColumnSpan="6"/>
 
-        <Label Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="22">FORMIRANJE POČETNOG STANJA</Label>
+        <!-- HEADER -->
+        <StackPanel
+        Grid.Row="0"
+        Margin="24,18,24,18"
+        HorizontalAlignment="Left">
+
+            <TextBlock
+            Text="FORMIRANJE POČETNOG STANJA"
+            FontFamily="Segoe UI"
+            FontSize="22"
+            FontWeight="SemiBold"
+            Foreground="{StaticResource TextPrimaryBrush}"/>
+
+           
+
+        </StackPanel>
 
 
-        <Grid Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="6" HorizontalAlignment="Center" VerticalAlignment="Center">
-            <WrapPanel HorizontalAlignment="Center" VerticalAlignment="Top" ItemWidth="150" ItemHeight="60" Margin="0,3,0,5">
-                <WrapPanel.Resources>
-                    <Style TargetType="Button">
-                        <Setter Property="FontSize" Value="16"/>
-                        <Setter Property="Padding" Value="10,5"/>
-                        <Setter Property="Margin" Value="10,0"/>
-                        <Setter Property="MinWidth" Value="140"/>
-                        <Setter Property="HorizontalAlignment" Value="Center"/>
-                        <Setter Property="Background" Value="#DDEAFB"/>
-                        <Setter Property="Foreground" Value="#2D2D2D"/>
-                        <Setter Property="BorderBrush" Value="#B0C7E3"/>
-                        <Setter Property="BorderThickness" Value="1.5"/>
-                        <Setter Property="FontWeight" Value="SemiBold"/>
-                        <Setter Property="Height" Value="45"/>
-                        <Setter Property="Template">
-                            <Setter.Value>
-                                <ControlTemplate TargetType="Button">
-                                    <Border Background="{TemplateBinding Background}" 
-                                    BorderBrush="{TemplateBinding BorderBrush}" 
-                                    BorderThickness="{TemplateBinding BorderThickness}" 
-                                    CornerRadius="10">
-                                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                    </Border>
-                                </ControlTemplate>
-                            </Setter.Value>
-                        </Setter>
+        <!-- MAIN CARD -->
+        <Border
+        Grid.Row="1"
+        Width="650"
+        HorizontalAlignment="Center"
+        Padding="24"
+        Background="{StaticResource CardBackgroundBrush}"
+        BorderBrush="{StaticResource BorderBrushLight}"
+        BorderThickness="1"
+        CornerRadius="12">
 
-                        <Style.Triggers>
-                            <Trigger Property="IsMouseOver" Value="True">
-                                <Setter Property="Background" Value="#C5DFFA"/>
-                                <Setter Property="BorderBrush" Value="#A5BDD7"/>
-                                <Setter Property="Cursor" Value="Hand"/>
-                            </Trigger>
-                            <Trigger Property="IsEnabled" Value="False">
-                                <Setter Property="Foreground" Value="DarkGray"/>
-                                <Setter Property="Background" Value="Gray"/>
-                                <Setter Property="BorderBrush" Value="DarkGray"/>
-                            </Trigger>
-                        </Style.Triggers>
-                    </Style>
-                </WrapPanel.Resources>
-                <Button x:Name="btnFormiraj" Content="Poč. stanje" FontSize="20" Width="110" Margin="5,5,0,5" HorizontalAlignment="Center" Command="{Binding PocetnoStanjeCommand}" Visibility="{Binding Path=VidljivoOdabirVrsteIncidenta}"/>
-            </WrapPanel>
-        </Grid>
+            <Grid>
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="18"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+
+                <!-- DESCRIPTION -->
+                <StackPanel
+                Grid.Row="0"
+                HorizontalAlignment="Center">
+
+                    
+
+                    <TextBlock
+                    Text="Pokrenite formiranje novog početnog stanja"
+                    Margin="0,4,0,0"
+                    FontFamily="Segoe UI"
+                    FontSize="12"
+                    Foreground="{StaticResource TextSecondaryBrush}"
+                    HorizontalAlignment="Center"/>
+
+                </StackPanel>
+
+
+                <!-- BUTTON -->
+                <Button
+                Grid.Row="2"
+                x:Name="btnFormiraj"
+                Content="Početno stanje"
+                Command="{Binding PocetnoStanjeCommand}"
+                Visibility="{Binding Path=VidljivoOdabirVrsteIncidenta}"
+                Style="{StaticResource PrimaryButtonStyle}"
+                HorizontalAlignment="Center"/>
+
+            </Grid>
+
+        </Border>
+
     </Grid>
+
 </UserControl>

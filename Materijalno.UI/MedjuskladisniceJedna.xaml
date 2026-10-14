@@ -8,47 +8,331 @@
              mc:Ignorable="d" 
              d:DesignHeight="900" d:DesignWidth="1800">
     <UserControl.Resources>
+
         <DataTemplate DataType="{x:Type vm:MedjuskladisniceJednaViewModel}">
             <local:MedjuskladisniceJedna/>
         </DataTemplate>
+
+
+        <!-- COLORS -->
+        <SolidColorBrush x:Key="PageBackgroundBrush" Color="#F4F7FB"/>
+        <SolidColorBrush x:Key="CardBackgroundBrush" Color="#FFFFFF"/>
+
+        <SolidColorBrush x:Key="PrimaryBrush" Color="#2563EB"/>
+        <SolidColorBrush x:Key="PrimaryHoverBrush" Color="#1D4ED8"/>
+        <SolidColorBrush x:Key="PrimaryPressedBrush" Color="#1E40AF"/>
+
+        <SolidColorBrush x:Key="TextPrimaryBrush" Color="#1F2937"/>
+        <SolidColorBrush x:Key="TextSecondaryBrush" Color="#667085"/>
+
+        <SolidColorBrush x:Key="BorderBrushLight" Color="#D8E0EA"/>
+        <SolidColorBrush x:Key="ReadOnlyBackgroundBrush" Color="#F8FAFC"/>
+
+
+        <!-- LABEL -->
+        <Style x:Key="FormLabelStyle"
+           TargetType="TextBlock">
+
+            <Setter Property="FontFamily" Value="Segoe UI"/>
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+
+            <Setter Property="Foreground"
+                Value="{StaticResource TextPrimaryBrush}"/>
+
+            <Setter Property="VerticalAlignment"
+                Value="Center"/>
+
+        </Style>
+
+
+        <!-- TEXTBOX -->
+        <Style x:Key="FormTextBoxStyle"
+           TargetType="TextBox">
+
+            <Setter Property="Height" Value="40"/>
+            <Setter Property="FontFamily" Value="Segoe UI"/>
+            <Setter Property="FontSize" Value="15"/>
+
+            <Setter Property="Foreground"
+                Value="{StaticResource TextPrimaryBrush}"/>
+
+            <Setter Property="Background"
+                Value="White"/>
+
+            <Setter Property="BorderBrush"
+                Value="{StaticResource BorderBrushLight}"/>
+
+            <Setter Property="BorderThickness"
+                Value="1"/>
+
+            <Setter Property="Padding"
+                Value="10,4"/>
+
+            <Setter Property="VerticalContentAlignment"
+                Value="Center"/>
+
+            <Setter Property="HorizontalContentAlignment"
+                Value="Left"/>
+
+            <Setter Property="VerticalAlignment"
+                Value="Center"/>
+
+
+            <Style.Triggers>
+
+                <!-- FOCUS -->
+                <Trigger Property="IsKeyboardFocused"
+                     Value="True">
+
+                    <Setter Property="BorderBrush"
+                        Value="{StaticResource PrimaryBrush}"/>
+
+                    <Setter Property="BorderThickness"
+                        Value="2"/>
+
+                </Trigger>
+
+
+                <!-- READ ONLY -->
+                <Trigger Property="IsReadOnly"
+                     Value="True">
+
+                    <Setter Property="Background"
+                        Value="{StaticResource ReadOnlyBackgroundBrush}"/>
+
+                    <Setter Property="Foreground"
+                        Value="{StaticResource TextSecondaryBrush}"/>
+
+                </Trigger>
+
+            </Style.Triggers>
+
+        </Style>
+
+
+        <!-- PRIMARY BUTTON -->
+        <Style x:Key="PrimaryButtonStyle"
+           TargetType="Button">
+
+            <Setter Property="Width" Value="130"/>
+            <Setter Property="Height" Value="40"/>
+
+            <Setter Property="FontFamily" Value="Segoe UI"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+
+            <Setter Property="Foreground"
+                Value="White"/>
+
+            <Setter Property="Background"
+                Value="{StaticResource PrimaryBrush}"/>
+
+            <Setter Property="BorderThickness"
+                Value="0"/>
+
+            <Setter Property="Cursor"
+                Value="Hand"/>
+
+
+            <Setter Property="Template">
+
+                <Setter.Value>
+
+                    <ControlTemplate TargetType="Button">
+
+                        <Border
+                        x:Name="PrimaryBorder"
+                        Background="{TemplateBinding Background}"
+                        CornerRadius="8">
+
+                            <ContentPresenter
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"/>
+
+                        </Border>
+
+
+                        <ControlTemplate.Triggers>
+
+                            <!-- HOVER -->
+                            <Trigger Property="IsMouseOver"
+                                 Value="True">
+
+                                <Setter
+                                TargetName="PrimaryBorder"
+                                Property="Background"
+                                Value="{StaticResource PrimaryHoverBrush}"/>
+
+                            </Trigger>
+
+
+                            <!-- PRESSED -->
+                            <Trigger Property="IsPressed"
+                                 Value="True">
+
+                                <Setter
+                                TargetName="PrimaryBorder"
+                                Property="Background"
+                                Value="{StaticResource PrimaryPressedBrush}"/>
+
+                            </Trigger>
+
+
+                            <!-- DISABLED -->
+                            <Trigger Property="IsEnabled"
+                                 Value="False">
+
+                                <Setter
+                                Property="Opacity"
+                                Value="0.45"/>
+
+                            </Trigger>
+
+                        </ControlTemplate.Triggers>
+
+                    </ControlTemplate>
+
+                </Setter.Value>
+
+            </Setter>
+
+        </Style>
+
     </UserControl.Resources>
 
 
-    <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
 
-        </Grid.ColumnDefinitions>
+    <Grid Background="{StaticResource PageBackgroundBrush}">
 
         <Grid.RowDefinitions>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
+
+            <!-- HEADER -->
+            <RowDefinition Height="Auto"/>
+
+            <!-- FORM -->
+            <RowDefinition Height="Auto"/>
+
+            <!-- EMPTY SPACE -->
             <RowDefinition Height="*"/>
 
-
-            <RowDefinition/>
         </Grid.RowDefinitions>
 
-        <Border Background="AliceBlue" BorderBrush="Silver" BorderThickness="1,0,1,1" Grid.Row="1" Grid.RowSpan="10" Grid.Column="0" Grid.ColumnSpan="6"/>
-        <TextBlock Text="MEĐUKLADIŠNICE - JEDNA" FontSize="18" Margin="0,0,0,0" FontWeight="Bold" Grid.Column="0" Grid.ColumnSpan="4" VerticalAlignment="Center" HorizontalAlignment="Center" />
-
-        <Label Grid.Row="1" Grid.Column="0" Margin="0,0,0,0" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="18">Broj međuskladišnice:</Label>
-        <TextBox Text="{Binding CurrentItemMat.Brfak}" KeyDown="TextBox_KeyDown" Margin="-250,0,400,0" Grid.Row="1" Grid.Column="1" VerticalAlignment="Center"  FontWeight="Bold"  Width="170" FontSize="18"/>
 
 
-        <Button Background="White" Grid.Row="1" Grid.Column="2" x:Name="btnStampa"  FontSize="18" Width="60" Height="60" HorizontalAlignment="Left" Margin="200,0,0,0" Click="stampa_button">
-            <Image Source="/Ikone/print.png" Stretch="Uniform"/>
-            <Button.ToolTip>
-                <ToolTip Content="Print"/>
-            </Button.ToolTip>
-        </Button>
+        <!-- ====================================================== -->
+        <!-- HEADER -->
+        <!-- ====================================================== -->
 
-        <!--<Button Background="White" Command="{Binding CancelSifarnikSkladistaCommand}"  HorizontalAlignment="Left" Margin="-30,0,0,0" Height="60" Width="60" Grid.Column="2" Grid.Row="2">
-            <Image Source="/Ikone/obrisi.png" Stretch="Uniform"/>
-        </Button>-->
+        <StackPanel
+        Grid.Row="0"
+        Margin="24,18,24,18"
+        HorizontalAlignment="Left">
+
+            <TextBlock
+            Text="MEĐUSKLADIŠNICE - JEDNA"
+            FontFamily="Segoe UI"
+            FontSize="22"
+            FontWeight="SemiBold"
+            Foreground="{StaticResource TextPrimaryBrush}"/>
+
+
+            <TextBlock
+            Text="Unesite broj međuskladišnice za štampanje dokumenta"
+            Margin="0,4,0,0"
+            FontFamily="Segoe UI"
+            FontSize="12.5"
+            Foreground="{StaticResource TextSecondaryBrush}"/>
+
+        </StackPanel>
+
+
+
+        <!-- ====================================================== -->
+        <!-- MAIN FORM CARD -->
+        <!-- ====================================================== -->
+
+        <Border
+        Grid.Row="1"
+        Width="650"
+        HorizontalAlignment="Center"
+        Padding="24"
+        Background="{StaticResource CardBackgroundBrush}"
+        BorderBrush="{StaticResource BorderBrushLight}"
+        BorderThickness="1"
+        CornerRadius="12">
+
+            <Grid>
+
+
+                <!-- COLUMNS -->
+                <Grid.ColumnDefinitions>
+
+                    <!-- LABEL -->
+                    <ColumnDefinition Width="180"/>
+
+                    <!-- TEXTBOX -->
+                    <ColumnDefinition Width="220"/>
+
+                    <!-- SPACE -->
+                    <ColumnDefinition Width="16"/>
+
+                    <!-- BUTTON -->
+                    <ColumnDefinition Width="130"/>
+
+                    <!-- REMAINING SPACE -->
+                    <ColumnDefinition Width="*"/>
+
+                </Grid.ColumnDefinitions>
+
+
+
+                <!-- ================================================== -->
+                <!-- BROJ MEĐUSKLADIŠNICE -->
+                <!-- ================================================== -->
+
+                <TextBlock
+                Grid.Column="0"
+                Text="Broj međuskladišnice"
+                Style="{StaticResource FormLabelStyle}"
+                VerticalAlignment="Center"/>
+
+
+
+                <TextBox
+                Grid.Column="1"
+                Text="{Binding CurrentItemMat.Brfak}"
+                KeyDown="TextBox_KeyDown"
+                FontWeight="Bold"
+                Style="{StaticResource FormTextBoxStyle}"/>
+
+
+
+                <!-- ================================================== -->
+                <!-- ŠTAMPA -->
+                <!-- ================================================== -->
+
+                <Button
+                Grid.Column="3"
+                x:Name="btnStampa"
+                Content="Štampa"
+                Click="stampa_button"
+                Style="{StaticResource PrimaryButtonStyle}"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center">
+
+                    <Button.ToolTip>
+                        <ToolTip Content="Print"/>
+                    </Button.ToolTip>
+
+                </Button>
+
+
+            </Grid>
+
+        </Border>
+
 
     </Grid>
+
 </UserControl>

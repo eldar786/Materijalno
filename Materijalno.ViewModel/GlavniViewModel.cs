@@ -296,6 +296,12 @@ namespace Materijalno.ViewModel
 
         public void Arhiva()
         {
+            MessageBoxResult rezultat = MessageBox.Show("Da li ste sigurni da želite arhivirati?", "Potvrda arhiviranja", MessageBoxButton.YesNo, MessageBoxImage.Question);
+
+            if (rezultat != MessageBoxResult.Yes)
+            {
+                return;
+            }
             ////string conn = "Server= 192.168.1.213;Trusted_Connection=False;" +
             ////             "MultipleActiveResultSets=true;User Id=sa;Password=Lutrija1;";
 

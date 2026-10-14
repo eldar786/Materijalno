@@ -174,10 +174,10 @@
 
 
         <Label Grid.Row="3" Grid.Column="0" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="18">Datum međuskl.</Label>
-        <DatePicker Grid.Row="3" SelectedDate="{Binding CurrentItemMat.Datun,UpdateSourceTrigger=PropertyChanged}" KeyDown="TextBox_KeyDown" Grid.Column="1" HorizontalAlignment="Left" Height="30" FontSize="18" Width="168" Name="dtpOd" />
+        <DatePicker Grid.Row="3" SelectedDate="{Binding CurrentItemMat.Datun,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"  PreviewKeyDown="DatePicker_PreviewKeyDown" Loaded="DatePicker_Loaded" Grid.Column="1" HorizontalAlignment="Left" Height="30" FontSize="18" Width="168" Name="dtpOd" />
 
         <Label Grid.Row="3" Grid.Column="3" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="18">Broj međuskl.</Label>
-        <TextBox Grid.Row="3" Text="{Binding CurrentItemMat.Brfak}" KeyDown="TextBox_KeyDown" Grid.Column="4" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="18"  Width="120"/>
+        <TextBox Grid.Row="3" Text="{Binding CurrentItemMat.Brfak}" IsReadOnly="True" KeyDown="TextBox_KeyDown" Grid.Column="4" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="18"  Width="120" IsEnabled="False"/>
 
         <Label Grid.Row="4" Grid.Column="3" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="18">Broj dokumenta</Label>
         <TextBox Grid.Row="4" Text="{Binding CurrentItemMat.Brdok}" KeyDown="TextBox_KeyDown" Grid.Column="4" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="18"  Width="120"/>

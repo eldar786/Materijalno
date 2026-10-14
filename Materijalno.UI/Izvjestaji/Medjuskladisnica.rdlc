@@ -203,7 +203,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Replace(Replace(Format(CDbl(Fields!Kolic.Value), "#,###.00"), ",", "#"), ".", ",").Replace("#", ".")</Value>
+                              <Value>=Replace(Replace(Format(Math.Abs(CDbl(Fields!Kolic.Value)), "#,###.00"), ",", "#"), ".", ",").Replace("#", ".")</Value>
                               <Style />
                             </TextRun>
                           </TextRuns>
@@ -267,7 +267,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Fields!Vrijed.Value</Value>
+                              <Value>=Math.Abs(CDbl(Fields!Vrijed.Value))</Value>
                               <Style />
                             </TextRun>
                           </TextRuns>
@@ -345,9 +345,9 @@
           <Paragraph>
             <TextRuns>
               <TextRun>
-                <Value>=Fields!Datun.Value</Value>
+                <Value>=Format(Fields!Datun.Value, "dd.MM.yyyy")</Value>
                 <Style>
-                  <Format>dd/MM/yyyy</Format>
+                  <Format>d</Format>
                 </Style>
               </TextRun>
             </TextRuns>
@@ -761,7 +761,7 @@ ulaz materijala</Value>
           <Paragraph>
             <TextRuns>
               <TextRun>
-                <Value>=Fields!TotalVrijednost.Value</Value>
+                <Value>=Math.Abs(CDbl(Fields!TotalVrijednost.Value))</Value>
                 <Style />
               </TextRun>
             </TextRuns>

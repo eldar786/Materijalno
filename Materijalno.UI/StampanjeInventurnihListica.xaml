@@ -9,90 +9,345 @@
              d:DesignHeight="500" d:DesignWidth="1900">
 
     <UserControl.Resources>
+
         <DataTemplate DataType="{x:Type vm:StampanjeInventurnihListicaViewModel}">
             <local:StampanjeInventurnihListica/>
         </DataTemplate>
+
+
+        <!-- COLORS -->
+        <SolidColorBrush x:Key="PageBackgroundBrush" Color="#F4F7FB"/>
+        <SolidColorBrush x:Key="CardBackgroundBrush" Color="#FFFFFF"/>
+
+        <SolidColorBrush x:Key="PrimaryBrush" Color="#2563EB"/>
+        <SolidColorBrush x:Key="PrimaryHoverBrush" Color="#1D4ED8"/>
+        <SolidColorBrush x:Key="PrimaryPressedBrush" Color="#1E40AF"/>
+
+        <SolidColorBrush x:Key="TextPrimaryBrush" Color="#1F2937"/>
+        <SolidColorBrush x:Key="TextSecondaryBrush" Color="#667085"/>
+
+        <SolidColorBrush x:Key="BorderBrushLight" Color="#D8E0EA"/>
+        <SolidColorBrush x:Key="ReadOnlyBackgroundBrush" Color="#F8FAFC"/>
+
+
+        <!-- LABEL -->
+        <Style x:Key="FormLabelStyle"
+           TargetType="TextBlock">
+
+            <Setter Property="FontFamily" Value="Segoe UI"/>
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Foreground"
+                Value="{StaticResource TextPrimaryBrush}"/>
+            <Setter Property="VerticalAlignment"
+                Value="Center"/>
+
+        </Style>
+
+
+        <!-- TEXTBOX -->
+        <Style x:Key="FormTextBoxStyle"
+           TargetType="TextBox">
+
+            <Setter Property="Height" Value="40"/>
+            <Setter Property="FontFamily" Value="Segoe UI"/>
+            <Setter Property="FontSize" Value="15"/>
+
+            <Setter Property="Foreground"
+                Value="{StaticResource TextPrimaryBrush}"/>
+
+            <Setter Property="Background"
+                Value="White"/>
+
+            <Setter Property="BorderBrush"
+                Value="{StaticResource BorderBrushLight}"/>
+
+            <Setter Property="BorderThickness"
+                Value="1"/>
+
+            <Setter Property="Padding"
+                Value="10,4"/>
+
+            <Setter Property="VerticalContentAlignment"
+                Value="Center"/>
+
+            <Setter Property="HorizontalContentAlignment"
+                Value="Left"/>
+
+            <Setter Property="VerticalAlignment"
+                Value="Center"/>
+
+
+            <Style.Triggers>
+
+                <!-- FOCUS -->
+                <Trigger Property="IsKeyboardFocused"
+                     Value="True">
+
+                    <Setter Property="BorderBrush"
+                        Value="{StaticResource PrimaryBrush}"/>
+
+                    <Setter Property="BorderThickness"
+                        Value="2"/>
+
+                </Trigger>
+
+
+                <!-- READ ONLY -->
+                <Trigger Property="IsReadOnly"
+                     Value="True">
+
+                    <Setter Property="Background"
+                        Value="{StaticResource ReadOnlyBackgroundBrush}"/>
+
+                    <Setter Property="Foreground"
+                        Value="{StaticResource TextSecondaryBrush}"/>
+
+                </Trigger>
+
+            </Style.Triggers>
+
+        </Style>
+
+
+        <!-- PRIMARY BUTTON -->
+        <Style x:Key="PrimaryButtonStyle"
+           TargetType="Button">
+
+            <Setter Property="Width" Value="100"/>
+            <Setter Property="Height" Value="40"/>
+
+            <Setter Property="FontFamily" Value="Segoe UI"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+
+            <Setter Property="Foreground"
+                Value="White"/>
+
+            <Setter Property="Background"
+                Value="{StaticResource PrimaryBrush}"/>
+
+            <Setter Property="BorderThickness"
+                Value="0"/>
+
+            <Setter Property="Cursor"
+                Value="Hand"/>
+
+
+            <Setter Property="Template">
+
+                <Setter.Value>
+
+                    <ControlTemplate TargetType="Button">
+
+                        <Border
+                        x:Name="PrimaryBorder"
+                        Background="{TemplateBinding Background}"
+                        CornerRadius="8">
+
+                            <ContentPresenter
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"/>
+
+                        </Border>
+
+
+                        <ControlTemplate.Triggers>
+
+                            <!-- HOVER -->
+                            <Trigger Property="IsMouseOver"
+                                 Value="True">
+
+                                <Setter
+                                TargetName="PrimaryBorder"
+                                Property="Background"
+                                Value="{StaticResource PrimaryHoverBrush}"/>
+
+                            </Trigger>
+
+
+                            <!-- PRESSED -->
+                            <Trigger Property="IsPressed"
+                                 Value="True">
+
+                                <Setter
+                                TargetName="PrimaryBorder"
+                                Property="Background"
+                                Value="{StaticResource PrimaryPressedBrush}"/>
+
+                            </Trigger>
+
+
+                            <!-- DISABLED -->
+                            <Trigger Property="IsEnabled"
+                                 Value="False">
+
+                                <Setter
+                                Property="Opacity"
+                                Value="0.45"/>
+
+                            </Trigger>
+
+                        </ControlTemplate.Triggers>
+
+                    </ControlTemplate>
+
+                </Setter.Value>
+
+            </Setter>
+
+        </Style>
+
     </UserControl.Resources>
 
-    <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
-        </Grid.ColumnDefinitions>
+
+
+    <Grid Background="{StaticResource PageBackgroundBrush}">
+
         <Grid.RowDefinitions>
+
+            <!-- HEADER -->
+            <RowDefinition Height="Auto"/>
+
+            <!-- FORM -->
+            <RowDefinition Height="Auto"/>
+
+            <!-- EMPTY SPACE -->
             <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition/>
+
         </Grid.RowDefinitions>
 
-        <Border Background="AliceBlue" BorderBrush="Silver" BorderThickness="1,0,1,1" Grid.Row="1" Grid.RowSpan="10" Grid.Column="0" Grid.ColumnSpan="6"/>
 
-        <Label Grid.Row="4" Grid.Column="2" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="18">Skladište</Label>
-        <TextBox Grid.Row="4" Text="{Binding CurrentItemMat.Kljnaz}" KeyDown="TextBox_KeyDown" Grid.Column="3" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="18"  Width="120" Margin="-180,0,0,0">
-            <i:Interaction.Triggers>
-                <i:EventTrigger EventName="LostFocus">
-                    <i:InvokeCommandAction Command="{Binding OsvjeziCommand}" />
-                </i:EventTrigger>
-            </i:Interaction.Triggers>
-        </TextBox>
-        <TextBox Grid.Row="4" Text="{Binding CurrentItemTabSkladista.NazivOrg, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True" Grid.Column="4" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="18"  Width="250" Margin="-310,0,0,0"/>
 
-        <Grid Grid.Row="4" Grid.Column="2" Grid.ColumnSpan="6" HorizontalAlignment="Center" VerticalAlignment="Center">
-            <WrapPanel HorizontalAlignment="Center" VerticalAlignment="Top" ItemWidth="200" ItemHeight="60" Margin="0,-5,0,5">
-                <WrapPanel.Resources>
-                    <Style TargetType="Button">
-                        <Setter Property="FontSize" Value="16"/>
-                        <Setter Property="Padding" Value="10,5"/>
-                        <Setter Property="Margin" Value="10,0"/>
-                        <Setter Property="MinWidth" Value="140"/>
-                        <Setter Property="HorizontalAlignment" Value="Center"/>
-                        <Setter Property="Background" Value="#DDEAFB"/>
-                        <Setter Property="Foreground" Value="#2D2D2D"/>
-                        <Setter Property="BorderBrush" Value="#B0C7E3"/>
-                        <Setter Property="BorderThickness" Value="1.5"/>
-                        <Setter Property="FontWeight" Value="SemiBold"/>
-                        <Setter Property="Height" Value="45"/>
-                        <Setter Property="Template">
-                            <Setter.Value>
-                                <ControlTemplate TargetType="Button">
-                                    <Border Background="{TemplateBinding Background}" 
-                                    BorderBrush="{TemplateBinding BorderBrush}" 
-                                    BorderThickness="{TemplateBinding BorderThickness}" 
-                                    CornerRadius="10">
-                                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                    </Border>
-                                </ControlTemplate>
-                            </Setter.Value>
-                        </Setter>
+        <!-- ====================================================== -->
+        <!-- HEADER -->
+        <!-- ====================================================== -->
 
-                        <Style.Triggers>
-                            <Trigger Property="IsMouseOver" Value="True">
-                                <Setter Property="Background" Value="#C5DFFA"/>
-                                <Setter Property="BorderBrush" Value="#A5BDD7"/>
-                                <Setter Property="Cursor" Value="Hand"/>
-                            </Trigger>
-                            <Trigger Property="IsEnabled" Value="False">
-                                <Setter Property="Foreground" Value="DarkGray"/>
-                                <Setter Property="Background" Value="Gray"/>
-                                <Setter Property="BorderBrush" Value="DarkGray"/>
-                            </Trigger>
-                        </Style.Triggers>
-                    </Style>
-                </WrapPanel.Resources>
-                <Button x:Name="btnFormiraj" Content="Štampa" FontSize="20" Width="110" Margin="55,5,0,5" HorizontalAlignment="Left" Click="stampa_button" Visibility="{Binding Path=VidljivoOdabirVrsteIncidenta}"/>
-            </WrapPanel>
-        </Grid>
+        <StackPanel
+        Grid.Row="0"
+        Margin="24,18,24,18"
+        HorizontalAlignment="Left">
+
+            <TextBlock
+            Text="ŠTAMPANJE INVENTURNIH LISTICA"
+            FontFamily="Segoe UI"
+            FontSize="22"
+            FontWeight="SemiBold"
+            Foreground="{StaticResource TextPrimaryBrush}"/>
+
+
+            <TextBlock
+            Text="Odaberite skladište za štampanje inventurnih listica"
+            Margin="0,4,0,0"
+            FontFamily="Segoe UI"
+            FontSize="12.5"
+            Foreground="{StaticResource TextSecondaryBrush}"/>
+
+        </StackPanel>
+
+
+
+        <!-- ====================================================== -->
+        <!-- MAIN FORM CARD -->
+        <!-- ====================================================== -->
+
+        <Border
+        Grid.Row="1"
+        Width="650"
+        HorizontalAlignment="Center"
+        Padding="24"
+        Background="{StaticResource CardBackgroundBrush}"
+        BorderBrush="{StaticResource BorderBrushLight}"
+        BorderThickness="1"
+        CornerRadius="12">
+
+            <Grid>
+
+                <Grid.ColumnDefinitions>
+
+                    <!-- LABEL -->
+                    <ColumnDefinition Width="110"/>
+
+                    <!-- ŠIFRA SKLADIŠTA -->
+                    <ColumnDefinition Width="150"/>
+
+                    <!-- GAP -->
+                    <ColumnDefinition Width="16"/>
+
+                    <!-- NAZIV SKLADIŠTA -->
+                    <ColumnDefinition Width="*"/>
+
+                    <!-- GAP -->
+                    <ColumnDefinition Width="16"/>
+
+                    <!-- ŠTAMPA -->
+                    <ColumnDefinition Width="100"/>
+
+                </Grid.ColumnDefinitions>
+
+
+
+                <!-- ================================================== -->
+                <!-- SKLADIŠTE -->
+                <!-- ================================================== -->
+
+                <TextBlock
+                Grid.Column="0"
+                Text="Skladište"
+                Style="{StaticResource FormLabelStyle}"
+                VerticalAlignment="Center"/>
+
+
+
+                <!-- ŠIFRA SKLADIŠTA -->
+                <TextBox
+                Grid.Column="1"
+                Text="{Binding CurrentItemMat.Kljnaz}"
+                KeyDown="TextBox_KeyDown"
+                Style="{StaticResource FormTextBoxStyle}">
+
+                    <i:Interaction.Triggers>
+
+                        <i:EventTrigger EventName="LostFocus">
+
+                            <i:InvokeCommandAction
+                            Command="{Binding OsvjeziCommand}" />
+
+                        </i:EventTrigger>
+
+                    </i:Interaction.Triggers>
+
+                </TextBox>
+
+
+
+                <!-- NAZIV SKLADIŠTA -->
+                <TextBox
+                Grid.Column="3"
+                Text="{Binding CurrentItemTabSkladista.NazivOrg, UpdateSourceTrigger=PropertyChanged}"
+                IsReadOnly="True"
+                Style="{StaticResource FormTextBoxStyle}"/>
+
+
+
+                <!-- ================================================== -->
+                <!-- ŠTAMPA -->
+                <!-- ================================================== -->
+
+                <Button
+                Grid.Column="5"
+                x:Name="btnFormiraj"
+                Content="Štampa"
+                Click="stampa_button"
+                Visibility="{Binding Path=VidljivoOdabirVrsteIncidenta}"
+                Style="{StaticResource PrimaryButtonStyle}"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Center"/>
+
+            </Grid>
+
+        </Border>
+
     </Grid>
+
 </UserControl>
