@@ -993,7 +993,7 @@ namespace Materijalno.ViewModel
 
                     CurrentItemMat = null;
 
-                    _gvm.OdabraniVM = new MedjuskladisnicaViewModel(_gvm);
+                    _gvm.OdabraniVM = new IzlazMaterijalaViewModel(_gvm);
                 }
                 else if (resultMessageBox == MessageBoxResult.No)
                 {
