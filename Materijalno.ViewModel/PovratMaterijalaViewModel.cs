@@ -236,10 +236,24 @@ namespace Materijalno.ViewModel
 
                 //Dodaj u listu gdje je kljnaz između 1000 i 1012 i sortiraj po datumu iz kolone (datun)
                 //Neki datum preskoci, treba napraviti dobar data type za kolonu (datun) u sql bazi
-                MatList = new ObservableCollection<Mat>(dbContext.Mat
-                    .Where(row => row.Kljnaz >= 1001 && row.Kljnaz <= 1012 && row.Status == "V")
+                // Include at most one row with Kljnaz == 0
+                var baseList = dbContext.Mat
+                    .Where(row => row.Status == "V" && row.Kljnaz >= 1001 && row.Kljnaz <= 1012)
                     .OrderBy(row => row.Datun)
-                    .ToList());
+                    .ToList();
+
+                var zeroRow = dbContext.Mat
+                    .Where(row => row.Status == "V" && row.Kljnaz == 0)
+                    .OrderBy(row => row.Datun)
+                    .FirstOrDefault();
+
+                if (zeroRow != null && !baseList.Any(r => r.Id == zeroRow.Id))
+                {
+                    // Insert zero-row at the beginning (change to Add() to append instead)
+                    baseList.Insert(0, zeroRow);
+                }
+
+                MatList = new ObservableCollection<Mat>(baseList);
 
                 UpdateCurrentItemData(dbContext);
                 //UpdateCurrentItemDataPovrat(dbContext);
@@ -567,7 +581,7 @@ namespace Materijalno.ViewModel
                 dbContext.Update(CurrentItemMat);
                 dbContext.SaveChanges();
 
-                System.Windows.MessageBox.Show("Uspješno ste izmijenili", "Potvrda", MessageBoxButton.OK, MessageBoxImage.Information);
+                System.Windows.MessageBox.Show("Uspješno steizmijenili", "Potvrda", MessageBoxButton.OK, MessageBoxImage.Information);
 
                 //NAKON STO KLIKNEMO NA OK DA SE VRATI NA IZMIJENJENI ŠIFARNIK
                 UpdateCurrentItemData(dbContext);
@@ -753,6 +767,8 @@ namespace Materijalno.ViewModel
                     return;
                 }
 
+                //STAVITI 
+
                 dbContext.Update(CurrentItemMat);
                 dbContext.SaveChanges();
 
@@ -869,7 +885,7 @@ namespace Materijalno.ViewModel
                     Datun = snimljeniCurrentMat.Datun,
                     Datnar = snimljeniCurrentMat.Datnar,
                     Brdok = snimljeniCurrentMat.Brdok,
-                    Status = "I",
+                    Status = "V",
                     Kljnaz1 = 0
                 });
 
