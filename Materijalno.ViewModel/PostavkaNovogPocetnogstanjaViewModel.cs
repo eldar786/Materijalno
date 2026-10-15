@@ -71,13 +71,14 @@ namespace Materijalno.ViewModel
                     vrijed,
                     status,
                     kontosklad,
-                    medus
+                    medus,
+                    brfak
                 )
                 VALUES
-                (1001, NULL, 0, 0, 0.00, 'I', NULL, ''),
-                (1000, 1000, 0, 0, 0.00, 'M', 1, '1'),
-                (1001, NULL, 0, 0, 0.00, 'V', NULL, ''),
-                (1000, NULL, 0, 0, 0.00, 'U', NULL, '');
+                (1001, 0, 0, 0, 0.00, 'I', NULL, '', '61-0'),
+                (1000, 1000, 0, 0, 0.00, 'M', 1, '1', 'M-0'),
+                (1001, 0, 0, 0, 0.00, 'V', NULL, '', '61-0'),
+                (1000, 0, 0, 0, 0.00, 'U', NULL, '', '10-0');
                 ");
 
                 // Transfer INV -> MAT (PRIJE TRUNCATE INV)

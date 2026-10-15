@@ -692,6 +692,43 @@ namespace Materijalno.ViewModel
 
                 if (resultMessageBox == MessageBoxResult.Yes)
                 {
+                    // Prvo pokušaj obrisati odgovarajući "dupli" red koji ima istu Ident i negativnu Kolicinu
+                    try
+                    {
+                        if (CurrentItemMat != null && CurrentItemMat.Kolic.HasValue)
+                        {
+                            int targetKolic = -CurrentItemMat.Kolic.Value;
+
+                            var counterpart = dbContext.Mat
+                                .FirstOrDefault(m => m.Kolic == targetKolic && m.Ident == CurrentItemMat.Ident);
+
+                            if (counterpart != null)
+                            {
+                                dbContext.Mat.Remove(counterpart);
+                                dbContext.SaveChanges();
+
+                                // Ako postoji u lokalnoj listi, ukloni i odande
+                                var inList = MatList.FirstOrDefault(m => m.Id == counterpart.Id);
+                                if (inList != null)
+                                {
+                                    MatList.Remove(inList);
+
+                                    // Ako je indeks nakon uklanjanja izvan opsega, prilagodi
+                                    if (CurrentIndex >= MatList.Count)
+                                    {
+                                        CurrentIndex = Math.Max(0, MatList.Count - 1);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        // Prikaz greške, ali nastavi sa glavnim brisanjem
+                        System.Windows.MessageBox.Show(ex.Message, "Greška pri brisanju povezanog reda", MessageBoxButton.OK, MessageBoxImage.Error);
+                    }
+
+                    // Sada obriši odabrani red
                     dbContext.Mat.Remove(CurrentItemMat);
                     dbContext.SaveChanges();
 
@@ -703,15 +740,18 @@ namespace Materijalno.ViewModel
                     return;
                 }
 
-                //Kada zadnji brise, ne vraca index
-                //Jedna opcija jeste da ponovo ocitamo MatListu
-                //Ako je CurrentIndex zadnji broj kao kod MatList.Count onda nakon brisanja da ide CurrentIdex - 1
-                if (MatList.Count == CurrentIndex)
+                // Ažuriraj CurrentItemMat i CurrentIndex na siguran način nakon brisanja
+                if (MatList == null || MatList.Count == 0)
                 {
-                    CurrentItemMat = MatList[CurrentIndex - 1];
+                    CurrentItemMat = null;
                 }
                 else
                 {
+                    if (CurrentIndex >= MatList.Count)
+                    {
+                        CurrentIndex = Math.Max(0, MatList.Count - 1);
+                    }
+
                     CurrentItemMat = MatList[CurrentIndex];
                 }
 
