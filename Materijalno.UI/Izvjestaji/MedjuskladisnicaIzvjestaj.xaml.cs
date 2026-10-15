@@ -51,7 +51,7 @@ namespace Materijalno.UI.Izvjestaji
             MatList = new ObservableCollection<Mat>(dbContext.Mat
                      .Where(row => row.Brfak == medjuskladisnicavm.CurrentItemMat.Brfak
                      && row.Medus == null
-                     && row.Kolic > 0)
+                     && row.Kolic > 0)// Provjeriti da li nam treba Kolic > 0
                      .OrderBy(row => row.Datun)
                      .ToList());
             _tabelaMaterijala = dbContext.TabelaMaterijala.ToList();
