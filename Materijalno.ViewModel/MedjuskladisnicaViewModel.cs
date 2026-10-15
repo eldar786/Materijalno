@@ -394,10 +394,10 @@ namespace Materijalno.ViewModel
             var dbContext = new materijalno_knjigovodstvoContext();
 
             // Kljnaz kolona
-            int? maxValue_Skladiste = dbContext.Mat
+            int? maxValue_Skladiste = dbContext.SifarnikSkladista
                 .Max(row => row.Kljnaz);
 
-            int? minValue_Skladiste = dbContext.Mat
+            int? minValue_Skladiste = dbContext.SifarnikSkladista
                 .Min(row => row.Kljnaz);
 
             // Kljnaz1 kolona
@@ -886,44 +886,71 @@ namespace Materijalno.ViewModel
 
         private void BrojKalkulacije()
         {
-            var dbContext = new materijalno_knjigovodstvoContext();
-
-            MatList = new ObservableCollection<Mat>(dbContext.Mat
-                               .Where(row => row.Status == "M")
-                               .OrderBy(row => row.Datun)
-                               .ToList());
-
-            //Proci kroz MatListu i naci posljednji "brfak" i dodati +1
-            var posljednjiBrfak = MatList
-            .OrderByDescending(x =>
-            x.Brfak != null && x.Brfak.Contains('-') // Provjeravamo da li Brfak is not null and sadrzi '-'
-            ? int.Parse(
-                x.Brfak.Substring(
-                    x.Brfak.LastIndexOf('-') + 1
-                )
-              )
-            : int.MinValue // Koristi defaultnu vrijednost za null ili ako je invalide
-            ).Select(x => x.Brfak)
-            .FirstOrDefault();
-
-            if (posljednjiBrfak != null)
+            using (var dbContext = new materijalno_knjigovodstvoContext())
             {
-                var parts = posljednjiBrfak.Split('-');
-                if (parts.Length == 2 && int.TryParse(parts[1], out int number)) // Parsiraj drugi dio (poslije -)
-                {
-                    number++; // Povecaj za jedan
-                    posljednjiBrfak = $"{parts[0]}-{number}"; // Dodaj dvije cjeline u posljednjiBrfak
-                }
+                var brfakList = dbContext.Mat
+                    .Where(x => x.Status == "M"
+                             && x.Brfak != null
+                             && x.Brfak.StartsWith("M-"))
+                    .Select(x => x.Brfak)
+                    .ToList();
+
+                int posljednjiBroj = brfakList
+                    .Select(x =>
+                    {
+                        var parts = x.Split('-');
+
+                        if (parts.Length == 2 &&
+                            int.TryParse(parts[1], out int broj))
+                        {
+                            return broj;
+                        }
+
+                        return 0;
+                    })
+                    .DefaultIfEmpty(0)
+                    .Max();
+
+                CurrentItemMat.Brfak = $"M-{posljednjiBroj + 1}";
             }
-            else
-            {
-                posljednjiBrfak = "M-1";
-            }
-            //Stavili smo if, jer pada kada brisemo, CurrentItemMat.Brfak bude null
-            //if (CurrentItemMat.Brfak != null)
+            //var dbContext = new materijalno_knjigovodstvoContext();
+
+            //MatList = new ObservableCollection<Mat>(dbContext.Mat
+            //                   .Where(row => row.Status == "M")
+            //                   .OrderBy(row => row.Datun)
+            //                   .ToList());
+
+            ////Proci kroz MatListu i naci posljednji "brfak" i dodati +1
+            //var posljednjiBrfak = MatList
+            //.OrderByDescending(x =>
+            //x.Brfak != null && x.Brfak.Contains('-') // Provjeravamo da li Brfak is not null and sadrzi '-'
+            //? int.Parse(
+            //    x.Brfak.Substring(
+            //        x.Brfak.LastIndexOf('-') + 1
+            //    )
+            //  )
+            //: int.MinValue // Koristi defaultnu vrijednost za null ili ako je invalide
+            //).Select(x => x.Brfak)
+            //.FirstOrDefault();
+
+            //if (posljednjiBrfak != null)
             //{
-            CurrentItemMat.Brfak = posljednjiBrfak;
+            //    var parts = posljednjiBrfak.Split('-');
+            //    if (parts.Length == 2 && int.TryParse(parts[1], out int number)) // Parsiraj drugi dio (poslije -)
+            //    {
+            //        number++; // Povecaj za jedan
+            //        posljednjiBrfak = $"{parts[0]}-{number}"; // Dodaj dvije cjeline u posljednjiBrfak
+            //    }
             //}
+            //else
+            //{
+            //    posljednjiBrfak = "M-1";
+            //}
+            ////Stavili smo if, jer pada kada brisemo, CurrentItemMat.Brfak bude null
+            ////if (CurrentItemMat.Brfak != null)
+            ////{
+            //CurrentItemMat.Brfak = posljednjiBrfak;
+            ////}
         }
 
         private bool ValidacijaSpasi()
@@ -935,6 +962,12 @@ namespace Materijalno.ViewModel
             {
                 CurrentItemMat.Ourst = 000;
                 CurrentItemMat.Mjtst = 000000;
+            }
+
+            else if (CurrentItemMat.Vrijed == null || CurrentItemMat.Nc == null)
+            {
+                CurrentItemMat.Vrijed = 0;
+                CurrentItemMat.Nc = 0;
             }
 
             //Ovo smo morali rucno za sada, dok se ne uradi validacija u xamlu
@@ -1021,6 +1054,7 @@ namespace Materijalno.ViewModel
         {
             //Prolazi ponovo provjeru CanExecute
             isNovaKalkulacijaClicked = true;
+            IsOdustaniEnabled = true;
 
             UpdateCommands();
 
@@ -1028,9 +1062,24 @@ namespace Materijalno.ViewModel
             {
                 MatList.Add(new Mat
                 {
-                    //Za ulaz materijala broj skladišta je uvijek 1000
-                    //Kljnaz = 1000
-                    Redbr = 1
+                    Redbr = 1,
+                    Analst = "",
+                    Brnar = "",
+                    Konto2 = "",
+                    Tarifa = "",
+                    Fcj = "0",
+                    Troskovi = 0.00m,
+                    Cartro = "0",
+                    Zavtro = "0",
+                    Ppp = "0",
+                    Fvrijed = "0",
+                    Porppp = 0,
+                    Trospe = 0.00m,
+                    Ourst = 0,
+                    Mjtst = 0,
+                    Vrijed = 0,
+                    Nc = 0
+                    //Status = "M",
                 });
 
                 CurrentIndex = MatList.Count - 1;

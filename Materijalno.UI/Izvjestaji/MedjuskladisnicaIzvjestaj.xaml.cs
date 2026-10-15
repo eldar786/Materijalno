@@ -50,7 +50,8 @@ namespace Materijalno.UI.Izvjestaji
             //MatList = dbContext.Mat.ToList();
             MatList = new ObservableCollection<Mat>(dbContext.Mat
                      .Where(row => row.Brfak == medjuskladisnicavm.CurrentItemMat.Brfak
-                                        && row.Kolic > 0)
+                     && row.Medus == null)
+                     && row.Kolic > 0)
                      .OrderBy(row => row.Datun)
                      .ToList());
             _tabelaMaterijala = dbContext.TabelaMaterijala.ToList();

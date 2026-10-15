@@ -419,7 +419,7 @@ namespace Materijalno.ViewModel
             var dbContext = new materijalno_knjigovodstvoContext();
 
             // Kljnaz kolona
-            int? maxValue_Skladiste = dbContext.Mat
+            int? maxValue_Skladiste = dbContext.SifarnikSkladista  //refresh na skladista
                 .Max(row => row.Kljnaz);
 
             int? minValue_Skladiste = dbContext.Mat
@@ -779,11 +779,85 @@ namespace Materijalno.ViewModel
             var property = typeof(Mat).GetProperties();
             bool allNull = property.All(prop => prop.GetValue(CurrentItemMat) == null);
 
-            if (CurrentItemMat.Ourst == null || CurrentItemMat.Mjtst == null)
+            if (CurrentItemMat.Ourst == null)
             {
-                CurrentItemMat.Ourst = 000;
-                CurrentItemMat.Mjtst = 000000;
+                CurrentItemMat.Ourst = 0;
             }
+
+            if (CurrentItemMat.Mjtst == null)
+            {
+                CurrentItemMat.Mjtst = 0;
+            }
+
+            // Polja koja trebaju biti prazna umjesto NULL
+            if (CurrentItemMat.Analst == null)
+            {
+                CurrentItemMat.Analst = "";
+            }
+
+            if (CurrentItemMat.Brnar == null)
+            {
+                CurrentItemMat.Brnar = "";
+            }
+
+            if (CurrentItemMat.Konto2 == null)
+            {
+                CurrentItemMat.Konto2 = "";
+            }
+
+            if (CurrentItemMat.Medus == null)
+            {
+                CurrentItemMat.Medus = "";
+            }
+
+            // VARCHAR polja koja trebaju imati vrijednost "0"
+            if (string.IsNullOrWhiteSpace(CurrentItemMat.Fcj))
+            {
+                CurrentItemMat.Fcj = "0";
+            }
+
+            if (string.IsNullOrWhiteSpace(CurrentItemMat.Cartro))
+            {
+                CurrentItemMat.Cartro = "0";
+            }
+
+            if (string.IsNullOrWhiteSpace(CurrentItemMat.Zavtro))
+            {
+                CurrentItemMat.Zavtro = "0";
+            }
+
+            if (string.IsNullOrWhiteSpace(CurrentItemMat.Ppp))
+            {
+                CurrentItemMat.Ppp = "0";
+            }
+
+            if (string.IsNullOrWhiteSpace(CurrentItemMat.Fvrijed))
+            {
+                CurrentItemMat.Fvrijed = "0";
+            }
+
+            // Tarifa treba biti "1"
+            if (string.IsNullOrWhiteSpace(CurrentItemMat.Tarifa))
+            {
+                CurrentItemMat.Tarifa = "1";
+            }
+
+            // DECIMAL polja
+            if (CurrentItemMat.Troskovi == null)
+            {
+                CurrentItemMat.Troskovi = 0.00m;
+            }
+
+            if (CurrentItemMat.Porppp == null)
+            {
+                CurrentItemMat.Porppp = 0.00m;
+            }
+
+            if (CurrentItemMat.Trospe == null)
+            {
+                CurrentItemMat.Trospe = 0.00m;
+            }
+
 
             //Ovo smo morali rucno za sada, dok se ne uradi validacija u xamlu
             if (CurrentItemMat.Kljnaz == null || CurrentItemMat.Datun == null || CurrentItemMat.Brfak == null ||

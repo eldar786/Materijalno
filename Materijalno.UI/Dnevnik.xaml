@@ -9,110 +9,693 @@
              d:DesignHeight="450" d:DesignWidth="1900">
 
     <UserControl.Resources>
+
         <DataTemplate DataType="{x:Type vm:DnevnikViewModel}">
             <local:Dnevnik/>
         </DataTemplate>
+
+
+        <!-- ====================================================== -->
+        <!-- COLORS                                                 -->
+        <!-- ====================================================== -->
+
+        <SolidColorBrush x:Key="PageBackgroundBrush" Color="#F4F7FB"/>
+        <SolidColorBrush x:Key="CardBackgroundBrush" Color="#FFFFFF"/>
+
+        <SolidColorBrush x:Key="PrimaryBrush" Color="#2563EB"/>
+        <SolidColorBrush x:Key="PrimaryHoverBrush" Color="#1D4ED8"/>
+        <SolidColorBrush x:Key="PrimaryPressedBrush" Color="#1E40AF"/>
+
+        <SolidColorBrush x:Key="TextPrimaryBrush" Color="#1F2937"/>
+        <SolidColorBrush x:Key="TextSecondaryBrush" Color="#667085"/>
+
+        <SolidColorBrush x:Key="BorderBrushLight" Color="#D8E0EA"/>
+        <SolidColorBrush x:Key="ReadOnlyBackgroundBrush" Color="#F8FAFC"/>
+
+
+        <!-- ====================================================== -->
+        <!-- LABEL                                                  -->
+        <!-- ====================================================== -->
+
+        <Style x:Key="FormLabelStyle"
+           TargetType="TextBlock">
+
+            <Setter Property="FontFamily" Value="Segoe UI"/>
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Foreground"
+                Value="{StaticResource TextPrimaryBrush}"/>
+
+            <Setter Property="VerticalAlignment"
+                Value="Center"/>
+
+        </Style>
+
+
+        <!-- ====================================================== -->
+        <!-- NORMAL TEXTBOX                                         -->
+        <!-- IMPORTANT: NO CUSTOM CONTROL TEMPLATE                  -->
+        <!-- ====================================================== -->
+
+        <Style x:Key="FormTextBoxStyle"
+           TargetType="TextBox">
+
+            <Setter Property="Height" Value="40"/>
+
+            <Setter Property="FontFamily"
+                Value="Segoe UI"/>
+
+            <Setter Property="FontSize"
+                Value="15"/>
+
+            <Setter Property="Foreground"
+                Value="{StaticResource TextPrimaryBrush}"/>
+
+            <Setter Property="Background"
+                Value="White"/>
+
+            <Setter Property="BorderBrush"
+                Value="{StaticResource BorderBrushLight}"/>
+
+            <Setter Property="BorderThickness"
+                Value="1"/>
+
+            <Setter Property="Padding"
+                Value="10,4"/>
+
+            <Setter Property="VerticalContentAlignment"
+                Value="Center"/>
+
+            <Setter Property="HorizontalContentAlignment"
+                Value="Left"/>
+
+            <Setter Property="VerticalAlignment"
+                Value="Center"/>
+
+
+            <Style.Triggers>
+
+                <!-- FOCUSED -->
+                <Trigger Property="IsKeyboardFocused"
+                     Value="True">
+
+                    <Setter Property="BorderBrush"
+                        Value="{StaticResource PrimaryBrush}"/>
+
+                    <Setter Property="BorderThickness"
+                        Value="2"/>
+
+                </Trigger>
+
+
+                <!-- READ ONLY -->
+                <Trigger Property="IsReadOnly"
+                     Value="True">
+
+                    <Setter Property="Background"
+                        Value="{StaticResource ReadOnlyBackgroundBrush}"/>
+
+                    <Setter Property="Foreground"
+                        Value="{StaticResource TextSecondaryBrush}"/>
+
+                </Trigger>
+
+            </Style.Triggers>
+
+        </Style>
+
+
+        <!-- ====================================================== -->
+        <!-- DATE PICKER                                            -->
+        <!-- ====================================================== -->
+
+        <Style x:Key="FormDatePickerStyle"
+           TargetType="DatePicker">
+
+            <Setter Property="Height"
+                Value="40"/>
+
+            <Setter Property="FontFamily"
+                Value="Segoe UI"/>
+
+            <Setter Property="FontSize"
+                Value="15"/>
+
+            <Setter Property="BorderBrush"
+                Value="{StaticResource BorderBrushLight}"/>
+
+            <Setter Property="BorderThickness"
+                Value="1"/>
+
+            <Setter Property="VerticalContentAlignment"
+                Value="Center"/>
+
+        </Style>
+
+
+        <!-- ====================================================== -->
+        <!-- PRIMARY BUTTON                                         -->
+        <!-- ====================================================== -->
+
+        <Style x:Key="PrimaryButtonStyle"
+           TargetType="Button">
+
+            <Setter Property="Width"
+                Value="130"/>
+
+            <Setter Property="Height"
+                Value="44"/>
+
+            <Setter Property="FontFamily"
+                Value="Segoe UI"/>
+
+            <Setter Property="FontSize"
+                Value="14"/>
+
+            <Setter Property="FontWeight"
+                Value="SemiBold"/>
+
+            <Setter Property="Foreground"
+                Value="White"/>
+
+            <Setter Property="Background"
+                Value="{StaticResource PrimaryBrush}"/>
+
+            <Setter Property="BorderThickness"
+                Value="0"/>
+
+            <Setter Property="Cursor"
+                Value="Hand"/>
+
+
+            <Setter Property="Template">
+
+                <Setter.Value>
+
+                    <ControlTemplate TargetType="Button">
+
+                        <Border
+                        x:Name="PrimaryBorder"
+                        Background="{TemplateBinding Background}"
+                        CornerRadius="8">
+
+                            <ContentPresenter
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"/>
+
+                        </Border>
+
+
+                        <ControlTemplate.Triggers>
+
+                            <Trigger Property="IsMouseOver"
+                                 Value="True">
+
+                                <Setter
+                                TargetName="PrimaryBorder"
+                                Property="Background"
+                                Value="{StaticResource PrimaryHoverBrush}"/>
+
+                            </Trigger>
+
+
+                            <Trigger Property="IsPressed"
+                                 Value="True">
+
+                                <Setter
+                                TargetName="PrimaryBorder"
+                                Property="Background"
+                                Value="{StaticResource PrimaryPressedBrush}"/>
+
+                            </Trigger>
+
+
+                            <Trigger Property="IsEnabled"
+                                 Value="False">
+
+                                <Setter
+                                Property="Opacity"
+                                Value="0.45"/>
+
+                            </Trigger>
+
+                        </ControlTemplate.Triggers>
+
+                    </ControlTemplate>
+
+                </Setter.Value>
+
+            </Setter>
+
+        </Style>
+
+
+        <!-- ====================================================== -->
+        <!-- SECONDARY BUTTON                                       -->
+        <!-- ====================================================== -->
+
+        <Style x:Key="SecondaryButtonStyle"
+           TargetType="Button">
+
+            <Setter Property="Width"
+                Value="130"/>
+
+            <Setter Property="Height"
+                Value="44"/>
+
+            <Setter Property="FontFamily"
+                Value="Segoe UI"/>
+
+            <Setter Property="FontSize"
+                Value="14"/>
+
+            <Setter Property="FontWeight"
+                Value="SemiBold"/>
+
+            <Setter Property="Foreground"
+                Value="{StaticResource TextPrimaryBrush}"/>
+
+            <Setter Property="Background"
+                Value="White"/>
+
+            <Setter Property="BorderBrush"
+                Value="{StaticResource BorderBrushLight}"/>
+
+            <Setter Property="BorderThickness"
+                Value="1"/>
+
+            <Setter Property="Cursor"
+                Value="Hand"/>
+
+
+            <Setter Property="Template">
+
+                <Setter.Value>
+
+                    <ControlTemplate TargetType="Button">
+
+                        <Border
+                        x:Name="SecondaryBorder"
+                        Background="{TemplateBinding Background}"
+                        BorderBrush="{TemplateBinding BorderBrush}"
+                        BorderThickness="{TemplateBinding BorderThickness}"
+                        CornerRadius="8">
+
+                            <ContentPresenter
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"/>
+
+                        </Border>
+
+
+                        <ControlTemplate.Triggers>
+
+                            <Trigger Property="IsMouseOver"
+                                 Value="True">
+
+                                <Setter
+                                TargetName="SecondaryBorder"
+                                Property="Background"
+                                Value="#F3F6FA"/>
+
+                                <Setter
+                                TargetName="SecondaryBorder"
+                                Property="BorderBrush"
+                                Value="#98A2B3"/>
+
+                            </Trigger>
+
+
+                            <Trigger Property="IsPressed"
+                                 Value="True">
+
+                                <Setter
+                                TargetName="SecondaryBorder"
+                                Property="Background"
+                                Value="#E8EEF5"/>
+
+                            </Trigger>
+
+
+                            <Trigger Property="IsEnabled"
+                                 Value="False">
+
+                                <Setter
+                                Property="Opacity"
+                                Value="0.45"/>
+
+                            </Trigger>
+
+                        </ControlTemplate.Triggers>
+
+                    </ControlTemplate>
+
+                </Setter.Value>
+
+            </Setter>
+
+        </Style>
+
     </UserControl.Resources>
 
 
-    <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
-        </Grid.ColumnDefinitions>
+
+    <!-- ========================================================== -->
+    <!-- PAGE                                                       -->
+    <!-- ========================================================== -->
+
+    <Grid Background="{StaticResource PageBackgroundBrush}">
+
         <Grid.RowDefinitions>
+
+            <RowDefinition Height="Auto"/>
+
+            <RowDefinition Height="Auto"/>
+
+            <RowDefinition Height="Auto"/>
+
             <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition/>
+
         </Grid.RowDefinitions>
 
-        <Border Background="AliceBlue" BorderBrush="Silver" BorderThickness="1,0,1,1" Grid.Row="1" Grid.RowSpan="10" Grid.Column="0" Grid.ColumnSpan="6"/>
 
-        <Label Grid.Row="2" Grid.Column="1" Margin="0,0,-13,0" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="18">Skladište</Label>
-        <TextBox Text="{Binding CurrentItemMat.Kljnaz}" KeyDown="TextBox_KeyDown" Name="OpBroj" Grid.Row="2" Margin="70,0,0,0" Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Left" FontWeight="Bold"  Width="150" FontSize="18">
-            <i:Interaction.Triggers>
-                <i:EventTrigger EventName="LostFocus">
-                    <i:InvokeCommandAction Command="{Binding OsvjeziCommand}" />
-                </i:EventTrigger>
-            </i:Interaction.Triggers>
-        </TextBox>
+        <!-- ====================================================== -->
+        <!-- HEADER                                                 -->
+        <!-- KEEP TOP LEFT                                          -->
+        <!-- ====================================================== -->
 
-        <TextBox KeyDown="TextBox_KeyDown" Text="{Binding CurrentItemTabSkladista.NazivOrg, UpdateSourceTrigger=PropertyChanged}"  IsReadOnly="True" Grid.Row="2" Grid.Column="3" VerticalAlignment="Center" Grid.ColumnSpan="3" HorizontalAlignment="Left" FontSize="18"  Width="250"/>
+        <StackPanel
+        Grid.Row="0"
+        Margin="24,18,24,18"
+        HorizontalAlignment="Left">
 
-        <Label Grid.Row="3" Grid.Column="1" Margin="0,0,-60,0" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="18">Šifra materijala</Label>
-        <TextBox Text="{Binding CurrentItemMat.Ident}" KeyDown="TextBox_KeyDown" Grid.Row="3" Grid.Column="2" Margin="70,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="18"  Width="150">
-            <i:Interaction.Triggers>
-                <i:EventTrigger EventName="LostFocus">
-                    <i:InvokeCommandAction Command="{Binding OsvjeziCommand}" />
-                </i:EventTrigger>
-            </i:Interaction.Triggers>
-        </TextBox>
-        <TextBox Text="{Binding CurrentItemTabMaterijala.Nazmat}" IsReadOnly="True" KeyDown="TextBox_KeyDown" Grid.Row="3" Grid.Column="3" Grid.ColumnSpan="3" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="18"  Width="250"/>
-
-        <Label Grid.Row="4" Grid.Column="1" Margin="0,0,-60,0" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="18">Od</Label>
-        <DatePicker SelectedDate="{Binding CurrentItemMat.Datun}" Grid.Row="4" Grid.Column="2" Margin="70,5,0,6" HorizontalAlignment="Left" Height="30" FontSize="18" Width="149"  Name="dtpOd" />
-
-        <Label Grid.Row="4" Grid.Column="2" HorizontalAlignment="Right" Margin="0,0,-25,0" VerticalAlignment="Center" FontSize="18">Do</Label>
-        <DatePicker SelectedDate="{Binding CurrentItemMat.Datnar, UpdateSourceTrigger=PropertyChanged}" Grid.Row="4" Grid.Column="3" HorizontalAlignment="Left" Margin="25,5,0,6" Height="30" FontSize="18" Width="159" Name="dtpDo" />
+            <TextBlock
+            Text="DNEVNIK"
+            FontFamily="Segoe UI"
+            FontSize="22"
+            FontWeight="SemiBold"
+            Foreground="{StaticResource TextPrimaryBrush}"/>
 
 
-        <Grid Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="6" HorizontalAlignment="Center" VerticalAlignment="Center">
-            <WrapPanel HorizontalAlignment="Center" VerticalAlignment="Top" ItemWidth="200" ItemHeight="60" Margin="0,-5,0,5">
-                <WrapPanel.Resources>
-                    <Style TargetType="Button">
-                        <Setter Property="FontSize" Value="16"/>
-                        <Setter Property="Padding" Value="10,5"/>
-                        <Setter Property="Margin" Value="10,0"/>
-                        <Setter Property="MinWidth" Value="140"/>
-                        <Setter Property="HorizontalAlignment" Value="Center"/>
-                        <Setter Property="Background" Value="#DDEAFB"/>
-                        <Setter Property="Foreground" Value="#2D2D2D"/>
-                        <Setter Property="BorderBrush" Value="#B0C7E3"/>
-                        <Setter Property="BorderThickness" Value="1.5"/>
-                        <Setter Property="FontWeight" Value="SemiBold"/>
-                        <Setter Property="Height" Value="45"/>
-                        <Setter Property="Template">
-                            <Setter.Value>
-                                <ControlTemplate TargetType="Button">
-                                    <Border Background="{TemplateBinding Background}" 
-                                    BorderBrush="{TemplateBinding BorderBrush}" 
-                                    BorderThickness="{TemplateBinding BorderThickness}" 
-                                    CornerRadius="10">
-                                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                    </Border>
-                                </ControlTemplate>
-                            </Setter.Value>
-                        </Setter>
+            <TextBlock
+            Text="Odaberite skladište, materijal i period za prikaz dnevnika"
+            Margin="0,4,0,0"
+            FontFamily="Segoe UI"
+            FontSize="12.5"
+            Foreground="{StaticResource TextSecondaryBrush}"/>
 
-                        <Style.Triggers>
-                            <Trigger Property="IsMouseOver" Value="True">
-                                <Setter Property="Background" Value="#C5DFFA"/>
-                                <Setter Property="BorderBrush" Value="#A5BDD7"/>
-                                <Setter Property="Cursor" Value="Hand"/>
-                            </Trigger>
-                            <Trigger Property="IsEnabled" Value="False">
-                                <Setter Property="Foreground" Value="DarkGray"/>
-                                <Setter Property="Background" Value="Gray"/>
-                                <Setter Property="BorderBrush" Value="DarkGray"/>
-                            </Trigger>
-                        </Style.Triggers>
-                    </Style>
-                </WrapPanel.Resources>
-                <Button x:Name="btnPrvi" Content="Štampa" FontSize="18" Width="110" Margin="5,5,0,5" HorizontalAlignment="Left" Click="stampa_button"/>
-                <Button x:Name="btnTrazi" Content="Izlaz" FontSize="18" Width="110" Margin="5,5,0,5" HorizontalAlignment="Left" Command="{Binding ObrisiCommand}" Visibility="{Binding Path=VidljivoOdabirVrsteIncidenta}"/>
-            </WrapPanel>
+        </StackPanel>
+
+
+        <!-- ====================================================== -->
+        <!-- CENTER AREA                                            -->
+        <!-- ====================================================== -->
+
+        <Grid
+        Grid.Row="1"
+        HorizontalAlignment="Center">
+
+
+            <!-- ================================================== -->
+            <!-- FILTER CARD                                        -->
+            <!-- ================================================== -->
+
+            <Border
+            Width="650"
+            HorizontalAlignment="Center"
+            Padding="24"
+            Background="{StaticResource CardBackgroundBrush}"
+            BorderBrush="{StaticResource BorderBrushLight}"
+            BorderThickness="1"
+            CornerRadius="12">
+
+
+                <Grid>
+
+                    <Grid.RowDefinitions>
+
+                        <RowDefinition Height="40"/>
+
+                        <RowDefinition Height="22"/>
+
+                        <RowDefinition Height="40"/>
+
+                        <RowDefinition Height="22"/>
+
+                        <RowDefinition Height="62"/>
+
+                    </Grid.RowDefinitions>
+
+
+                    <Grid.ColumnDefinitions>
+
+                        <!-- LABEL -->
+                        <ColumnDefinition Width="130"/>
+
+                        <!-- CODE -->
+                        <ColumnDefinition Width="150"/>
+
+                        <!-- SPACING -->
+                        <ColumnDefinition Width="16"/>
+
+                        <!-- DESCRIPTION -->
+                        <ColumnDefinition Width="*"/>
+
+                    </Grid.ColumnDefinitions>
+
+
+                    <!-- ================================================== -->
+                    <!-- SKLADISTE                                         -->
+                    <!-- ================================================== -->
+
+                    <TextBlock
+                    Grid.Row="0"
+                    Grid.Column="0"
+                    Text="Skladište"
+                    Style="{StaticResource FormLabelStyle}"/>
+
+
+                    <TextBox
+                    Grid.Row="0"
+                    Grid.Column="1"
+                    Name="OpBroj"
+                    Text="{Binding CurrentItemMat.Kljnaz}"
+                    KeyDown="TextBox_KeyDown"
+                    FontWeight="SemiBold"
+                    Style="{StaticResource FormTextBoxStyle}">
+
+                        <i:Interaction.Triggers>
+
+                            <i:EventTrigger EventName="LostFocus">
+
+                                <i:InvokeCommandAction
+                                Command="{Binding OsvjeziCommand}" />
+
+                            </i:EventTrigger>
+
+                        </i:Interaction.Triggers>
+
+                    </TextBox>
+
+
+                    <TextBox
+                    Grid.Row="0"
+                    Grid.Column="3"
+                    Text="{Binding CurrentItemTabSkladista.NazivOrg,
+                                   UpdateSourceTrigger=PropertyChanged}"
+                    IsReadOnly="True"
+                    KeyDown="TextBox_KeyDown"
+                    Style="{StaticResource FormTextBoxStyle}"/>
+
+
+                    <!-- ================================================== -->
+                    <!-- SIFRA MATERIJALA                                  -->
+                    <!-- ================================================== -->
+
+                    <TextBlock
+                    Grid.Row="2"
+                    Grid.Column="0"
+                    Text="Šifra materijala"
+                    Style="{StaticResource FormLabelStyle}"/>
+
+
+                    <TextBox
+                    Grid.Row="2"
+                    Grid.Column="1"
+                    Text="{Binding CurrentItemMat.Ident}"
+                    KeyDown="TextBox_KeyDown"
+                    Style="{StaticResource FormTextBoxStyle}">
+
+                        <i:Interaction.Triggers>
+
+                            <i:EventTrigger EventName="LostFocus">
+
+                                <i:InvokeCommandAction
+                                Command="{Binding OsvjeziCommand}" />
+
+                            </i:EventTrigger>
+
+                        </i:Interaction.Triggers>
+
+                    </TextBox>
+
+
+                    <TextBox
+                    Grid.Row="2"
+                    Grid.Column="3"
+                    Text="{Binding CurrentItemTabMaterijala.Nazmat}"
+                    IsReadOnly="True"
+                    KeyDown="TextBox_KeyDown"
+                    Style="{StaticResource FormTextBoxStyle}"/>
+
+
+                    <!-- ================================================== -->
+                    <!-- PERIOD                                            -->
+                    <!-- ================================================== -->
+
+                    <TextBlock
+                    Grid.Row="4"
+                    Grid.Column="0"
+                    Text="Period"
+                    Style="{StaticResource FormLabelStyle}"
+                    VerticalAlignment="Center"/>
+
+
+                    <!-- OD -->
+                    <StackPanel
+                    Grid.Row="4"
+                    Grid.Column="1">
+
+                        <TextBlock
+                        Text="Od"
+                        FontFamily="Segoe UI"
+                        FontSize="12"
+                        Foreground="{StaticResource TextSecondaryBrush}"
+                        Margin="0,0,0,5"/>
+
+
+                        <DatePicker
+                        Name="dtpOd"
+                        SelectedDate="{Binding CurrentItemMat.Datun}"
+                        Style="{StaticResource FormDatePickerStyle}"/>
+
+                    </StackPanel>
+
+
+                    <!-- DO -->
+                    <StackPanel
+                    Grid.Row="4"
+                    Grid.Column="3"
+                    Width="200"
+                    HorizontalAlignment="Left">
+
+                        <TextBlock
+                        Text="Do"
+                        FontFamily="Segoe UI"
+                        FontSize="12"
+                        Foreground="{StaticResource TextSecondaryBrush}"
+                        Margin="0,0,0,5"/>
+
+
+                        <DatePicker
+                        Name="dtpDo"
+                        SelectedDate="{Binding CurrentItemMat.Datnar,
+                                               UpdateSourceTrigger=PropertyChanged}"
+                        Style="{StaticResource FormDatePickerStyle}"/>
+
+                    </StackPanel>
+
+                </Grid>
+
+            </Border>
+
         </Grid>
+
+
+        <!-- ====================================================== -->
+        <!-- ACTION CARD                                            -->
+        <!-- ====================================================== -->
+
+        <Border
+        Grid.Row="2"
+        Width="650"
+        HorizontalAlignment="Center"
+        Margin="0,14,0,0"
+        Padding="20"
+        Background="{StaticResource CardBackgroundBrush}"
+        BorderBrush="{StaticResource BorderBrushLight}"
+        BorderThickness="1"
+        CornerRadius="10">
+
+
+            <Grid>
+
+                <Grid.RowDefinitions>
+
+                    <RowDefinition Height="Auto"/>
+
+                    <RowDefinition Height="15"/>
+
+                    <RowDefinition Height="Auto"/>
+
+                </Grid.RowDefinitions>
+
+
+                <!-- ACTION TITLE -->
+                <StackPanel
+                Grid.Row="0"
+                HorizontalAlignment="Center">
+
+                    <TextBlock
+                    Text="Akcije"
+                    FontFamily="Segoe UI"
+                    FontSize="13"
+                    FontWeight="SemiBold"
+                    Foreground="{StaticResource TextPrimaryBrush}"
+                    HorizontalAlignment="Center"/>
+
+
+                    <TextBlock
+                    Text="Štampanje dnevnika ili izlaz iz pregleda"
+                    Margin="0,3,0,0"
+                    FontFamily="Segoe UI"
+                    FontSize="11.5"
+                    Foreground="{StaticResource TextSecondaryBrush}"
+                    HorizontalAlignment="Center"/>
+
+                </StackPanel>
+
+
+                <!-- BUTTONS -->
+                <StackPanel
+                Grid.Row="2"
+                Orientation="Horizontal"
+                HorizontalAlignment="Center">
+
+
+                    <!-- STAMPA -->
+                    <Button
+                    x:Name="btnPrvi"
+                    Content="Štampa"
+                    Click="stampa_button"
+                    Style="{StaticResource PrimaryButtonStyle}"
+                    Margin="0,0,10,0"/>
+
+
+                    <!-- IZLAZ -->
+                    <Button
+                    x:Name="btnTrazi"
+                    Content="Izlaz"
+                    Command="{Binding ObrisiCommand}"
+                    Visibility="{Binding Path=VidljivoOdabirVrsteIncidenta}"
+                    Style="{StaticResource SecondaryButtonStyle}"/>
+
+                </StackPanel>
+
+            </Grid>
+
+        </Border>
+
     </Grid>
+
 </UserControl>

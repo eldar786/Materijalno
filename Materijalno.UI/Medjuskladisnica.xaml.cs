@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
@@ -99,6 +100,164 @@ namespace Materijalno.UI
                 printWindow.Close();
             }
         }
+
+        private void DatePicker_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key != Key.Enter)
+                return;
+
+            DatePicker datePicker = sender as DatePicker;
+
+            if (datePicker == null)
+                return;
+
+            DatePickerTextBox textBox =
+                datePicker.Template.FindName("PART_TextBox", datePicker)
+                as DatePickerTextBox;
+
+            if (textBox == null)
+                return;
+
+            DateTime datum;
+
+            bool isValid = DateTime.TryParseExact(
+                textBox.Text,
+                "dd.MM.yyyy",
+                System.Globalization.CultureInfo.InvariantCulture,
+                System.Globalization.DateTimeStyles.None,
+                out datum);
+
+            if (!isValid)
+            {
+                MessageBox.Show(
+                    "Datum nije ispravan.\nUnesite datum u formatu dd.MM.yyyy.",
+                    "Upozorenje",
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Warning);
+
+                textBox.Focus();
+                textBox.SelectAll();
+
+                e.Handled = true;
+                return;
+            }
+
+            // Postavi datum
+            datePicker.SelectedDate = datum;
+
+            // Odmah upisi datum u CurrentItemMat.Datun
+            var bindingExpression =
+                datePicker.GetBindingExpression(
+                    DatePicker.SelectedDateProperty);
+
+            if (bindingExpression != null)
+            {
+                bindingExpression.UpdateSource();
+            }
+
+            // ENTER se ponasa kao TAB
+            TraversalRequest request =
+                new TraversalRequest(FocusNavigationDirection.Next);
+
+            textBox.MoveFocus(request);
+
+            e.Handled = true;
+        }
+
+
+        private void DatePicker_Loaded(object sender, RoutedEventArgs e)
+        {
+            DatePicker datePicker = sender as DatePicker;
+
+            if (datePicker == null)
+                return;
+
+            DatePickerTextBox textBox =
+                datePicker.Template.FindName("PART_TextBox", datePicker)
+                as DatePickerTextBox;
+
+            if (textBox != null)
+            {
+                textBox.PreviewTextInput -= DatePickerTextBox_PreviewTextInput;
+                textBox.PreviewTextInput += DatePickerTextBox_PreviewTextInput;
+            }
+        }
+
+
+        private void DatePickerTextBox_PreviewTextInput(
+            object sender,
+            TextCompositionEventArgs e)
+        {
+            DatePickerTextBox textBox = sender as DatePickerTextBox;
+
+            if (textBox == null)
+                return;
+
+            // Dozvoli samo brojeve
+            if (string.IsNullOrEmpty(e.Text) || !char.IsDigit(e.Text[0]))
+            {
+                e.Handled = true;
+                return;
+            }
+
+            string text = textBox.Text ?? "";
+
+            // Ako je cijeli datum označen, novi unos počinje ispočetka
+            if (textBox.SelectionLength == text.Length)
+            {
+                text = "";
+                textBox.Text = "";
+                textBox.CaretIndex = 0;
+            }
+
+            int caret = textBox.CaretIndex;
+
+            // Ako je dio teksta označen, ukloni ga prije unosa
+            if (textBox.SelectionLength > 0)
+            {
+                text = text.Remove(
+                    textBox.SelectionStart,
+                    textBox.SelectionLength);
+
+                caret = textBox.SelectionStart;
+            }
+
+            // Ne dozvoli više od dd.MM.yyyy
+            if (text.Length >= 10)
+            {
+                e.Handled = true;
+                return;
+            }
+
+            // Ubaci unesenu cifru
+            text = text.Insert(caret, e.Text);
+            caret++;
+
+            // Nakon dana dodaj tačku
+            // 01 -> 01.
+            if (text.Length == 2)
+            {
+                text += ".";
+                caret++;
+            }
+
+            // Nakon mjeseca dodaj tačku
+            // 01.11 -> 01.11.
+            if (text.Length == 5)
+            {
+                text += ".";
+                caret++;
+            }
+
+            if (text.Length <= 10)
+            {
+                textBox.Text = text;
+                textBox.CaretIndex = caret;
+            }
+
+            e.Handled = true;
+        }
+
 
         private void MoveFocusToNextControl(TextBox currentTextBox)
         {

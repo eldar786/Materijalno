@@ -392,7 +392,7 @@ namespace Materijalno.ViewModel
             var dbContext = new materijalno_knjigovodstvoContext();
 
             // Kljnaz kolona
-            int? maxValue_Skladiste = dbContext.Mat
+            int? maxValue_Skladiste = dbContext.SifarnikSkladista
                 .Max(row => row.Kljnaz);
 
             int? minValue_Skladiste = dbContext.Mat
