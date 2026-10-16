@@ -733,9 +733,12 @@ namespace Materijalno.ViewModel
                     Redbr = 1
                 });
 
+                //Provjeriti kako radi kada ima jedan red?
+
                 CurrentIndex = InvList.Count - 1;
                 CurrentItemInv = InvList[CurrentIndex];
 
+                CurrentItemInv.Status = "P";
 
                 dbContext.Add(CurrentItemInv);
                 dbContext.SaveChanges();
