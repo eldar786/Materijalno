@@ -84,6 +84,9 @@ namespace Materijalno.ViewModel
                         System.Windows.MessageBox.Show("Molimo unesite sva polja", "Greška", MessageBoxButton.OK, MessageBoxImage.Error);
                         return;
                     }
+                    SifarnikKonta.Stakont = 0;
+                    SifarnikKonta.Stamt = 0;
+
                     dbContext.Add(SifarnikKonta);
                     dbContext.SaveChanges();
 
