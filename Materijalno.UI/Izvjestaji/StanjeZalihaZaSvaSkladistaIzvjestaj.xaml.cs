@@ -58,7 +58,7 @@ namespace Materijalno.UI.Izvjestaji
                         Datun = stanjeZalihaZaSvaSkladistavm.CurrentItemMat.Datun, // Maintain filtering date
                         Kolic = grouped.Sum(x => x.Kolic), // Sum up Kolic
                         Vrijed = grouped.Sum(x => x.Vrijed), // Sum up Vrijed
-                    })
+                    }).OrderBy(x => x.Kljnaz)
                      .ToList()); // Convert to List before assigning to ObservableCollection
                                  
 
