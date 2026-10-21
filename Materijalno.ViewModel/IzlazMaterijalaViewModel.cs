@@ -767,6 +767,8 @@ namespace Materijalno.ViewModel
 
                 BrojKalkulacije();
 
+                
+
                 dbContext.Add(CurrentItemMat);
                 dbContext.SaveChanges();
 
@@ -884,8 +886,9 @@ namespace Materijalno.ViewModel
                 int? ukupnoIzlaziMaterijal = new int();
 
                 //POCETNO STANJE
-                int pocetnoStanje = (int)dbContext.Mat
-                    .Where(row => row.Kljnaz == currentItemMat.Kljnaz && row.Ident == currentItemMat.Ident && row.Status == "P").Select(row => row.Kolic).FirstOrDefault();
+                int pocetnoStanje = (int)(dbContext.Mat
+                    .Where(row => row.Kljnaz == currentItemMat.Kljnaz && row.Ident == currentItemMat.Ident &&(row.Status == "P"))
+                    .Sum(row => (decimal?)row.Kolic) ?? 0m);
 
                 //ULAZI ZA MATERIJAL I SKLADISTE
                 ObservableCollection<Mat> ulaziMaterijal = new ObservableCollection<Mat>(dbContext.Mat.Where(row => row.Kljnaz == currentItemMat.Kljnaz && row.Ident == currentItemMat.Ident
@@ -911,7 +914,8 @@ namespace Materijalno.ViewModel
                 .Where(row =>
                     row.Kljnaz == currentItemMat.Kljnaz &&
                     row.Ident == currentItemMat.Ident &&
-                    row.Status == "M")
+                    row.Status == "M" &&
+                    row.Medus == "1")
                 .Sum(row => (int?)row.Kolic) ?? 0;
 
                 //Povrat
@@ -944,6 +948,9 @@ namespace Materijalno.ViewModel
 
                 currentItemMat.Status = "I";
                 currentItemMat.Kontosklad1 = 0;
+
+                //CurrentItemMat.Kolic = CurrentItemMat.Kolic * -1;
+                //CurrentItemMat.Vrijed = CurrentItemMat.Vrijed * -1;
 
                 if (CurrentItemMat.Ident != null)
                 {

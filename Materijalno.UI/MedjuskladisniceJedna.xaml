@@ -303,8 +303,9 @@
                 Grid.Column="1"
                 Text="{Binding CurrentItemMat.Brfak}"
                 KeyDown="TextBox_KeyDown"
+                CharacterCasing="Upper"
                 FontWeight="Bold"
-                Style="{StaticResource FormTextBoxStyle}"/>
+                Style="{StaticResource FormTextBoxStyle}"/>     
 
 
 

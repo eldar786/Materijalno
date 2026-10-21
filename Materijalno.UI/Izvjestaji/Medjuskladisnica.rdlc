@@ -75,7 +75,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Fields!Kljnaz1.Value</Value>
+                              <Value>=Fields!Kljnaz.Value</Value>
                               <Style />
                             </TextRun>
                           </TextRuns>
@@ -208,7 +208,7 @@
                             </TextRun>
                           </TextRuns>
                           <Style>
-                            <TextAlign>Center</TextAlign>
+                            <TextAlign>Right</TextAlign>
                           </Style>
                         </Paragraph>
                       </Paragraphs>
@@ -235,12 +235,12 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Fields!Nc.Value</Value>
+                              <Value>=Replace(Format(Fields!Nc.Value, "N9"), ".", ",")</Value>
                               <Style />
                             </TextRun>
                           </TextRuns>
                           <Style>
-                            <TextAlign>Center</TextAlign>
+                            <TextAlign>Right</TextAlign>
                           </Style>
                         </Paragraph>
                       </Paragraphs>
@@ -267,12 +267,12 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Math.Abs(CDbl(Fields!Vrijed.Value))</Value>
+                              <Value>=Replace(Replace(Format(Math.Abs(CDbl(Fields!Vrijed.Value)), "#,##0.00"), ",", "|"), ".", ",").Replace("|", ".")</Value>
                               <Style />
                             </TextRun>
                           </TextRuns>
                           <Style>
-                            <TextAlign>Center</TextAlign>
+                            <TextAlign>Right</TextAlign>
                           </Style>
                         </Paragraph>
                       </Paragraphs>
@@ -761,7 +761,7 @@ ulaz materijala</Value>
           <Paragraph>
             <TextRuns>
               <TextRun>
-                <Value>=Math.Abs(CDbl(Fields!TotalVrijednost.Value))</Value>
+                <Value>=System.Math.Abs(CDbl(Fields!TotalVrijednost.Value)).ToString("N2", System.Globalization.CultureInfo.GetCultureInfo("de-DE"))</Value>
                 <Style />
               </TextRun>
             </TextRuns>
