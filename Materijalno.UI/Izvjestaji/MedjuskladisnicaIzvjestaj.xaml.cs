@@ -48,10 +48,9 @@ namespace Materijalno.UI.Izvjestaji
 
             var dbContext = new materijalno_knjigovodstvoContext();
             //MatList = dbContext.Mat.ToList();
+            
             MatList = new ObservableCollection<Mat>(dbContext.Mat
-                     .Where(row => row.Brfak == medjuskladisnicavm.CurrentItemMat.Brfak
-                     && row.Medus == null
-                     && row.Kolic > 0)// Provjeriti da li nam treba Kolic > 0
+                     .Where(row => row.Brfak == medjuskladisnicavm.CurrentItemMat.Brfak && row.Medus == "1")
                      .OrderBy(row => row.Datun)
                      .ToList());
             _tabelaMaterijala = dbContext.TabelaMaterijala.ToList();

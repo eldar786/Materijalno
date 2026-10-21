@@ -984,8 +984,16 @@ namespace Materijalno.ViewModel
 
         private bool ValidacijaZaliheMaterijala()
         {
-            if (currentItemMat.Nc == 0 || currentItemMat.Nc == null)
+            if (currentItemMat == null ||
+    !currentItemMat.Nc.HasValue ||
+    currentItemMat.Nc.Value <= 0)
             {
+                System.Windows.MessageBox.Show(
+                    "Nabavna cijena nije izračunata ili je neispravna.",
+                    "Upozorenje",
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Warning);
+
                 return false;
             }
 
@@ -1000,8 +1008,11 @@ namespace Materijalno.ViewModel
                 int? ukupnoIzlaziMaterijal = new int();
 
                 //POCETNO STANJE
-                int pocetnoStanje = (int)dbContext.Mat
-                    .Where(row => row.Kljnaz == currentItemMat.Kljnaz && row.Ident == currentItemMat.Ident && row.Status == "P").Select(row => row.Kolic).FirstOrDefault();
+                int pocetnoStanje = dbContext.Mat
+    .Where(row => row.Kljnaz == currentItemMat.Kljnaz
+               && row.Ident == currentItemMat.Ident
+               && row.Status == "P")
+    .Sum(row => (int?)row.Kolic) ?? 0;
 
                 //ULAZI ZA MATERIJAL I SKLADISTE
                 ObservableCollection<Mat> ulaziMaterijal = new ObservableCollection<Mat>(dbContext.Mat.Where(row => row.Kljnaz == currentItemMat.Kljnaz && row.Ident == currentItemMat.Ident
@@ -1078,8 +1089,8 @@ namespace Materijalno.ViewModel
                     Ourst = 0,
                     Mjtst = 0,
                     Vrijed = 0,
-                    Nc = 0
-                    //Status = "M",
+                    Nc = 0,
+                    Status = "M",
                 });
 
                 CurrentIndex = MatList.Count - 1;
@@ -1267,57 +1278,254 @@ namespace Materijalno.ViewModel
             }
         }
 
+
         private void SlijStavkaButton()
         {
-            //Ostavi prve stavke, dodaj redni broj, ostala polja ostavi prazno i spasi kao novi currentItemMat
-            Mat snimljeniCurrentMat = currentItemMat;
+            Mat snimljeniCurrentMat = CurrentItemMat;
 
-            using (var dbContext = new materijalno_knjigovodstvoContext())
+            if (snimljeniCurrentMat == null)
             {
-                //Dodaje u listu novi CurrentItemMat
-                MatList.Add(new Mat
+                System.Windows.MessageBox.Show(
+                    "Nije odabrana stavka međuskladišnice.",
+                    "Greška",
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Error);
+                return;
+            }
+
+            // Ova verzija koristi postojeći način rada:
+            // NovaMedjuskladisnica unaprijed kreira red u bazi.
+            if (snimljeniCurrentMat.Id == 0)
+            {
+                System.Windows.MessageBox.Show(
+                    "Trenutna stavka još nije kreirana u bazi.",
+                    "Greška",
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Error);
+                return;
+            }
+
+            if (snimljeniCurrentMat.Medus == "1")
+            {
+                System.Windows.MessageBox.Show(
+                    "Ulazna stavka ne može biti ponovno spremljena.",
+                    "Upozorenje",
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Warning);
+                return;
+            }
+
+            // Provjera stanja zaliha
+            if (!ValidacijaZaliheMaterijala())
+                return;
+
+            // Provjera obaveznih polja
+            if (!ValidacijaSpasi())
+            {
+                System.Windows.MessageBox.Show(
+                    "Molimo unesite sva obavezna polja!",
+                    "Upozorenje",
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Warning);
+                return;
+            }
+
+            try
+            {
+                // Izračun nabavne cijene
+                NabavnaCijena();
+
+                // NabavnaCijena može osvježiti CurrentItemMat.
+                // Zato vraćamo referencu na stavku koju spremamo.
+                CurrentItemMat = snimljeniCurrentMat;
+
+                using (var dbContext = new materijalno_knjigovodstvoContext())
                 {
-                    //Za ulaz materijala broj skladišta je uvijek 1000
-                    //Kljnaz = 1000
-                    Redbr = snimljeniCurrentMat.Redbr + 1,
-                    Kljnaz = snimljeniCurrentMat.Kljnaz,
-                    Kljnaz1 = snimljeniCurrentMat.Kljnaz1,
-                    Brfak = snimljeniCurrentMat.Brfak,
-                    Datun = snimljeniCurrentMat.Datun,
-                    Datnar = snimljeniCurrentMat.Datnar,
-                    Brdok = snimljeniCurrentMat.Brdok,
-                    Status = "I"
-                });
+                    // Provjeri postoji li trenutni red u bazi
+                    Mat izlaz = dbContext.Mat
+                        .FirstOrDefault(x => x.Id == snimljeniCurrentMat.Id);
 
-                CurrentIndex = MatList.Count - 1;
-                CurrentItemMat = MatList[CurrentIndex];
+                    if (izlaz == null)
+                    {
+                        throw new InvalidOperationException(
+                            "Trenutna stavka nije pronađena u bazi.");
+                    }
 
+                    // Zaštita od ponovnog spremanja istog para
+                    bool postojiUlaz = dbContext.Mat.Any(x =>
+                        x.Status == "M" &&
+                        x.Medus == "1" &&
+                        x.Brfak == snimljeniCurrentMat.Brfak &&
+                        x.Redbr == snimljeniCurrentMat.Redbr);
 
+                    if (postojiUlaz)
+                    {
+                        throw new InvalidOperationException(
+                            "Ova stavka međuskladišnice je već spremljena.");
+                    }
 
-                //BrojKalkulacije();
+                    // Dohvati konto materijala
+                    var kontoMaterijala = dbContext.TabelaMaterijala
+                        .Where(x => x.Ident == snimljeniCurrentMat.Ident)
+                        .Select(x => x.Konto1)
+                        .FirstOrDefault();
 
-                dbContext.Add(CurrentItemMat);
-                dbContext.SaveChanges();
+                    izlaz.Konto1 = kontoMaterijala.HasValue
+                        ? checked((int)kontoMaterijala.Value)
+                        : (int?)null;
 
-                //kad uradi SlijedStavka, treba da ostane SNIMI i ODUSTANI
-                //Trenutno Slij.stavka je Enabled i ODUSTANI
+                    // Konto izlaznog skladišta
+                    izlaz.Kontosklad =
+                        dbContext.SifarnikMaterijalSkladisteKonto
+                        .Where(x =>
+                            x.Sifskla == snimljeniCurrentMat.Kljnaz &&
+                            x.Sifmat == snimljeniCurrentMat.Ident)
+                        .Select(x => x.Sifkonta)
+                        .FirstOrDefault();
 
+                    // Konto ulaznog skladišta
+                    izlaz.Kontosklad1 =
+                        dbContext.SifarnikMaterijalSkladisteKonto
+                        .Where(x =>
+                            x.Sifskla == snimljeniCurrentMat.Kljnaz1 &&
+                            x.Sifmat == snimljeniCurrentMat.Ident)
+                        .Select(x => x.Sifkonta)
+                        .FirstOrDefault();
 
-                //Ovo kada je true, onda ce buttoni biti dostupni
-                _isNovaKalkulacijaClicked = false;
-                isNovaKalkulacijaClicked = true;
-                isIzlazEnable = false;
-                IsOdustaniEnabled = true;
-                SpasiNovuKalkulacijuCommand.RaiseCanExecuteChanged();
+                    // IZLAZ - negativne vrijednosti
+                    izlaz.Kolic = -Math.Abs(
+                        snimljeniCurrentMat.Kolic ?? 0);
 
-                //Ova commanda zavisi od "_isNovaKalkulacijaClicked"
-                SlijStavkaButtonCommand.RaiseCanExecuteChanged();
-                IzlazCommand.RaiseCanExecuteChanged();
-                OdustaniCommand.RaiseCanExecuteChanged();
+                    izlaz.Vrijed = -Math.Abs(
+                        snimljeniCurrentMat.Vrijed ?? 0);
 
-                UpdateCurrentItemData(dbContext);
+                    izlaz.Nc = snimljeniCurrentMat.Nc;
+                    izlaz.Status = "M";
+                    izlaz.Medus = "";
+
+                    // ULAZ - pozitivne vrijednosti
+                    Mat ulaz = new Mat
+                    {
+                        Kljnaz = izlaz.Kljnaz1,
+                        Kljnaz1 = izlaz.Kljnaz,
+
+                        Kolic = Math.Abs(izlaz.Kolic.Value),
+                        Vrijed = Math.Abs(izlaz.Vrijed.Value),
+
+                        Kontosklad = izlaz.Kontosklad1,
+                        Kontosklad1 = izlaz.Kontosklad,
+
+                        Medus = "1",
+
+                        Ident = izlaz.Ident,
+                        Datun = izlaz.Datun,
+                        Datnar = izlaz.Datnar,
+                        Brdok = izlaz.Brdok,
+                        Brfak = izlaz.Brfak,
+                        Nc = izlaz.Nc,
+                        Redbr = izlaz.Redbr,
+                        Status = "M",
+                        Konto1 = izlaz.Konto1
+                    };
+
+                    // Nova prazna stavka za sljedeći materijal
+                    Mat novaStavka = new Mat
+                    {
+                        Redbr = izlaz.Redbr + 1,
+
+                        Kljnaz = izlaz.Kljnaz,
+                        Kljnaz1 = izlaz.Kljnaz1,
+
+                        Brfak = izlaz.Brfak,
+                        Datun = izlaz.Datun,
+                        Datnar = izlaz.Datnar,
+                        Brdok = izlaz.Brdok,
+
+                        Ident = 0,
+                        Kolic = 0,
+                        Vrijed = 0,
+                        Nc = 0,
+
+                        Status = "M",
+                        Medus = "",
+
+                        Analst = "",
+                        Brnar = "",
+                        Konto2 = "",
+                        Tarifa = "",
+                        Fcj = "0",
+                        Troskovi = 0.00m,
+                        Cartro = "0",
+                        Zavtro = "0",
+                        Ppp = "0",
+                        Fvrijed = "0",
+                        Porppp = 0,
+                        Trospe = 0.00m,
+                        Ourst = 0,
+                        Mjtst = 0
+                    };
+
+                    // Sve tri promjene u jednoj transakciji
+                    using (var transaction =
+                        dbContext.Database.BeginTransaction())
+                    {
+                        try
+                        {
+                            dbContext.Mat.Add(ulaz);
+                            dbContext.Mat.Add(novaStavka);
+
+                            dbContext.SaveChanges();
+                            transaction.Commit();
+                        }
+                        catch
+                        {
+                            transaction.Rollback();
+                            throw;
+                        }
+                    }
+
+                    // Osvježi izlaznu stavku u memoriji
+                    snimljeniCurrentMat.Kolic = izlaz.Kolic;
+                    snimljeniCurrentMat.Vrijed = izlaz.Vrijed;
+                    snimljeniCurrentMat.Nc = izlaz.Nc;
+                    snimljeniCurrentMat.Konto1 = izlaz.Konto1;
+                    snimljeniCurrentMat.Kontosklad = izlaz.Kontosklad;
+                    snimljeniCurrentMat.Kontosklad1 = izlaz.Kontosklad1;
+                    snimljeniCurrentMat.Status = "M";
+                    snimljeniCurrentMat.Medus = "";
+
+                    // Dodaj novu stavku u listu
+                    MatList.Add(novaStavka);
+
+                    CurrentIndex = MatList.Count - 1;
+                    CurrentItemMat = novaStavka;
+
+                    // Ostavi Snimi, Sljedeća stavka i Odustani
+                    isNovaKalkulacijaClicked = true;
+                    _isNovaKalkulacijaClicked = false;
+                    IsOdustaniEnabled = true;
+                    isIzlazEnable = false;
+
+                    SpasiNovuKalkulacijuCommand.RaiseCanExecuteChanged();
+                    SlijStavkaButtonCommand.RaiseCanExecuteChanged();
+                    NovaMedjuskladisnicaCommand.RaiseCanExecuteChanged();
+                    IzlazCommand.RaiseCanExecuteChanged();
+                    OdustaniCommand.RaiseCanExecuteChanged();
+
+                    UpdateCurrentItemData(dbContext);
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Windows.MessageBox.Show(
+                    "Greška prilikom spremanja stavke:\n" +
+                    ex.ToString(),
+                    "Greška",
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Error);
             }
         }
+
 
         private void OtvoriKomitentListu()
         {

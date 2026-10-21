@@ -49,7 +49,13 @@ namespace Materijalno.UI
             }
         }
 
-
+        private void TextBox_GotKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
+        {
+            if (sender is TextBox textBox)
+            {
+                textBox.SelectAll();
+            }
+        }
         private void HandlePrintRequest()
         {
             // Kreiranje Window za print
