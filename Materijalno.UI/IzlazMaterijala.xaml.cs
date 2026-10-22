@@ -17,6 +17,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
+
 namespace Materijalno.UI
 {
     /// <summary>
@@ -27,8 +28,57 @@ namespace Materijalno.UI
         public IzlazMaterijala()
         {
             InitializeComponent();
+            DataContextChanged += Izlaz_DataContextChanged;
+
+            if (DataContext is IzlazMaterijalaViewModel vm)
+            {
+                vm.RequestFocusSlijedecaStavka += FocusSlijedecaStavka;
+                vm.RequestFocusIdent += FocusIdent;
+            }
 
             this.DataContextChanged += MainWindow_DataContextChanged;
+        }
+        private void Izlaz_DataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            if (e.OldValue is IzlazMaterijalaViewModel oldVm)
+            {
+                oldVm.RequestFocusSlijedecaStavka -= FocusSlijedecaStavka;
+                oldVm.RequestFocusIdent -= FocusIdent;
+            }
+
+            if (e.NewValue is IzlazMaterijalaViewModel newVm)
+            {
+                newVm.RequestFocusSlijedecaStavka += FocusSlijedecaStavka;
+                newVm.RequestFocusIdent += FocusIdent;
+            }
+        }
+
+        private void FocusSlijedecaStavka()
+        {
+            Dispatcher.BeginInvoke(
+                new Action(() =>
+                {
+                    if (btnSlijedecaStavka.IsEnabled &&
+                        btnSlijedecaStavka.IsVisible)
+                    {
+                        Keyboard.Focus(btnSlijedecaStavka);
+                    }
+                }),
+                System.Windows.Threading.DispatcherPriority.ContextIdle);
+        }
+
+        private void FocusIdent()
+        {
+            Dispatcher.BeginInvoke(
+                new Action(() =>
+                {
+                    if (txtIdent.IsEnabled && txtIdent.IsVisible)
+                    {
+                        Keyboard.Focus(txtIdent);
+                        txtIdent.SelectAll();
+                    }
+                }),
+                System.Windows.Threading.DispatcherPriority.ContextIdle);
         }
 
         private void MainWindow_DataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
@@ -274,7 +324,16 @@ namespace Materijalno.UI
 
             e.Handled = true;
         }
-
+        private void SnimiButton_Click(object sender, RoutedEventArgs e)
+        {
+            Dispatcher.BeginInvoke(
+                new Action(() =>
+                {
+                    btnSlijedecaStavka.Focus();
+                    Keyboard.Focus(btnSlijedecaStavka);
+                }),
+                System.Windows.Threading.DispatcherPriority.ContextIdle);
+        }
 
         private void btnStampa_Click(object sender, RoutedEventArgs e)
         {
