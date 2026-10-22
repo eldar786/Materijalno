@@ -41,7 +41,8 @@ namespace Materijalno.ViewModel
         string currentNazivZaSifruKomitenta;
         public int CurrentIndex = 0;
         public event PropertyChangedEventHandler PropertyChanged;
-
+        public event Action RequestFocusSlijedecaStavka;
+        public event Action RequestFocusIdent;
         private bool prethodniButtonIsExecuted = false;
         private bool nextButtonIsExecuted = false;
         private bool prvoUcitavanje = false;
@@ -181,7 +182,7 @@ namespace Materijalno.ViewModel
         public RelayCommand BrisanjeCommand { get; set; }
         public RelayCommand UpdateCommand { get; set; }
         public RelayCommand NovoZaduzenjeCommand { get; set; }
-        public RelayCommand NovaStavkaCommand { get; set; }
+        public RelayCommand NovaStavkaButtonCommand { get; set; }
 
         //Potrebno uraditi ???
         //public RelayCommand StampaCommand { get; set; }
@@ -235,6 +236,8 @@ namespace Materijalno.ViewModel
 
             OtvoriKomitentListuCommand = new RelayCommand(OtvoriKomitentListu);
             SlijStavkaButtonCommand = new RelayCommand(SlijStavkaButton, () => IsNovaKalkulacijaClicked);
+            NovaStavkaButtonCommand = new RelayCommand(NovaStavkaButton,() => CurrentItemMat != null && CurrentItemMat.Id > 0 && !string.IsNullOrWhiteSpace(CurrentItemMat.Brfak) &&!isNovaKalkulacijaClicked);
+          
             #endregion
 
             using (var dbContext = new materijalno_knjigovodstvoContext())
@@ -254,7 +257,7 @@ namespace Materijalno.ViewModel
         }
 
         #endregion
-
+        // Konstructor koji se koristi kada se poziva iz MatListeViewModel, da bi se prikazao odabrani red iz liste
         public IzlazMaterijalaViewModel(GlavniViewModel gvm, Mat CurrentItemMat)
         {
             _gvm = gvm;
@@ -288,7 +291,9 @@ namespace Materijalno.ViewModel
             BrojKalkulacijeCommand = new RelayCommand(BrojKalkulacije);
             OtvoriKomitentListuCommand = new RelayCommand(OtvoriKomitentListu);
             SlijStavkaButtonCommand = new RelayCommand(SlijStavkaButton);
-
+            NovaStavkaButtonCommand = new RelayCommand(NovaStavkaButton);
+            NabavnaCijenaCommand = new RelayCommand(NabavnaCijena);
+            OsvjeziCommand = new RelayCommand(Osvjezi);
             #endregion
 
             UpdateCommands();
@@ -344,75 +349,177 @@ namespace Materijalno.ViewModel
             }
         }
 
+
         public void NabavnaCijena()
         {
-            var currentId = CurrentItemMat.Id;
+            if (CurrentItemMat == null)
+                return;
 
+            // Sačuvaj trenutni ID
+            int currentId = CurrentItemMat.Id;
+
+            // Izlaz materijala mora imati negativnu količinu
             if (CurrentItemMat.Kolic > 0)
             {
                 CurrentItemMat.Kolic = -CurrentItemMat.Kolic;
             }
 
-            var dbContext = new materijalno_knjigovodstvoContext();
-
-            
-            // 3) Ako ima "I" → izračunaj Sum(Vrijed)/Sum(Kolic) iz "P" redova i "I" redova
-            var sums = dbContext.Mat
-            .Where(r =>
-                r.Ident == CurrentItemMat.Ident &&
-                r.Kljnaz == CurrentItemMat.Kljnaz &&
-                r.Id != currentId && // isključi trenutni red, da ne bi uzimao kolicinu i vrijed (Vidjeti kako ovo radi za UPDATE)
-                (
-                    r.Status == "P" ||
-                    r.Status == "U" ||
-                    r.Status == "V" ||
-                    r.Status == "I" ||
-                    r.Status == "M"      
-                ))
-            .GroupBy(_ => 1)
-            .Select(g => new
+            using (var dbContext = new materijalno_knjigovodstvoContext())
             {
-                SumVrijed = (decimal?)g.Sum(x => x.Vrijed) ?? 0m,
-                SumKolic = (decimal?)g.Sum(x => x.Kolic) ?? 0m
-            })
-            .FirstOrDefault();
+                // Izračun ponderisane nabavne cijene
+                // za odabrani Ident i Kljnaz
+                var sums = dbContext.Mat
+                    .Where(r =>
+                        r.Ident == CurrentItemMat.Ident &&
+                        r.Kljnaz == CurrentItemMat.Kljnaz &&
+                        r.Id != currentId &&
+                        (
+                            r.Status == "P" ||
+                            r.Status == "U" ||
+                            r.Status == "V" ||
+                            r.Status == "I" ||
+                            r.Status == "M"
+                        ))
+                    .GroupBy(_ => 1)
+                    .Select(g => new
+                    {
+                        SumVrijed = (decimal?)g.Sum(x => x.Vrijed) ?? 0m,
+                        SumKolic = (decimal?)g.Sum(x => x.Kolic) ?? 0m
+                    })
+                    .FirstOrDefault();
+                System.Windows.MessageBox.Show(
+    $"Ident: {CurrentItemMat.Ident}\n" +
+    $"Kljnaz: {CurrentItemMat.Kljnaz}\n" +
+    $"SumVrijed: {sums?.SumVrijed}\n" +
+    $"SumKolic: {sums?.SumKolic}\n" +
+    $"Calculated Nc: " +
+    $"{(sums == null || sums.SumKolic == 0m ? 0m : sums.SumVrijed / sums.SumKolic)}",
+    "PROVJERA NABAVNE CIJENE");
 
-            CurrentItemMat.Nc =
-                (sums == null || sums.SumKolic == 0m)
-                    ? 0m
-                    : (sums.SumVrijed / sums.SumKolic);
+                // Izračun Nc
+                CurrentItemMat.Nc =
+                    (sums == null || sums.SumKolic == 0m)
+                        ? 0m
+                        : sums.SumVrijed / sums.SumKolic;
 
-            // optional: round to 9 decimals
-            //CurrentItemMat.Nc = (decimal?)Math.Round((decimal)CurrentItemMat.Nc, 9, MidpointRounding.AwayFromZero);
-            CurrentItemMat.Nc = Math.Round(CurrentItemMat.Nc ?? 0m, 9, MidpointRounding.AwayFromZero);
+                // Zaokruživanje na 9 decimala
+                CurrentItemMat.Nc = Math.Round(
+                    CurrentItemMat.Nc ?? 0m,
+                    9,
+                    MidpointRounding.AwayFromZero);
 
-            //CurrentItemMat.Nc = dbContext.Mat
-            //    .Where(row => row.Ident == CurrentItemMat.Ident)
-            //    .Select(row => row.Nc).FirstOrDefault();
+                // Izračun Vrijed
+                if (CurrentItemMat.Kolic.HasValue &&
+                    CurrentItemMat.Kolic.Value != 0)
+                {
+                    CurrentItemMat.Vrijed =
+                        CurrentItemMat.Kolic.Value *
+                        (CurrentItemMat.Nc ?? 0m);
+                }
+                else
+                {
+                    CurrentItemMat.Nc = 0m;
+                    CurrentItemMat.Vrijed = 0m;
+                }
 
-            var culture = new CultureInfo("de-DE");
+                // Ako stavka već postoji u bazi,
+                // ažuriraj SAMO Kolic, Nc i Vrijed.
+                //
+                // Nova stavka: već postoji u SQL bazi.
+                // Novo zaduženje: možda još nije spremljeno.
 
-            if (CurrentItemMat.Kolic.HasValue && CurrentItemMat.Kolic.Value != 0)
-            {
-                CurrentItemMat.Vrijed = (decimal)CurrentItemMat.Kolic.Value * CurrentItemMat.Nc;
+                if (currentId > 0)
+                {
+                    var postojecaStavka = dbContext.Mat
+                        .FirstOrDefault(x => x.Id == currentId);
+
+                    if (postojecaStavka != null)
+                    {
+                        postojecaStavka.Kolic = CurrentItemMat.Kolic;
+                        postojecaStavka.Nc = CurrentItemMat.Nc;
+                        postojecaStavka.Vrijed = CurrentItemMat.Vrijed;
+
+                        dbContext.SaveChanges();
+                    }
+                }
             }
-            else
-            {
-                // U slucaju da je Kolic null ili nula, da bi izbjegli dijeljenje sa nulom
-                CurrentItemMat.Nc = 0;
-            }
 
-            dbContext.Update(CurrentItemMat);
-            dbContext.SaveChanges();
-
-            //Staviti po datumu da sortira i dodaj u listu da bi se vidjele promjene
-            MatList = new ObservableCollection<Mat>(dbContext.Mat
-                .Where(row => row.Kljnaz >= 1001 && row.Kljnaz <= 1012 && row.Status == "I")
-                .OrderBy(row => row.Datun)
-                .ToList());
-
-            UpdateCurrentItemData(dbContext);
+            // Osvježi prikaz izračunatih vrijednosti
+            OnPropertyChanged(nameof(CurrentItemMat));
         }
+
+
+
+
+        //public void NabavnaCijena()
+        //{
+        //    var currentId = CurrentItemMat.Id;
+
+        //    if (CurrentItemMat.Kolic > 0)
+        //    {
+        //        CurrentItemMat.Kolic = -CurrentItemMat.Kolic;
+        //    }
+
+        //    var dbContext = new materijalno_knjigovodstvoContext();
+
+
+        //    // 3) Ako ima "I" → izračunaj Sum(Vrijed)/Sum(Kolic) iz "P" redova i "I" redova
+        //    var sums = dbContext.Mat
+        //    .Where(r =>
+        //        r.Ident == CurrentItemMat.Ident &&
+        //        r.Kljnaz == CurrentItemMat.Kljnaz &&
+        //        r.Id != currentId && // isključi trenutni red, da ne bi uzimao kolicinu i vrijed (Vidjeti kako ovo radi za UPDATE)
+        //        (
+        //            r.Status == "P" ||
+        //            r.Status == "U" ||
+        //            r.Status == "V" ||
+        //            r.Status == "I" ||
+        //            r.Status == "M"      
+        //        ))
+        //    .GroupBy(_ => 1)
+        //    .Select(g => new
+        //    {
+        //        SumVrijed = (decimal?)g.Sum(x => x.Vrijed) ?? 0m,
+        //        SumKolic = (decimal?)g.Sum(x => x.Kolic) ?? 0m
+        //    })
+        //    .FirstOrDefault();
+
+        //    CurrentItemMat.Nc =
+        //        (sums == null || sums.SumKolic == 0m)
+        //            ? 0m
+        //            : (sums.SumVrijed / sums.SumKolic);
+
+        //    // optional: round to 9 decimals
+        //    //CurrentItemMat.Nc = (decimal?)Math.Round((decimal)CurrentItemMat.Nc, 9, MidpointRounding.AwayFromZero);
+        //    CurrentItemMat.Nc = Math.Round(CurrentItemMat.Nc ?? 0m, 9, MidpointRounding.AwayFromZero);
+
+        //    //CurrentItemMat.Nc = dbContext.Mat
+        //    //    .Where(row => row.Ident == CurrentItemMat.Ident)
+        //    //    .Select(row => row.Nc).FirstOrDefault();
+
+        //    var culture = new CultureInfo("de-DE");
+
+        //    if (CurrentItemMat.Kolic.HasValue && CurrentItemMat.Kolic.Value != 0)
+        //    {
+        //        CurrentItemMat.Vrijed = (decimal)CurrentItemMat.Kolic.Value * CurrentItemMat.Nc;
+        //    }
+        //    else
+        //    {
+        //        // U slucaju da je Kolic null ili nula, da bi izbjegli dijeljenje sa nulom
+        //        CurrentItemMat.Nc = 0;
+        //    }
+
+        //    dbContext.Update(CurrentItemMat);
+        //    dbContext.SaveChanges();
+
+        //    //Staviti po datumu da sortira i dodaj u listu da bi se vidjele promjene
+        //    MatList = new ObservableCollection<Mat>(dbContext.Mat
+        //        .Where(row => row.Kljnaz >= 1001 && row.Kljnaz <= 1012 && row.Status == "I")
+        //        .OrderBy(row => row.Datun)
+        //        .ToList());
+
+        //    UpdateCurrentItemData(dbContext);
+        //}
 
         public void Osvjezi()
         {
@@ -681,6 +788,7 @@ namespace Materijalno.ViewModel
 
             UpdateCommands();
             SlijStavkaButtonCommand.RaiseCanExecuteChanged();
+            NovaStavkaButtonCommand.RaiseCanExecuteChanged();// da li treba??
 
             using (var dbContext = new materijalno_knjigovodstvoContext())
             {
@@ -1004,7 +1112,9 @@ namespace Materijalno.ViewModel
 
                 SpasiNovuKalkulacijuCommand.RaiseCanExecuteChanged();
                 SlijStavkaButtonCommand.RaiseCanExecuteChanged();
+                NovaStavkaButtonCommand.RaiseCanExecuteChanged(); // da li treba??
 
+                RequestFocusSlijedecaStavka?.Invoke();
                 //Treba da je dostupan
                 IzlazCommand.RaiseCanExecuteChanged();
 
@@ -1041,6 +1151,7 @@ namespace Materijalno.ViewModel
             SpasiNovuKalkulacijuCommand.RaiseCanExecuteChanged();
             OdustaniCommand.RaiseCanExecuteChanged();
             SlijStavkaButtonCommand.RaiseCanExecuteChanged();
+            NovaStavkaButtonCommand.RaiseCanExecuteChanged();
         }
 
         //Samo dostupno kada odemo na nova kalkulacija i da vrati na prethodni
@@ -1088,6 +1199,142 @@ namespace Materijalno.ViewModel
             _gvm.OdabraniVM = new KomitentiListaViewModel(this, _gvm);
         }
 
+
+
+
+        private void NovaStavkaButton()
+        {
+            if (CurrentItemMat == null || CurrentItemMat.Id <= 0)
+            {
+                System.Windows.MessageBox.Show(
+                    "Prvo odaberite postojeći dokument preko Traži!",
+                    "Upozorenje",
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Warning);
+                return;
+            }
+
+            int odabraniId = CurrentItemMat.Id;
+
+            try
+            {
+                using (var dbContext = new materijalno_knjigovodstvoContext())
+                {
+                    // 1. Učitaj odabrani dokument iz baze
+                    Mat odabranaStavka = dbContext.Mat
+                        .AsNoTracking()
+                        .FirstOrDefault(x => x.Id == odabraniId);
+
+                    if (odabranaStavka == null)
+                    {
+                        System.Windows.MessageBox.Show(
+                            "Odabrani dokument nije pronađen u bazi!",
+                            "Greška",
+                            MessageBoxButton.OK,
+                            MessageBoxImage.Error);
+                        return;
+                    }
+
+                    if (string.IsNullOrWhiteSpace(odabranaStavka.Brfak))
+                    {
+                        System.Windows.MessageBox.Show(
+                            "Odabrani dokument nema Brfak!",
+                            "Greška",
+                            MessageBoxButton.OK,
+                            MessageBoxImage.Error);
+                        return;
+                    }
+
+                    // 2. Pronađi posljednji Redbr za ISTI dokument
+                    int posljednjiRedbr = dbContext.Mat
+                        .Where(x =>
+                            x.Brfak == odabranaStavka.Brfak &&
+                            x.Kljnaz == odabranaStavka.Kljnaz &&
+                            x.Status == "I")
+                        .Max(x => (int?)x.Redbr) ?? 0;
+
+                    // 3. Kreiraj novu stavku
+                    Mat novaStavka = new Mat
+                    {
+                        Brfak = odabranaStavka.Brfak,
+                        Kljnaz = odabranaStavka.Kljnaz,
+                        Datun = odabranaStavka.Datun,
+                        Datnar = odabranaStavka.Datnar,
+                        Brdok = odabranaStavka.Brdok,
+
+                        Redbr = posljednjiRedbr + 1,
+                        Status = "I",
+                        Kljnaz1 = 0,
+
+                        Ident = 0,
+                        Kolic = 0,
+                        Nc = 0m,
+                        Vrijed = 0m
+                    };
+
+                    // 4. Spasi novu stavku u bazu
+                    dbContext.Mat.Add(novaStavka);
+                    dbContext.SaveChanges();
+
+                    var sacuvanaStavka = dbContext.Mat.AsNoTracking().First(x => x.Id == novaStavka.Id);
+
+                    System.Windows.MessageBox.Show(
+                        $"Original Brfak: {odabranaStavka.Brfak}\n" +
+                        $"Saved Brfak: {sacuvanaStavka.Brfak}\n" +
+                        $"Original Kljnaz: {odabranaStavka.Kljnaz}\n" +
+                        $"Saved Kljnaz: {sacuvanaStavka.Kljnaz}",
+                        "Provjera nakon spremanja");
+
+                    // 5. Dodaj novu stavku u listu
+                    MatList.Add(novaStavka);
+
+                    CurrentIndex = MatList.Count - 1;
+                    CurrentItemMat = novaStavka;
+
+                    // 6. Ažuriraj prikaz skladišta
+                    TebelaSkladistaList =
+                        new ObservableCollection<SifarnikSkladista>(
+                            dbContext.SifarnikSkladista
+                                .Where(x => x.Kljnaz == novaStavka.Kljnaz)
+                                .ToList());
+
+                    CurrentItemTabSkladista =
+                        dbContext.SifarnikSkladista
+                            .FirstOrDefault(x =>
+                                x.Kljnaz == novaStavka.Kljnaz);
+
+                    // 7. Omogući unos i spremanje
+                    _isNovaKalkulacijaClicked = false;
+                    isNovaKalkulacijaClicked = true;
+                    isIzlazEnable = false;
+                    IsOdustaniEnabled = true;
+
+                    SpasiNovuKalkulacijuCommand.RaiseCanExecuteChanged();
+                    SlijStavkaButtonCommand.RaiseCanExecuteChanged();
+                    NovaStavkaButtonCommand.RaiseCanExecuteChanged();
+                    IzlazCommand.RaiseCanExecuteChanged();
+                    OdustaniCommand.RaiseCanExecuteChanged();
+
+                    NabavnaCijenaCommand?.RaiseCanExecuteChanged();
+
+                    // 8. Fokus na Ident
+                    RequestFocusIdent?.Invoke();
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Windows.MessageBox.Show(
+                    "Greška prilikom dodavanja nove stavke:\n" +
+                    ex.ToString(),
+                    "Greška",
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Error);
+            }
+        }
+
+
+
+
         private void SlijStavkaButton()
         {
             //Ostavi prve stavke, dodaj redni broj, ostala polja ostavi prazno i spasi kao novi currentItemMat
@@ -1134,6 +1381,7 @@ namespace Materijalno.ViewModel
                 IzlazCommand.RaiseCanExecuteChanged();
 
                 UpdateCurrentItemData(dbContext);
+                RequestFocusIdent?.Invoke();
             }
         }
 

@@ -182,7 +182,7 @@
         <!-- Ensure the source (CurrentItemMat.Ident) is updated as the user types so
              the LostFocus trigger will see the latest value when invoking the command. -->
         <TextBox Grid.Row="5" Grid.Column="3" Margin="-262,0,0,0" KeyDown="TextBox_KeyDown" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="18" Width="120"
-                 Text="{Binding CurrentItemMat.Ident, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" >
+                 Text="{Binding CurrentItemMat.Ident, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" x:Name="txtIdent" >
              <i:Interaction.Triggers>
                  <i:EventTrigger EventName="LostFocus">
                      <i:InvokeCommandAction Command="{Binding OsvjeziCommand}" />
@@ -317,8 +317,8 @@
                         </Style.Triggers>
                     </Style>
                 </StackPanel.Resources>
-                <Button x:Name="btnSlijedecaStavka" FontSize="18" Width="130" Margin="5,5,0,5" HorizontalAlignment="Left" Content="Slij. stavka"  Command="{Binding SlijStavkaButtonCommand}" IsEnabled="True"/>
-                <Button x:Name="btnNovaStavka" Content="Nova stavka" FontSize="18" Width="130" Margin="5,5,0,5" HorizontalAlignment="Left" Command="{Binding NovaStavkaCommand}" IsEnabled="False" />
+                <Button x:Name="btnSlijedecaStavka" FontSize="18" Width="130" Margin="5,5,0,5" HorizontalAlignment="Left" Content="Slij. stavka"  Command="{Binding SlijStavkaButtonCommand}" Click="SnimiButton_Click" IsEnabled="True"/>
+                <Button x:Name="btnNovaStavka" Content="Nova stavka" FontSize="18" Width="130" Margin="5,5,0,5" HorizontalAlignment="Left" Command="{Binding NovaStavkaButtonCommand}" IsEnabled="True" />
                 <Button x:Name="btnIzmjenaStavka" FontSize="18" Width="130" Margin="5,5,0,5" HorizontalAlignment="Left"  Content="Izmjena" Command="{Binding UpdateCommand}" />
                 <Button Content="Odustani" FontSize="18" Width="110" Margin="5,5,0,5" HorizontalAlignment="Left" Command="{Binding OdustaniCommand}" />
                 <Button x:Name="btnBrisanje" Content="Brisanje" FontSize="18" Width="100" Margin="5,5,0,5" HorizontalAlignment="Left" Command="{Binding BrisanjeCommand}"/>
