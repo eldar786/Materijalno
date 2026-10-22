@@ -49,7 +49,9 @@ namespace Materijalno.ViewModel
         public static bool isNovaKalkulacijaClicked = false;
         public static bool isOdustaniEnabled = false;
         public static bool isIzlazEnable = false;
+        public event Action RequestFocusIdent;
 
+        private bool _unosMedjuskladisniceAktivan = false;
 
         private bool _isNovaKalkulacijaClicked;
 
@@ -66,6 +68,23 @@ namespace Materijalno.ViewModel
                 }
             }
         }
+
+        public bool UnosMedjuskladisniceAktivan
+        {
+            get => _unosMedjuskladisniceAktivan;
+            set
+            {
+                if (_unosMedjuskladisniceAktivan == value)
+                    return;
+
+                _unosMedjuskladisniceAktivan = value;
+                OnPropertyChanged(nameof(UnosMedjuskladisniceAktivan));
+                OnPropertyChanged(nameof(NijeAktivanUnosMedjuskladisnice));
+            }
+        }
+
+        public bool NijeAktivanUnosMedjuskladisnice =>
+            !UnosMedjuskladisniceAktivan;
 
         public static bool isTraziClicked = false;
         public event PropertyChangedEventHandler PropertyChanged;
@@ -1063,12 +1082,6 @@ namespace Materijalno.ViewModel
 
         private void NovaMedjuskladisnica()
         {
-            //Prolazi ponovo provjeru CanExecute
-            isNovaKalkulacijaClicked = true;
-            IsOdustaniEnabled = true;
-
-            UpdateCommands();
-
             using (var dbContext = new materijalno_knjigovodstvoContext())
             {
                 MatList.Add(new Mat
@@ -1102,8 +1115,24 @@ namespace Materijalno.ViewModel
                 dbContext.SaveChanges();
 
                 UpdateCurrentItemData(dbContext);
-                //UpdateCurrentItemDataUlaz(dbContext);
             }
+
+            // Aktiviraj režim unosa nove međuskladišnice
+            UnosMedjuskladisniceAktivan = true;
+
+            // Omogući SNIMI
+            isNovaKalkulacijaClicked = true;
+
+            // Omogući ODUSTANI
+            IsOdustaniEnabled = true;
+
+            // Osvježi dostupnost komandi
+            UpdateCommands();
+
+            SpasiNovuKalkulacijuCommand.RaiseCanExecuteChanged();
+            OdustaniCommand.RaiseCanExecuteChanged();
+            SlijStavkaButtonCommand.RaiseCanExecuteChanged();
+            
         }
 
         //Pokupi sva polja trenutna i spasi. Trebalo bi napraviti disabled SAVE button ako nije odabrana nova kalkulacija
@@ -1177,7 +1206,23 @@ namespace Materijalno.ViewModel
                     Nc = CurrentItemMat.Nc,
                     Redbr = CurrentItemMat.Redbr,
                     Status = CurrentItemMat.Status,
-                    Konto1 = CurrentItemMat.Konto1
+                    Konto1 = CurrentItemMat.Konto1,
+
+                    Analst = "",
+                    Brnar="",
+                    Konto2="",
+                    Troskovi=0,
+                    Cartro="0",
+                    Zavtro= "0",
+                    Ppp= "0",
+                    Tarifa = "",
+                    Fvrijed = "0",
+                    Porppp = 0,
+                    Trospe = 0,
+                    Fcj="0",
+                    Ourst=0,
+                    Mjtst=0                    
+
                 };
 
                 dbContext.Add(dupliMat);
@@ -1192,14 +1237,19 @@ namespace Materijalno.ViewModel
                 System.Windows.MessageBox.Show("Uspješno ste unijeli novi šifarnik", "Potvrda", MessageBoxButton.OK, MessageBoxImage.Information);
 
                 //Ovo kada je true, onda ce buttoni biti dostupni
-                isNovaKalkulacijaClicked = false;
-                IsNovaKalkulacijaClicked = true;
-                IsOdustaniEnabled = true;
-                isIzlazEnable = true;
-                IzlazCommand.RaiseCanExecuteChanged();
+                // Završen unos nove međuskladišnice
+                UnosMedjuskladisniceAktivan = false;
 
-                SpasiNovuKalkulacijuCommand.RaiseCanExecuteChanged();
-                SlijStavkaButtonCommand.RaiseCanExecuteChanged();
+                // SNIMI i ODUSTANI više nisu dostupni
+                isNovaKalkulacijaClicked = false;
+                IsOdustaniEnabled = false;
+
+                // Vraćanje ostalih dugmadi u normalno stanje
+                IsNovaKalkulacijaClicked = true;
+                isIzlazEnable = true;
+
+                // Osvježi dostupnost svih komandi
+                UpdateCommands();
 
                 if (CurrentItemMat != null)
                 {
@@ -1216,6 +1266,7 @@ namespace Materijalno.ViewModel
                 //_gvm.OdabraniVM = new UlazMaterijalaViewModel(_gvm);
                 UpdateCurrentItemData(dbContext);
                 //UpdateCurrentItemDataUlaz(dbContext);
+                UpdateCommands();
             }
         }
 
@@ -1425,7 +1476,23 @@ namespace Materijalno.ViewModel
                         Nc = izlaz.Nc,
                         Redbr = izlaz.Redbr,
                         Status = "M",
-                        Konto1 = izlaz.Konto1
+                        Konto1 = izlaz.Konto1,
+
+                        Analst = izlaz.Analst,
+                        Brnar = izlaz.Brnar,
+                        Konto2 = izlaz.Konto2,
+                        Troskovi = izlaz.Troskovi,
+                        Cartro = izlaz.Cartro,
+                        Zavtro = izlaz.Zavtro,
+                        Ppp = izlaz.Ppp ,
+                        Tarifa = izlaz.Tarifa,
+                        Fvrijed = izlaz.Fvrijed,
+                        Porppp = izlaz.Porppp,
+                        Trospe = izlaz.Trospe,
+                        Fcj=izlaz.Fcj,
+                        Ourst = izlaz.Ourst,
+                        Mjtst=izlaz.Mjtst
+                       
                     };
 
                     // Nova prazna stavka za sljedeći materijal
@@ -1514,6 +1581,7 @@ namespace Materijalno.ViewModel
 
                     UpdateCurrentItemData(dbContext);
                 }
+                RequestFocusIdent?.Invoke();
             }
             catch (Exception ex)
             {

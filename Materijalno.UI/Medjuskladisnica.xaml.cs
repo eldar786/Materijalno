@@ -47,6 +47,27 @@ namespace Materijalno.UI
                 // Subscribe to the print event from the ViewModel
                 medjuskladisnicaViewModel.OnPrintEvent += HandlePrintRequest;
             }
+
+            if (e.OldValue is MedjuskladisnicaViewModel oldVm)
+            {
+                oldVm.RequestFocusIdent -= FokusNaIdent;
+            }
+
+            if (e.NewValue is MedjuskladisnicaViewModel newVm)
+            {
+                newVm.RequestFocusIdent += FokusNaIdent;
+            }
+        }
+
+        private void FokusNaIdent()
+        {
+            Dispatcher.BeginInvoke(new Action(() =>
+            {
+                txtIdent.Focus();
+                Keyboard.Focus(txtIdent);
+                txtIdent.SelectAll();
+
+            }), System.Windows.Threading.DispatcherPriority.Input);
         }
 
         private void TextBox_GotKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
@@ -170,7 +191,23 @@ namespace Materijalno.UI
             e.Handled = true;
         }
 
+        private void KolicTextBox_KeyDown( object sender, System.Windows.Input.KeyEventArgs e)
+        {
+            if (e.Key == System.Windows.Input.Key.Enter)
+            {
+                e.Handled = true;
 
+                if (sender is TextBox textBox)
+                {
+                    // Update Kolic in the ViewModel before calculation
+                    textBox.GetBindingExpression(TextBox.TextProperty)
+                           ?.UpdateSource();
+                }
+
+                // Move focus to SLJ. STAVKA
+                btnSlijedecaStavka.Focus();
+            }
+        }
         private void DatePicker_Loaded(object sender, RoutedEventArgs e)
         {
             DatePicker datePicker = sender as DatePicker;
