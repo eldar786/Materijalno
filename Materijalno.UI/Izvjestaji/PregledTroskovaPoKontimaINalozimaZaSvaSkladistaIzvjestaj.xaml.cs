@@ -141,9 +141,9 @@ namespace Materijalno.UI.Izvjestaji
                 _report.Vrijed = mat.Vrijed;
                 _report.Datun = (DateTime)mat.Datun;
                 _report.Datnar = (DateTime)mat.Datnar;
-                _report.NazivOrg = tabsklad.NazivOrg;
+                _report.NazivOrg = tabsklad?.NazivOrg?? "";
                 _report.Kljnaz = mat.Kljnaz;
-                _report.Nazkont = tabkonto.Nazkont;
+                _report.Nazkont = tabkonto?.Nazkont?? "";
                 _report.Konto1 = mat.Konto1;
                 _report.Brfak = mat.Brfak;
 

@@ -144,30 +144,30 @@ namespace Materijalno.UI.Izvjestaji
 
             List<ReportAnalitickaKartica> listaSort = lista.OrderBy(o => o.Datun).ToList();
 
-            foreach (ReportAnalitickaKartica report in listaSort)
-            {
-                DataRow dr = reportDt.NewRow();
+            
 
-                dr[0] = report.Redbr;
-                dr[1] = report.Ident;
-                dr[2] = report.NazMat;
-                dr[3] = report.Kolic;
-                dr[4] = report.Nc;
-                dr[5] = report.Vrijed;
-                dr[6] = report.Brfak;
-                dr[7] = report.Datun;
-                dr[8] = report.NazivOrg;
-                //dr[9] = report.TotalVrijednost;
-                dr[9] = report.Status;
-                dr[10] = report.Kljnaz;
-                dr[11] = report.Datnar;
-                dr[12] = report.Od;
-                dr[13] = report.Do;
+                foreach (ReportAnalitickaKartica report in listaSort)
+                {
+                    DataRow dr = reportDt.NewRow();
 
+                    dr["Redbr"] = (object)report.Redbr ?? DBNull.Value;
+                    dr["Ident"] = (object)report.Ident ?? DBNull.Value;
+                    dr["Nazmat"] = (object)report.NazMat ?? DBNull.Value;
+                    dr["Kolic"] = (object)report.Kolic ?? DBNull.Value;
+                    dr["Nc"] = (object)report.Nc ?? DBNull.Value;
+                    dr["Vrijed"] = (object)report.Vrijed ?? DBNull.Value;
+                    dr["Brfak"] = (object)report.Brfak ?? DBNull.Value;
+                    dr["Datun"] = (object)report.Datun ?? DBNull.Value;
+                    dr["NazivOrg"] = (object)report.NazivOrg ?? DBNull.Value;
+                    dr["Status"] = (object)report.Status ?? DBNull.Value;
+                    dr["Kljnaz"] = (object)report.Kljnaz ?? DBNull.Value;
+                    dr["Datnar"] = (object)report.Datnar ?? DBNull.Value;
+                    dr["Od"] = (object)report.Od ?? DBNull.Value;
+                    dr["Do"] = (object)report.Do ?? DBNull.Value;
 
+                    reportDt.Rows.Add(dr);
+                }
 
-                reportDt.Rows.Add(dr);
-            }
         }
 
         private void ReportViewer_Load(object sender, EventArgs e)
@@ -194,6 +194,7 @@ namespace Materijalno.UI.Izvjestaji
             ReportDataSource ds = new ReportDataSource("DataSet1", reportDt);
             PathHelper pathHelper = new PathHelper();
             this._reportViewer.LocalReport.ReportPath = pathHelper.MExecutableRootDirectory + "\\Izvjestaji\\AnalitickaKartica.rdlc";
+            _reportViewer.LocalReport.DataSources.Clear();
             _reportViewer.LocalReport.DataSources.Add(ds);
             try
             {

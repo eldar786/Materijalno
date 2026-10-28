@@ -15,6 +15,9 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Globalization;
+using System.Windows.Controls.Primitives;
+
 
 namespace Materijalno.UI
 {
@@ -35,7 +38,127 @@ namespace Materijalno.UI
                 e.Handled = true;
             }
         }
+        private void DatePicker_Loaded(object sender, RoutedEventArgs e)
+        {
+            DatePicker datePicker = sender as DatePicker;
 
+            if (datePicker == null)
+                return;
+
+            datePicker.ApplyTemplate();
+
+            DatePickerTextBox textBox = datePicker.Template.FindName(
+                "PART_TextBox", datePicker) as DatePickerTextBox;
+
+            if (textBox == null)
+                return;
+
+            textBox.PreviewTextInput -= DateTextBox_PreviewTextInput;
+            textBox.PreviewTextInput += DateTextBox_PreviewTextInput;
+
+            textBox.PreviewKeyDown -= DateTextBox_PreviewKeyDown;
+            textBox.PreviewKeyDown += DateTextBox_PreviewKeyDown;
+        }
+
+        private void DateTextBox_PreviewTextInput(
+            object sender, TextCompositionEventArgs e)
+        {
+            DatePickerTextBox textBox = sender as DatePickerTextBox;
+
+            if (textBox == null)
+                return;
+
+            if (!e.Text.All(char.IsDigit))
+            {
+                e.Handled = true;
+                return;
+            }
+
+            string current = textBox.Text ?? "";
+
+            // Replace selected text or insert at caret
+            string updated = current.Remove(
+                textBox.SelectionStart,
+                textBox.SelectionLength);
+
+            updated = updated.Insert(
+                textBox.SelectionStart, e.Text);
+
+            string digits = new string(
+                updated.Where(char.IsDigit).Take(8).ToArray());
+
+            textBox.Text = FormatDateDigits(digits);
+            textBox.CaretIndex = textBox.Text.Length;
+
+            e.Handled = true;
+        }
+
+        private string FormatDateDigits(string digits)
+        {
+            if (digits.Length > 8)
+                digits = digits.Substring(0, 8);
+
+            if (digits.Length > 4)
+                return digits.Substring(0, 2) + "." +
+                       digits.Substring(2, 2) + "." +
+                       digits.Substring(4);
+
+            if (digits.Length == 4)
+                return digits.Substring(0, 2) + "." +
+                       digits.Substring(2, 2) + ".";
+
+            if (digits.Length >= 2)
+                return digits.Substring(0, 2) + "." +
+                       digits.Substring(2);
+
+            return digits;
+        }
+
+        private void DateTextBox_PreviewKeyDown(
+            object sender, KeyEventArgs e)
+        {
+            DatePickerTextBox textBox = sender as DatePickerTextBox;
+
+            if (textBox == null)
+                return;
+
+            if (e.Key != Key.Enter)
+                return;
+
+            DateTime date;
+
+            bool valid = DateTime.TryParseExact(
+                textBox.Text,
+                "dd.MM.yyyy",
+                CultureInfo.InvariantCulture,
+                DateTimeStyles.None,
+                out date);
+
+            if (valid)
+            {
+                dtpOd.SelectedDate = date;
+
+                // Update ViewModel binding
+                BindingExpression binding = dtpOd.GetBindingExpression(
+                    DatePicker.SelectedDateProperty);
+
+                if (binding != null)
+                    binding.UpdateSource();
+
+                dtpOd.MoveFocus(
+                    new TraversalRequest(FocusNavigationDirection.Next));
+            }
+            else
+            {
+                MessageBox.Show(
+                    "Please enter a valid date in DD.MM.YYYY format.",
+                    "Invalid date",
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Warning);
+            }
+
+            e.Handled = true;
+        }
         private void MoveFocusToNextControl(TextBox currentTextBox)
         {
             currentTextBox.MoveFocus(new TraversalRequest(FocusNavigationDirection.Next));

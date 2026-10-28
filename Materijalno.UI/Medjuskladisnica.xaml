@@ -348,7 +348,7 @@
                         </Style.Triggers>
                     </Style>
                 </WrapPanel.Resources>
-                <Button x:Name="btnNovaStavka" Content="Nova stavka" FontSize="18" Width="130" Margin="5,5,0,5" HorizontalAlignment="Left" Command="{Binding NovaStavkaCommand}" IsEnabled="{Binding NijeAktivanUnosMedjuskladisnice}" />
+                <Button x:Name="btnNovaStavka" Content="Nova stavka" FontSize="18" Width="130" Margin="5,5,0,5" HorizontalAlignment="Left" Command="{Binding NovaStavkaButtonCommand}" IsEnabled="{Binding NijeAktivanUnosMedjuskladisnice}" />
                 <Button x:Name="btnSlijedecaStavka"
         Content="Slij. stavka"
         FontSize="18"

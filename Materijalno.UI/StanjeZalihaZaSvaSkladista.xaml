@@ -222,8 +222,9 @@
 
                 <DatePicker
                 Grid.Column="1"
-                SelectedDate="{Binding CurrentItemMat.Datun}"
+                SelectedDate="{Binding CurrentItemMat.Datun, Mode=TwoWay}"
                 KeyDown="TextBox_KeyDown"
+                Loaded="DatePicker_Loaded"
                 Name="dtpOd"
                 Style="{StaticResource FormDatePickerStyle}"
                 VerticalAlignment="Center"/>

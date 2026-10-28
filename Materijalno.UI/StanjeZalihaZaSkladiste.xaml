@@ -312,7 +312,7 @@
                 KeyDown="TextBox_KeyDown"
                 Name="tabelaSifarnikSkladista"
                 Text="{Binding CurrentItemTabSkladista.NazivOrg, UpdateSourceTrigger=PropertyChanged}"
-                IsReadOnly="True"
+                IsEnabled="False"
                 Style="{StaticResource FormTextBoxStyle}"/>
 
 
@@ -326,14 +326,15 @@
 
 
                 <DatePicker
-                Grid.Row="2"
-                Grid.Column="1"
-                SelectedDate="{Binding CurrentItemMat.Datun}"
-                KeyDown="TextBox_KeyDown"
-                SelectedDateChanged="datOd_SelectedDateChanged"
-                Name="dtpOd"
-                Style="{StaticResource FormDatePickerStyle}"
-                VerticalAlignment="Center"/>
+    Grid.Row="2"
+    Grid.Column="1"
+    SelectedDate="{Binding CurrentItemMat.Datun, Mode=TwoWay}"
+    KeyDown="TextBox_KeyDown"
+    SelectedDateChanged="datOd_SelectedDateChanged"
+    Loaded="DatePicker_Loaded"
+    Name="dtpOd"
+    Style="{StaticResource FormDatePickerStyle}"
+    VerticalAlignment="Center"/>
 
 
                 <!-- ŠTAMPA -->

@@ -680,7 +680,11 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Fields!Brfak.Value</Value>
+                              <Value>=IIF(
+    UCase(Trim(Fields!Status.Value)) = "P",
+    "Pocetno stanje",
+    Fields!Brfak.Value
+)</Value>
                               <Style />
                             </TextRun>
                           </TextRuns>
@@ -710,6 +714,7 @@
                         <PaddingBottom>2pt</PaddingBottom>
                       </Style>
                     </Textbox>
+                    <rd:Selected>true</rd:Selected>
                   </CellContents>
                 </TablixCell>
                 <TablixCell>
@@ -764,7 +769,13 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Fields!Status.Value</Value>
+                              <Value>=Switch(
+    UCase(Trim(Fields!Status.Value)) = "M", "Međuskl.",
+    UCase(Trim(Fields!Status.Value)) = "I", "Izlaz",
+    UCase(Trim(Fields!Status.Value)) = "V", "Povrat",
+    UCase(Trim(Fields!Status.Value)) = "P", "Poc.stanje",
+    True, Fields!Status.Value
+)</Value>
                               <Style />
                             </TextRun>
                           </TextRuns>
@@ -803,7 +814,11 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=IIF(Fields!Vrijed.Value &gt; 0, Fields!Kolic.Value, 0)</Value>
+                              <Value>=IIF(
+    Fields!Status.Value &lt;&gt; "V" AND Fields!Vrijed.Value &gt; 0,
+    Fields!Kolic.Value,
+    0
+)</Value>
                               <Style>
                                 <Format>n2</Format>
                                 <Language>hr-BA</Language>
@@ -845,7 +860,15 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=IIF(Fields!Vrijed.Value &lt; 0, Fields!Kolic.Value, 0)</Value>
+                              <Value>=IIF(
+    Fields!Status.Value = "V",
+    -Abs(Fields!Kolic.Value),
+    IIF(
+        Fields!Vrijed.Value &lt; 0,
+        Abs(Fields!Kolic.Value),
+        0
+    )
+)</Value>
                               <Style>
                                 <Format>n2</Format>
                                 <Language>hr-BA</Language>
@@ -929,12 +952,10 @@
                           <TextRuns>
                             <TextRun>
                               <Value>=IIF(
+    Fields!Status.Value &lt;&gt; "V" AND
+    Not IsNothing(Fields!Vrijed.Value) AND
     Fields!Vrijed.Value &gt; 0,
-    IIF(
-        IsNothing(Fields!Vrijed.Value),
-        0,
-        Fields!Vrijed.Value
-    ),
+    Fields!Vrijed.Value,
     0
 )</Value>
                               <Style>
@@ -979,14 +1000,14 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=IIF(
-    Fields!Vrijed.Value &lt; 0,
-    IIF(
-        IsNothing(Fields!Vrijed.Value),
-        0,
-        Fields!Vrijed.Value
-    ),
-    0
+                              <Value>=If(
+    Fields!Status.Value = "V",
+    -Math.Abs(CDec(Fields!Vrijed.Value)),
+    If(
+        Fields!Vrijed.Value &lt; 0,
+        Math.Abs(CDec(Fields!Vrijed.Value)),
+        0D
+    )
 )</Value>
                               <Style>
                                 <Format>n2</Format>
@@ -1068,7 +1089,11 @@
             <TextRuns>
               <TextRun>
                 <Value>=Sum(
-IIF(Fields!Vrijed.Value &gt; 0, Fields!Kolic.Value, 0)
+    IIF(
+        Fields!Status.Value &lt;&gt; "V" AND Fields!Vrijed.Value &gt; 0,
+        Fields!Kolic.Value,
+        0
+    )
 )</Value>
                 <Style>
                   <Format>n2</Format>
@@ -1103,7 +1128,15 @@ IIF(Fields!Vrijed.Value &gt; 0, Fields!Kolic.Value, 0)
             <TextRuns>
               <TextRun>
                 <Value>=Sum(
-IIF(Fields!Vrijed.Value &lt; 0, Fields!Kolic.Value, 0)
+    IIF(
+        Fields!Status.Value = "V",
+        -Abs(Fields!Kolic.Value),
+        IIF(
+            Fields!Vrijed.Value &lt; 0,
+            Abs(Fields!Kolic.Value),
+            0
+        )
+    )
 )</Value>
                 <Style>
                   <Format>n2</Format>
@@ -1139,12 +1172,8 @@ IIF(Fields!Vrijed.Value &lt; 0, Fields!Kolic.Value, 0)
               <TextRun>
                 <Value>=Sum(
     IIF(
-        Fields!Vrijed.Value &gt; 0,
-        IIF(
-            IsNothing(Fields!Vrijed.Value),
-            0,
-            CDbl(Fields!Vrijed.Value)
-        ),
+        Fields!Status.Value &lt;&gt; "V" AND Fields!Vrijed.Value &gt; 0,
+        CDbl(Fields!Vrijed.Value),
         0
     )
 )</Value>
@@ -1182,13 +1211,29 @@ IIF(Fields!Vrijed.Value &lt; 0, Fields!Kolic.Value, 0)
               <TextRun>
                 <Value>=Sum(
     IIF(
-        Fields!Vrijed.Value &lt; 0,
-        IIF(
-            IsNothing(Fields!Vrijed.Value),
-            0,
-            CDbl(Fields!Vrijed.Value)
+        UCase(Trim(CStr(Fields!Status.Value))) = "V",
+        -Math.Abs(
+            If(
+                IsNothing(Fields!Vrijed.Value),
+                0D,
+                CDec(Fields!Vrijed.Value)
+            )
         ),
-        0
+        IIF(
+            If(
+                IsNothing(Fields!Vrijed.Value),
+                0D,
+                CDec(Fields!Vrijed.Value)
+            ) &lt; 0D,
+            Math.Abs(
+                If(
+                    IsNothing(Fields!Vrijed.Value),
+                    0D,
+                    CDec(Fields!Vrijed.Value)
+                )
+            ),
+            0D
+        )
     )
 )</Value>
                 <Style>

@@ -38,7 +38,25 @@ namespace Materijalno.UI
                 e.Handled = true;
             }
         }
+        private void KolicTextBox_KeyDown(
+    object sender,
+    System.Windows.Input.KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                e.Handled = true;
 
+                // Prenesi vrijednost iz TextBoxa u ViewModel.
+                if (sender is System.Windows.Controls.TextBox textBox)
+                {
+                    textBox.GetBindingExpression(
+                        System.Windows.Controls.TextBox.TextProperty)
+                        ?.UpdateSource();
+                }
+
+                btnSlijedecaStavka.Focus();
+            }
+        }
         private void MainWindow_DataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
             // Check if the DataContext is of type UlazMaterijalaViewModel
@@ -191,23 +209,23 @@ namespace Materijalno.UI
             e.Handled = true;
         }
 
-        private void KolicTextBox_KeyDown( object sender, System.Windows.Input.KeyEventArgs e)
-        {
-            if (e.Key == System.Windows.Input.Key.Enter)
-            {
-                e.Handled = true;
+        //private void KolicTextBox_KeyDown( object sender, System.Windows.Input.KeyEventArgs e)
+        //{
+        //    if (e.Key == System.Windows.Input.Key.Enter)
+        //    {
+        //        e.Handled = true;
 
-                if (sender is TextBox textBox)
-                {
-                    // Update Kolic in the ViewModel before calculation
-                    textBox.GetBindingExpression(TextBox.TextProperty)
-                           ?.UpdateSource();
-                }
+        //        if (sender is TextBox textBox)
+        //        {
+        //            // Update Kolic in the ViewModel before calculation
+        //            textBox.GetBindingExpression(TextBox.TextProperty)
+        //                   ?.UpdateSource();
+        //        }
 
-                // Move focus to SLJ. STAVKA
-                btnSlijedecaStavka.Focus();
-            }
-        }
+        //        // Move focus to SLJ. STAVKA
+        //        btnSlijedecaStavka.Focus();
+        //    }
+        //}
         private void DatePicker_Loaded(object sender, RoutedEventArgs e)
         {
             DatePicker datePicker = sender as DatePicker;
