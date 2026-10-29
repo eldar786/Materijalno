@@ -120,38 +120,50 @@ namespace Materijalno.UI.Izvjestaji
 
             foreach (Mat mat in _mat)
             {
-                TabelaMaterijala tabmat = (from TabelaMaterijala tabmaterijala in _tabelaMaterijala
-                                           where tabmaterijala.Ident == mat.Ident
-                                           select tabmaterijala).FirstOrDefault();
+                // Pronađi skladište
+                var tabsklad = _tabelaSkladista
+                    .FirstOrDefault(x => x.Kljnaz == mat.Kljnaz);
 
-                Materijalno.Model.EntityModels.SifarnikSkladista tabsklad = (from Materijalno.Model.EntityModels.SifarnikSkladista tabskladista in _tabelaSkladista
-                                                                             where tabskladista.Kljnaz == mat.Kljnaz
-                                                                             select tabskladista).FirstOrDefault();
+                // Pronađi konto
+                var tabkonto = _tabelaKonto
+                    .FirstOrDefault(x => x.Sifkonta == mat.Konto1);
 
-                Materijalno.Model.EntityModels.SifarnikKonta tabkonto = (from Materijalno.Model.EntityModels.SifarnikKonta tabkonta in _tabelaKonto
-                                                                         where tabkonta.Sifkonta == mat.Konto1
-                                                                         select tabkonta).FirstOrDefault();
+                // Ako skladište ili konto nije pronađeno, preskoči red
+                if (tabsklad == null || tabkonto == null)
+                {
+                    continue;
+                }
 
+                // Ako su nazivi NULL ili prazni, preskoči red
+                if (string.IsNullOrWhiteSpace(tabsklad.NazivOrg) ||
+                    string.IsNullOrWhiteSpace(tabkonto.Nazkont))
+                {
+                    continue;
+                }
 
+                // Ako datumi nisu uneseni, preskoči red
+                if (!mat.Datun.HasValue || !mat.Datnar.HasValue)
+                {
+                    continue;
+                }
+
+                // Kreiranje novog reda izvještaja
                 _report = new ReportPregledTroskovaPoKontimaINalozimaZaSvaSkladista();
 
-                //_report.Ident = mat.Ident;
-                //_report.NazMat = tabmat.Nazmat;
-                //_report.Kolic = mat.Kolic;
                 _report.Vrijed = mat.Vrijed;
-                _report.Datun = (DateTime)mat.Datun;
-                _report.Datnar = (DateTime)mat.Datnar;
+                _report.Datun = mat.Datun.Value;
+                _report.Datnar = mat.Datnar.Value;
                 _report.NazivOrg = tabsklad.NazivOrg;
                 _report.Kljnaz = mat.Kljnaz;
                 _report.Nazkont = tabkonto.Nazkont;
                 _report.Konto1 = mat.Konto1;
                 _report.Brfak = mat.Brfak;
 
+                // Dodavanje ispravnog reda u listu
                 lista.Add(_report);
-
             }
 
-            List<ReportPregledTroskovaPoKontimaINalozimaZaSvaSkladista> listaSort = lista.OrderBy(o => o.Datun).ToList();
+            List<ReportPregledTroskovaPoKontimaINalozimaZaSvaSkladista> listaSort = lista.OrderBy(o => o.Konto1).ToList();
 
             foreach (ReportPregledTroskovaPoKontimaINalozimaZaSvaSkladista report in listaSort)
             {
@@ -207,6 +219,20 @@ namespace Materijalno.UI.Izvjestaji
             {
                 throw new Exception("Ne postoje stavke sa ispis.");
             }
+
+            var datumOd = _pregledTroskovaPoKontimaINalozimaZaSvaSkladistavm
+            .CurrentItemMat.Datun.Value;
+
+            var datumDo = _pregledTroskovaPoKontimaINalozimaZaSvaSkladistavm
+                .CurrentItemMat.Datnar.Value;
+
+            ReportParameter[] parametri =
+            {
+                new ReportParameter("DatumOd", datumOd.ToString("dd.MM.yyyy")),
+                new ReportParameter("DatumDo", datumDo.ToString("dd.MM.yyyy"))
+            };
+
+            _reportViewer.LocalReport.SetParameters(parametri);
         }
 
         private void btnOdustani_Click(object sender, RoutedEventArgs e)
