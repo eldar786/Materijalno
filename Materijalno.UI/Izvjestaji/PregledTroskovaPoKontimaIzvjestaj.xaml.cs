@@ -52,7 +52,9 @@ namespace Materijalno.UI.Izvjestaji
             var dbContext = new materijalno_knjigovodstvoContext();
 
             MatList = new ObservableCollection<Mat>(dbContext.Mat
-                     .Where(row => row.Datun <= pregledTroskovaPoKontimavm.CurrentItemMat.Datun && row.Status == "I") // Remove specific Kljnaz filtering
+                     .Where(row => row.Datun >= pregledTroskovaPoKontimavm.CurrentItemMat.Datun &&
+                     row.Datnar <= pregledTroskovaPoKontimavm.CurrentItemMat.Datnar  
+                     && row.Status == "I") // Remove specific Kljnaz filtering
                      .AsEnumerable() // Forces execution in-memory to enable GroupBy & OrderBy
                      .GroupBy(row => new { row.Kljnaz, row.Konto1 }) // Group by BOTH Kljnaz and Ident
                      .Select(grouped => new Mat
@@ -117,37 +119,49 @@ namespace Materijalno.UI.Izvjestaji
 
             foreach (Mat mat in _mat)
             {
-                TabelaMaterijala tabmat = (from TabelaMaterijala tabmaterijala in _tabelaMaterijala
-                                           where tabmaterijala.Ident == mat.Ident
-                                           select tabmaterijala).FirstOrDefault();
+                // Pronađi skladište
+                var tabsklad = _tabelaSkladista
+                    .FirstOrDefault(x => x.Kljnaz == mat.Kljnaz);
 
-                Materijalno.Model.EntityModels.SifarnikSkladista tabsklad = (from Materijalno.Model.EntityModels.SifarnikSkladista tabskladista in _tabelaSkladista
-                                                                             where tabskladista.Kljnaz == mat.Kljnaz
-                                                                             select tabskladista).FirstOrDefault();
+                // Pronađi konto
+                var tabkonto = _tabelaKonto
+                    .FirstOrDefault(x => x.Sifkonta == mat.Konto1);
 
-                Materijalno.Model.EntityModels.SifarnikKonta tabkonto = (from Materijalno.Model.EntityModels.SifarnikKonta tabkonta in _tabelaKonto
-                                                                         where tabkonta.Sifkonta == mat.Konto1
-                                                                         select tabkonta).FirstOrDefault();
+                // Ako skladište ili konto nije pronađeno, preskoči red
+                if (tabsklad == null || tabkonto == null)
+                {
+                    continue;
+                }
 
+                // Ako su nazivi NULL ili prazni, preskoči red
+                if (string.IsNullOrWhiteSpace(tabsklad.NazivOrg) ||
+                    string.IsNullOrWhiteSpace(tabkonto.Nazkont))
+                {
+                    continue;
+                }
 
+                // Ako datumi nisu uneseni, preskoči red
+                if (!mat.Datun.HasValue || !mat.Datnar.HasValue)
+                {
+                    continue;
+                }
+
+                // Kreiranje novog reda izvještaja
                 _report = new ReportPregledTroskovaPoKontima();
 
-                //_report.Ident = mat.Ident;
-                //_report.NazMat = tabmat.Nazmat;
-                //_report.Kolic = mat.Kolic;
                 _report.Vrijed = mat.Vrijed;
-                _report.Datun = (DateTime)mat.Datun;
-                _report.Datnar = (DateTime)mat.Datnar;
+                _report.Datun = mat.Datun.Value;
+                _report.Datnar = mat.Datnar.Value;
                 _report.NazivOrg = tabsklad.NazivOrg;
                 _report.Kljnaz = mat.Kljnaz;
                 _report.Nazkont = tabkonto.Nazkont;
                 _report.Konto1 = mat.Konto1;
 
+                // Dodavanje ispravnog reda u listu
                 lista.Add(_report);
-
             }
 
-            List<ReportPregledTroskovaPoKontima> listaSort = lista.OrderBy(o => o.Datun).ToList();
+            List<ReportPregledTroskovaPoKontima> listaSort = lista.OrderBy(o => o.Kljnaz).ToList();
 
             foreach (ReportPregledTroskovaPoKontima report in listaSort)
             {

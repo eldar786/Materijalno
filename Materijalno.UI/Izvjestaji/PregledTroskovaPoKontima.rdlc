@@ -194,7 +194,10 @@
                           <TextRuns>
                             <TextRun>
                               <Value>=Fields!Vrijed.Value</Value>
-                              <Style />
+                              <Style>
+                                <Format>n2</Format>
+                                <Language>bs-Latn-BA</Language>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style />
@@ -293,6 +296,8 @@
                               <Value>=Sum(Fields!Vrijed.Value)</Value>
                               <Style>
                                 <FontWeight>Bold</FontWeight>
+                                <Format>n2</Format>
+                                <Language>bs-Latn-BA</Language>
                               </Style>
                             </TextRun>
                           </TextRuns>
@@ -390,7 +395,10 @@
                           <TextRuns>
                             <TextRun>
                               <Value>=Sum(Fields!Vrijed.Value)</Value>
-                              <Style />
+                              <Style>
+                                <Format>n2</Format>
+                                <Language>bs-Latn-BA</Language>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style />
@@ -733,8 +741,11 @@
             <Paragraph>
               <TextRuns>
                 <TextRun>
-                  <Value>=Format(First(Fields!Datun.Value, "DataSet1"), "dd/MM/yyyy")</Value>
-                  <Style />
+                  <Value>=Format(First(Fields!Datun.Value, "DataSet1"), "dd.MM.yyyy")</Value>
+                  <Style>
+                    <Format>d</Format>
+                    <Language>bs-Latn-BA</Language>
+                  </Style>
                 </TextRun>
               </TextRuns>
               <Style />
@@ -763,8 +774,11 @@
             <Paragraph>
               <TextRuns>
                 <TextRun>
-                  <Value>=Format(First(Fields!Datnar.Value, "DataSet1"), "dd/MM/yyyy")</Value>
-                  <Style />
+                  <Value>=Format(First(Fields!Datnar.Value, "DataSet1"), "dd.MM.yyyy")</Value>
+                  <Style>
+                    <Format>d</Format>
+                    <Language>bs-Latn-BA</Language>
+                  </Style>
                 </TextRun>
               </TextRuns>
               <Style />
