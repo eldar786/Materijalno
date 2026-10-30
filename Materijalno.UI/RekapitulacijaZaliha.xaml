@@ -226,11 +226,13 @@
 
 
                 <DatePicker
-                Grid.Column="1"
-                SelectedDate="{Binding CurrentItemMat.Datnar, UpdateSourceTrigger=PropertyChanged}"
-                Name="dtpOd"
-                Style="{StaticResource FormDatePickerStyle}"
-                VerticalAlignment="Center"/>
+    Grid.Column="1"
+    Name="dtpOd"
+    SelectedDate="{Binding CurrentItemMat.Datnar,
+                           UpdateSourceTrigger=PropertyChanged}"
+    Loaded="DatePicker_Loaded"
+    Style="{StaticResource FormDatePickerStyle}"
+    VerticalAlignment="Center"/>
 
 
                 <!-- ŠTAMPA -->

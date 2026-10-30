@@ -395,6 +395,7 @@
 
                 <TextBox
                 Grid.Row="0"
+                    IsEnabled="False"
                 Grid.Column="3"
                 Text="{Binding CurrentItemTabSkladista.NazivOrg,
                                UpdateSourceTrigger=PropertyChanged}"
@@ -434,6 +435,7 @@
                 <TextBox
                 Grid.Row="2"
                 Grid.Column="3"
+                    IsEnabled="False"
                 Text="{Binding CurrentItemTabMaterijala.Nazmat}"
                 IsReadOnly="True"
                 Style="{StaticResource FormTextBoxStyle}"/>
@@ -461,10 +463,11 @@
                     Margin="0,0,0,5"/>
 
                     <DatePicker
-                    SelectedDate="{Binding CurrentItemMat.Datun,
-                                           UpdateSourceTrigger=PropertyChanged}"
-                    Style="{StaticResource FormDatePickerStyle}"/>
-
+    Name="dtpDatun"
+    SelectedDate="{Binding CurrentItemMat.Datun,
+                           UpdateSourceTrigger=PropertyChanged}"
+    Loaded="DatePicker_Loaded"
+    Style="{StaticResource FormDatePickerStyle}"/>
                 </StackPanel>
 
 
@@ -483,10 +486,11 @@
                     Margin="0,0,0,5"/>
 
                     <DatePicker
-                    Name="dtpOd"
-                    SelectedDate="{Binding CurrentItemMat.Datnar,
-                                           UpdateSourceTrigger=PropertyChanged}"
-                    Style="{StaticResource FormDatePickerStyle}"/>
+    Name="dtpOd"
+    SelectedDate="{Binding CurrentItemMat.Datnar,
+                           UpdateSourceTrigger=PropertyChanged}"
+    Loaded="DatePicker_Loaded"
+    Style="{StaticResource FormDatePickerStyle}"/>
 
                 </StackPanel>
 

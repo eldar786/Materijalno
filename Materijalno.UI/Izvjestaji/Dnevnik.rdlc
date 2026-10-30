@@ -48,9 +48,9 @@
         </Paragraphs>
         <rd:DefaultName>Textbox3</rd:DefaultName>
         <Top>1.16099cm</Top>
-        <Left>7.39293cm</Left>
+        <Left>6.39461cm</Left>
         <Height>0.6cm</Height>
-        <Width>4.98708cm</Width>
+        <Width>5.46332cm</Width>
         <ZIndex>1</ZIndex>
         <Style>
           <Border>
@@ -194,7 +194,7 @@
         <Top>2.48709cm</Top>
         <Left>4.42716cm</Left>
         <Height>0.56472cm</Height>
-        <Width>5.27813cm</Width>
+        <Width>6.90809cm</Width>
         <ZIndex>7</ZIndex>
         <Style>
           <Border>
@@ -632,12 +632,17 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Fields!Status.Value</Value>
+                              <Value>=Switch(
+    UCase(Trim(Fields!Status.Value &amp; "")) = "I", "Izlaz",
+    UCase(Trim(Fields!Status.Value &amp; "")) = "M", "Međuskl.",
+    UCase(Trim(Fields!Status.Value &amp; "")) = "V", "Povrat",
+    True, Fields!Status.Value
+)</Value>
                               <Style />
                             </TextRun>
                           </TextRuns>
                           <Style>
-                            <TextAlign>Center</TextAlign>
+                            <TextAlign>Left</TextAlign>
                           </Style>
                         </Paragraph>
                       </Paragraphs>
@@ -662,6 +667,7 @@
                         <PaddingBottom>2pt</PaddingBottom>
                       </Style>
                     </Textbox>
+                    <rd:Selected>true</rd:Selected>
                   </CellContents>
                 </TablixCell>
                 <TablixCell>
@@ -673,12 +679,22 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=IIF(Fields!Vrijed.Value &gt; 0, Fields!Kolic.Value, 0)</Value>
-                              <Style />
+                              <Value>=IIF(
+    UCase(Trim(Fields!Status.Value &amp; "")) = "V",
+    0,
+    IIF(
+        Fields!Vrijed.Value &gt; 0,
+        Fields!Kolic.Value,
+        0
+    )
+)</Value>
+                              <Style>
+                                <Format>#,##0.00.</Format>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style>
-                            <TextAlign>Center</TextAlign>
+                            <TextAlign>Right</TextAlign>
                           </Style>
                         </Paragraph>
                       </Paragraphs>
@@ -714,12 +730,18 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=IIF(Fields!Vrijed.Value &lt; 0, Fields!Kolic.Value, 0)</Value>
-                              <Style />
+                              <Value>=IIF(
+    Fields!Vrijed.Value &lt; 0,
+    Math.Abs(Fields!Kolic.Value),
+    0
+)</Value>
+                              <Style>
+                                <Format>#,##0.00.</Format>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style>
-                            <TextAlign>Center</TextAlign>
+                            <TextAlign>Right</TextAlign>
                           </Style>
                         </Paragraph>
                       </Paragraphs>
@@ -755,7 +777,11 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=IIF(Fields!Status.Value = "U", Fields!Nc.Value, 0)</Value>
+                              <Value>=IIF(
+    UCase(Trim(Fields!Status.Value &amp; "")) = "I",
+    Fields!Nc.Value,
+    Nothing
+)</Value>
                               <Style />
                             </TextRun>
                           </TextRuns>
@@ -797,13 +823,17 @@
                           <TextRuns>
                             <TextRun>
                               <Value>=IIF(
-    Fields!Vrijed.Value &gt; 0,
+    UCase(Trim(Fields!Status.Value &amp; "")) = "V",
+    0,
     IIF(
         IsNothing(Fields!Vrijed.Value),
         0,
-        Fields!Vrijed.Value
-    ),
-    0
+        IIF(
+            Fields!Vrijed.Value &gt; 0,
+            Fields!Vrijed.Value,
+            0
+        )
+    )
 )</Value>
                               <Style>
                                 <Format>n2</Format>
@@ -812,7 +842,7 @@
                             </TextRun>
                           </TextRuns>
                           <Style>
-                            <TextAlign>Center</TextAlign>
+                            <TextAlign>Right</TextAlign>
                           </Style>
                         </Paragraph>
                       </Paragraphs>
@@ -848,13 +878,17 @@
                           <TextRuns>
                             <TextRun>
                               <Value>=IIF(
-    Fields!Vrijed.Value &lt; 0,
+    UCase(Trim(Fields!Status.Value &amp; "")) = "V",
+    0,
     IIF(
         IsNothing(Fields!Vrijed.Value),
         0,
-        Fields!Vrijed.Value
-    ),
-    0
+        IIF(
+            Fields!Vrijed.Value &lt; 0,
+            Math.Abs(Fields!Vrijed.Value),
+            0
+        )
+    )
 )</Value>
                               <Style>
                                 <Format>n2</Format>
@@ -863,7 +897,7 @@
                             </TextRun>
                           </TextRuns>
                           <Style>
-                            <TextAlign>Center</TextAlign>
+                            <TextAlign>Right</TextAlign>
                           </Style>
                         </Paragraph>
                       </Paragraphs>
@@ -1042,13 +1076,17 @@
               <TextRun>
                 <Value>=Sum(
     IIF(
-        Fields!Vrijed.Value &gt; 0,
+        UCase(Trim(Fields!Status.Value &amp; "")) = "V",
+        0,
         IIF(
             IsNothing(Fields!Vrijed.Value),
             0,
-            CDbl(Fields!Vrijed.Value)
-        ),
-        0
+            IIF(
+                Fields!Vrijed.Value &gt; 0,
+                CDbl(Fields!Vrijed.Value),
+                0
+            )
+        )
     )
 )</Value>
                 <Style>
@@ -1067,41 +1105,6 @@
         <Height>0.6cm</Height>
         <Width>2.46574cm</Width>
         <ZIndex>21</ZIndex>
-        <Style>
-          <Border>
-            <Style>None</Style>
-          </Border>
-          <PaddingLeft>2pt</PaddingLeft>
-          <PaddingRight>2pt</PaddingRight>
-          <PaddingTop>2pt</PaddingTop>
-          <PaddingBottom>2pt</PaddingBottom>
-        </Style>
-      </Textbox>
-      <Textbox Name="Od">
-        <CanGrow>true</CanGrow>
-        <KeepTogether>true</KeepTogether>
-        <Paragraphs>
-          <Paragraph>
-            <TextRuns>
-              <TextRun>
-                <Value>=Fields!Od.Value</Value>
-                <Style>
-                  <Format>d</Format>
-                  <Language>bs-Latn-BA</Language>
-                </Style>
-              </TextRun>
-            </TextRuns>
-            <Style>
-              <TextAlign>Left</TextAlign>
-            </Style>
-          </Paragraph>
-        </Paragraphs>
-        <rd:DefaultName>Od</rd:DefaultName>
-        <Top>1.16099cm</Top>
-        <Left>12.38001cm</Left>
-        <Height>0.6cm</Height>
-        <Width>2.1384cm</Width>
-        <ZIndex>22</ZIndex>
         <Style>
           <Border>
             <Style>None</Style>
@@ -1136,7 +1139,7 @@
         <Left>15.51029cm</Left>
         <Height>0.6cm</Height>
         <Width>3.17618cm</Width>
-        <ZIndex>23</ZIndex>
+        <ZIndex>22</ZIndex>
         <Style>
           <Border>
             <Style>None</Style>
@@ -1154,15 +1157,17 @@
           <Paragraph>
             <TextRuns>
               <TextRun>
-                <Value>=Sum(
-    IIF(
-        Fields!Vrijed.Value &lt; 0,
+                <Value>=Math.Abs(
+    Sum(
         IIF(
             IsNothing(Fields!Vrijed.Value),
             0,
-            CDbl(Fields!Vrijed.Value)
-        ),
-        0
+            IIF(
+                Fields!Vrijed.Value &lt; 0,
+                CDbl(Fields!Vrijed.Value),
+                0
+            )
+        )
     )
 )</Value>
                 <Style>
@@ -1181,6 +1186,41 @@
         <Left>20.2645cm</Left>
         <Height>0.6cm</Height>
         <Width>3.68419cm</Width>
+        <ZIndex>23</ZIndex>
+        <Style>
+          <Border>
+            <Style>None</Style>
+          </Border>
+          <PaddingLeft>2pt</PaddingLeft>
+          <PaddingRight>2pt</PaddingRight>
+          <PaddingTop>2pt</PaddingTop>
+          <PaddingBottom>2pt</PaddingBottom>
+        </Style>
+      </Textbox>
+      <Textbox Name="Od">
+        <CanGrow>true</CanGrow>
+        <KeepTogether>true</KeepTogether>
+        <Paragraphs>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Value>=Fields!Od.Value</Value>
+                <Style>
+                  <Format>d</Format>
+                  <Language>bs-Latn-BA</Language>
+                </Style>
+              </TextRun>
+            </TextRuns>
+            <Style>
+              <TextAlign>Left</TextAlign>
+            </Style>
+          </Paragraph>
+        </Paragraphs>
+        <rd:DefaultName>Od</rd:DefaultName>
+        <Top>1.16099cm</Top>
+        <Left>11.85793cm</Left>
+        <Height>0.6cm</Height>
+        <Width>2.1384cm</Width>
         <ZIndex>24</ZIndex>
         <Style>
           <Border>

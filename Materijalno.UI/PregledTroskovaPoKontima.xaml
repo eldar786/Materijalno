@@ -231,11 +231,12 @@
                     Margin="0,0,0,5"/>
 
                     <DatePicker
-                    SelectedDate="{Binding CurrentItemMat.Datun}"
-                    KeyDown="TextBox_KeyDown"
-                    SelectedDateChanged="datOd_SelectedDateChanged"
-                    Name="dtpOd"
-                    Style="{StaticResource FormDatePickerStyle}"/>
+    SelectedDate="{Binding CurrentItemMat.Datun, Mode=TwoWay}"
+    KeyDown="TextBox_KeyDown"
+    SelectedDateChanged="datOd_SelectedDateChanged"
+    Loaded="DatePicker_Loaded"
+    Name="dtpOd"
+    Style="{StaticResource FormDatePickerStyle}"/>
 
                 </StackPanel>
 
@@ -251,11 +252,12 @@
                     Margin="0,0,0,5"/>
 
                     <DatePicker
-                    SelectedDate="{Binding CurrentItemMat.Datnar, UpdateSourceTrigger=PropertyChanged}"
-                    KeyDown="TextBox_KeyDown"
-                    SelectedDateChanged="datDo_SelectedDateChanged"
-                    Name="dtpDo"
-                    Style="{StaticResource FormDatePickerStyle}"/>
+    SelectedDate="{Binding CurrentItemMat.Datnar, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+    KeyDown="TextBox_KeyDown"
+    SelectedDateChanged="datDo_SelectedDateChanged"
+    Loaded="DatePicker_Loaded"
+    Name="dtpDo"
+    Style="{StaticResource FormDatePickerStyle}"/>
 
                 </StackPanel>
 
