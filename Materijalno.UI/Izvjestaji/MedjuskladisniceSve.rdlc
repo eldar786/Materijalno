@@ -12,7 +12,7 @@
               <Width>2.58651cm</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>2.31338cm</Width>
+              <Width>2.0139cm</Width>
             </TablixColumn>
             <TablixColumn>
               <Width>5.48021cm</Width>
@@ -24,7 +24,7 @@
               <Width>2.5cm</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>2.10313cm</Width>
+              <Width>2.50843cm</Width>
             </TablixColumn>
             <TablixColumn>
               <Width>2.39417cm</Width>
@@ -371,7 +371,7 @@
                             </TextRun>
                           </TextRuns>
                           <Style>
-                            <TextAlign>Center</TextAlign>
+                            <TextAlign>Left</TextAlign>
                           </Style>
                         </Paragraph>
                       </Paragraphs>
@@ -1041,6 +1041,7 @@
                             <TextRun>
                               <Value>=Sum(Fields!Vrijed.Value)</Value>
                               <Style>
+                                <FontWeight>Bold</FontWeight>
                                 <Format>n2</Format>
                                 <Language>bs-Latn-BA</Language>
                               </Style>
@@ -1114,7 +1115,7 @@
         <DataSetName>DataSet1</DataSetName>
         <Top>0.56417cm</Top>
         <Height>2.32062cm</Height>
-        <Width>24.59098cm</Width>
+        <Width>24.6968cm</Width>
         <Style>
           <Border>
             <Style>None</Style>
