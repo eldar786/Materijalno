@@ -52,6 +52,7 @@ namespace Materijalno.ViewModel
         public static bool isIzlazEnable = false;
         public static bool isTraziClicked = false;
         public static Mat selectedMat;
+        private bool _novaStavkaDozvoljena = true;
 
         #endregion
 
@@ -235,9 +236,17 @@ namespace Materijalno.ViewModel
             BrojKalkulacijeCommand = new RelayCommand(BrojKalkulacije);
 
             OtvoriKomitentListuCommand = new RelayCommand(OtvoriKomitentListu);
-            SlijStavkaButtonCommand = new RelayCommand(SlijStavkaButton, () => IsNovaKalkulacijaClicked);
-            NovaStavkaButtonCommand = new RelayCommand(NovaStavkaButton,() => CurrentItemMat != null && CurrentItemMat.Id > 0 && !string.IsNullOrWhiteSpace(CurrentItemMat.Brfak) &&!isNovaKalkulacijaClicked);
-          
+            SlijStavkaButtonCommand = new RelayCommand(
+                SlijStavkaButton,
+                () => _isNovaKalkulacijaClicked && !isNovaKalkulacijaClicked
+            );
+            NovaStavkaButtonCommand = new RelayCommand(
+                NovaStavkaButton,
+                () => _novaStavkaDozvoljena
+                      && CurrentItemMat != null
+                      && CurrentItemMat.Id > 0
+                      && !string.IsNullOrWhiteSpace(CurrentItemMat.Brfak)
+            );
             #endregion
 
             using (var dbContext = new materijalno_knjigovodstvoContext())
@@ -290,9 +299,17 @@ namespace Materijalno.ViewModel
 
             BrojKalkulacijeCommand = new RelayCommand(BrojKalkulacije);
             OtvoriKomitentListuCommand = new RelayCommand(OtvoriKomitentListu);
-            SlijStavkaButtonCommand = new RelayCommand(SlijStavkaButton);
-            NovaStavkaButtonCommand = new RelayCommand(NovaStavkaButton);
-            NabavnaCijenaCommand = new RelayCommand(NabavnaCijena);
+            SlijStavkaButtonCommand = new RelayCommand(
+                SlijStavkaButton,
+                () => _isNovaKalkulacijaClicked && !isNovaKalkulacijaClicked
+            );
+            NovaStavkaButtonCommand = new RelayCommand(
+                NovaStavkaButton,
+                () => _novaStavkaDozvoljena
+                      && CurrentItemMat != null
+                      && CurrentItemMat.Id > 0
+                      && !string.IsNullOrWhiteSpace(CurrentItemMat.Brfak)
+            ); NabavnaCijenaCommand = new RelayCommand(NabavnaCijena);
             OsvjeziCommand = new RelayCommand(Osvjezi);
             #endregion
 
@@ -355,7 +372,6 @@ namespace Materijalno.ViewModel
             if (CurrentItemMat == null)
                 return;
 
-            // Sačuvaj trenutni ID
             int currentId = CurrentItemMat.Id;
 
             // Izlaz materijala mora imati negativnu količinu
@@ -387,14 +403,6 @@ namespace Materijalno.ViewModel
                         SumKolic = (decimal?)g.Sum(x => x.Kolic) ?? 0m
                     })
                     .FirstOrDefault();
-                System.Windows.MessageBox.Show(
-    $"Ident: {CurrentItemMat.Ident}\n" +
-    $"Kljnaz: {CurrentItemMat.Kljnaz}\n" +
-    $"SumVrijed: {sums?.SumVrijed}\n" +
-    $"SumKolic: {sums?.SumKolic}\n" +
-    $"Calculated Nc: " +
-    $"{(sums == null || sums.SumKolic == 0m ? 0m : sums.SumVrijed / sums.SumKolic)}",
-    "PROVJERA NABAVNE CIJENE");
 
                 // Izračun Nc
                 CurrentItemMat.Nc =
@@ -420,27 +428,6 @@ namespace Materijalno.ViewModel
                 {
                     CurrentItemMat.Nc = 0m;
                     CurrentItemMat.Vrijed = 0m;
-                }
-
-                // Ako stavka već postoji u bazi,
-                // ažuriraj SAMO Kolic, Nc i Vrijed.
-                //
-                // Nova stavka: već postoji u SQL bazi.
-                // Novo zaduženje: možda još nije spremljeno.
-
-                if (currentId > 0)
-                {
-                    var postojecaStavka = dbContext.Mat
-                        .FirstOrDefault(x => x.Id == currentId);
-
-                    if (postojecaStavka != null)
-                    {
-                        postojecaStavka.Kolic = CurrentItemMat.Kolic;
-                        postojecaStavka.Nc = CurrentItemMat.Nc;
-                        postojecaStavka.Vrijed = CurrentItemMat.Vrijed;
-
-                        dbContext.SaveChanges();
-                    }
                 }
             }
 
@@ -738,13 +725,22 @@ namespace Materijalno.ViewModel
                     return;
                 }
 
-                dbContext.Update(CurrentItemMat);
-                dbContext.SaveChanges();
+                var resultMessageBox = System.Windows.MessageBox.Show("Želite li izmijeniti tekući podatak? ", "Upozorenje", MessageBoxButton.YesNo, MessageBoxImage.Question);
 
-                System.Windows.MessageBox.Show("Uspješno ste izmijenili", "Potvrda", MessageBoxButton.OK, MessageBoxImage.Information);
+                if (resultMessageBox == MessageBoxResult.Yes)
+                {
+                    dbContext.Update(CurrentItemMat);
+                    dbContext.SaveChanges();
 
-                //NAKON STO KLIKNEMO NA OK DA SE VRATI NA IZMIJENJENI ŠIFARNIK
-                UpdateCurrentItemData(dbContext);
+                    System.Windows.MessageBox.Show("Uspješno ste izmijenili", "Potvrda", MessageBoxButton.OK, MessageBoxImage.Information);
+
+                    //NAKON STO KLIKNEMO NA OK DA SE VRATI NA IZMIJENJENI ŠIFARNIK
+                    UpdateCurrentItemData(dbContext);
+                }
+                else if (resultMessageBox == MessageBoxResult.No)
+                {
+                    return;
+                }
             }
         }
 
@@ -780,6 +776,9 @@ namespace Materijalno.ViewModel
             isIzlazEnable = false;
             IzlazCommand.RaiseCanExecuteChanged();
 
+            // Ponovo omogući NOVA STAVKA
+            _novaStavkaDozvoljena = true;
+            NovaStavkaButtonCommand.RaiseCanExecuteChanged();
 
 
             //ODUSTANI COMMAND treba da bude nedostupno nakon Kraj Izlaza??
@@ -852,6 +851,9 @@ namespace Materijalno.ViewModel
             //Prolazi ponovo provjeru CanExecute
             isNovaKalkulacijaClicked = true;
             IsOdustaniEnabled = true;
+
+            // Onemogući NOVA STAVKA
+            _novaStavkaDozvoljena = false;
 
             UpdateCommands();
 
@@ -1105,11 +1107,15 @@ namespace Materijalno.ViewModel
                 System.Windows.MessageBox.Show("Uspješno ste unijeli novi šifarnik", "Potvrda", MessageBoxButton.OK, MessageBoxImage.Information);
 
                 //Ovo kada je true, onda ce buttoni biti dostupni
+                // NOVA STAVKA ostaje nedostupna nakon SNIMI
+                _novaStavkaDozvoljena = false;
+                
                 isNovaKalkulacijaClicked = false;
                 _isNovaKalkulacijaClicked = true;
                 IsOdustaniEnabled = true;
                 isIzlazEnable = true;
 
+                NovaStavkaButtonCommand.RaiseCanExecuteChanged();
                 SpasiNovuKalkulacijuCommand.RaiseCanExecuteChanged();
                 SlijStavkaButtonCommand.RaiseCanExecuteChanged();
                 NovaStavkaButtonCommand.RaiseCanExecuteChanged(); // da li treba??
@@ -1136,22 +1142,23 @@ namespace Materijalno.ViewModel
 
         private void UpdateCommands()
         {
-            //PrviButtonCommand.RaiseCanExecuteChanged();
-            //ZadnjiButtonCommand.RaiseCanExecuteChanged();
             NextButtonCommand.RaiseCanExecuteChanged();
             PrethodniButtonCommand.RaiseCanExecuteChanged();
-            SpasiNovuKalkulacijuCommand.RaiseCanExecuteChanged();
-            OdustaniCommand.RaiseCanExecuteChanged();
+
             NovoZaduzenjeCommand.RaiseCanExecuteChanged();
+            SpasiNovuKalkulacijuCommand.RaiseCanExecuteChanged();
+
             BrisanjeCommand.RaiseCanExecuteChanged();
             UpdateCommand.RaiseCanExecuteChanged();
+
             TraziSifruMaterijalaCommand.RaiseCanExecuteChanged();
             PrintCommand.RaiseCanExecuteChanged();
-            //IzlazCommand.RaiseCanExecuteChanged();
-            SpasiNovuKalkulacijuCommand.RaiseCanExecuteChanged();
+
             OdustaniCommand.RaiseCanExecuteChanged();
             SlijStavkaButtonCommand.RaiseCanExecuteChanged();
             NovaStavkaButtonCommand.RaiseCanExecuteChanged();
+
+            IzlazCommand.RaiseCanExecuteChanged();
         }
 
         //Samo dostupno kada odemo na nova kalkulacija i da vrati na prethodni
@@ -1278,12 +1285,6 @@ namespace Materijalno.ViewModel
 
                     var sacuvanaStavka = dbContext.Mat.AsNoTracking().First(x => x.Id == novaStavka.Id);
 
-                    System.Windows.MessageBox.Show(
-                        $"Original Brfak: {odabranaStavka.Brfak}\n" +
-                        $"Saved Brfak: {sacuvanaStavka.Brfak}\n" +
-                        $"Original Kljnaz: {odabranaStavka.Kljnaz}\n" +
-                        $"Saved Kljnaz: {sacuvanaStavka.Kljnaz}",
-                        "Provjera nakon spremanja");
 
                     // 5. Dodaj novu stavku u listu
                     MatList.Add(novaStavka);
@@ -1303,18 +1304,21 @@ namespace Materijalno.ViewModel
                             .FirstOrDefault(x =>
                                 x.Kljnaz == novaStavka.Kljnaz);
 
-                    // 7. Omogući unos i spremanje
-                    _isNovaKalkulacijaClicked = false;
+                    // 7. Omogući unos i spremanje isto kao NOVO ZADUŽENJE
                     isNovaKalkulacijaClicked = true;
+                    _isNovaKalkulacijaClicked = false;
+
                     isIzlazEnable = false;
                     IsOdustaniEnabled = true;
 
-                    SpasiNovuKalkulacijuCommand.RaiseCanExecuteChanged();
-                    SlijStavkaButtonCommand.RaiseCanExecuteChanged();
-                    NovaStavkaButtonCommand.RaiseCanExecuteChanged();
-                    IzlazCommand.RaiseCanExecuteChanged();
-                    OdustaniCommand.RaiseCanExecuteChanged();
+                    // NOVA STAVKA ostaje nedostupna tokom unosa
+                    _novaStavkaDozvoljena = false;
 
+                    // Osvježi sve komande
+                    UpdateCommands();
+
+                    IzlazCommand.RaiseCanExecuteChanged();
+                    NovaStavkaButtonCommand.RaiseCanExecuteChanged();
                     NabavnaCijenaCommand?.RaiseCanExecuteChanged();
 
                     // 8. Fokus na Ident
