@@ -131,7 +131,7 @@
 
         <Label Grid.Row="1" Grid.Column="0" Margin="0,0,0,0" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="18">Skladište</Label>
         <TextBox Text="1000" Name="OpBroj" KeyDown="TextBox_KeyDown"  Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left" FontWeight="Bold"  Width="170" FontSize="18" IsEnabled="False"/>
-        <TextBox Grid.Row="1" KeyDown="TextBox_KeyDown" Name="tabelaSifarnikSkladista" Margin="-300,0,600,0" Grid.Column="2" Grid.ColumnSpan="4" VerticalAlignment="Center"  FontSize="18"  Width="400" Text="LUTRIJA BIH-CENTRALNI MAGACIN INTERNO" IsEnabled="False">
+        <TextBox Grid.Row="1" KeyDown="TextBox_KeyDown" Name="tabelaSifarnikSkladista" Margin="-220,0,600,0" Grid.Column="2" Grid.ColumnSpan="4" VerticalAlignment="Center"  FontSize="18"  Width="400" Text="LUTRIJA BIH-CENTRALNI MAGACIN INTERNO" IsEnabled="False">
 
             <TextBox.InputBindings>
                 <MouseBinding Gesture="LeftClick" Command="{Binding UlazMaterijalaSifarnikSkladistaCommand}" />
@@ -140,13 +140,18 @@
         </TextBox>
 
         <Label Grid.Row="2" Grid.Column="0" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="18">Datum kalkulacije</Label>
-        <DatePicker SelectedDate="{Binding CurrentItemMat.Datun, UpdateSourceTrigger=PropertyChanged}"  Grid.Row="2" KeyDown="TextBox_KeyDown" Grid.Column="1" HorizontalAlignment="Left" Height="30" FontSize="18" Width="170" >
-            <!--<i:Interaction.Triggers>
-                <i:EventTrigger EventName="SelectedDateChanged">
-                    <i:InvokeCommandAction Command="{Binding BrojKalkulacijeCommand}" />
-                </i:EventTrigger>
-            </i:Interaction.Triggers>-->
-        </DatePicker>
+        <DatePicker
+    Name="dtpDatun"
+    SelectedDate="{Binding CurrentItemMat.Datun,
+                           UpdateSourceTrigger=PropertyChanged}"
+    Grid.Row="2"
+    Grid.Column="1"
+    Loaded="DatePicker_Loaded"
+    KeyDown="TextBox_KeyDown"
+    HorizontalAlignment="Left"
+    Height="30"
+    FontSize="18"
+    Width="170"/>
 
         <Label Grid.Row="2" Grid.Column="3" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="18" >Broj kalkulacije:</Label>
         <TextBox Text="{Binding CurrentItemMat.Brfak}" Grid.Row="2" KeyDown="TextBox_KeyDown" Grid.Column="4" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="18"  Width="120" IsEnabled="False"/>
@@ -154,7 +159,7 @@
         <Label Grid.Row="3" Grid.Column="0" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="18">Šifra komitenta</Label>
 
         <!--treba otvorit tabelu-->
-        <TextBox Text="{Binding CurrentItemMat.Analst}" Grid.Row="3" KeyDown="TextBox_KeyDown" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="18"  Width="170">
+        <TextBox Text="{Binding CurrentItemMat.Analst}" x:Name="txtAnalst" Grid.Row="3" CharacterCasing="Upper" KeyDown="TextBox_KeyDown" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="18"  Width="170">
             <TextBox.InputBindings>
                 <MouseBinding Gesture="RightClick" Command="{Binding OtvoriKomitentListuCommand}" />
             </TextBox.InputBindings>
@@ -165,7 +170,7 @@
             </i:Interaction.Triggers>
         </TextBox>
 
-        <TextBox Text="{Binding CurrentNazivZaSifruKomitenta, UpdateSourceTrigger=PropertyChanged}" Grid.Row="3" KeyDown="TextBox_KeyDown" Grid.Column="2" Grid.ColumnSpan="3" VerticalAlignment="Center"  Margin="-200,0,430,0" FontSize="18"  Width="400" Name="SifraKomitenta">
+        <TextBox Text="{Binding CurrentNazivZaSifruKomitenta, UpdateSourceTrigger=PropertyChanged}" Grid.Row="3" IsEnabled="False" KeyDown="TextBox_KeyDown" Grid.Column="2" Grid.ColumnSpan="3" VerticalAlignment="Center"  Margin="-125,0,430,0" FontSize="18"  Width="400" Name="SifraKomitenta">
             <TextBox.InputBindings>
                 <MouseBinding Gesture="LeftClick" Command="{Binding OtvoriKomitentListuCommand}" />
             </TextBox.InputBindings>
@@ -173,26 +178,34 @@
 
         <Label Grid.Row="4" Grid.Column="0" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="18">Broj dokumenta</Label>
         <!--treba otvorit tabelu-->
-        <TextBox Text="{Binding CurrentItemMat.Brdok}" Grid.Row="4" KeyDown="TextBox_KeyDown" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="18"  Width="170"/>
+        <TextBox Text="{Binding CurrentItemMat.Brdok}" CharacterCasing="Upper" Grid.Row="4" KeyDown="TextBox_KeyDown" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="18"  Width="170"/>
 
         <Label Grid.Row="4" Grid.Column="3" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="18">Datum dokumenta</Label>
-        <DatePicker SelectedDate="{Binding CurrentItemMat.Datnar, UpdateSourceTrigger=PropertyChanged}" Grid.Row="4" Grid.Column="4" HorizontalAlignment="Left" Height="30" FontSize="18" Width="120" Name="dtpOd1" />
-
+        <DatePicker
+    Name="dtpOd1"
+    SelectedDate="{Binding CurrentItemMat.Datnar, UpdateSourceTrigger=PropertyChanged}"
+    Grid.Row="4"
+    Grid.Column="4"
+    Loaded="DatePicker_Loaded"
+    HorizontalAlignment="Left"
+    Height="30"
+    FontSize="18"
+    Width="120"/>
         <Label Grid.Row="5" Grid.Column="0" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="18">Red.br</Label>
-        <TextBox Text="{Binding CurrentItemMat.Redbr}" Grid.Row="5" KeyDown="TextBox_KeyDown" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="18"  Width="170"/>
+        <TextBox Text="{Binding CurrentItemMat.Redbr}" IsEnabled="False" x:Name="txtRedbr" Grid.Row="5" KeyDown="TextBox_KeyDown" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="18"  Width="170"/>
 
         <Label Grid.Row="5" Grid.Column="2" Margin="-60,0,0,0"  VerticalAlignment="Center" FontSize="18">Šifra materijala</Label>
         <!--treba otvorit tabelu-->
-        <TextBox Text="{Binding CurrentItemMat.Ident}" Grid.Row="5" KeyDown="TextBox_KeyDown" Grid.Column="3" VerticalAlignment="Center" Margin="-250,0,250,0" FontSize="18"  Width="180">
+        <TextBox x:Name="txtIdent"
+         Text="{Binding CurrentItemMat.Ident}" Grid.Row="5" Grid.Column="3" KeyDown="TextBox_KeyDown" VerticalAlignment="Center" Margin="-230,0,250,0" FontSize="18" Width="180" Focusable="True">
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="LostFocus">
                     <i:InvokeCommandAction Command="{Binding OsvjeziCommand}" />
                 </i:EventTrigger>
             </i:Interaction.Triggers>
         </TextBox>
-
         <!--Na osnovu sifre materijala dati naziv iz druge tabele "tabela materijala"-->
-        <TextBox Text="{Binding CurrentItemTabMaterijala.Nazmat, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.Row="5" Grid.Column="4" Margin="-430,0,0,0" VerticalAlignment="Center" FontSize="18"  Width="400" IsEnabled="False"/>
+        <TextBox Text="{Binding CurrentItemTabMaterijala.Nazmat, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.Row="5" Grid.Column="4" Margin="-420,0,0,0" VerticalAlignment="Center" FontSize="18"  Width="400" IsEnabled="False"/>
 
         <Label Grid.Row="6" Grid.Column="2" VerticalAlignment="Center" Margin="-60,0,0,0" FontSize="18">Količina</Label>
         <TextBox Text="{Binding CurrentItemMat.Kolic, StringFormat=N2, TargetNullValue='0', ConverterCulture='de-DE', UpdateSourceTrigger=PropertyChanged}" Grid.Row="6" KeyDown="TextBox_KeyDown" Grid.Column="2" Margin="45,0,0,0" VerticalAlignment="Center"  FontSize="18"  Width="180">
@@ -204,12 +217,25 @@
         </TextBox>
 
         <Label Grid.Row="6" Grid.Column="3" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="18">Fakturna vrijednost</Label>
-        <TextBox Text="{Binding CurrentItemMat.Vrijed, TargetNullValue='0,00', StringFormat=N2, ConverterCulture='de-DE', UpdateSourceTrigger=PropertyChanged}" Grid.Row="6" KeyDown="TextBox_KeyDown" Grid.Column="4" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="18"  Width="120">
+        <TextBox x:Name="txtFvrijed"
+         Text="{Binding CurrentItemMat.Fvrijed,
+                        Mode=TwoWay,
+                        UpdateSourceTrigger=PropertyChanged}"
+         Grid.Row="6"
+         Grid.Column="4"
+         KeyDown="TextBox_KeyDown"
+         VerticalAlignment="Center"
+         HorizontalAlignment="Left"
+         FontSize="18"
+         Width="120">
+
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="LostFocus">
-                    <i:InvokeCommandAction Command="{Binding NabavnaCijenaCommand}" />
+                    <i:InvokeCommandAction
+                Command="{Binding NabavnaCijenaCommand}" />
                 </i:EventTrigger>
             </i:Interaction.Triggers>
+
         </TextBox>
 
         <Label Grid.Row="7" Grid.Column="2" Margin="-60,0,0,0" VerticalAlignment="Center" FontSize="18">Iznos PDV-a</Label>
@@ -239,8 +265,17 @@
             </i:Interaction.Triggers>
         </TextBox>
 
-        <Label Grid.Row="8" Grid.Column="2" Margin="-60,0,200,0" VerticalAlignment="Center" FontSize="18">Ostali troškovi</Label>
-        <TextBox Text="{Binding CurrentItemMat.Troskovi, TargetNullValue='0,00', StringFormat=N2, ConverterCulture='de-DE', UpdateSourceTrigger=PropertyChanged}" Grid.Row="8" KeyDown="TextBox_KeyDown" Grid.Column="3" VerticalAlignment="Center" Margin="-300,0,200,0" FontSize="18"  Width="180">
+        <Label Grid.Row="8" Content="Ostali troškovi" Grid.Column="2" Margin="-60,0,0,0" VerticalAlignment="Center" FontSize="18"/>
+        <TextBox Text="{Binding CurrentItemMat.Zavtro,
+                        Mode=TwoWay,
+                        UpdateSourceTrigger=PropertyChanged}"
+         Grid.Row="8"
+         KeyDown="TextBox_KeyDown"
+         Grid.Column="3"
+         VerticalAlignment="Center"
+         Margin="-280,0,200,0"
+         FontSize="18"
+         Width="180">
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="LostFocus">
                     <i:InvokeCommandAction Command="{Binding NabavnaCijenaCommand}" />
@@ -252,8 +287,8 @@
         <TextBox Text="{Binding CurrentItemMat.Nc, StringFormat=N9, TargetNullValue='0,00', ConverterCulture='de-DE', UpdateSourceTrigger=PropertyChanged}" Grid.Row="8" Grid.Column="5" VerticalAlignment="Center" Margin="-450,0,250,0" FontSize="18"  Width="160" IsEnabled="False"/>
 
 
-        <Grid Grid.Row="9" Grid.Column="0" Grid.ColumnSpan="6" HorizontalAlignment="Center" VerticalAlignment="Center">
-            <WrapPanel HorizontalAlignment="Center" VerticalAlignment="Top" ItemWidth="150" ItemHeight="60" Margin="0,3,0,5">
+        <Grid Grid.Row="10" Grid.Column="0" Grid.ColumnSpan="6" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <WrapPanel HorizontalAlignment="Center" VerticalAlignment="Top" ItemWidth="150" ItemHeight="60" Margin="0,-50,0,5">
                 <WrapPanel.Resources>
                     <Style TargetType="Button">
                         <Setter Property="FontSize" Value="16"/>
@@ -302,13 +337,13 @@
                 <Button x:Name="btnNovaKalkulacija" Content="Nova kalkulacija" FontSize="18" Width="140" Margin="5,5,-2,5" HorizontalAlignment="Left" Command="{Binding NovaKalkulacijaCommand}" />
                 <Button x:Name="btnSnimi" Content="Snimi" FontSize="18" Width="140" Margin="5,5,-2,5" HorizontalAlignment="Left" Command="{Binding SpasiNovuKalkulacijuCommand}" />
                 <Button x:Name="btnStampa1" Content="Štampa" FontSize="18" Width="140" Margin="5,5,-2,5" HorizontalAlignment="Left" Command="{Binding PrintCommand}" />
-                <Button x:Name="btnKrajFakture" Content="Kraj fakture" FontSize="18" Width="130" Margin="5,5,0,5" HorizontalAlignment="Left" Command="{Binding KrajFaktureCommand}" IsEnabled="False"/>
+                <Button x:Name="btnKrajFakture"  Content="Kraj fakture" FontSize="18"  Width="130"  Margin="5,5,0,5"  HorizontalAlignment="Left"  Command="{Binding KrajFaktureCommand}"/>
             </WrapPanel>
         </Grid>
 
 
-        <Grid Grid.Row="10" Grid.Column="0" Grid.ColumnSpan="6" HorizontalAlignment="Center" VerticalAlignment="Center">
-            <WrapPanel HorizontalAlignment="Center" VerticalAlignment="Top" ItemWidth="165" ItemHeight="50" Margin="0,8,0,5">
+        <Grid Grid.Row="11" Grid.Column="0" Grid.ColumnSpan="6" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <WrapPanel HorizontalAlignment="Center" VerticalAlignment="Top" ItemWidth="165" ItemHeight="50" Margin="0,-40,0,5">
                 <WrapPanel.Resources>
                     <Style TargetType="Button">
                         <Setter Property="FontSize" Value="16"/>
@@ -350,9 +385,9 @@
                     </Style>
                 </WrapPanel.Resources>
 
-                <Button x:Name="btnNovaStavka" Content="Nova stavka" Command="{Binding NovaStavkaCommand}" IsEnabled="False"/>
+                <Button x:Name="btnNovaStavka" Content="Nova stavka" FontSize="18" Width="130" HorizontalAlignment="Left" Command="{Binding NovaStavkaButtonCommand}" />
                 <Button x:Name="btnIzmjenaStavka" Content="Izmjena" Command="{Binding UpdateCommand}" />
-                <Button x:Name="btnSlijedecaStavka" Content="Slij. stavka" Command="{Binding NextButtonCommand}" IsEnabled="False"/>
+                <Button x:Name="btnSlijedecaStavka" Content="Slij. stavka" Command="{Binding SlijedecaStavkaCommand}" Focusable="True" IsTabStop="True"/>
                 <Button x:Name="btnOdustani" Content="Odustani" Command="{Binding OdustaniCommand}" />
                 <Button x:Name="btnBrisanje" Content="Brisanje" Command="{Binding BrisanjeCommand}" />
             </WrapPanel>

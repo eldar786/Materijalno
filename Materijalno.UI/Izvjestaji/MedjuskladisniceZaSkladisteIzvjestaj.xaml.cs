@@ -191,17 +191,41 @@ namespace Materijalno.UI.Izvjestaji
         private void PripremiPrint()
         {
             ReportDataSource ds = new ReportDataSource("DataSet1", reportDt);
+
             PathHelper pathHelper = new PathHelper();
-            this._reportViewer.LocalReport.ReportPath = pathHelper.MExecutableRootDirectory + "\\Izvjestaji\\MedjuskladisniceZaSkladiste.rdlc";
-            _reportViewer.LocalReport.DataSources.Add(ds);
-            try
+
+            this._reportViewer.LocalReport.ReportPath =
+                pathHelper.MExecutableRootDirectory +
+                "\\Izvjestaji\\MedjuskladisniceZaSkladiste.rdlc";
+
+            this._reportViewer.LocalReport.DataSources.Clear();
+            this._reportViewer.LocalReport.DataSources.Add(ds);
+
+            // Šifra skladišta koju je korisnik odabrao
+            int skladiste =
+                _medjuskladisniceZaSkladistevm.CurrentItemMat.Kljnaz.Value;
+
+            // Pronađi naziv skladišta prema odabranoj šifri
+            string nazivSkladista = "";
+
+            using (var dbContext = new materijalno_knjigovodstvoContext())
             {
-                this._reportViewer.LocalReport.ReportEmbeddedResource = "MedjuskladisniceZaSkladiste.rdlc";
+                nazivSkladista = dbContext.SifarnikSkladista
+                    .Where(x => x.Kljnaz == skladiste)
+                    .Select(x => x.NazivOrg)
+                    .FirstOrDefault() ?? "";
             }
-            catch (Exception e)
-            {
-                throw new Exception("Ne postoje stavke sa ispis.");
-            }
+
+            // Pošalji šifru i naziv u RDLC
+            this._reportViewer.LocalReport.SetParameters(
+                new ReportParameter[]
+                {
+            new ReportParameter("Skladiste", skladiste.ToString()),
+            new ReportParameter("NazivSkladista", nazivSkladista)
+                }
+            );
+
+            this._reportViewer.RefreshReport();
         }
 
         private void btnOdustani_Click(object sender, RoutedEventArgs e)
