@@ -1,4 +1,4 @@
-MATERIJALNO - PRODUKCIJSKI FOX PODACI
+﻿MATERIJALNO - PRODUKCIJSKI FOX PODACI
 
 Pokretanje: dvaput kliknite "Pokreni Materijalno.cmd" u ovom folderu.
 Izvrsna aplikacija: artifacts\FoxApp\Materijalno.UI.exe
@@ -115,3 +115,49 @@ Ispravka je postavljena u Debug (Visual Studio) i artifacts\FoxApp (Pokreni Mate
 - Po Fox pravilima kalkulacija se ograničava i datumima, dobavljačem i brojem dokumenta, uz skladište i knjigovodstvenu godinu nove aplikacije.
 - Provjereno 22 uvezena U reda prema originalnom mat.dbf, 397 provjera prošlo, 6 PDF izvještaja bez upozorenja; primjer od 13 stavki ima 4 ispravne stranice.
 - Nisu mijenjani podaci u SQL ili Fox bazama niti konekcije. Izmjena postavljena u Debug i artifacts/FoxApp.
+
+
+10.11.2026. - Stvarni test prijenosa SQL -> Oracle TESTPDB, M-191 / 0393
+- Uzrok nedostajućeg naloga: OracleExportEnabled=false. SQL nalog je bio Pending, attempt_count=0.
+- Korišten stvarni FinancialPostingService.Export i OracleFinancialGateway, samo za M-191.
+- Oracle TESTPDB, šema IBS: INTERFACE_NALOG ima 1 red za BROJNAL=0393, AKTIVNOST=61, DATNAL=31.10.2026.
+- Interni Oracle NALOG=10780452; svih 8 INTERFACE_STAVKE redova povezano na taj NALOG.
+- Duguje=potražuje=3.041,76. Sva konta, opisi, datumi, komitent, MJT i iznosi odgovaraju mapiranju originalnih SQL stavki.
+- Oracle trigeri/default vrijednosti popunjavaju interni NALOG, datum unosa, oznaku PROKNJIZEN=N i druge početne vrijednosti. Nalog nije knjižen kroz drugu aplikaciju.
+- SQL financial_batch: Sent, exported_at postavljen, jedan uspješan export log.
+- Ponovni Export nije dodao duplikate. Originalne mat/nalmat stavke i ukupne zalihe nisu mijenjane. 28 provjera prijenosa prošlo, završno provjereno još 12 samo čitanjem.
+- Korisnik je izričito odobrio trajno slanje u TESTPDB. OracleExportEnabled=true sada je postavljen u UI App.config, standardnom Debug i artifacts/FoxApp; konekcije i lozinke nisu mijenjane. Ponovo pokrenuti aplikaciju/F5 da preuzme novu postavku.
+
+
+PRENOS POSLJEDNJIH FOX PODATAKA - 10.11.2026.
+
+Baza: materijalno_fox_20261105_102038 (192.168.1.213)
+Izvor: C:\Users\eldar.bajrovic\OneDrive - Lutrija BiH\Radna površina\MATVM
+Nova baza i nove tabele nisu kreirane. Šema postojećih tabela ostala je ista.
+
+Preneseno i provjereno:
+- 35 Fox tabela, 137.830 fizičkih DBF redova u fox_raw.
+- 61 izvorna podatkovna datoteka sa sačuvanim identičnim sadržajem.
+- mat: 3.984 aktivna reda, od toga 3.975 knjiženih i 9 nedovršenih.
+- nalmat: 5.602 reda.
+- Materijali: 175; skladišta: 13; konta: 503.
+- Kontne veze materijal/skladište: 1.463 jedinstvene veze; 4 identična Fox duplikata zadržana u sirovoj tabeli.
+- Količina zaliha: 13.221.650,00; vrijednost: 1.864.456,77.
+- NALMAT duguje=potražuje=1.526.463,88.
+- Brojači za 2026: PROMET_U=26; PROMET_IV=239; PROMET_M=197; FIN_61=400.
+
+Provjere:
+- Probni uvoz izvršen i poništen prije konačne primjene.
+- 4.426.841 polje provjereno u potvrđenoj transakciji, bez razlika.
+- Nezavisno provjerena sva operativna polja glavnih tabela, bez razlika.
+- 981 provjera kroz aplikacijski model prošla.
+- Nezavisni Python DBF čitač potvrdio svih 283 salda po skladištu i materijalu.
+- Hash provjera svih 61 originalnih datoteka: nepromijenjene.
+
+Raniji SQL testni unosi zamijenjeni su najnovijim Fox podacima. Stara aplikacijska evidencija i testni redovi sačuvani su u application_state_before.xml i punom verificiranom backupu prije prenosa.
+Oracle nije korišten niti mijenjan; raniji testni nalog 0393 u TESTPDB nije dio ovog usklađivanja. Novi Fox M-191 ima 14 redova prometa i 14 redova nalmat.
+SQL konekcije i ranije odobrena postavka Oracle TESTPDB slanja u aplikaciji nisu mijenjane.
+Ponovo pokrenuti aplikaciju/F5 prije rada sa osvježenim podacima.
+
+Backup prije: C:\Program Files\Microsoft SQL Server\MSSQL15.LUTRIJASQL\MSSQL\Backup\materijalno_fox_20261105_102038_20261110_102040.bak
+Backup poslije: C:\Program Files\Microsoft SQL Server\MSSQL15.LUTRIJASQL\MSSQL\Backup\materijalno_fox_20261105_102038_20261110_103304.bak
