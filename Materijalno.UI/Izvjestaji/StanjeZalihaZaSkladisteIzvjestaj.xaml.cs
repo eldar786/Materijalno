@@ -1,3 +1,4 @@
+using Materijalno.Model.Services;
 ﻿using Microsoft.Reporting.WinForms;
 using Materijalno.ViewModel;
 using Materijalno.UI;
@@ -51,16 +52,16 @@ namespace Materijalno.UI.Izvjestaji
 
             var dbContext = new materijalno_knjigovodstvoContext();
 
-            //MatList = new ObservableCollection<Mat>(dbContext.Mat
+            //MatList = new ObservableCollection<Mat>(ReportQueries.AtDate(dbContext, stanjeZalihaZaSkladistevm.CurrentItemMat.Datun ?? DateTime.Today)
             //            .Where(row => row.Kljnaz == stanjeZalihaZaSkladistevm.CurrentItemMat.Kljnaz // Skladište
-            //                        && row.Datun <= stanjeZalihaZaSkladistevm.CurrentItemMat.Datun) // Start date condition
+            //                        && true) // Start date condition
             //            .OrderBy(row => row.Datun) // Sort by start date
             //            .ToList());
 
 
-            //MatList = new ObservableCollection<Mat>(dbContext.Mat
+            //MatList = new ObservableCollection<Mat>(ReportQueries.AtDate(dbContext, stanjeZalihaZaSkladistevm.CurrentItemMat.Datun ?? DateTime.Today)
             //        .Where(row => row.Kljnaz == stanjeZalihaZaSkladistevm.CurrentItemMat.Kljnaz // Skladište
-            //                    && row.Datun <= stanjeZalihaZaSkladistevm.CurrentItemMat.Datun)
+            //                    && true)
             //        .GroupBy(row => row.Ident) // Group by Ident
             //        .Select(grouped => new Mat
             //        {
@@ -72,9 +73,9 @@ namespace Materijalno.UI.Izvjestaji
 
 
 
-            //MatList = new ObservableCollection<Mat>(dbContext.Mat
+            //MatList = new ObservableCollection<Mat>(ReportQueries.AtDate(dbContext, stanjeZalihaZaSkladistevm.CurrentItemMat.Datun ?? DateTime.Today)
             //            .Where(row => row.Kljnaz == stanjeZalihaZaSkladistevm.CurrentItemMat.Kljnaz // Skladište
-            //                        && row.Datun <= stanjeZalihaZaSkladistevm.CurrentItemMat.Datun)
+            //                        && true)
             //            .GroupBy(row => row.Ident) // Group by Ident
             //            .Select(grouped => new Mat
             //            {
@@ -89,16 +90,16 @@ namespace Materijalno.UI.Izvjestaji
             //            .ToList()); // Ensure query execution before converting to ObservableCollection
 
 
-            MatList = new ObservableCollection<Mat>(dbContext.Mat
+            MatList = new ObservableCollection<Mat>(ReportQueries.AtDate(dbContext, stanjeZalihaZaSkladistevm.CurrentItemMat.Datun ?? DateTime.Today)
                         .Where(row => row.Kljnaz == stanjeZalihaZaSkladistevm.CurrentItemMat.Kljnaz // Skladište
-                                    && row.Datun <= stanjeZalihaZaSkladistevm.CurrentItemMat.Datun)
+                                    && true)
                         .AsEnumerable() // Forces execution in-memory to enable GroupBy & OrderBy
                         .GroupBy(row => row.Ident) // Group by Ident
                         .Select(grouped => new Mat
                         {
                             Ident = grouped.Key, // Ident remains the same
                             Kljnaz = stanjeZalihaZaSkladistevm.CurrentItemMat.Kljnaz,
-                            Nc = grouped.OrderBy(x => x.Datun).First().Nc, // Now works in-memory
+                            Nc = (grouped.Sum(x => x.Kolic) ?? 0) == 0 ? 0 : LedgerMath.Price((grouped.Sum(x => x.Vrijed) ?? 0) / grouped.Sum(x => x.Kolic).Value), // Now works in-memory
                             Datun = stanjeZalihaZaSkladistevm.CurrentItemMat.Datun,
                             Kolic = grouped.Sum(x => x.Kolic), // Sum up Kolic
                             Vrijed = grouped.Sum(x => x.Vrijed), // Sum up Vrijed
@@ -138,14 +139,14 @@ namespace Materijalno.UI.Izvjestaji
 
             
             reportDt.Columns.Add("Ident").DataType = typeof(int);
-            reportDt.Columns.Add("Nazmat").DataType = typeof(string);
-            reportDt.Columns.Add("Kolic").DataType = typeof(int);
+            reportDt.Columns.Add("NazMat").DataType = typeof(string);
+            reportDt.Columns.Add("Kolic").DataType = typeof(decimal);
             reportDt.Columns.Add("Nc").DataType = typeof(decimal);
             reportDt.Columns.Add("Vrijed").DataType = typeof(decimal);
            
             reportDt.Columns.Add("Datun").DataType = typeof(DateTime);
             reportDt.Columns.Add("NazivOrg").DataType = typeof(string);
-            //reportDt.Columns.Add("Totalvrijednost").DataType = typeof(decimal);
+            //reportDt.Columns.Add("TotalVrijednost").DataType = typeof(decimal);
            
             reportDt.Columns.Add("Kljnaz").DataType = typeof(int);
          

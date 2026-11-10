@@ -1,3 +1,4 @@
+using Materijalno.Model.Services;
 ﻿using Materijalno.Model.EntityModels;
 using Materijalno.UI.Helpers;
 using Materijalno.ViewModel;
@@ -75,8 +76,8 @@ namespace Materijalno.UI.Izvjestaji
             reportDt = new DataTable("PocetnoStanjePrviPut");
 
             reportDt.Columns.Add("Ident").DataType = typeof(int);
-            reportDt.Columns.Add("Nazmat").DataType = typeof(string);
-            reportDt.Columns.Add("Kolic").DataType = typeof(int);
+            reportDt.Columns.Add("NazMat").DataType = typeof(string);
+            reportDt.Columns.Add("Kolic").DataType = typeof(decimal);
             reportDt.Columns.Add("Vrijed").DataType = typeof(decimal);
             reportDt.Columns.Add("Datun").DataType = typeof(DateTime);
             reportDt.Columns.Add("Datnar").DataType = typeof(DateTime);
@@ -107,8 +108,8 @@ namespace Materijalno.UI.Izvjestaji
                 _report.NazMat = tabmat.Nazmat;
                 _report.Kolic = mat.Kolic;
                 _report.Vrijed = mat.Vrijed;
-                _report.Datun = (DateTime)mat.Datun;
-                _report.Datnar = (DateTime)mat.Datnar;
+                _report.Datun = mat.Datun;
+                _report.Datnar = mat.Datnar;
                 _report.NazivOrg = tabsklad.NazivOrg;
                 _report.Kljnaz = mat.Kljnaz;
                 _report.Redbr = mat.Redbr;
@@ -127,8 +128,8 @@ namespace Materijalno.UI.Izvjestaji
                 dr[1] = report.NazMat;
                 dr[2] = report.Kolic;
                 dr[3] = report.Vrijed;
-                dr[4] = report.Datun;
-                dr[5] = report.Datnar;
+                dr[4] = (object)report.Datun ?? DBNull.Value;
+                dr[5] = (object)report.Datnar ?? DBNull.Value;
                 dr[6] = report.NazivOrg;
                 dr[7] = report.Kljnaz;
                 dr[8] = report.Nc;

@@ -171,6 +171,18 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="EntityModels\Inv.cs" />
+    <Compile Include="EntityModels\LedgerEntities.cs" />
+    <Compile Include="EntityModels\LedgerContext.cs" />
+    <Compile Include="Services\DatabaseConfiguration.cs" />
+    <Compile Include="Services\FinancialPostingService.cs" />
+    <Compile Include="Services\FoxCostReports.cs" />
+    <Compile Include="Services\InventoryService.cs" />
+    <Compile Include="Services\LedgerMath.cs" />
+    <Compile Include="Services\MaterialPostingService.cs" />
+    <Compile Include="Services\ReportQueries.cs" />
+    <Compile Include="Services\ReceiptPrintReport.cs" />
+    <Compile Include="Services\SummaryReports.cs" />
+    <Compile Include="Services\YearCloseService.cs" />
     <Compile Include="EntityModels\Mat.cs" />
     <Compile Include="EntityModels\materijalno_knjigovodstvoContext.cs" />
     <Compile Include="EntityModels\Nalmat.cs" />

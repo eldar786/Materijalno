@@ -9,11 +9,13 @@ namespace Materijalno.Model.EntityModels
 {
     public partial class TabelaMaterijala
     {
+        public int Id { get; set; }
+
         public int Ident { get; set; }
         public string Nazmat { get; set; }
         public string Jedm { get; set; }
-        public long? Siftar { get; set; }
-        public long? Konto1 { get; set; }
+        public int? Siftar { get; set; }
+        public int? Konto1 { get; set; }
         public string Konto2 { get; set; }
     }
 }

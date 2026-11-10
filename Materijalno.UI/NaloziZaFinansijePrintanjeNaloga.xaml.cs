@@ -32,10 +32,18 @@ namespace Materijalno.UI
         {
             if (DataContext is NaloziZaFinansijePrintanjeNalogaViewModel naloziZaFinansijePrintanjeNalogaViewModel)
             {
-                NaloziZaFinansijePrintanjeNalogaIzvjestaj naloziZaFinansijePrintanjeNalogaIzvjestaj = new NaloziZaFinansijePrintanjeNalogaIzvjestaj(naloziZaFinansijePrintanjeNalogaViewModel);
-
-                // Dodajemo trenutni ViewModel u PrintWindow
-                naloziZaFinansijePrintanjeNalogaIzvjestaj.Show();
+                try
+                {
+                    txtGodina.GetBindingExpression(TextBox.TextProperty)?.UpdateSource();
+                    txtBrojKalkulacije.GetBindingExpression(TextBox.TextProperty)?.UpdateSource();
+                    if (Validation.GetHasError(txtGodina))
+                        throw new InvalidOperationException("Provjerite unesenu godinu i broj kalkulacije.");
+                    new NaloziZaFinansijePrintanjeNalogaIzvjestaj(naloziZaFinansijePrintanjeNalogaViewModel).Show();
+                }
+                catch (InvalidOperationException ex)
+                {
+                    MessageBox.Show(ex.Message, "Finansijski nalog", MessageBoxButton.OK, MessageBoxImage.Information);
+                }
             }
         }
 

@@ -1,17 +1,9 @@
-﻿<UserControl x:Class="Materijalno.UI.StanjeZalihaZaMaterijalUSkladistu"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:vm="clr-namespace:Materijalno.ViewModel;assembly=Materijalno.ViewModel"
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:Materijalno.UI" xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
-             mc:Ignorable="d" 
-             d:DesignHeight="800" d:DesignWidth="1900">
+<UserControl xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:vm="clr-namespace:Materijalno.ViewModel;assembly=Materijalno.ViewModel" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:local="clr-namespace:Materijalno.UI" xmlns:i="http://schemas.microsoft.com/xaml/behaviors" x:Class="Materijalno.UI.StanjeZalihaZaMaterijalUSkladistu" mc:Ignorable="d" d:DesignHeight="800" d:DesignWidth="1900">
     <UserControl.Resources>
-        <DataTemplate DataType="{x:Type vm:StanjeZalihaZaMaterijalUSkladistuViewModel}">
+        <ResourceDictionary><ResourceDictionary.MergedDictionaries><ResourceDictionary Source="/Materijalno.UI;component/Themes/FinanceTheme.xaml"/></ResourceDictionary.MergedDictionaries><DataTemplate DataType="{x:Type vm:StanjeZalihaZaMaterijalUSkladistuViewModel}">
             <local:StanjeZalihaZaMaterijalUSkladistu/>
         </DataTemplate>
-    </UserControl.Resources>
+    </ResourceDictionary></UserControl.Resources>
 
 
     <Grid>
@@ -36,47 +28,47 @@
             <RowDefinition/>
         </Grid.RowDefinitions>
 
-        <Border Background="AliceBlue" BorderBrush="Silver" BorderThickness="1,0,1,1" Grid.Row="1" Grid.RowSpan="10" Grid.Column="0" Grid.ColumnSpan="6"/>
-        <TextBlock Text="STANJE ZALIHA MATERIJALA" FontSize="18" FontWeight="Bold" Grid.ColumnSpan="6" VerticalAlignment="Center" HorizontalAlignment="Center" />
+        <Border Background="#F1F5F7" BorderBrush="Silver" BorderThickness="1,0,1,1" Grid.Row="1" Grid.RowSpan="10" Grid.Column="0" Grid.ColumnSpan="6"/>
+        <TextBlock Text="STANJE ZALIHA MATERIJALA" FontSize="18" FontWeight="Bold" Grid.ColumnSpan="6" VerticalAlignment="Center" HorizontalAlignment="Center"/>
 
-        <Label Grid.Row="1" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="18">Skladište</Label>
-        <TextBox Name="OpBroj" KeyDown="TextBox_KeyDown" Text="{Binding Kljnaz}" Grid.Row="1" Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold"  Width="140" FontSize="18">
+        <Label Grid.Row="1" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="13">Skladište</Label>
+        <TextBox Name="OpBroj" KeyDown="TextBox_KeyDown" Text="{Binding Kljnaz}" Grid.Row="1" Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold" Width="140" FontSize="14">
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="LostFocus">
-                    <i:InvokeCommandAction Command="{Binding OsvjeziCommand}" />
+                    <i:InvokeCommandAction Command="{Binding OsvjeziCommand}"/>
                 </i:EventTrigger>
             </i:Interaction.Triggers>
         </TextBox>
-        <TextBox Grid.Row="1" KeyDown="TextBox_KeyDown" Text="{Binding CurrentItemTabSkladista.NazivOrg, UpdateSourceTrigger=PropertyChanged}" Name="tabelaSifarnikSkladista" Grid.Column="3" Grid.ColumnSpan="2" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="18"  Width="400" IsEnabled="False"/>
+        <TextBox Grid.Row="1" KeyDown="TextBox_KeyDown" Text="{Binding CurrentItemTabSkladista.NazivOrg, UpdateSourceTrigger=PropertyChanged}" Name="tabelaSifarnikSkladista" Grid.Column="3" Grid.ColumnSpan="2" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="14" Width="400" IsEnabled="False"/>
 
-        <Label Grid.Row="2" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="18">Šifra Materijala</Label>
-        <TextBox Name="SifMat" Text="{Binding Ident}" KeyDown="TextBox_KeyDown" Grid.Row="2" Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Center" FontWeight="Bold"  Width="140" FontSize="18">
+        <Label Grid.Row="2" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="13">Šifra Materijala</Label>
+        <TextBox Name="SifMat" Text="{Binding Ident}" KeyDown="TextBox_KeyDown" Grid.Row="2" Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Center" FontWeight="Bold" Width="140" FontSize="14">
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="LostFocus">
-                    <i:InvokeCommandAction Command="{Binding OsvjeziCommand}" />
+                    <i:InvokeCommandAction Command="{Binding OsvjeziCommand}"/>
                 </i:EventTrigger>
             </i:Interaction.Triggers>
         </TextBox>
         
-        <TextBox Grid.Row="2" KeyDown="TextBox_KeyDown" Text="{Binding CurrentItemTabMaterijala.Nazmat}" IsReadOnly="True" Name="tabelaSifarnikMaterijala" Grid.Column="3" Grid.ColumnSpan="2" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="18"  Width="400" IsEnabled="False"/>
+        <TextBox Grid.Row="2" KeyDown="TextBox_KeyDown" Text="{Binding CurrentItemTabMaterijala.Nazmat}" IsReadOnly="True" Name="tabelaSifarnikMaterijala" Grid.Column="3" Grid.ColumnSpan="2" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="14" Width="400" IsEnabled="False"/>
 
 
-        <Label Grid.Row="3" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="18">Do datuma:</Label>
-        <DatePicker SelectedDate="{Binding Datun}" Grid.Row="3" KeyDown="TextBox_KeyDown" Grid.Column="2" HorizontalAlignment="Center" Height="30" FontSize="18" Width="140" SelectedDateChanged="datDo_SelectedDateChanged"  Name="dtpDo" />
+        <Label Grid.Row="3" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="13">Do datuma:</Label>
+        <DatePicker SelectedDate="{Binding Datun}" Grid.Row="3" KeyDown="TextBox_KeyDown" Grid.Column="2" HorizontalAlignment="Center" Height="30" FontSize="18" Width="140" SelectedDateChanged="datDo_SelectedDateChanged" Name="dtpDo"/>
        
-        <Label Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18">Količina</Label>
-        <Label Grid.Row="4" Grid.Column="2" Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18">Cijena</Label>
-        <Label Grid.Row="4" Grid.Column="3" Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18">Vrijednost</Label>
+        <Label Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="13">Količina</Label>
+        <Label Grid.Row="4" Grid.Column="2" Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="13">Cijena</Label>
+        <Label Grid.Row="4" Grid.Column="3" Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="13">Vrijednost</Label>
 
-        <TextBox Grid.Row="5" Text="{Binding Kolic, StringFormat=N0, TargetNullValue='0', ConverterCulture='de-DE'}" KeyDown="TextBox_KeyDown" Name="kolicina" Grid.Column="1" Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Top" FontSize="18" Width="120" IsEnabled="False" />
-        <TextBox Text="{Binding Nc, StringFormat=N9, TargetNullValue='0,00', ConverterCulture='de-DE', UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" IsEnabled="False" Grid.Row="5" KeyDown="TextBox_KeyDown" Name="cijena" Grid.Column="2" Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Top" FontSize="18" Width="120"/>
-        <TextBox Text="{Binding Vrijed, StringFormat=N2, ConverterCulture='de-DE', TargetNullValue='0,00', UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" IsEnabled="False" Grid.Row="5" KeyDown="TextBox_KeyDown" Name="vrijednost" Grid.Column="3" Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Top" FontSize="18" Width="120"/>
+        <TextBox Grid.Row="5" Text="{Binding Kolic, StringFormat=N0, TargetNullValue='0', ConverterCulture='de-DE'}" KeyDown="TextBox_KeyDown" Name="kolicina" Grid.Column="1" Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Top" FontSize="14" Width="120" IsEnabled="False"/>
+        <TextBox Text="{Binding Nc, StringFormat=N9, TargetNullValue='0,00', ConverterCulture='de-DE', UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" IsEnabled="False" Grid.Row="5" KeyDown="TextBox_KeyDown" Name="cijena" Grid.Column="2" Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Top" FontSize="14" Width="120"/>
+        <TextBox Text="{Binding Vrijed, StringFormat=N2, ConverterCulture='de-DE', TargetNullValue='0,00', UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" IsEnabled="False" Grid.Row="5" KeyDown="TextBox_KeyDown" Name="vrijednost" Grid.Column="3" Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Top" FontSize="14" Width="120"/>
 
 
         <Grid Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="6" HorizontalAlignment="Center" VerticalAlignment="Center">
             <WrapPanel HorizontalAlignment="Center" VerticalAlignment="Top" ItemWidth="200" ItemHeight="60">
                 <WrapPanel.Resources>
-                    <Style TargetType="Button">
+                    <Style TargetType="Button" BasedOn="{StaticResource FinanceButton}">
                         <Setter Property="FontSize" Value="16"/>
                         <Setter Property="Padding" Value="10,5"/>
                         <Setter Property="Margin" Value="10,0"/>
@@ -91,10 +83,7 @@
                         <Setter Property="Template">
                             <Setter.Value>
                                 <ControlTemplate TargetType="Button">
-                                    <Border Background="{TemplateBinding Background}" 
-                                    BorderBrush="{TemplateBinding BorderBrush}" 
-                                    BorderThickness="{TemplateBinding BorderThickness}" 
-                                    CornerRadius="10">
+                                    <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="10">
                                         <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                     </Border>
                                 </ControlTemplate>
@@ -116,8 +105,8 @@
                 </Style>
             </WrapPanel.Resources>
 
-                <Button x:Name="btnPrikazi" Content="Prikaži" Command="{Binding PrikaziCommand}" Visibility="{Binding Path=VidljivoOdabirVrsteIncidenta}"  Width="110"/>
-                <Button x:Name="btnOtkaz" Content="Otkaz" Command="{Binding OtkazCommand}" Visibility="{Binding Path=VidljivoOdabirVrsteIncidenta}"   Width="110"/>
+                <Button x:Name="btnPrikazi" Content="Prikaži" Command="{Binding PrikaziCommand}" Visibility="{Binding Path=VidljivoOdabirVrsteIncidenta}" Width="110"/>
+                <Button x:Name="btnOtkaz" Content="Otkaz" Command="{Binding OtkazCommand}" Visibility="{Binding Path=VidljivoOdabirVrsteIncidenta}" Width="110"/>
             </WrapPanel>
         </Grid>
 

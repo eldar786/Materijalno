@@ -1,4 +1,5 @@
-﻿using System;
+using Materijalno.Model.Services;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -138,7 +139,7 @@ namespace Materijalno.ViewModel
 
         private bool _isOdustaniEnabled;
 
-        //Ovo je uslov koji je vezan za Odustani button i ako za property kazemo false, automatski ce biti button disabled, ne treba pozivati dodatno 
+        //Ovo je uslov koji je vezan za Odustani button i ako za property kazemo false, automatski ce biti button disabled, ne treba pozivati dodatno
         //OdustaniCommand.RaiseCanExecuteChanged();, jer je dodato u setter da to radi kada dodje do promjene vrijednosti
         public bool IsOdustaniEnabled
         {
@@ -364,60 +365,16 @@ namespace Materijalno.ViewModel
         #endregion
 
         #region Methods
-
         public void NabavnaCijena()
         {
-            if (CurrentItemInv == null)
+            if (CurrentItemInv == null || !CurrentItemInv.Ident.HasValue || CurrentItemInv.Kljnaz <= 0) return;
+            try
             {
-                System.Windows.MessageBox.Show("Tabela je prazna / nema trenutnog zapisa!", "Upozorenje", MessageBoxButton.OK, MessageBoxImage.Information);
-                return;
+                CurrentItemInv.Nc = new InventoryService().Quote(CurrentItemInv);
+                CurrentItemInv.Vrijed = LedgerMath.Money((CurrentItemInv.Kolic ?? 0) * CurrentItemInv.Nc);
+                OnPropertyChanged(nameof(CurrentItemInv));
             }
-            var dbContext = new materijalno_knjigovodstvoContext();
-
-            //Ovaj pristup nije dobar za izracun prosjeka NC, jer treba ici SUM(Kolic) / SUM(vrijed)
-            //decimal ncMat = (decimal)dbContext.Mat
-            //    .Where(row => row.Ident == CurrentItemInv.Ident && row.Ident == CurrentItemInv.Ident)
-            //    .Select(row => row.Nc).FirstOrDefault();
-
-            //SUMA Kolicine za materijal i magacin
-            decimal kolic = (decimal)dbContext.Mat
-                .Where(row => row.Ident == CurrentItemInv.Ident && row.Kljnaz == CurrentItemInv.Kljnaz)
-                .Select(row => row.Kolic).Sum();
-
-            //SUMA Vrijednosti za materijal i magacin
-            decimal vrijed = (decimal)dbContext.Mat
-                .Where(row => row.Ident == CurrentItemInv.Ident && row.Kljnaz == CurrentItemInv.Kljnaz)
-                .Select(row => row.Vrijed).Sum();
-
-            //Prosjek NC
-            decimal prosjekNC = vrijed / kolic;
-
-            // SUM(Kolic) / SUM(vrijed) da dobijem prosjecnu NC, samo treba staviti za koji Magacin
-            CurrentItemInv.Nc = prosjekNC;
-
-            var culture = new CultureInfo("de-DE");
-
-            if (CurrentItemInv.Kolic.HasValue && CurrentItemInv.Kolic.Value != 0)
-            {
-                CurrentItemInv.Vrijed = (decimal)CurrentItemInv.Kolic * CurrentItemInv.Nc;
-            }
-            else
-            {
-                // U slucaju da je Kolic null ili nula, da bi izbjegli dijeljenje sa nulom
-                CurrentItemInv.Nc = 0;
-            }
-
-            dbContext.Update(CurrentItemInv);
-            dbContext.SaveChanges();
-
-
-            //Staviti po datumu da sortira i dodaj u listu da bi se vidjele promjene
-            InvList = new ObservableCollection<Inv>(dbContext.Inv
-                .Where(row => row.Kljnaz >= 1000 && row.Kljnaz <= 1012)
-                .OrderBy(row => row.Datun)
-                .ToList());
-
-            UpdateCurrentItemData(dbContext);
+            catch (Exception ex) { System.Windows.MessageBox.Show(ex.Message, "Inventura", MessageBoxButton.OK, MessageBoxImage.Warning); }
         }
 
 
@@ -510,7 +467,7 @@ namespace Materijalno.ViewModel
                 CurrentItemInv = null;
                 System.Windows.MessageBox.Show("Inventurna lista je prazna", "Upozorenje", MessageBoxButton.OK, MessageBoxImage.Information);
                 return; // or handle empty list case
-            } 
+            }
 
             using (var dbContext = new materijalno_knjigovodstvoContext())
             {
@@ -520,10 +477,10 @@ namespace Materijalno.ViewModel
 
                 if (resultMessageBox == MessageBoxResult.Yes)
                 {
-                    dbContext.Inv.Remove(CurrentItemInv);
-                    dbContext.SaveChanges();
+                    new InventoryService().Delete(CurrentItemInv);
 
                     InvList.Remove(CurrentItemInv);
+                    if (InvList.Count == 0) { CurrentIndex = 0; CurrentItemInv = new Inv(); OnPropertyChanged(nameof(InvList)); return; }
 
                     CurrentItemInv = null;
                 }
@@ -555,11 +512,10 @@ namespace Materijalno.ViewModel
                     .FirstOrDefault();
                 }
 
-                CurrentItemInv.Datun = DateTime.Now;
-                CurrentItemInv.Datnar = DateTime.Now;
 
-                dbContext.Update(CurrentItemInv);
-                dbContext.SaveChanges();
+
+                CurrentItemInv = new InventoryService().Save(CurrentItemInv);
+                if (CurrentIndex >= 0 && CurrentIndex < InvList.Count) InvList[CurrentIndex] = CurrentItemInv;
 
                 System.Windows.MessageBox.Show("Uspješno ste izmijenili", "Potvrda", MessageBoxButton.OK, MessageBoxImage.Information);
 
@@ -639,75 +595,25 @@ namespace Materijalno.ViewModel
 
             UpdateCurrentItemData(dbContext);
         }
-
-        private void Izlaz()
+                private void Izlaz()
         {
-            //Disabled SNIMI i NOVA STAVKA, treba jos Slij.STAVKA i ODUSTANI
-
-            isNovaKalkulacijaClicked = false;
-            _isNovaKalkulacijaClicked = false;
-            isIzlazEnable = false;
-            IzlazCommand.RaiseCanExecuteChanged();
-
-            //ODUSTANI COMMAND treba da bude nedostupno nakon Kraj Izlaza??
-            IsOdustaniEnabled = false;
-            OdustaniCommand.RaiseCanExecuteChanged();
-
+            if (CurrentItemInv != null && CurrentItemInv.IsDraft) { SpasiNovuKalkulaciju(); if (CurrentItemInv.IsDraft) return; }
+            isNovaKalkulacijaClicked = false; _isNovaKalkulacijaClicked = false; isIzlazEnable = false; IsOdustaniEnabled = false;
             UpdateCommands();
-            SlijStavkaButtonCommand.RaiseCanExecuteChanged();
-
-            using (var dbContext = new materijalno_knjigovodstvoContext())
-            {
-                //Samo vrati buttone i zadnji kreiran
-
-                CurrentIndex = MatList.Count - 1;
-                CurrentItemMat = MatList[CurrentIndex];
-                //_gvm.OdabraniVM = new IzlazMaterijalaViewModel(_gvm);
-
-                UpdateCurrentItemData(dbContext);
-            }
+            using (var db = new materijalno_knjigovodstvoContext()) UpdateCurrentItemData(db);
         }
-
-        private void SlijStavkaButton()
+                private void SlijStavkaButton()
         {
-            //Ostavi prve stavke, dodaj redni broj, ostala polja ostavi prazno i spasi kao novi currentItemMat
-            //Mat snimljeniCurrentMat = currentItemMat;
-            Inv snimljeniCurrentInv = currentItemInv;
-
-            using (var dbContext = new materijalno_knjigovodstvoContext())
+            if (CurrentItemInv == null) return;
+            if (CurrentItemInv.IsDraft) { SpasiNovuKalkulaciju(); if (CurrentItemInv.IsDraft) return; }
+            var previous = CurrentItemInv;
+            using (var db = new materijalno_knjigovodstvoContext())
             {
-                //Dodaje u listu novi CurrentItemMat
-                InvList.Add(new Inv
-                {
-                    //Za ulaz materijala broj skladišta je uvijek 1000
-                    //Kljnaz = 1000
-                    Redbr = snimljeniCurrentInv.Redbr + 1
-                });
-
-                CurrentIndex = MatList.Count - 1;
-                CurrentItemMat = MatList[CurrentIndex];
-
-                //Dodaje po jedan a treba isti
-                //BrojKalkulacije();
-
-                dbContext.Add(CurrentItemMat);
-                dbContext.SaveChanges();
-
-                //kad uradi SlijedStavka, treba da ostane SNIMI i ODUSTANI
-
-
-                //Ovo kada je true, onda ce buttoni biti dostupni
-                _isNovaKalkulacijaClicked = false;
-                isNovaKalkulacijaClicked = true;
-                isIzlazEnable = false;
-                IsOdustaniEnabled = true;
-                SpasiNovuKalkulacijuCommand.RaiseCanExecuteChanged();
-
-                //Ova commanda zavisi od "_isNovaKalkulacijaClicked"
-                SlijStavkaButtonCommand.RaiseCanExecuteChanged();
-                IzlazCommand.RaiseCanExecuteChanged();
-
-                UpdateCurrentItemData(dbContext);
+                var next = new Inv { Kljnaz = previous.Kljnaz, Datun = previous.InventoryDate ?? previous.Datun,
+                    Datnar = previous.InventoryDate ?? previous.Datun, Redbr = (previous.Redbr ?? 0) + 1, Status = "P", IsDraft = true };
+                db.Inv.Add(next); db.SaveChanges();
+                InvList.Add(next); CurrentIndex = InvList.Count - 1; CurrentItemInv = next;
+                isNovaKalkulacijaClicked = true; IsOdustaniEnabled = true; UpdateCommands(); UpdateCurrentItemData(db);
             }
         }
 
@@ -717,33 +623,14 @@ namespace Materijalno.ViewModel
         public event Action OnPrintEvent;
 
         //obrise sva polja i ostavlja opciju za SNIMI i ODUSTANI
-        private void NovaKalkulacija()
+                private void NovaKalkulacija()
         {
-            //Prolazi ponovo provjeru CanExecute
-            isNovaKalkulacijaClicked = true;
-
-            UpdateCommands();
-
-            using (var dbContext = new materijalno_knjigovodstvoContext())
+            using (var db = new materijalno_knjigovodstvoContext())
             {
-                InvList.Add(new Inv
-                {
-                    //Za ulaz materijala broj skladišta je uvijek 1000
-                    //Kljnaz = 1000
-                    Redbr = 1
-                });
-
-                //Provjeriti kako radi kada ima jedan red?
-
-                CurrentIndex = InvList.Count - 1;
-                CurrentItemInv = InvList[CurrentIndex];
-
-                CurrentItemInv.Status = "P";
-
-                dbContext.Add(CurrentItemInv);
-                dbContext.SaveChanges();
-
-                UpdateCurrentItemData(dbContext);
+                var next = new Inv { Kljnaz = 1000, Redbr = 1, Status = "P", IsDraft = true, Datun = DateTime.Today, Datnar = DateTime.Today };
+                db.Inv.Add(next); db.SaveChanges();
+                InvList.Add(next); CurrentIndex = InvList.Count - 1; CurrentItemInv = next;
+                isNovaKalkulacijaClicked = true; IsOdustaniEnabled = true; UpdateCommands(); UpdateCurrentItemData(db);
             }
         }
 
@@ -771,11 +658,10 @@ namespace Materijalno.ViewModel
                      .FirstOrDefault() ?? 0;
                 }
 
-                CurrentItemInv.Datun = DateTime.Now;
-                CurrentItemInv.Datnar = DateTime.Now;
 
-                dbContext.Update(CurrentItemInv);
-                dbContext.SaveChanges();
+
+                CurrentItemInv = new InventoryService().Save(CurrentItemInv);
+                if (CurrentIndex >= 0 && CurrentIndex < InvList.Count) InvList[CurrentIndex] = CurrentItemInv;
 
                 //Staviti po datumu da sortira i dodaj u listu da bi se vidjele promjene
                 InvList = new ObservableCollection<Inv>(dbContext.Inv
@@ -825,37 +711,12 @@ namespace Materijalno.ViewModel
         }
 
         //Samo dostupno kada odemo na nova kalkulacija i da vrati na prethodni
-        private void Odustani()
+                private void Odustani()
         {
-            using (var dbContext = new materijalno_knjigovodstvoContext())
-            {
-                CurrentItemInv = InvList[CurrentIndex];
-
-                var resultMessageBox = System.Windows.MessageBox.Show("Želite li odustati tekući podatak? ", "Upozorenje", MessageBoxButton.YesNo, MessageBoxImage.Question);
-
-                if (resultMessageBox == MessageBoxResult.Yes)
-                {
-                    isNovaKalkulacijaClicked = false;
-
-                    UpdateCommands();
-                    //Prije odustajanja dohvati zadnji index, da bi mogao vratiti u pogledu, da ne ide na pocetak??
-
-                    dbContext.Inv.Remove(CurrentItemInv);
-                    dbContext.SaveChanges();
-
-                    InvList.Remove(CurrentItemInv);
-
-                    isNovaKalkulacijaClicked = false;
-
-                    CurrentItemInv = null;
-
-                    _gvm.OdabraniVM = new UnosInventurnogStanjaViewModel(_gvm);
-                }
-                else if (resultMessageBox == MessageBoxResult.No)
-                {
-                    return;
-                }
-            }
+            if (CurrentItemInv == null) return;
+            if (CurrentItemInv.IsDraft) new InventoryService().Delete(CurrentItemInv);
+            isNovaKalkulacijaClicked = false; _isNovaKalkulacijaClicked = false; IsOdustaniEnabled = false;
+            _gvm.OdabraniVM = new UnosInventurnogStanjaViewModel(_gvm);
         }
 
         private void OtvoriKomitentListu()
@@ -866,6 +727,12 @@ namespace Materijalno.ViewModel
         // Ova metoda radi update CurrentItem i CurrentItemTabMaterijala based on the current index
         private void UpdateCurrentItemData(materijalno_knjigovodstvoContext dbContext)
         {
+            if (InvList == null || InvList.Count == 0)
+            {
+                CurrentIndex = 0; CurrentItemInv = new Inv(); return;
+            }
+            CurrentIndex = Math.Max(0, Math.Min(CurrentIndex, InvList.Count - 1));
+
             if (InvList == null || InvList.Count == 0)
             {
                 System.Windows.MessageBox.Show("Trenutno nema inventurnih listića!", "Potvrda", MessageBoxButton.OK, MessageBoxImage.Information);

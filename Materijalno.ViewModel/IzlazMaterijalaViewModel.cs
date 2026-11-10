@@ -1,4 +1,5 @@
-﻿using System;
+using Materijalno.Model.Services;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -34,8 +35,7 @@ namespace Materijalno.ViewModel
         private Mat currentItemPovrat;
         private TabelaMaterijala currentItemTabMaterijala;
         private SifarnikSkladista currentItemTabSkladista;
-        string connectionString = "Server= 192.168.1.213;Trusted_Connection=False;" +
-            "MultipleActiveResultSets=true;User Id=sa;Password=Lutrija1;";
+        string connectionString = Materijalno.Model.Services.DatabaseConfiguration.MaterialConnectionString;
 
         string queryStringStaraSifra_Ime = "SELECT STARA_SIFRA, IME FROM [FINANSIJE2-LINKED SERVER]..[IBS].[GR_KOMITENTI]";
         string currentNazivZaSifruKomitenta;
@@ -365,74 +365,20 @@ namespace Materijalno.ViewModel
                 StaraSifra_Ime_List = DohvatiNazivKomitenta();
             }
         }
-
-
         public void NabavnaCijena()
         {
-            if (CurrentItemMat == null)
-                return;
-
-            int currentId = CurrentItemMat.Id;
-
-            // Izlaz materijala mora imati negativnu količinu
-            if (CurrentItemMat.Kolic > 0)
+            if (CurrentItemMat == null || !CurrentItemMat.Ident.HasValue || !CurrentItemMat.Kljnaz.HasValue || !CurrentItemMat.Kolic.HasValue) return;
+            try
             {
-                CurrentItemMat.Kolic = -CurrentItemMat.Kolic;
+                var service = new MaterialPostingService();
+                var stock = service.Balance(CurrentItemMat.Ident.Value, CurrentItemMat.Kljnaz.Value, CurrentItemMat.Id);
+                decimal quantity = Math.Abs(CurrentItemMat.Kolic.Value);
+                CurrentItemMat.Nc = stock.UnitCost;
+                CurrentItemMat.Kolic = -quantity;
+                CurrentItemMat.Vrijed = -LedgerMath.IssueValue(stock, quantity);
+                OnPropertyChanged(nameof(CurrentItemMat));
             }
-
-            using (var dbContext = new materijalno_knjigovodstvoContext())
-            {
-                // Izračun ponderisane nabavne cijene
-                // za odabrani Ident i Kljnaz
-                var sums = dbContext.Mat
-                    .Where(r =>
-                        r.Ident == CurrentItemMat.Ident &&
-                        r.Kljnaz == CurrentItemMat.Kljnaz &&
-                        r.Id != currentId &&
-                        (
-                            r.Status == "P" ||
-                            r.Status == "U" ||
-                            r.Status == "V" ||
-                            r.Status == "I" ||
-                            r.Status == "M"
-                        ))
-                    .GroupBy(_ => 1)
-                    .Select(g => new
-                    {
-                        SumVrijed = (decimal?)g.Sum(x => x.Vrijed) ?? 0m,
-                        SumKolic = (decimal?)g.Sum(x => x.Kolic) ?? 0m
-                    })
-                    .FirstOrDefault();
-
-                // Izračun Nc
-                CurrentItemMat.Nc =
-                    (sums == null || sums.SumKolic == 0m)
-                        ? 0m
-                        : sums.SumVrijed / sums.SumKolic;
-
-                // Zaokruživanje na 9 decimala
-                CurrentItemMat.Nc = Math.Round(
-                    CurrentItemMat.Nc ?? 0m,
-                    9,
-                    MidpointRounding.AwayFromZero);
-
-                // Izračun Vrijed
-                if (CurrentItemMat.Kolic.HasValue &&
-                    CurrentItemMat.Kolic.Value != 0)
-                {
-                    CurrentItemMat.Vrijed =
-                        CurrentItemMat.Kolic.Value *
-                        (CurrentItemMat.Nc ?? 0m);
-                }
-                else
-                {
-                    CurrentItemMat.Nc = 0m;
-                    CurrentItemMat.Vrijed = 0m;
-                }
-            }
-
-            // Osvježi prikaz izračunatih vrijednosti
-            OnPropertyChanged(nameof(CurrentItemMat));
+            catch (Exception ex) { System.Windows.MessageBox.Show(ex.Message, "Količina", MessageBoxButton.OK, MessageBoxImage.Warning); }
         }
 
 
@@ -671,10 +617,10 @@ namespace Materijalno.ViewModel
 
                 if (resultMessageBox == MessageBoxResult.Yes)
                 {
-                    dbContext.Mat.Remove(CurrentItemMat);
-                    dbContext.SaveChanges();
+                    new MaterialPostingService().Delete(CurrentItemMat);
 
                     MatList.Remove(CurrentItemMat);
+                    if (MatList.Count == 0) { CurrentIndex = 0; CurrentItemMat = new Mat(); OnPropertyChanged(nameof(MatList)); return; }
 
                 }
                 else if (resultMessageBox == MessageBoxResult.No)
@@ -729,8 +675,8 @@ namespace Materijalno.ViewModel
 
                 if (resultMessageBox == MessageBoxResult.Yes)
                 {
-                    dbContext.Update(CurrentItemMat);
-                    dbContext.SaveChanges();
+                    CurrentItemMat = new MaterialPostingService().Save(CurrentItemMat);
+                if (MatList != null) { int savedIndex = MatList.ToList().FindIndex(m => m.Id == CurrentItemMat.Id); if (savedIndex >= 0) MatList[savedIndex] = CurrentItemMat; }
 
                     System.Windows.MessageBox.Show("Uspješno ste izmijenili", "Potvrda", MessageBoxButton.OK, MessageBoxImage.Information);
 
@@ -802,47 +748,9 @@ namespace Materijalno.ViewModel
                 UpdateCurrentItemData(dbContext);
             }
         }
-
         private void BrojKalkulacije()
         {
-            var dbContext = new materijalno_knjigovodstvoContext();
-
-            var MatList = dbContext.Mat
-                               .Where(row => row.Status == "I")
-                               .OrderBy(row => row.Datun)
-                               .ToList();
-
-            //Proci kroz MatListu i naci posljednji "brfak" i dodati +1
-            var posljednjiBrfak = MatList
-            .OrderByDescending(x =>
-            x.Brfak != null && x.Brfak.Contains('-') // Provjeravamo da li Brfak is not null and sadrzi '-'
-            ? int.Parse(
-                x.Brfak.Substring(
-                    x.Brfak.LastIndexOf('-') + 1
-                )
-              )
-            : int.MinValue // Koristi defaultnu vrijednost za null ili ako je invalide
-            ).Select(x => x.Brfak)
-            .FirstOrDefault();
-
-            if (posljednjiBrfak != null)
-            {
-                var parts = posljednjiBrfak.Split('-');
-                if (parts.Length == 2 && int.TryParse(parts[1], out int number)) // Parsiraj drugi dio (poslije -)
-                {
-                    number++; // Povecaj za jedan
-                    posljednjiBrfak = $"{parts[0]}-{number}"; // Dodaj dvije cjeline u posljednjiBrfak
-                }
-            }
-            else
-            {
-                posljednjiBrfak = "61-1";
-            }
-            //Stavili smo if, jer pada kada brisemo, CurrentItemMat.Brfak bude null
-            //if (CurrentItemMat.Brfak != null)
-            //{
-            CurrentItemMat.Brfak = posljednjiBrfak;
-            //}
+            if (CurrentItemMat != null) CurrentItemMat.Brfak = new MaterialPostingService().ReserveDocumentNumber("I", new MaterialPostingService().ActiveYear());
         }
 
         //obrise sva polja i ostavlja opciju za SNIMI i ODUSTANI
@@ -982,70 +890,17 @@ namespace Materijalno.ViewModel
 
             return true;
         }
-
         private bool ValidacijaZaliheMaterijala()
         {
-            using (var dbContext = new materijalno_knjigovodstvoContext())
+            if (CurrentItemMat == null || !CurrentItemMat.Ident.HasValue || !CurrentItemMat.Kolic.HasValue) return false;
+            int warehouse = CurrentItemMat.Status == "M" && CurrentItemMat.Medus == "1" ? CurrentItemMat.Kljnaz1 ?? 0 : CurrentItemMat.Kljnaz ?? 0;
+            try
             {
-                //Validacija *KOLICINA VECA OD ZALIHE MATERIJALA!*
-                //1. Iz pocetnog stanja za trenutnu godinu uzmemo vrijednost materijala za dato skladiste
-                //2. Onda od pocetnog stanja + Ulazi(za taj magacin i taj materijal) - Izlazi(za taj magacin i taj materijal)
-                //3. Ako je Izlaz Vrijednost ili količine veci od stvarne zalihe materijala tj. ako ode ispod nule onda izbaci poruku
-                //4. Medjuskladisnica kako to sabirati ili oduzimati
-                int? ukupnoUlaziMaterijal = new int();
-                int? ukupnoIzlaziMaterijal = new int();
-
-                //POCETNO STANJE
-                int pocetnoStanje = (int)(dbContext.Mat
-                    .Where(row => row.Kljnaz == currentItemMat.Kljnaz && row.Ident == currentItemMat.Ident &&(row.Status == "P"))
-                    .Sum(row => (decimal?)row.Kolic) ?? 0m);
-
-                //ULAZI ZA MATERIJAL I SKLADISTE
-                ObservableCollection<Mat> ulaziMaterijal = new ObservableCollection<Mat>(dbContext.Mat.Where(row => row.Kljnaz == currentItemMat.Kljnaz && row.Ident == currentItemMat.Ident
-                && row.Status == "U").ToList());
-
-                //Idi kroz listu i saberi sve Vrijednosti
-                foreach (var item in ulaziMaterijal)
-                {
-                    ukupnoUlaziMaterijal += item.Kolic;
-                }
-
-                //IZLAZI ZA MATERIJAL I SKLADISTE
-                ObservableCollection<Mat> izlaziMaterijal = new ObservableCollection<Mat>(dbContext.Mat.Where(row => row.Kljnaz == currentItemMat.Kljnaz && row.Ident == currentItemMat.Ident
-                && row.Status == "I").ToList());
-
-                foreach (var item in izlaziMaterijal)
-                {
-                    ukupnoIzlaziMaterijal += item.Kolic;
-                }
-
-                //MEĐUSKLADIŠNICA
-                int ukupnoMedjuskladisnica = dbContext.Mat
-                .Where(row =>
-                    row.Kljnaz == currentItemMat.Kljnaz &&
-                    row.Ident == currentItemMat.Ident &&
-                    row.Status == "M" &&
-                    row.Medus == "1")
-                .Sum(row => (int?)row.Kolic) ?? 0;
-
-                //Povrat
-                int ukupnoPovrat = dbContext.Mat
-                .Where(row =>
-                    row.Kljnaz == currentItemMat.Kljnaz &&
-                    row.Ident == currentItemMat.Ident &&
-                    row.Status == "V")
-                .Sum(row => (int?)row.Kolic) ?? 0;
-
-                int? stvarnoStanje = pocetnoStanje + ukupnoUlaziMaterijal + ukupnoIzlaziMaterijal + ukupnoMedjuskladisnica + ukupnoPovrat;
-
-                if (stvarnoStanje < 0)
-                {
-                    System.Windows.MessageBox.Show("Količina je veća od zaliha materijala! " + stvarnoStanje, "Upozorenje", MessageBoxButton.OK, MessageBoxImage.Warning);
-                    
-                    return false;
-                }
+                var stock = new MaterialPostingService().Balance(CurrentItemMat.Ident.Value, warehouse, CurrentItemMat.Id, CurrentItemMat.TransferPairId);
+                LedgerMath.IssueValue(stock, Math.Abs(CurrentItemMat.Kolic.Value));
+                return true;
             }
-            return true;
+            catch (Exception ex) { System.Windows.MessageBox.Show(ex.Message, "Količina", MessageBoxButton.OK, MessageBoxImage.Warning); return false; }
         }
 
         //Pokupi sva polja trenutna i spasi. Trebalo bi napraviti disabled SAVE button ako nije odabrana nova kalkulacija
@@ -1095,8 +950,8 @@ namespace Materijalno.ViewModel
 
                
 
-                dbContext.Update(CurrentItemMat);
-                dbContext.SaveChanges();
+                CurrentItemMat = new MaterialPostingService().Save(CurrentItemMat);
+                if (MatList != null) { int savedIndex = MatList.ToList().FindIndex(m => m.Id == CurrentItemMat.Id); if (savedIndex >= 0) MatList[savedIndex] = CurrentItemMat; }
 
                 //Staviti po datumu da sortira i dodaj u listu da bi se vidjele promjene
                 MatList = new ObservableCollection<Mat>(dbContext.Mat
@@ -1177,7 +1032,7 @@ namespace Materijalno.ViewModel
                     UpdateCommands();
                     //Prije odustajanja dohvati zadnji index, da bi mogao vratiti u pogledu, da ne ide na pocetak??
 
-                    var matForDelete = dbContext.Mat
+                    var matForDelete = dbContext.Mat.IgnoreQueryFilters()
                 .FirstOrDefault(x => x.Id == CurrentItemMat.Id);
 
                     if (matForDelete != null)
@@ -1253,10 +1108,12 @@ namespace Materijalno.ViewModel
                     }
 
                     // 2. Pronađi posljednji Redbr za ISTI dokument
-                    int posljednjiRedbr = dbContext.Mat
+                    int posljednjiRedbr = dbContext.Mat.IgnoreQueryFilters()
                         .Where(x =>
                             x.Brfak == odabranaStavka.Brfak &&
                             x.Kljnaz == odabranaStavka.Kljnaz &&
+                            x.BookYear == odabranaStavka.BookYear &&
+                            !x.IsArchived &&
                             x.Status == "I")
                         .Max(x => (int?)x.Redbr) ?? 0;
 
@@ -1268,6 +1125,9 @@ namespace Materijalno.ViewModel
                         Datun = odabranaStavka.Datun,
                         Datnar = odabranaStavka.Datnar,
                         Brdok = odabranaStavka.Brdok,
+                        BookYear = odabranaStavka.BookYear,
+                        Ourst = odabranaStavka.Ourst,
+                        Mjtst = odabranaStavka.Mjtst,
 
                         Redbr = posljednjiRedbr + 1,
                         Status = "I",
@@ -1283,14 +1143,14 @@ namespace Materijalno.ViewModel
                     dbContext.Mat.Add(novaStavka);
                     dbContext.SaveChanges();
 
-                    var sacuvanaStavka = dbContext.Mat.AsNoTracking().First(x => x.Id == novaStavka.Id);
-
-
+                    // SaveChanges has populated the draft's Id. The normal Mat
+                    // query deliberately hides drafts until the user presses Snimi.
                     // 5. Dodaj novu stavku u listu
                     MatList.Add(novaStavka);
 
                     CurrentIndex = MatList.Count - 1;
                     CurrentItemMat = novaStavka;
+                    CurrentItemTabMaterijala = null;
 
                     // 6. Ažuriraj prikaz skladišta
                     TebelaSkladistaList =
@@ -1392,6 +1252,12 @@ namespace Materijalno.ViewModel
         // Ova metoda radi update CurrentItem i CurrentItemTabMaterijala based on the current index
         private void UpdateCurrentItemData(materijalno_knjigovodstvoContext dbContext)
         {
+            if (MatList == null || MatList.Count == 0)
+            {
+                CurrentIndex = 0; CurrentItemMat = new Mat(); return;
+            }
+            CurrentIndex = Math.Max(0, Math.Min(CurrentIndex, MatList.Count - 1));
+
             if (CurrentItemMat != null)
             {
                 for (int i = 0; i < MatList.Count(); i++)

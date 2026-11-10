@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version='1.0' encoding='utf-8'?>
 <Report xmlns="http://schemas.microsoft.com/sqlserver/reporting/2008/01/reportdefinition" xmlns:rd="http://schemas.microsoft.com/SQLServer/reporting/reportdesigner">
   <Body>
     <ReportItems>
@@ -293,7 +293,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Sum(Fields!Vrijed.Value)</Value>
+                              <Value>=Sum(Fields!UkupnoVrijed.Value)</Value>
                               <Style>
                                 <FontWeight>Bold</FontWeight>
                                 <Format>n2</Format>
@@ -394,7 +394,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Sum(Fields!Vrijed.Value)</Value>
+                              <Value>=Sum(Fields!UkupnoVrijed.Value)</Value>
                               <Style>
                                 <Format>n2</Format>
                                 <Language>bs-Latn-BA</Language>
@@ -434,12 +434,12 @@
             <TablixMember>
               <Group Name="NazivOrg">
                 <GroupExpressions>
-                  <GroupExpression>=Fields!NazivOrg.Value</GroupExpression>
+                  <GroupExpression>=Fields!Kljnaz.Value</GroupExpression>
                 </GroupExpressions>
               </Group>
               <SortExpressions>
                 <SortExpression>
-                  <Value>=Fields!Brfak.Value</Value>
+                  <Value>=Fields!Kljnaz.Value</Value>
                 </SortExpression>
               </SortExpressions>
               <TablixMembers>
@@ -448,6 +448,11 @@
                 </TablixMember>
                 <TablixMember>
                   <Group Name="Details1" />
+                  <SortExpressions>
+                    <SortExpression>
+                      <Value>=Fields!Konto1.Value</Value>
+                    </SortExpression>
+                  </SortExpressions>
                 </TablixMember>
                 <TablixMember>
                   <KeepWithGroup>Before</KeepWithGroup>
@@ -850,22 +855,6 @@
         <CommandText>/* Local Query */</CommandText>
       </Query>
       <Fields>
-        <Field Name="Brdok">
-          <DataField>Brdok</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="Brfak">
-          <DataField>Brfak</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="Brnar">
-          <DataField>Brnar</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="Cartro">
-          <DataField>Cartro</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
         <Field Name="Datnar">
           <DataField>Datnar</DataField>
           <rd:TypeName>System.DateTime</rd:TypeName>
@@ -874,61 +863,13 @@
           <DataField>Datun</DataField>
           <rd:TypeName>System.DateTime</rd:TypeName>
         </Field>
-        <Field Name="Id">
-          <DataField>Id</DataField>
-          <rd:TypeName>System.Int32</rd:TypeName>
-        </Field>
-        <Field Name="Ident">
-          <DataField>Ident</DataField>
-          <rd:TypeName>System.Nullable`1[[System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]</rd:TypeName>
-        </Field>
         <Field Name="Kljnaz">
           <DataField>Kljnaz</DataField>
           <rd:TypeName>System.Nullable`1[[System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]</rd:TypeName>
         </Field>
-        <Field Name="Kljnaz1">
-          <DataField>Kljnaz1</DataField>
-          <rd:TypeName>System.Nullable`1[[System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]</rd:TypeName>
-        </Field>
-        <Field Name="Kolic">
-          <DataField>Kolic</DataField>
-          <rd:TypeName>System.Nullable`1[[System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]</rd:TypeName>
-        </Field>
-        <Field Name="Medus">
-          <DataField>Medus</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="NazMat">
-          <DataField>NazMat</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="Nc">
-          <DataField>Nc</DataField>
-          <rd:TypeName>System.Nullable`1[[System.Decimal, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]</rd:TypeName>
-        </Field>
-        <Field Name="Redbr">
-          <DataField>Redbr</DataField>
-          <rd:TypeName>System.Nullable`1[[System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]</rd:TypeName>
-        </Field>
-        <Field Name="Status">
-          <DataField>Status</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="TotalVrijednost">
-          <DataField>TotalVrijednost</DataField>
-          <rd:TypeName>System.Nullable`1[[System.Decimal, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]</rd:TypeName>
-        </Field>
         <Field Name="Vrijed">
           <DataField>Vrijed</DataField>
           <rd:TypeName>System.Nullable`1[[System.Decimal, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]</rd:TypeName>
-        </Field>
-        <Field Name="Od">
-          <DataField>Od</DataField>
-          <rd:TypeName>System.DateTime</rd:TypeName>
-        </Field>
-        <Field Name="Do">
-          <DataField>Do</DataField>
-          <rd:TypeName>System.DateTime</rd:TypeName>
         </Field>
         <Field Name="NazivOrg">
           <DataField>NazivOrg</DataField>
@@ -941,6 +882,18 @@
         <Field Name="Nazkont">
           <DataField>Nazkont</DataField>
           <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="UkupnoVrijed">
+          <DataField>UkupnoVrijed</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="DatumDokumenta">
+          <DataField>DatumDokumenta</DataField>
+          <rd:TypeName>System.DateTime</rd:TypeName>
+        </Field>
+        <Field Name="FoxOrder">
+          <DataField>FoxOrder</DataField>
+          <rd:TypeName>System.Int64</rd:TypeName>
         </Field>
       </Fields>
       <rd:DataSetInfo>

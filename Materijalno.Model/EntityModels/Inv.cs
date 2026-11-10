@@ -9,21 +9,28 @@ namespace Materijalno.Model.EntityModels
 {
     public partial class Inv
     {
+        public bool IsDraft { get; set; } = true;
+        public bool IsArchived { get; set; }
+        public DateTime? InventoryDate { get; set; }
+        public Guid? InventorySessionId { get; set; }
+        public int? FoxRecno { get; set; }
+        public byte[] RowVersion { get; set; }
+
         public int Id { get; set; }
-        public int Kljnaz { get; set; }
+        public int? Kljnaz { get; set; }
         public int? Ident { get; set; }
-        public DateTime? Datun { get; set; }
+        public DateTime? Datun { get; set; } = DateTime.Today;
         public string Analst { get; set; }
         public string Brdok { get; set; }
         public string Brnar { get; set; }
-        public DateTime? Datnar { get; set; }
+        public DateTime? Datnar { get; set; } = DateTime.Today;
         public string Brfak { get; set; }
-        public int? Kolic { get; set; }
+        public decimal? Kolic { get; set; }
         public decimal Nc { get; set; }
         public decimal Vrijed { get; set; }
         public int? Redbr { get; set; }
         public string Status { get; set; }
-        public int Konto1 { get; set; }
+        public int? Konto1 { get; set; }
         public string Konto2 { get; set; }
         public string Fcj { get; set; }
         public decimal? Troskovi { get; set; }

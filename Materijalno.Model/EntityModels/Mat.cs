@@ -10,6 +10,15 @@ namespace Materijalno.Model.EntityModels
 {
     public class Mat
     {
+        public bool IsDraft { get; set; } = true;
+        public bool IsArchived { get; set; }
+        public int BookYear { get; set; } = DateTime.Today.Year;
+        public Guid? DocumentId { get; set; }
+        public Guid? TransferPairId { get; set; }
+        public Guid LineToken { get; set; } = Guid.NewGuid();
+        public int? FoxRecno { get; set; }
+        public byte[] RowVersion { get; set; }
+
         public int Id { get; set; }
         public int? Kljnaz { get; set; }
         public int? Kljnaz1 { get; set; }
@@ -20,7 +29,7 @@ namespace Materijalno.Model.EntityModels
         public string Brnar { get; set; }
         public DateTime? Datnar { get; set; } = DateTime.Now;
         public string Brfak { get; set; }
-        public int? Kolic { get; set; }
+        public decimal? Kolic { get; set; }
         public decimal? Nc { get; set; }
         public decimal? Vrijed { get; set; }
         public int? Redbr { get; set; }

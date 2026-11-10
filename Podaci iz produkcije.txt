@@ -1,0 +1,45 @@
+MATERIJALNO - PRODUKCIJSKI FOX PODACI
+
+Pokretanje: dvaput kliknite "Pokreni Materijalno.cmd" u ovom folderu.
+Izvrsna aplikacija: artifacts\FoxApp\Materijalno.UI.exe
+Nova SQL baza: materijalno_fox_20261105_102038
+
+Izvor: C:\Users\eldar.bajrovic\OneDrive - Lutrija BiH\Radna površina\MATVM
+Presjek podataka: 5. 11. 2026. u 10:20:39 (Europe/Sarajevo).
+Ovo je preneseni presjek. Nova WPF aplikacija radi u vlastitoj SQL bazi.
+
+Preneseno je svih 35 DBF tabela, ukupno 137.713 fizickih redova,
+ukljucujuci obrisane redove u izvornoj arhivi. Provjereno je
+3.700.891 polje bez razlika. Svih 61 izvornih podatkovnih datoteka
+(DBF, FPT, CDX, DBC i druge prisutne podatkovne datoteke) sacuvano je
+i na disku i u dbo.fox_source_files kao identican binarni sadrzaj.
+Sve tabele nalaze se i u fox_raw; operativne tabele WPF-a popunjene
+su aktivnim podacima iz produkcije.
+
+Promet: 3.925 aktivnih izvornih redova mat, od toga 3.916 knjizenja
+i 9 praznih izvornih nacrta koji ne mijenjaju zalihu.
+Materijali: 175. Skladista: 13. Finansijske stavke: 5.544.
+Medjuskladisni parovi: 924. Cetiri potpuno identicne duple kontne
+veze imaju jednu operativnu vezu; svi izvorni redovi su sacuvani.
+
+Saldo svih knjizenja: 13.201.650,00 kom / 1.807.828,77 KM.
+Native Fox i SQL dali su isti broj knjizenja, kolicinu i vrijednost.
+Posljednji datum knjizenja u dostavljenoj produkcijskoj mapi
+je 30.09.2026.
+Brojaci za 2026: ulaz 25, izlaz/povrat 239, medjuskladisnica 188.
+Originalni INV sadrzi jedan prazan red, bez snimljenog popisa.
+Popis se ne dopunjava izmisljenim ili ranijim testnim podacima.
+
+Provjereno je otvaranje svih cetiri vrste Prometa i stvarni izvjestaji
+Dnevnik, Analiticka kartica, Inventurni listici i stanje svih skladista.
+Stanje svih skladista u izvjestaju slaze se s ukupnim saldom.
+Finansijski prijenos u Oracle ostaje iskljucen; nista nije poslano.
+
+Testna verzija "Pregled testnog Prometa.cmd" i njena baza su odvojene.
+Testni materijali 990201/990202 i testni dokumenti nisu preneseni
+u ovu novu produkcijsku kopiju. Za redovan rad koristite glavni launcher.
+
+Prethodna SQL baza ostaje sacuvana. Napravljen je COPY_ONLY SQL backup
+nove baze i provjeren RESTORE VERIFYONLY/CHECKSUM.
+Rezultati provjera, presjek i prethodne konfiguracije:
+D:\Materijalno Novo\artifacts\ProductionImport\20261105_102038

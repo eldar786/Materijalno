@@ -1,3 +1,4 @@
+using Materijalno.Model.Services;
 ﻿using Microsoft.Reporting.WinForms;
 using Materijalno.ViewModel;
 using Materijalno.UI;
@@ -50,11 +51,11 @@ namespace Materijalno.UI.Izvjestaji
 
             var dbContext = new materijalno_knjigovodstvoContext();
 
-            MatList = new ObservableCollection<Mat>(dbContext.Mat
+            MatList = new ObservableCollection<Mat>(ReportQueries.Period(dbContext, medjuskladisniceSvevm.CurrentItemMat.Datun ?? DateTime.Today, medjuskladisniceSvevm.CurrentItemMat.Datnar ?? DateTime.Today)
                     .Where(row => row.Status == "M" // Filter by status 
                            // && row.Kljnaz == medjuskladisniceSvevm.CurrentItemMat.Kljnaz
-                            && row.Datun >= medjuskladisniceSvevm.CurrentItemMat.Datun // Start date condition
-                            && row.Datnar <= medjuskladisniceSvevm.CurrentItemMat.Datnar
+                            && true // Start date condition
+                            && true
                             && row.Medus == "1" &&row.Ident != 0) // End date condition
                      .OrderBy(row => row.Datun) // Sort by start date
                      .ToList());
@@ -95,14 +96,14 @@ namespace Materijalno.UI.Izvjestaji
             reportDt.Columns.Add("Redbr").DataType = typeof(int);
             reportDt.Columns.Add("Kljnaz").DataType = typeof(int);
             reportDt.Columns.Add("Ident").DataType = typeof(int);
-            reportDt.Columns.Add("Nazmat").DataType = typeof(string);
-            reportDt.Columns.Add("Kolic").DataType = typeof(int);
+            reportDt.Columns.Add("NazMat").DataType = typeof(string);
+            reportDt.Columns.Add("Kolic").DataType = typeof(decimal);
             reportDt.Columns.Add("Nc").DataType = typeof(decimal);
             reportDt.Columns.Add("Vrijed").DataType = typeof(decimal);
             reportDt.Columns.Add("Brfak").DataType = typeof(string);
             reportDt.Columns.Add("Datun").DataType = typeof(DateTime);
             reportDt.Columns.Add("Brdok").DataType = typeof(string);
-            //reportDt.Columns.Add("Totalvrijednost").DataType = typeof(decimal);
+            //reportDt.Columns.Add("TotalVrijednost").DataType = typeof(decimal);
             reportDt.Columns.Add("Od").DataType = typeof(DateTime);
             reportDt.Columns.Add("Do").DataType = typeof(DateTime);
             reportDt.Columns.Add("NazivOrg").DataType = typeof(string);

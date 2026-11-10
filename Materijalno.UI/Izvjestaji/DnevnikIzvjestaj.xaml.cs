@@ -1,3 +1,4 @@
+using Materijalno.Model.Services;
 ﻿using Microsoft.Reporting.WinForms;
 using Materijalno.ViewModel;
 using Materijalno.UI;
@@ -51,11 +52,11 @@ namespace Materijalno.UI.Izvjestaji
 
             var dbContext = new materijalno_knjigovodstvoContext();
 
-            MatList = new ObservableCollection<Mat>(dbContext.Mat
+            MatList = new ObservableCollection<Mat>(ReportQueries.Period(dbContext, dnevnikvm.CurrentItemMat.Datun ?? DateTime.Today, dnevnikvm.CurrentItemMat.Datnar ?? DateTime.Today)
                 .Where(row => row.Ident == dnevnikvm.CurrentItemMat.Ident
                             && row.Kljnaz == dnevnikvm.CurrentItemMat.Kljnaz
-                             && row.Datun >= dnevnikvm.CurrentItemMat.Datun &&
-                             row.Datnar <= dnevnikvm.CurrentItemMat.Datnar &&
+                             && true &&
+                             true &&
                              row.Status != "P")
                 .OrderBy(row => row.Datun)
                 .ToList());
@@ -92,19 +93,20 @@ namespace Materijalno.UI.Izvjestaji
 
             reportDt.Columns.Add("Redbr").DataType = typeof(int);
             reportDt.Columns.Add("Ident").DataType = typeof(int);
-            reportDt.Columns.Add("Nazmat").DataType = typeof(string);
-            reportDt.Columns.Add("Kolic").DataType = typeof(int);
+            reportDt.Columns.Add("NazMat").DataType = typeof(string);
+            reportDt.Columns.Add("Kolic").DataType = typeof(decimal);
             reportDt.Columns.Add("Nc").DataType = typeof(decimal);
             reportDt.Columns.Add("Vrijed").DataType = typeof(decimal);
             reportDt.Columns.Add("Brfak").DataType = typeof(string);
             reportDt.Columns.Add("Datun").DataType = typeof(DateTime);
             reportDt.Columns.Add("NazivOrg").DataType = typeof(string);
-            //reportDt.Columns.Add("Totalvrijednost").DataType = typeof(decimal);
+            //reportDt.Columns.Add("TotalVrijednost").DataType = typeof(decimal);
             reportDt.Columns.Add("Status").DataType = typeof(string);
             reportDt.Columns.Add("Kljnaz").DataType = typeof(int);
             reportDt.Columns.Add("Datnar").DataType = typeof(DateTime);
             reportDt.Columns.Add("Od").DataType = typeof(DateTime);
             reportDt.Columns.Add("Do").DataType = typeof(DateTime);
+            reportDt.Columns.Add("Medus").DataType = typeof(string);
 
 
             List<ReportDnevnik> lista = new List<ReportDnevnik>();
@@ -128,14 +130,15 @@ namespace Materijalno.UI.Izvjestaji
                 _report.Nc = mat.Nc;
                 _report.Vrijed = mat.Vrijed;
                 _report.Brfak = mat.Brfak;
-                _report.Datun = (DateTime)mat.Datun;
+                _report.Datun = mat.Datun;
                 _report.NazivOrg = tabsklad.NazivOrg;
                 //_report.TotalVrijednost = ukupnavrijednost.Vrijed;
                 _report.Status = mat.Status;
                 _report.Kljnaz = mat.Kljnaz;
-                _report.Datnar = (DateTime)mat.Datnar;
-                _report.Od = (DateTime)_dnevnikvm.CurrentItemMat.Datun;
-                _report.Do = (DateTime)_dnevnikvm.CurrentItemMat.Datnar;
+                _report.Datnar = mat.Datnar;
+                _report.Medus = mat.Medus;
+                _report.Od = (_dnevnikvm.CurrentItemMat.Datun ?? DateTime.Today).Date;
+                _report.Do = (_dnevnikvm.CurrentItemMat.Datnar ?? DateTime.Today).Date;
 
 
                 lista.Add(_report);
@@ -155,14 +158,15 @@ namespace Materijalno.UI.Izvjestaji
                 dr[4] = report.Nc;
                 dr[5] = report.Vrijed;
                 dr[6] = report.Brfak;
-                dr[7] = report.Datun;
+                dr[7] = (object)report.Datun ?? DBNull.Value;
                 dr[8] = report.NazivOrg;
                 //dr[9] = report.TotalVrijednost;
                 dr[9] = report.Status;
                 dr[10] = report.Kljnaz;
-                dr[11] = report.Datnar;
+                dr[11] = (object)report.Datnar ?? DBNull.Value;
                 dr[12] = report.Od;
                 dr[13] = report.Do;
+                dr[14] = (object)report.Medus ?? DBNull.Value;
 
 
 

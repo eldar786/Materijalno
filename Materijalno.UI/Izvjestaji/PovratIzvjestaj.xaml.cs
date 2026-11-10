@@ -1,3 +1,4 @@
+using Materijalno.Model.Services;
 ﻿using Microsoft.Reporting.WinForms;
 using Materijalno.ViewModel;
 using Materijalno.UI;
@@ -52,7 +53,7 @@ namespace Materijalno.UI.Izvjestaji
 
 
             MatList = new ObservableCollection<Mat>(dbContext.Mat
-                     .Where(row => row.Brfak == povratvm.CurrentItemMat.Brfak && row.Kontosklad == povratvm.CurrentItemMat.Kontosklad)
+                     .Where(row => row.Status == "V" && row.BookYear == (povratvm.CurrentItemMat.Datun ?? DateTime.Today).Year && row.Brfak == povratvm.CurrentItemMat.Brfak && row.Kontosklad == povratvm.CurrentItemMat.Kontosklad)
                      .OrderBy(row => row.Datun)
                      .ToList());
 
@@ -91,15 +92,15 @@ namespace Materijalno.UI.Izvjestaji
             reportDt.Columns.Add("Redbr").DataType = typeof(int);
             reportDt.Columns.Add("Kljnaz").DataType = typeof(int);
             reportDt.Columns.Add("Ident").DataType = typeof(int);
-            reportDt.Columns.Add("Nazmat").DataType = typeof(string);
-            reportDt.Columns.Add("Kolic").DataType = typeof(int);
+            reportDt.Columns.Add("NazMat").DataType = typeof(string);
+            reportDt.Columns.Add("Kolic").DataType = typeof(decimal);
             reportDt.Columns.Add("Nc").DataType = typeof(decimal);
             reportDt.Columns.Add("Vrijed").DataType = typeof(decimal);
             reportDt.Columns.Add("Brfak").DataType = typeof(string);
             reportDt.Columns.Add("Datun").DataType = typeof(DateTime);
             reportDt.Columns.Add("Datnar").DataType = typeof(DateTime);
             reportDt.Columns.Add("Brdok").DataType = typeof(string);
-            reportDt.Columns.Add("Totalvrijednost").DataType = typeof(decimal);
+            reportDt.Columns.Add("TotalVrijednost").DataType = typeof(decimal);
             reportDt.Columns.Add("Konto1").DataType = typeof(int);
             reportDt.Columns.Add("NazivOrg").DataType = typeof(string);
             reportDt.Columns.Add("Kontosklad").DataType = typeof(int);

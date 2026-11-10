@@ -1,205 +1,48 @@
-﻿<UserControl x:Class="Materijalno.UI.MedjuskladisniceJedna"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:vm="clr-namespace:Materijalno.ViewModel;assembly=Materijalno.ViewModel"
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:Materijalno.UI"
-             mc:Ignorable="d" 
-             d:DesignHeight="900" d:DesignWidth="1800">
+<UserControl xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:vm="clr-namespace:Materijalno.ViewModel;assembly=Materijalno.ViewModel" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:local="clr-namespace:Materijalno.UI" x:Class="Materijalno.UI.MedjuskladisniceJedna" mc:Ignorable="d" d:DesignHeight="900" d:DesignWidth="1800">
     <UserControl.Resources>
 
-        <DataTemplate DataType="{x:Type vm:MedjuskladisniceJednaViewModel}">
+        <ResourceDictionary><ResourceDictionary.MergedDictionaries><ResourceDictionary Source="/Materijalno.UI;component/Themes/FinanceTheme.xaml"/></ResourceDictionary.MergedDictionaries><DataTemplate DataType="{x:Type vm:MedjuskladisniceJednaViewModel}">
             <local:MedjuskladisniceJedna/>
         </DataTemplate>
 
 
         <!-- COLORS -->
-        <SolidColorBrush x:Key="PageBackgroundBrush" Color="#F4F7FB"/>
+        <SolidColorBrush x:Key="PageBackgroundBrush" Color="#F1F5F7"/>
         <SolidColorBrush x:Key="CardBackgroundBrush" Color="#FFFFFF"/>
 
-        <SolidColorBrush x:Key="PrimaryBrush" Color="#2563EB"/>
-        <SolidColorBrush x:Key="PrimaryHoverBrush" Color="#1D4ED8"/>
-        <SolidColorBrush x:Key="PrimaryPressedBrush" Color="#1E40AF"/>
+        <SolidColorBrush x:Key="PrimaryBrush" Color="#087F82"/>
+        <SolidColorBrush x:Key="PrimaryHoverBrush" Color="#06686C"/>
+        <SolidColorBrush x:Key="PrimaryPressedBrush" Color="#07575C"/>
 
-        <SolidColorBrush x:Key="TextPrimaryBrush" Color="#1F2937"/>
-        <SolidColorBrush x:Key="TextSecondaryBrush" Color="#667085"/>
+        <SolidColorBrush x:Key="TextPrimaryBrush" Color="#203447"/>
+        <SolidColorBrush x:Key="TextSecondaryBrush" Color="#596D7E"/>
 
-        <SolidColorBrush x:Key="BorderBrushLight" Color="#D8E0EA"/>
+        <SolidColorBrush x:Key="BorderBrushLight" Color="#CDD8E0"/>
         <SolidColorBrush x:Key="ReadOnlyBackgroundBrush" Color="#F8FAFC"/>
 
 
         <!-- LABEL -->
-        <Style x:Key="FormLabelStyle"
-           TargetType="TextBlock">
+        <Style x:Key="FormLabelStyle" TargetType="TextBlock" BasedOn="{StaticResource FinanceLabel}">
 
-            <Setter Property="FontFamily" Value="Segoe UI"/>
-            <Setter Property="FontSize" Value="13"/>
-            <Setter Property="FontWeight" Value="SemiBold"/>
-
-            <Setter Property="Foreground"
-                Value="{StaticResource TextPrimaryBrush}"/>
-
-            <Setter Property="VerticalAlignment"
-                Value="Center"/>
-
-        </Style>
+            </Style>
 
 
         <!-- TEXTBOX -->
-        <Style x:Key="FormTextBoxStyle"
-           TargetType="TextBox">
+        <Style x:Key="FormTextBoxStyle" TargetType="TextBox" BasedOn="{StaticResource FinanceTextBox}">
 
             <Setter Property="Height" Value="40"/>
-            <Setter Property="FontFamily" Value="Segoe UI"/>
-            <Setter Property="FontSize" Value="15"/>
-
-            <Setter Property="Foreground"
-                Value="{StaticResource TextPrimaryBrush}"/>
-
-            <Setter Property="Background"
-                Value="White"/>
-
-            <Setter Property="BorderBrush"
-                Value="{StaticResource BorderBrushLight}"/>
-
-            <Setter Property="BorderThickness"
-                Value="1"/>
-
-            <Setter Property="Padding"
-                Value="10,4"/>
-
-            <Setter Property="VerticalContentAlignment"
-                Value="Center"/>
-
-            <Setter Property="HorizontalContentAlignment"
-                Value="Left"/>
-
-            <Setter Property="VerticalAlignment"
-                Value="Center"/>
-
-
-            <Style.Triggers>
-
-                <!-- FOCUS -->
-                <Trigger Property="IsKeyboardFocused"
-                     Value="True">
-
-                    <Setter Property="BorderBrush"
-                        Value="{StaticResource PrimaryBrush}"/>
-
-                    <Setter Property="BorderThickness"
-                        Value="2"/>
-
-                </Trigger>
-
-
-                <!-- READ ONLY -->
-                <Trigger Property="IsReadOnly"
-                     Value="True">
-
-                    <Setter Property="Background"
-                        Value="{StaticResource ReadOnlyBackgroundBrush}"/>
-
-                    <Setter Property="Foreground"
-                        Value="{StaticResource TextSecondaryBrush}"/>
-
-                </Trigger>
-
-            </Style.Triggers>
-
-        </Style>
+            </Style>
 
 
         <!-- PRIMARY BUTTON -->
-        <Style x:Key="PrimaryButtonStyle"
-           TargetType="Button">
+        <Style x:Key="PrimaryButtonStyle" TargetType="Button" BasedOn="{StaticResource FinancePrimaryButton}">
 
             <Setter Property="Width" Value="130"/>
             <Setter Property="Height" Value="40"/>
 
-            <Setter Property="FontFamily" Value="Segoe UI"/>
-            <Setter Property="FontSize" Value="14"/>
-            <Setter Property="FontWeight" Value="SemiBold"/>
+            </Style>
 
-            <Setter Property="Foreground"
-                Value="White"/>
-
-            <Setter Property="Background"
-                Value="{StaticResource PrimaryBrush}"/>
-
-            <Setter Property="BorderThickness"
-                Value="0"/>
-
-            <Setter Property="Cursor"
-                Value="Hand"/>
-
-
-            <Setter Property="Template">
-
-                <Setter.Value>
-
-                    <ControlTemplate TargetType="Button">
-
-                        <Border
-                        x:Name="PrimaryBorder"
-                        Background="{TemplateBinding Background}"
-                        CornerRadius="8">
-
-                            <ContentPresenter
-                            HorizontalAlignment="Center"
-                            VerticalAlignment="Center"/>
-
-                        </Border>
-
-
-                        <ControlTemplate.Triggers>
-
-                            <!-- HOVER -->
-                            <Trigger Property="IsMouseOver"
-                                 Value="True">
-
-                                <Setter
-                                TargetName="PrimaryBorder"
-                                Property="Background"
-                                Value="{StaticResource PrimaryHoverBrush}"/>
-
-                            </Trigger>
-
-
-                            <!-- PRESSED -->
-                            <Trigger Property="IsPressed"
-                                 Value="True">
-
-                                <Setter
-                                TargetName="PrimaryBorder"
-                                Property="Background"
-                                Value="{StaticResource PrimaryPressedBrush}"/>
-
-                            </Trigger>
-
-
-                            <!-- DISABLED -->
-                            <Trigger Property="IsEnabled"
-                                 Value="False">
-
-                                <Setter
-                                Property="Opacity"
-                                Value="0.45"/>
-
-                            </Trigger>
-
-                        </ControlTemplate.Triggers>
-
-                    </ControlTemplate>
-
-                </Setter.Value>
-
-            </Setter>
-
-        </Style>
-
-    </UserControl.Resources>
+    </ResourceDictionary></UserControl.Resources>
 
 
 
@@ -224,25 +67,12 @@
         <!-- HEADER -->
         <!-- ====================================================== -->
 
-        <StackPanel
-        Grid.Row="0"
-        Margin="24,18,24,18"
-        HorizontalAlignment="Left">
+        <StackPanel Grid.Row="0" Margin="24,18,24,18" HorizontalAlignment="Left">
 
-            <TextBlock
-            Text="MEĐUSKLADIŠNICE - JEDNA"
-            FontFamily="Segoe UI"
-            FontSize="22"
-            FontWeight="SemiBold"
-            Foreground="{StaticResource TextPrimaryBrush}"/>
+            <TextBlock Text="MEĐUSKLADIŠNICE - JEDNA" FontFamily="Segoe UI" FontSize="22" FontWeight="SemiBold" Foreground="#203447"/>
 
 
-            <TextBlock
-            Text="Unesite broj međuskladišnice za štampanje dokumenta"
-            Margin="0,4,0,0"
-            FontFamily="Segoe UI"
-            FontSize="12.5"
-            Foreground="{StaticResource TextSecondaryBrush}"/>
+            <TextBlock Text="Unesite broj međuskladišnice za štampanje dokumenta" Margin="0,4,0,0" FontFamily="Segoe UI" FontSize="12.5" Foreground="{StaticResource TextSecondaryBrush}"/>
 
         </StackPanel>
 
@@ -252,15 +82,7 @@
         <!-- MAIN FORM CARD -->
         <!-- ====================================================== -->
 
-        <Border
-        Grid.Row="1"
-        Width="650"
-        HorizontalAlignment="Center"
-        Padding="24"
-        Background="{StaticResource CardBackgroundBrush}"
-        BorderBrush="{StaticResource BorderBrushLight}"
-        BorderThickness="1"
-        CornerRadius="12">
+        <Border Grid.Row="1" Width="650" HorizontalAlignment="Center" Padding="24" Background="{StaticResource CardBackgroundBrush}" BorderBrush="{StaticResource BorderBrushLight}" BorderThickness="1" CornerRadius="12">
 
             <Grid>
 
@@ -291,21 +113,11 @@
                 <!-- BROJ MEĐUSKLADIŠNICE -->
                 <!-- ================================================== -->
 
-                <TextBlock
-                Grid.Column="0"
-                Text="Broj međuskladišnice"
-                Style="{StaticResource FormLabelStyle}"
-                VerticalAlignment="Center"/>
+                <TextBlock Grid.Column="0" Text="Broj međuskladišnice" Style="{StaticResource FormLabelStyle}" VerticalAlignment="Center"/>
 
 
 
-                <TextBox
-                Grid.Column="1"
-                Text="{Binding CurrentItemMat.Brfak}"
-                KeyDown="TextBox_KeyDown"
-                CharacterCasing="Upper"
-                FontWeight="Bold"
-                Style="{StaticResource FormTextBoxStyle}"/>     
+                <TextBox Grid.Column="1" Text="{Binding CurrentItemMat.Brfak}" KeyDown="TextBox_KeyDown" CharacterCasing="Upper" FontWeight="Bold" Style="{StaticResource FormTextBoxStyle}"/>     
 
 
 
@@ -313,14 +125,7 @@
                 <!-- ŠTAMPA -->
                 <!-- ================================================== -->
 
-                <Button
-                Grid.Column="3"
-                x:Name="btnStampa"
-                Content="Štampa"
-                Click="stampa_button"
-                Style="{StaticResource PrimaryButtonStyle}"
-                HorizontalAlignment="Left"
-                VerticalAlignment="Center">
+                <Button Grid.Column="3" x:Name="btnStampa" Content="Štampa" Click="stampa_button" Style="{StaticResource PrimaryButtonStyle}" HorizontalAlignment="Left" VerticalAlignment="Center">
 
                     <Button.ToolTip>
                         <ToolTip Content="Print"/>

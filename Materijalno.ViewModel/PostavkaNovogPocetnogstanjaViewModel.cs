@@ -28,110 +28,15 @@ namespace Materijalno.ViewModel
         {
             PocetnoStanjeCommand = new RelayCommand(PocetnoStanje);
         }
-
         public void PocetnoStanje()
         {
-            //Napraviti da stavlja trenutnu novu godinu kod pocetnog stanja za sve tabele koje prolazi, za sve magacine i materijale
-
-            MessageBoxResult result = System.Windows.MessageBox.Show(
-    "Postavka novog početnog stanja?",              // Poruka
-    "Potvrda",                         // Naslov
-    MessageBoxButton.YesNo,                 // Buttons
-    MessageBoxImage.Question                // Icon
-);
-            if (result == MessageBoxResult.Yes)
+            if (System.Windows.MessageBox.Show("Zaključiti završenu godinu i formirati početno stanje iz potpune završne inventure?", "Početno stanje", MessageBoxButton.YesNo, MessageBoxImage.Question) != MessageBoxResult.Yes) return;
+            try
             {
-                //Izbrisi sve iz tabela Mat, ostavi status "P"
-                var dbContext = new materijalno_knjigovodstvoContext();
-
-                if (!dbContext.Inv.Any())
-                {
-                    System.Windows.MessageBox.Show(
-                "Inventurna tabela je prazna. Nije moguće formirati početno stanje.",
-                "Upozorenje",
-                MessageBoxButton.OK,
-                MessageBoxImage.Warning
-                     );
-                    return;
-                }
-
-                // FIRST DAY OF CURRENT YEAR
-                DateTime firstDayOfYear = new DateTime(DateTime.Now.Year, 1, 1);
-
-                dbContext.Database.ExecuteSqlRaw("TRUNCATE TABLE mat");
-                //Nakon brisanja tabele dodajemo po jednu praznu vrijednost za svaki status, da ne bi poslije pravio problem prilikom otvaranja
-                //Dodati za status "M" Medus = 1 (Provjeriti kako radi u praksi)
-                dbContext.Database.ExecuteSqlRaw(@"
-                INSERT INTO mat
-                (
-                    kljnaz,
-                    kljnaz1,
-                    kolic,
-                    nc,
-                    vrijed,
-                    status,
-                    kontosklad,
-                    medus,
-                    brfak
-                )
-                VALUES
-                (1001, 0, 0, 0, 0.00, 'I', NULL, '', '61-0'),
-                (1000, 1000, 0, 0, 0.00, 'M', 1, '1', 'M-0'),
-                (1001, 0, 0, 0, 0.00, 'V', NULL, '', '61-0'),
-                (1000, 0, 0, 0, 0.00, 'U', NULL, '', '10-0');
-                ");
-
-                // Transfer INV -> MAT (PRIJE TRUNCATE INV)
-                var invRows = dbContext.Inv.AsNoTracking().ToList(); // snapshot
-
-                var matRowsToInsert = invRows.Select(inv => new Mat
-                {
-                    Kljnaz = inv.Kljnaz,
-                    Kljnaz1 = 0,
-                    Ident = inv.Ident,
-                    Datun = firstDayOfYear,
-                    Analst = inv.Analst,
-                    Brdok = inv.Brdok,
-                    Brnar = inv.Brnar,
-                    Datnar = firstDayOfYear,
-                    Brfak = inv.Brfak,
-                    Kolic = inv.Kolic,
-                    Nc = inv.Nc,
-                    Vrijed = inv.Vrijed,
-                    Redbr = inv.Redbr,
-                    Status = "P",
-                    Konto1 = inv.Konto1,
-                    Konto2 = inv.Konto2,
-                    Fcj = inv.Fcj,
-                    Troskovi = inv.Troskovi,
-                    Cartro = inv.Cartro,
-                    Zavtro = inv.Zavtro,
-                    Ppp = inv.Ppp,
-                    Tarifa = inv.Tarifa,
-                    Fvrijed = inv.Fvrijed,
-                    Porppp = inv.Porppp,
-                    Kontosklad = inv.Kontosklad,
-                    Kontosklad1 = inv.Kontosklad1,
-                    Trospe = inv.Trospe,
-                    Ourst = inv.Ourst,
-                    Mjtst = inv.Mjtst
-                }).ToList();
-
-                dbContext.Mat.AddRange(matRowsToInsert);
-                dbContext.SaveChanges();
-
-                //Nakon prebacivanja u Mat tabelu, ide Brisanje INV tabele - Truncate
-                dbContext.Database.ExecuteSqlRaw("TRUNCATE TABLE inv");
-
-                //Nalmat Brisanje - Truncate
-                dbContext.Database.ExecuteSqlRaw("TRUNCATE TABLE nalmat");
-
-                System.Windows.MessageBox.Show("Uspješno ste obavili postavku početnog stanja!", "Informacija", MessageBoxButton.OK, MessageBoxImage.Information);
+                int year = new Materijalno.Model.Services.YearCloseService().CloseFromInventory();
+                System.Windows.MessageBox.Show("Otvorena je godina " + year + ". Prethodni promet i nalozi su sačuvani u arhivi.", "Početno stanje", MessageBoxButton.OK, MessageBoxImage.Information);
             }
-            else
-            {
-                return;
-            }
+            catch (Exception ex) { System.Windows.MessageBox.Show(ex.Message, "Početno stanje", MessageBoxButton.OK, MessageBoxImage.Warning); }
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

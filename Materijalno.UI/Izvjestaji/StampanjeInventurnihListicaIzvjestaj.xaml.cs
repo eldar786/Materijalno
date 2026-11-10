@@ -1,3 +1,4 @@
+using Materijalno.Model.Services;
 ﻿using Microsoft.Reporting.WinForms;
 using Materijalno.ViewModel;
 using Materijalno.UI;
@@ -50,7 +51,8 @@ namespace Materijalno.UI.Izvjestaji
 
             var dbContext = new materijalno_knjigovodstvoContext();
 
-            MatList = new ObservableCollection<Mat>(dbContext.Mat
+            int year = new MaterialPostingService().ActiveYear();
+            MatList = new ObservableCollection<Mat>(ReportQueries.ForYear(dbContext, new DateTime(year, 1, 1))
                         .Where(row => row.Kljnaz == stampanjeInventurnihListicavm.CurrentItemMat.Kljnaz) // Skladište
                         .AsEnumerable() // Forces execution in-memory to enable GroupBy & OrderBy
                         .GroupBy(row => row.Ident) // Group by Ident
@@ -58,8 +60,10 @@ namespace Materijalno.UI.Izvjestaji
                         {
                             Ident = grouped.Key, // Ident remains the same
                             Kljnaz = stampanjeInventurnihListicavm.CurrentItemMat.Kljnaz,
-                            Nc = grouped.OrderBy(x => x.Datun).Last().Nc, // Now works in-memory
-                            Datun = stampanjeInventurnihListicavm.CurrentItemMat.Datun,
+                            // Fox invl.frx prints nc from the last record in
+                            // the material group; it does not print a/b.
+                            Nc = grouped.OrderBy(x => x.FoxRecno.HasValue ? 0 : 1).ThenBy(x => x.FoxRecno).ThenBy(x => x.Id).Last().Nc ?? 0,
+                            Datun = DateTime.Today,
                             Kolic = grouped.Sum(x => x.Kolic), // Sum up Kolic
                             Vrijed = grouped.Sum(x => x.Vrijed), // Sum up Vrijed
                         })
@@ -98,16 +102,17 @@ namespace Materijalno.UI.Izvjestaji
 
 
             reportDt.Columns.Add("Ident").DataType = typeof(int);
-            reportDt.Columns.Add("Nazmat").DataType = typeof(string);
-            reportDt.Columns.Add("Kolic").DataType = typeof(int);
+            reportDt.Columns.Add("NazMat").DataType = typeof(string);
+            reportDt.Columns.Add("Kolic").DataType = typeof(decimal);
             reportDt.Columns.Add("Nc").DataType = typeof(decimal);
             reportDt.Columns.Add("Vrijed").DataType = typeof(decimal);
 
             reportDt.Columns.Add("Datun").DataType = typeof(DateTime);
             reportDt.Columns.Add("NazivOrg").DataType = typeof(string);
-            //reportDt.Columns.Add("Totalvrijednost").DataType = typeof(decimal);
+            //reportDt.Columns.Add("TotalVrijednost").DataType = typeof(decimal);
 
             reportDt.Columns.Add("Kljnaz").DataType = typeof(int);
+            reportDt.Columns.Add("Jedm").DataType = typeof(string);
 
 
 
@@ -129,7 +134,8 @@ namespace Materijalno.UI.Izvjestaji
                 _report = new ReportStampanjeInventurnihListica();
 
                 _report.Ident = mat.Ident;
-                _report.NazMat = tabmat.Nazmat; //pada?
+                _report.NazMat = tabmat?.Nazmat ?? Convert.ToString(mat.Ident);
+                _report.Jedm = tabmat?.Jedm ?? "";
                 _report.Kolic = mat.Kolic;
                 _report.Nc = mat.Nc;
                 _report.Vrijed = mat.Vrijed;
@@ -163,6 +169,7 @@ namespace Materijalno.UI.Izvjestaji
                 dr[6] = report.NazivOrg;
                 //dr[9] = report.TotalVrijednost;            
                 dr[7] = report.Kljnaz;
+                dr[8] = report.Jedm;
 
 
 

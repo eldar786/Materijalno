@@ -29,7 +29,7 @@ namespace Materijalno.UI
         {
             if (e.Key == Key.Enter)
             {
-                MoveFocusToNextControl(sender as TextBox);
+                (sender as UIElement)?.MoveFocus(new TraversalRequest(FocusNavigationDirection.Next));
                 e.Handled = true;
             }
         }

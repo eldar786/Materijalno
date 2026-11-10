@@ -30,7 +30,15 @@ namespace Materijalno.ViewModel
 
         public void Execute(object parameter)
         {
-            _execute();
+            try { _execute(); }
+            catch (Microsoft.EntityFrameworkCore.DbUpdateConcurrencyException)
+            {
+                System.Windows.MessageBox.Show("Podatak je u međuvremenu promijenjen. Osvježite prikaz pa ponovite izmjenu.", "Podatak nije snimljen");
+            }
+            catch (InvalidOperationException exception)
+            {
+                System.Windows.MessageBox.Show(exception.Message, "Provjera podataka");
+            }
         }
 
         // Call this method when the result of CanExecute() may change.

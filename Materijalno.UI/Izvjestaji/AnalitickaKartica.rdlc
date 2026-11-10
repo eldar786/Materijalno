@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Report xmlns="http://schemas.microsoft.com/sqlserver/reporting/2008/01/reportdefinition" xmlns:rd="http://schemas.microsoft.com/SQLServer/reporting/reportdesigner">
   <Body>
     <ReportItems>
@@ -814,11 +814,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=IIF(
-    Fields!Status.Value &lt;&gt; "V" AND Fields!Vrijed.Value &gt; 0,
-    Fields!Kolic.Value,
-    0
-)</Value>
+                              <Value>=IIF(Fields!Status.Value &lt;&gt; "V" AND Fields!Kolic.Value &gt; 0, Fields!Kolic.Value, 0D)</Value>
                               <Style>
                                 <Format>n2</Format>
                                 <Language>hr-BA</Language>
@@ -860,15 +856,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=IIF(
-    Fields!Status.Value = "V",
-    -Abs(Fields!Kolic.Value),
-    IIF(
-        Fields!Vrijed.Value &lt; 0,
-        Abs(Fields!Kolic.Value),
-        0
-    )
-)</Value>
+                              <Value>=IIF(Fields!Status.Value = "V", -Fields!Kolic.Value, IIF(Fields!Kolic.Value &lt; 0, -Fields!Kolic.Value, 0D))</Value>
                               <Style>
                                 <Format>n2</Format>
                                 <Language>hr-BA</Language>
@@ -951,13 +939,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=IIF(
-    Fields!Status.Value &lt;&gt; "V" AND
-    Not IsNothing(Fields!Vrijed.Value) AND
-    Fields!Vrijed.Value &gt; 0,
-    Fields!Vrijed.Value,
-    0
-)</Value>
+                              <Value>=IIF(Fields!Status.Value &lt;&gt; "V" AND Fields!Vrijed.Value &gt; 0, Fields!Vrijed.Value, 0D)</Value>
                               <Style>
                                 <Format>n2</Format>
                                 <Language>hr-BA</Language>
@@ -1000,15 +982,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=If(
-    Fields!Status.Value = "V",
-    -Math.Abs(CDec(Fields!Vrijed.Value)),
-    If(
-        Fields!Vrijed.Value &lt; 0,
-        Math.Abs(CDec(Fields!Vrijed.Value)),
-        0D
-    )
-)</Value>
+                              <Value>=IIF(Fields!Status.Value = "V", -Fields!Vrijed.Value, IIF(Fields!Vrijed.Value &lt; 0, -Fields!Vrijed.Value, 0D))</Value>
                               <Style>
                                 <Format>n2</Format>
                                 <Language>hr-BA</Language>
@@ -1088,13 +1062,7 @@
           <Paragraph>
             <TextRuns>
               <TextRun>
-                <Value>=Sum(
-    IIF(
-        Fields!Status.Value &lt;&gt; "V" AND Fields!Vrijed.Value &gt; 0,
-        Fields!Kolic.Value,
-        0
-    )
-)</Value>
+                <Value>=Sum(IIF(Fields!Status.Value &lt;&gt; "V" AND Fields!Kolic.Value &gt; 0, Fields!Kolic.Value, 0D))</Value>
                 <Style>
                   <Format>n2</Format>
                   <Language>hr-BA</Language>
@@ -1127,17 +1095,7 @@
           <Paragraph>
             <TextRuns>
               <TextRun>
-                <Value>=Sum(
-    IIF(
-        Fields!Status.Value = "V",
-        -Abs(Fields!Kolic.Value),
-        IIF(
-            Fields!Vrijed.Value &lt; 0,
-            Abs(Fields!Kolic.Value),
-            0
-        )
-    )
-)</Value>
+                <Value>=Sum(IIF(Fields!Status.Value = "V", -Fields!Kolic.Value, IIF(Fields!Kolic.Value &lt; 0, -Fields!Kolic.Value, 0D)))</Value>
                 <Style>
                   <Format>n2</Format>
                   <Language>hr-BA</Language>
@@ -1170,13 +1128,7 @@
           <Paragraph>
             <TextRuns>
               <TextRun>
-                <Value>=Sum(
-    IIF(
-        Fields!Status.Value &lt;&gt; "V" AND Fields!Vrijed.Value &gt; 0,
-        CDbl(Fields!Vrijed.Value),
-        0
-    )
-)</Value>
+                <Value>=Sum(IIF(Fields!Status.Value &lt;&gt; "V" AND Fields!Vrijed.Value &gt; 0, Fields!Vrijed.Value, 0D))</Value>
                 <Style>
                   <Format>n2</Format>
                   <Language>hr-BA</Language>
@@ -1209,33 +1161,7 @@
           <Paragraph>
             <TextRuns>
               <TextRun>
-                <Value>=Sum(
-    IIF(
-        UCase(Trim(CStr(Fields!Status.Value))) = "V",
-        -Math.Abs(
-            If(
-                IsNothing(Fields!Vrijed.Value),
-                0D,
-                CDec(Fields!Vrijed.Value)
-            )
-        ),
-        IIF(
-            If(
-                IsNothing(Fields!Vrijed.Value),
-                0D,
-                CDec(Fields!Vrijed.Value)
-            ) &lt; 0D,
-            Math.Abs(
-                If(
-                    IsNothing(Fields!Vrijed.Value),
-                    0D,
-                    CDec(Fields!Vrijed.Value)
-                )
-            ),
-            0D
-        )
-    )
-)</Value>
+                <Value>=Sum(IIF(Fields!Status.Value = "V", -Fields!Vrijed.Value, IIF(Fields!Vrijed.Value &lt; 0, -Fields!Vrijed.Value, 0D)))</Value>
                 <Style>
                   <Format>n2</Format>
                   <Language>hr-BA</Language>
@@ -1268,17 +1194,7 @@
           <Paragraph>
             <TextRuns>
               <TextRun>
-                <Value>=Sum(
-    IIF(
-        Fields!Vrijed.Value &gt; 0,
-        Fields!Vrijed.Value,
-        IIF(
-            Fields!Vrijed.Value &lt; 0,
-            Fields!Vrijed.Value,
-            0
-        )
-    )
-)</Value>
+                <Value>=Sum(Fields!Vrijed.Value)</Value>
                 <Style>
                   <FontWeight>Bold</FontWeight>
                   <Format>n2</Format>
@@ -1312,17 +1228,7 @@
           <Paragraph>
             <TextRuns>
               <TextRun>
-                <Value>=Sum(
-    IIF(
-        Fields!Vrijed.Value &gt; 0,
-        Fields!Kolic.Value,
-        IIF(
-            Fields!Vrijed.Value &lt; 0,
-            Fields!Kolic.Value,
-            0
-        )
-    )
-)</Value>
+                <Value>=Sum(Fields!Kolic.Value)</Value>
                 <Style>
                   <FontWeight>Bold</FontWeight>
                   <Format>n2</Format>
@@ -1448,7 +1354,7 @@
         </Style>
       </Textbox>
     </ReportItems>
-    <Height>4.64583in</Height>
+    <Height>7.8964cm</Height>
     <Style />
   </Body>
   <Width>9.03508in</Width>
@@ -1554,20 +1460,8 @@
         <CommandText>/* Local Query */</CommandText>
       </Query>
       <Fields>
-        <Field Name="Brdok">
-          <DataField>Brdok</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
         <Field Name="Brfak">
           <DataField>Brfak</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="Brnar">
-          <DataField>Brnar</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="Cartro">
-          <DataField>Cartro</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
         <Field Name="Datnar">
@@ -1582,10 +1476,6 @@
           <DataField>Do</DataField>
           <rd:TypeName>System.DateTime</rd:TypeName>
         </Field>
-        <Field Name="Id">
-          <DataField>Id</DataField>
-          <rd:TypeName>System.Int32</rd:TypeName>
-        </Field>
         <Field Name="Ident">
           <DataField>Ident</DataField>
           <rd:TypeName>System.Nullable`1[[System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]</rd:TypeName>
@@ -1594,17 +1484,9 @@
           <DataField>Kljnaz</DataField>
           <rd:TypeName>System.Nullable`1[[System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]</rd:TypeName>
         </Field>
-        <Field Name="Kljnaz1">
-          <DataField>Kljnaz1</DataField>
-          <rd:TypeName>System.Nullable`1[[System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]</rd:TypeName>
-        </Field>
         <Field Name="Kolic">
           <DataField>Kolic</DataField>
-          <rd:TypeName>System.Nullable`1[[System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]</rd:TypeName>
-        </Field>
-        <Field Name="Medus">
-          <DataField>Medus</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
+          <rd:TypeName>System.Decimal</rd:TypeName>
         </Field>
         <Field Name="NazivOrg">
           <DataField>NazivOrg</DataField>
@@ -1629,10 +1511,6 @@
         <Field Name="Status">
           <DataField>Status</DataField>
           <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="TotalVrijednost">
-          <DataField>TotalVrijednost</DataField>
-          <rd:TypeName>System.Nullable`1[[System.Decimal, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]</rd:TypeName>
         </Field>
         <Field Name="Vrijed">
           <DataField>Vrijed</DataField>

@@ -1,36 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-//using System.Windows.Data;
-using System.Windows.Input;
-using Materijalno.Model;
-using System.Windows;
-using System.Windows.Forms;
-
-
-namespace Materijalno.ViewModel
-{
-    public class PregledUlazaZaSveKalkulacijeViewModel : ObservableObject
-    {
-        private ApplicationViewModel _avm;
-        private GlavniViewModel _gvm;
-
-        public PregledUlazaZaSveKalkulacijeViewModel(GlavniViewModel gvm)
-        {
-
-        }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-
-        public void OnpropertyChanged(PropertyChangedEventArgs e)
-        {
-            if (PropertyChanged != null)
-                PropertyChanged(this, e);
-        }
-    }
+using Materijalno.Model.Services;
+using Materijalno.ViewModel.Services;
+namespace Materijalno.ViewModel {
+ public class PregledUlazaZaSveKalkulacijeViewModel : SummaryReportViewModel {
+  public PregledUlazaZaSveKalkulacijeViewModel(GlavniViewModel main) : base(main, SummaryReportKind.Receipts) { }
+ }
 }

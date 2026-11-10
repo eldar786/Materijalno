@@ -193,6 +193,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AnalitickaKarticaViewModel.cs" />
+    <Compile Include="Services\*.cs" />
     <Compile Include="ApplicationViewModel.cs" />
     <Compile Include="CentralniMagacinViewModel.cs" />
     <Compile Include="DnevnikViewModel.cs" />

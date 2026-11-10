@@ -1,4 +1,5 @@
-﻿using System;
+using Materijalno.Model.Services;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -36,8 +37,7 @@ namespace Materijalno.ViewModel
         private TabelaMaterijala currentItemTabMaterijala;
         public static Komitenti selectedKomitent;
         public static Mat selectedMat;
-        string connectionString = "Server= 192.168.1.213;Trusted_Connection=False;" +
-            "MultipleActiveResultSets=true;User Id=sa;Password=Lutrija1;";
+        string connectionString = Materijalno.Model.Services.DatabaseConfiguration.MaterialConnectionString;
         string queryStringStaraSifra_Ime = "SELECT STARA_SIFRA, IME FROM [FINANSIJE2-LINKED SERVER]..[IBS].[GR_KOMITENTI]";
         string currentNazivZaSifruKomitenta;
         public int CurrentIndex = 0;
@@ -293,10 +293,10 @@ namespace Materijalno.ViewModel
 
 
 
-                
+
                 UpdateCurrentItemData(dbContext);
-                
-                
+
+
 
                 StaraSifra_Ime_List = DohvatiNazivKomitenta();
             }
@@ -616,7 +616,7 @@ namespace Materijalno.ViewModel
                 if (CurrentIndex == MatList.Count - 1)
                 {
                     System.Windows.MessageBox.Show("Došli ste do zadnjeg podatka", "Upozorenje", MessageBoxButton.OK, MessageBoxImage.Information);
-                    
+
                     return;
                 }
 
@@ -632,7 +632,7 @@ namespace Materijalno.ViewModel
                 if (CurrentIndex == 0)
                 {
                     System.Windows.MessageBox.Show("Došli ste do prvog podatka", "Upozorenje", MessageBoxButton.OK, MessageBoxImage.Information);
-                    
+
                     return;
                 }
 
@@ -687,10 +687,10 @@ namespace Materijalno.ViewModel
 
                 if (resultMessageBox == MessageBoxResult.Yes)
                 {
-                    dbContext.Mat.Remove(CurrentItemMat);
-                    dbContext.SaveChanges();
+                    new MaterialPostingService().Delete(CurrentItemMat);
 
                     MatList.Remove(CurrentItemMat);
+                    if (MatList.Count == 0) { CurrentIndex = 0; CurrentItemMat = new Mat(); OnPropertyChanged(nameof(MatList)); return; }
 
                     //currentItemMat = null;
                 }
@@ -820,8 +820,8 @@ namespace Materijalno.ViewModel
                     return;
 
                 // Snimanje izmjena u SQL bazu
-                dbContext.Update(CurrentItemMat);
-                dbContext.SaveChanges();
+                CurrentItemMat = new MaterialPostingService().Save(CurrentItemMat);
+                if (MatList != null) { int savedIndex = MatList.ToList().FindIndex(m => m.Id == CurrentItemMat.Id); if (savedIndex >= 0) MatList[savedIndex] = CurrentItemMat; }
 
                 System.Windows.MessageBox.Show(
                     "Uspješno ste izmijenili",
@@ -838,21 +838,7 @@ namespace Materijalno.ViewModel
         {
             _gvm.OdabraniVM = new MatListaViewModel(this, _gvm);
         }
-
-        private void Print()
-        {
-            //Pozivano ovu metodu zbog ukupnoTroskovi, da bi prilikom printa izracunao, da ne bi morali ponovo racunati
-            NabavnaCijena();
-            var culture = new CultureInfo("de-DE");
-            
-            decimal? ukupnoNcValue = CurrentItemMat.Kolic * CurrentItemMat.Nc;
-            //treba vidjeti kako da prebaci na DE culture???
-            ukupnoNc = Math.Round((decimal)ukupnoNcValue, 9);
-            decimal? formmatedNc = decimal.Parse(ukupnoNc.ToString(), NumberStyles.AllowThousands | NumberStyles.AllowDecimalPoint, culture);
-            ukupnoNc = formmatedNc;
-
-            OnPrintEvent?.Invoke();
-        }
+                private void Print() { if (CurrentItemMat == null || CurrentItemMat.IsDraft) throw new InvalidOperationException("Prvo snimite kalkulaciju."); OnPrintEvent?.Invoke(); }
 
         private void Osvjezi()
         {
@@ -871,8 +857,7 @@ namespace Materijalno.ViewModel
                 CurrentItemMat.Ident = 0;
             }
 
-            dbContext.Update(CurrentItemMat);
-            dbContext.SaveChanges();
+
 
             if (CurrentItemMat.Ident != null)
             {
@@ -884,48 +869,9 @@ namespace Materijalno.ViewModel
 
             UpdateCurrentItemData(dbContext);
         }
-
         private void BrojKalkulacije()
         {
-            if (CurrentItemMat == null)
-                return;
-
-            // Ako trenutna kalkulacija već ima broj,
-            // nemoj generisati novi.
-            if (!string.IsNullOrWhiteSpace(CurrentItemMat.Brfak))
-                return;
-
-            using (var dbContext = new materijalno_knjigovodstvoContext())
-            {
-                var sviBrojevi = dbContext.Mat
-                    .Where(x => x.Status == "U" && x.Brfak != null)
-                    .Select(x => x.Brfak)
-                    .ToList();
-
-                int najveciBroj = 0;
-
-                foreach (var brfak in sviBrojevi)
-                {
-                    if (string.IsNullOrWhiteSpace(brfak))
-                        continue;
-
-                    var dijelovi = brfak.Split('-');
-
-                    if (dijelovi.Length == 2 &&
-                        dijelovi[0].Trim() == "10" &&
-                        int.TryParse(dijelovi[1].Trim(), out int broj))
-                    {
-                        if (broj > najveciBroj)
-                            najveciBroj = broj;
-                    }
-                }
-
-                // Dodijeli sljedeći broj kalkulacije
-                CurrentItemMat.Brfak = $"10-{najveciBroj + 1}";
-
-                // Osvježi prikaz u XAML-u
-                OnPropertyChanged(nameof(CurrentItemMat));
-            }
+            if (CurrentItemMat != null) CurrentItemMat.Brfak = new MaterialPostingService().ReserveDocumentNumber("U", new MaterialPostingService().ActiveYear());
         }
 
         // An event that will be raised to notify the view to open the PrintWindow
@@ -1235,8 +1181,8 @@ namespace Materijalno.ViewModel
                 int snimljeniId = CurrentItemMat.Id;
 
                 // 9. UPDATE postojećeg reda - isto kao kod IZLAZA
-                dbContext.Update(CurrentItemMat);
-                dbContext.SaveChanges();
+                CurrentItemMat = new MaterialPostingService().Save(CurrentItemMat);
+                if (MatList != null) { int savedIndex = MatList.ToList().FindIndex(m => m.Id == CurrentItemMat.Id); if (savedIndex >= 0) MatList[savedIndex] = CurrentItemMat; }
 
                 // 10. Ova stavka je sada uspješno snimljena
                 idNoveKalkulacije = null;
@@ -1485,7 +1431,7 @@ namespace Materijalno.ViewModel
             using (var dbContext = new materijalno_knjigovodstvoContext())
             {
                 // Pronađi isključivo trenutnu nesnimljenu stavku
-                var stavkaZaBrisanje = dbContext.Mat
+                var stavkaZaBrisanje = dbContext.Mat.IgnoreQueryFilters()
                     .FirstOrDefault(x => x.Id == idZaBrisanje);
 
                 if (stavkaZaBrisanje != null)
@@ -1559,6 +1505,12 @@ namespace Materijalno.ViewModel
         // Ova metoda radi update CurrentItem i CurrentItemTabMaterijala based on the current index
         private void UpdateCurrentItemData(materijalno_knjigovodstvoContext dbContext)
         {
+            if (MatList == null || MatList.Count == 0)
+            {
+                CurrentIndex = 0; CurrentItemMat = new Mat(); return;
+            }
+            CurrentIndex = Math.Max(0, Math.Min(CurrentIndex, MatList.Count - 1));
+
             if (MatList == null)
             {
                 MatList = new ObservableCollection<Mat>();

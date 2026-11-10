@@ -34,7 +34,7 @@ namespace Materijalno.UI
         {
             if (e.Key == Key.Enter)
             {
-                MoveFocusToNextControl(sender as TextBox);
+                (sender as UIElement)?.MoveFocus(new TraversalRequest(FocusNavigationDirection.Next));
                 e.Handled = true;
             }
         }
@@ -54,7 +54,10 @@ namespace Materijalno.UI
                         ?.UpdateSource();
                 }
 
-                btnSlijedecaStavka.Focus();
+                if (sender is TextBox input && Validation.GetHasError(input)) return;
+                // Leaving quantity runs its existing weighted cost calculation.
+                if (btnSnimi.IsEnabled && btnSnimi.IsVisible)
+                    Keyboard.Focus(btnSnimi);
             }
         }
         private void MainWindow_DataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
@@ -68,12 +71,15 @@ namespace Materijalno.UI
 
             if (e.OldValue is MedjuskladisnicaViewModel oldVm)
             {
+                oldVm.OnPrintEvent -= HandlePrintRequest;
                 oldVm.RequestFocusIdent -= FokusNaIdent;
+                oldVm.RequestFocusSlijedecaStavka -= FokusNaSlijedecuStavku;
             }
 
             if (e.NewValue is MedjuskladisnicaViewModel newVm)
             {
                 newVm.RequestFocusIdent += FokusNaIdent;
+                newVm.RequestFocusSlijedecaStavka += FokusNaSlijedecuStavku;
             }
         }
 
@@ -81,11 +87,22 @@ namespace Materijalno.UI
         {
             Dispatcher.BeginInvoke(new Action(() =>
             {
-                txtIdent.Focus();
-                Keyboard.Focus(txtIdent);
-                txtIdent.SelectAll();
+                if (txtIdent.IsEnabled && txtIdent.IsVisible)
+                {
+                    Keyboard.Focus(txtIdent);
+                    txtIdent.SelectAll();
+                }
 
             }), System.Windows.Threading.DispatcherPriority.Input);
+        }
+
+        private void FokusNaSlijedecuStavku()
+        {
+            Dispatcher.BeginInvoke(new Action(() =>
+            {
+                if (btnSlijedecaStavka.IsEnabled && btnSlijedecaStavka.IsVisible)
+                    Keyboard.Focus(btnSlijedecaStavka);
+            }), System.Windows.Threading.DispatcherPriority.ContextIdle);
         }
 
         private void TextBox_GotKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)

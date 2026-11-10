@@ -20,6 +20,8 @@ using System.Windows.Shapes;
 using System.Globalization;
 using Materijalno.Model.EntityModels;
 using Materijalno.UI.Helpers;
+using Materijalno.Model.Services;
+using Microsoft.EntityFrameworkCore;
 
 namespace Materijalno.UI.Izvjestaji
 {
@@ -39,8 +41,8 @@ namespace Materijalno.UI.Izvjestaji
         private List<DiffRow> _diffList;
         private List<ReportStampanjeInventurnihZalihaViewModel> _reportRows;
 
-        int? KolicRazlikaVisak = 0;
-        int? KolicRazlikaManjak = 0;
+        decimal? KolicRazlikaVisak = 0;
+        decimal? KolicRazlikaManjak = 0;
 
         decimal? VrijedRazlikaVisak = 0;
         decimal? VrijedRazlikaManjak = 0;
@@ -54,9 +56,9 @@ namespace Materijalno.UI.Izvjestaji
             public int Ident { get; set; }
             public int? Kljnaz { get; set; }
 
-            public int MatKolic { get; set; }
-            public int InvKolic { get; set; }
-            public int KolicRazlika { get; set; }
+            public decimal MatKolic { get; set; }
+            public decimal InvKolic { get; set; }
+            public decimal KolicRazlika { get; set; }
 
             public decimal? MatVrijed { get; set; }
             public decimal InvVrijed { get; set; }
@@ -77,40 +79,38 @@ namespace Materijalno.UI.Izvjestaji
             InitializeComponent();
             _stampanjeInventurnihZalihaViewModel = stampanjeInventurnihZalihaViewModel;
             int? currentKljnaz = stampanjeInventurnihZalihaViewModel.CurrentItemInv?.Kljnaz;
-            int? currentKljnazMat = stampanjeInventurnihZalihaViewModel.CurrentItemInv?.Kljnaz;
+            if (!currentKljnaz.HasValue || currentKljnaz <= 0)
+                throw new InventoryReportUnavailableException("Odaberite skladište za štampanje inventurnih zaliha.");
 
             ukupnoduguje = new Inv();
 
             var dbContext = new materijalno_knjigovodstvoContext();
 
 
-            InvList = new ObservableCollection<Inv>(dbContext.Inv
-                    .Where(row => row.Kljnaz == stampanjeInventurnihZalihaViewModel.CurrentItemInv.Kljnaz) // Skladište
-                    .OrderBy(row => row.Ident) // Group by Ident
-                    .ToList()); // Convert to List before assigning to ObservableCollection
-
-            MatList = new ObservableCollection<Mat>(dbContext.Mat
-                .Where(row => row.Kljnaz == currentKljnazMat)
-                .AsEnumerable() // switch to LINQ-to-Objects
-                .GroupBy(row => row.Ident)
-                .Select(grouped =>
-                {
-                    int sumKolic = (int)grouped.Sum(x => x.Kolic);
-                    decimal sumVrijed = (decimal)grouped.Sum(x => x.Vrijed);
-
-                    return new Mat
-                    {
-                        Ident = grouped.Key,
-                        Kljnaz = currentKljnazMat,
-                        Kolic = sumKolic,
-                        Vrijed = sumVrijed,
-
-                        // 🔹 weighted average price (Nc)
-                        Nc = sumKolic == 0 ? 0m : (sumVrijed / sumKolic)
-                    };
-                })
-                .ToList());
-
+            var selected = stampanjeInventurnihZalihaViewModel.CurrentItemInv;
+            DateTime inventoryDate;
+            Guid? session = selected.InventorySessionId;
+            var inventoryQuery = dbContext.Inv.IgnoreQueryFilters().Where(i => !i.IsDraft && i.Kljnaz == currentKljnaz);
+            // A warehouse edit can leave the previous warehouse's session on
+            // the filter. Only reuse a session that belongs to this warehouse.
+            if (!session.HasValue || !inventoryQuery.Any(i => i.InventorySessionId == session))
+                session = inventoryQuery.OrderByDescending(i => i.InventoryDate).ThenByDescending(i => i.Datun)
+                    .Select(i => i.InventorySessionId).FirstOrDefault();
+            // Original invzal.frx also prints warehouses with no saved count:
+            // the inventory side is zero and the book side remains visible.
+            InvList = session.HasValue
+                ? new ObservableCollection<Inv>(inventoryQuery.Where(i => i.InventorySessionId == session).OrderBy(i => i.Ident).ToList())
+                : new ObservableCollection<Inv>();
+            inventoryDate = InvList.Count > 0
+                ? (InvList[0].InventoryDate ?? InvList[0].Datun ?? DateTime.Today).Date
+                : new DateTime(new MaterialPostingService().ActiveYear(), 1, 1);
+            var stockQuery = InvList.Count > 0 ? ReportQueries.AtDate(dbContext, inventoryDate) : ReportQueries.ForYear(dbContext, inventoryDate);
+            MatList = new ObservableCollection<Mat>(stockQuery
+                .Where(m => m.Kljnaz == currentKljnaz).AsEnumerable().GroupBy(m => m.Ident)
+                .Select(g => new Mat { Ident = g.Key, Kljnaz = currentKljnaz, Kolic = g.Sum(m => m.Kolic), Vrijed = g.Sum(m => m.Vrijed),
+                    Nc = g.OrderBy(m => m.FoxRecno.HasValue ? 0 : 1).ThenBy(m => m.FoxRecno).ThenBy(m => m.Id).Last().Nc ?? 0 }).ToList());
+            if (MatList.Count == 0 && InvList.Count == 0)
+                throw new InventoryReportUnavailableException("Za skladište " + currentKljnaz + " nema materijalnih knjiženja ni inventurnog popisa.");
 
             var mat = MatList.ToList();
             var inv = InvList.ToList();
@@ -180,7 +180,7 @@ namespace Materijalno.UI.Izvjestaji
 
                                 InvDatun = i.Datun,
                                 InvDatnar = i.Datnar,
-                                MatNc = 0m,
+                                MatNc = i.Nc,
                                 InvNc = (decimal?)i.Nc,
                                 InvRedbr = i.Redbr,
                                 InvKonto1 = i.Konto1
@@ -188,32 +188,10 @@ namespace Materijalno.UI.Izvjestaji
 
             _diffList = left.Concat(rightOnly).ToList();
 
-            int? totalKolicRazlika = _diffList.Sum(item => item.KolicRazlika);
-
-            decimal? totalVrijedRazlika = _diffList.Sum(item => item.VrijedRazlika);
-
-
-            //KolicRazlika
-            if (totalKolicRazlika > 0)
-            {
-                KolicRazlikaVisak = totalKolicRazlika;
-            }
-
-            else if (totalKolicRazlika < 0)
-            {
-                KolicRazlikaManjak = totalKolicRazlika;
-            }
-
-            //VrijedRazlika
-            if (totalVrijedRazlika > 0)
-            {
-                VrijedRazlikaVisak = totalVrijedRazlika;
-            }
-            else if (totalVrijedRazlika < 0)
-            {
-                VrijedRazlikaManjak = totalVrijedRazlika;
-            }
-
+            KolicRazlikaManjak = _diffList.Sum(i => Math.Max(i.MatKolic - i.InvKolic, 0));
+            KolicRazlikaVisak = _diffList.Sum(i => Math.Max(i.InvKolic - i.MatKolic, 0));
+            VrijedRazlikaManjak = Math.Max(_diffList.Sum(i => i.MatVrijed ?? 0) - _diffList.Sum(i => i.InvVrijed), 0);
+            VrijedRazlikaVisak = Math.Max(_diffList.Sum(i => i.InvVrijed) - _diffList.Sum(i => i.MatVrijed ?? 0), 0);
 
             _tabelaMaterijala = dbContext.TabelaMaterijala.ToList();
             _tabelaSkladista = dbContext.SifarnikSkladista.ToList();
@@ -246,8 +224,8 @@ namespace Materijalno.UI.Izvjestaji
             reportDt = new DataTable("StampanjeInventurnihZaliha");
 
             reportDt.Columns.Add("Ident").DataType = typeof(int);
-            reportDt.Columns.Add("Nazmat").DataType = typeof(string);
-            reportDt.Columns.Add("Kolic").DataType = typeof(int);
+            reportDt.Columns.Add("NazMat").DataType = typeof(string);
+            reportDt.Columns.Add("Kolic").DataType = typeof(decimal);
             reportDt.Columns.Add("Vrijed").DataType = typeof(decimal);
 
             reportDt.Columns.Add("Datun").DataType = typeof(DateTime);
@@ -258,19 +236,19 @@ namespace Materijalno.UI.Izvjestaji
             reportDt.Columns.Add("Nc").DataType = typeof(decimal);
             reportDt.Columns.Add("Redbr").DataType = typeof(int);
 
-            reportDt.Columns.Add("KolicRazlika").DataType = typeof(int);
+            reportDt.Columns.Add("KolicRazlika").DataType = typeof(decimal);
             reportDt.Columns.Add("VrijedRazlika").DataType = typeof(decimal);
 
-            reportDt.Columns.Add("KolicRazlikaVisak").DataType = typeof(int);
-            reportDt.Columns.Add("KolicRazlikaManjak").DataType = typeof(int);
+            reportDt.Columns.Add("KolicRazlikaVisak").DataType = typeof(decimal);
+            reportDt.Columns.Add("KolicRazlikaManjak").DataType = typeof(decimal);
             reportDt.Columns.Add("VrijedRazlikaVisak").DataType = typeof(decimal);
             reportDt.Columns.Add("VrijedRazlikaManjak").DataType = typeof(decimal);
 
 
 
-            reportDt.Columns.Add("MatKolic").DataType = typeof(int);
+            reportDt.Columns.Add("MatKolic").DataType = typeof(decimal);
             reportDt.Columns.Add("MatVrijed").DataType = typeof(decimal);
-            reportDt.Columns.Add("InvKolic").DataType = typeof(int);
+            reportDt.Columns.Add("InvKolic").DataType = typeof(decimal);
             reportDt.Columns.Add("InvVrijed").DataType = typeof(decimal);
 
             var lista = new List<ReportStampanjeInventurnihZalihaViewModel>();
@@ -296,11 +274,11 @@ namespace Materijalno.UI.Izvjestaji
                     Datun = row.InvDatun,           // DateTime? (can be null)
                     Datnar = row.InvDatnar,         // DateTime? (can be null)
                     //Nc = row.InvNc ?? 0m,
-                    Nc = row.MatNc,
+                    Nc = row.MatNc == 0 ? row.InvNc ?? 0 : row.MatNc,
                     Redbr = row.InvRedbr ?? 0,
 
                     KolicRazlika = row.KolicRazlika,
-                    VrijedRazlika = row.VrijedRazlika,
+                    VrijedRazlika = (row.MatVrijed ?? 0) - row.InvVrijed,
 
                     KolicRazlikaVisak = this.KolicRazlikaVisak,
                     KolicRazlikaManjak = this.KolicRazlikaManjak,

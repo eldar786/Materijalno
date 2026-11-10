@@ -40,7 +40,7 @@ namespace Materijalno.ViewModel
         //private TabelaMaterijala currentItemTabKonto1;
         private SifarnikSkladista currentItemTabSkladista;
         private SifarnikSkladista currentItemTabSkladistaUlaza;
-        string connectionString = "Server= 192.168.1.213;Trusted_Connection=False;" + "MultipleActiveResultSets=true;User Id=sa;Password=Lutrija1;";
+        string connectionString = Materijalno.Model.Services.DatabaseConfiguration.MaterialConnectionString;
 
         string queryStringStaraSifra_Ime = "SELECT STARA_SIFRA, IME FROM [FINANSIJE2-LINKED SERVER]..[IBS].[GR_KOMITENTI]";
         string currentNazivZaSifruKomitenta;
@@ -55,7 +55,7 @@ namespace Materijalno.ViewModel
 
         private int? kljnaz;
         private int? ident;
-        private int kolic;
+        private decimal kolic;
         private decimal nc;
         private decimal vrijed;
         private DateTime datun = DateTime.Today;
@@ -93,7 +93,7 @@ namespace Materijalno.ViewModel
                 OnPropertyChanged(nameof(Datun));
             }
         }
-        public int Kolic
+        public decimal Kolic
         {
             get { return kolic; }
             set
@@ -250,13 +250,13 @@ namespace Materijalno.ViewModel
             int? a = Kljnaz;
             int? b = Ident;
             DateTime c = Datun;
-            int d = Kolic;
+            decimal d = Kolic;
             decimal e = Nc;
             decimal f = Vrijed;
 
             decimal? ukupnaVrijednost = 0;
             decimal? cijena = 0;
-            int? ukupnaKolicina = 0;
+            decimal? ukupnaKolicina = 0;
 
             var dbContext = new materijalno_knjigovodstvoContext();
 
@@ -264,8 +264,8 @@ namespace Materijalno.ViewModel
 
             TebelaSkladistaList = new ObservableCollection<SifarnikSkladista>(dbContext.SifarnikSkladista.Where(row => row.Kljnaz == Kljnaz).ToList());
 
-            List<Mat> list = MatList
-                .Where(row => row.Kljnaz == Kljnaz && row.Ident == Ident && row.Datun <= Datun)
+            List<Mat> list = Materijalno.Model.Services.ReportQueries.AtDate(dbContext, Datun)
+                .Where(row => row.Kljnaz == Kljnaz && row.Ident == Ident)
                      .OrderBy(row => row.Datun)
                      .ToList();
 
@@ -287,7 +287,7 @@ namespace Materijalno.ViewModel
             }
 
             Nc = (decimal)cijena;
-            Kolic = (int)ukupnaKolicina;
+            Kolic = (decimal)ukupnaKolicina;
             Vrijed = (decimal)ukupnaVrijednost;
         }
 

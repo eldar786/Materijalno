@@ -40,8 +40,7 @@ namespace Materijalno.ViewModel
             if (string.IsNullOrWhiteSpace(sifarnikMaterijala.Nazmat) ||
                 string.IsNullOrWhiteSpace(sifarnikMaterijala.Jedm) ||
                 !SifarnikMaterijala.Ident.HasValue ||
-                !SifarnikMaterijala.Konto1.HasValue ||
-                !SifarnikMaterijala.Konto2.HasValue )
+                !SifarnikMaterijala.Konto1.HasValue )
 
             {
                 return false;
@@ -90,7 +89,8 @@ namespace Materijalno.ViewModel
                         System.Windows.MessageBox.Show("Molimo unesite sva polja", "Greška", MessageBoxButton.OK, MessageBoxImage.Error);
                         return;
                     }
-                    SifarnikMaterijala.Siftar = 1;
+                    SifarnikMaterijala.Siftar = SifarnikMaterijala.Siftar ?? 1;
+                    SifarnikMaterijala.Konto2 = SifarnikMaterijala.Konto2 ?? "";
                     dbContext.Add(SifarnikMaterijala);
                     dbContext.SaveChanges();
 

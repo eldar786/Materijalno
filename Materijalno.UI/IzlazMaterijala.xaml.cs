@@ -143,11 +143,27 @@ namespace Materijalno.UI
         }
 
 
+        private void Kolicina_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key != Key.Enter) return;
+            e.Handled = true;
+
+            var input = sender as TextBox;
+            if (input == null) return;
+            input.GetBindingExpression(TextBox.TextProperty)?.UpdateSource();
+            if (Validation.GetHasError(input)) return;
+
+            // Leaving the field runs the existing LostFocus cost calculation.
+            // Enter only moves focus; saving still requires activating Snimi.
+            if (btnSnimi.IsEnabled && btnSnimi.IsVisible)
+                Keyboard.Focus(btnSnimi);
+        }
+
         private void TextBox_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Enter)
             {
-                MoveFocusToNextControl(sender as TextBox);
+                (sender as UIElement)?.MoveFocus(new TraversalRequest(FocusNavigationDirection.Next));
                 e.Handled = true;
             }
         }

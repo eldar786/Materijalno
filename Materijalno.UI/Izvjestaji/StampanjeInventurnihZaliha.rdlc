@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Report xmlns="http://schemas.microsoft.com/sqlserver/reporting/2008/01/reportdefinition" xmlns:rd="http://schemas.microsoft.com/SQLServer/reporting/reportdesigner">
   <Body>
     <ReportItems>
@@ -293,15 +293,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=IIF(
-    IsNothing(Fields!InvVrijed.Value) OR IsNothing(Fields!MatVrijed.Value),
-    0,
-    IIF(
-        Fields!InvVrijed.Value &lt; Fields!MatVrijed.Value,
-        Fields!MatVrijed.Value - Fields!InvVrijed.Value,
-        0
-    )
-)</Value>
+                              <Value>=System.Math.Max(Fields!MatVrijed.Value - Fields!InvVrijed.Value, 0D)</Value>
                               <Style>
                                 <Format>n2</Format>
                                 <Language>bs-Latn-BA</Language>
@@ -334,15 +326,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=IIF(
-    IsNothing(Fields!InvVrijed.Value) OR IsNothing(Fields!MatVrijed.Value),
-    0,
-    IIF(
-        Fields!InvVrijed.Value &gt; Fields!MatVrijed.Value,
-        Fields!InvVrijed.Value - Fields!MatVrijed.Value,
-        0
-    )
-)</Value>
+                              <Value>=System.Math.Max(Fields!InvVrijed.Value - Fields!MatVrijed.Value, 0D)</Value>
                               <Style>
                                 <Format>n2</Format>
                                 <Language>bs-Latn-BA</Language>
@@ -723,7 +707,7 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox8</rd:DefaultName>
-        <Top>2.09903cm</Top>
+        <Top>1.5cm</Top>
         <Height>0.6cm</Height>
         <Width>2.5cm</Width>
         <ZIndex>1</ZIndex>
@@ -755,7 +739,7 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox9</rd:DefaultName>
-        <Top>2.09903cm</Top>
+        <Top>1.5cm</Top>
         <Left>8.61252cm</Left>
         <Height>0.6cm</Height>
         <Width>2.5cm</Width>
@@ -771,7 +755,7 @@
         </Style>
       </Textbox>
       <Line Name="Line5">
-        <Top>2.06375cm</Top>
+        <Top>1.45cm</Top>
         <Height>0cm</Height>
         <Width>26.34994cm</Width>
         <ZIndex>3</ZIndex>
@@ -799,7 +783,7 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox9</rd:DefaultName>
-        <Top>2.09903cm</Top>
+        <Top>1.5cm</Top>
         <Left>14.02423cm</Left>
         <Height>0.6cm</Height>
         <Width>2.5cm</Width>
@@ -832,7 +816,7 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox9</rd:DefaultName>
-        <Top>2.06375cm</Top>
+        <Top>1.45cm</Top>
         <Left>23.86152cm</Left>
         <Height>0.6cm</Height>
         <Width>2.80591cm</Width>
@@ -865,7 +849,7 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>VrijedRazlikaVisak1</rd:DefaultName>
-        <Top>2.06375cm</Top>
+        <Top>1.45cm</Top>
         <Left>21.36152cm</Left>
         <Height>0.6cm</Height>
         <Width>2.5cm</Width>
@@ -881,7 +865,7 @@
         </Style>
       </Textbox>
     </ReportItems>
-    <Height>1.54747in</Height>
+    <Height>2.15cm</Height>
     <Style />
   </Body>
   <Width>11.09968in</Width>
@@ -1455,8 +1439,8 @@
     </PageFooter>
     <PageHeight>21cm</PageHeight>
     <PageWidth>29.7cm</PageWidth>
-    <LeftMargin>2cm</LeftMargin>
-    <RightMargin>2cm</RightMargin>
+    <LeftMargin>0.5cm</LeftMargin>
+    <RightMargin>0.5cm</RightMargin>
     <TopMargin>2cm</TopMargin>
     <BottomMargin>2cm</BottomMargin>
     <ColumnSpacing>0.13cm</ColumnSpacing>
@@ -1525,7 +1509,7 @@
         </Field>
         <Field Name="InvKolic">
           <DataField>InvKolic</DataField>
-          <rd:TypeName>System.Int32</rd:TypeName>
+          <rd:TypeName>System.Decimal</rd:TypeName>
         </Field>
         <Field Name="InvVrijed">
           <DataField>InvVrijed</DataField>
@@ -1537,23 +1521,23 @@
         </Field>
         <Field Name="Kolic">
           <DataField>Kolic</DataField>
-          <rd:TypeName>System.Nullable`1[[System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]</rd:TypeName>
+          <rd:TypeName>System.Decimal</rd:TypeName>
         </Field>
         <Field Name="KolicRazlika">
           <DataField>KolicRazlika</DataField>
-          <rd:TypeName>System.Nullable`1[[System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]</rd:TypeName>
+          <rd:TypeName>System.Decimal</rd:TypeName>
         </Field>
         <Field Name="KolicRazlikaManjak">
           <DataField>KolicRazlikaManjak</DataField>
-          <rd:TypeName>System.Nullable`1[[System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]</rd:TypeName>
+          <rd:TypeName>System.Decimal</rd:TypeName>
         </Field>
         <Field Name="KolicRazlikaVisak">
           <DataField>KolicRazlikaVisak</DataField>
-          <rd:TypeName>System.Nullable`1[[System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]</rd:TypeName>
+          <rd:TypeName>System.Decimal</rd:TypeName>
         </Field>
         <Field Name="Konto1">
           <DataField>Konto1</DataField>
-          <rd:TypeName>System.Int32</rd:TypeName>
+          <rd:TypeName>System.Decimal</rd:TypeName>
         </Field>
         <Field Name="Konto2">
           <DataField>Konto2</DataField>
@@ -1569,7 +1553,7 @@
         </Field>
         <Field Name="MatKolic">
           <DataField>MatKolic</DataField>
-          <rd:TypeName>System.Int32</rd:TypeName>
+          <rd:TypeName>System.Decimal</rd:TypeName>
         </Field>
         <Field Name="MatVrijed">
           <DataField>MatVrijed</DataField>

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version='1.0' encoding='utf-8'?>
 <Report xmlns="http://schemas.microsoft.com/sqlserver/reporting/2008/01/reportdefinition" xmlns:rd="http://schemas.microsoft.com/SQLServer/reporting/reportdesigner">
   <Body>
     <ReportItems>
@@ -72,7 +72,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value />
+                              <Value>=Fields!Analst.Value</Value>
                               <Style />
                             </TextRun>
                           </TextRuns>
@@ -168,7 +168,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Format(First(Fields!Datnsta.Value, "DataSet1"), "dd.MM.yyyy")</Value>
+                              <Value>=Format(Fields!Datnsta.Value, "dd.MM.yyyy")</Value>
                               <Style />
                             </TextRun>
                           </TextRuns>
@@ -235,7 +235,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Abs(Fields!Pot1st.Value)</Value>
+                              <Value>=Fields!Pot1st.Value</Value>
                               <Style>
                                 <Format>n2</Format>
                                 <Language>bs-Latn-BA</Language>
@@ -519,7 +519,7 @@
         </Style>
       </Textbox>
       <Line Name="Line4">
-        <Top>3.81709cm</Top>
+        <Top>2.45cm</Top>
         <Height>0cm</Height>
         <Width>23.566cm</Width>
         <ZIndex>9</ZIndex>
@@ -544,7 +544,7 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox11</rd:DefaultName>
-        <Top>4.11668cm</Top>
+        <Top>2.75cm</Top>
         <Left>0.07999cm</Left>
         <Height>0.6cm</Height>
         <Width>3.47896cm</Width>
@@ -577,7 +577,7 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox4</rd:DefaultName>
-        <Top>4.11668cm</Top>
+        <Top>2.75cm</Top>
         <Left>18.10971cm</Left>
         <Height>0.6cm</Height>
         <Width>2.5cm</Width>
@@ -599,7 +599,7 @@
           <Paragraph>
             <TextRuns>
               <TextRun>
-                <Value>=Abs(Sum(Fields!Pot1st.Value))</Value>
+                <Value>=Sum(Fields!Pot1st.Value)</Value>
                 <Style>
                   <Format>n2</Format>
                   <Language>bs-Latn-BA</Language>
@@ -610,7 +610,7 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox4</rd:DefaultName>
-        <Top>4.11668cm</Top>
+        <Top>2.75cm</Top>
         <Left>20.82378cm</Left>
         <Height>0.6cm</Height>
         <Width>2.5cm</Width>
@@ -626,7 +626,7 @@
         </Style>
       </Textbox>
     </ReportItems>
-    <Height>2in</Height>
+    <Height>3.4cm</Height>
     <Style />
   </Body>
   <Width>9.27795in</Width>
@@ -846,7 +846,7 @@
             <Paragraph>
               <TextRuns>
                 <TextRun>
-                  <Value>=First("000" &amp; Fields!Bronsta.Value, "DataSet1")</Value>
+                  <Value>=Format(First(Fields!Bronsta.Value, "DataSet1"), "0000")</Value>
                   <Style>
                     <FontWeight>Bold</FontWeight>
                   </Style>
@@ -993,10 +993,6 @@
           <DataField>Datnsta</DataField>
           <rd:TypeName>System.DateTime</rd:TypeName>
         </Field>
-        <Field Name="Id">
-          <DataField>Id</DataField>
-          <rd:TypeName>System.Int32</rd:TypeName>
-        </Field>
         <Field Name="Sintstav">
           <DataField>Sintstav</DataField>
           <rd:TypeName>System.Int32</rd:TypeName>
@@ -1020,6 +1016,10 @@
         <Field Name="Sifakt">
           <DataField>Sifakt</DataField>
           <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="Analst">
+          <DataField>Analst</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
         </Field>
       </Fields>
       <rd:DataSetInfo>

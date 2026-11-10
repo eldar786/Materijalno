@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Report xmlns="http://schemas.microsoft.com/sqlserver/reporting/2008/01/reportdefinition" xmlns:rd="http://schemas.microsoft.com/SQLServer/reporting/reportdesigner">
   <Body>
     <ReportItems>
@@ -850,7 +850,7 @@ ulaz materijala</Value>
             <Paragraph>
               <TextRuns>
                 <TextRun>
-                  <Value>LUTRIJA BIH - CENTRALNIMAGACIN INTERNO</Value>
+                  <Value>LUTRIJA BIH - MEĐUSKLADIŠNICA</Value>
                   <Style>
                     <FontStyle>Italic</FontStyle>
                     <FontSize>12pt</FontSize>
@@ -1037,25 +1037,9 @@ ulaz materijala</Value>
           <DataField>Brfak</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
-        <Field Name="Brnar">
-          <DataField>Brnar</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="Cartro">
-          <DataField>Cartro</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="Datnar">
-          <DataField>Datnar</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
         <Field Name="Datun">
           <DataField>Datun</DataField>
           <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="Id">
-          <DataField>Id</DataField>
-          <rd:TypeName>System.Int32</rd:TypeName>
         </Field>
         <Field Name="Ident">
           <DataField>Ident</DataField>
@@ -1071,11 +1055,7 @@ ulaz materijala</Value>
         </Field>
         <Field Name="Kolic">
           <DataField>Kolic</DataField>
-          <rd:TypeName>System.Nullable`1[[System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]</rd:TypeName>
-        </Field>
-        <Field Name="Medus">
-          <DataField>Medus</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
+          <rd:TypeName>System.Decimal</rd:TypeName>
         </Field>
         <Field Name="NazMat">
           <DataField>NazMat</DataField>
@@ -1088,10 +1068,6 @@ ulaz materijala</Value>
         <Field Name="Redbr">
           <DataField>Redbr</DataField>
           <rd:TypeName>System.Nullable`1[[System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]</rd:TypeName>
-        </Field>
-        <Field Name="Status">
-          <DataField>Status</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
         </Field>
         <Field Name="TotalVrijednost">
           <DataField>TotalVrijednost</DataField>

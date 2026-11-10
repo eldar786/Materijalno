@@ -1,0 +1,190 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <!-- Shared desktop theme. Business bindings and number formats stay in the views. -->
+    <SolidColorBrush x:Key="FinanceInk" Color="#203447"/>
+    <SolidColorBrush x:Key="FinanceMuted" Color="#596D7E"/>
+    <SolidColorBrush x:Key="FinanceAccent" Color="#087F82"/>
+    <SolidColorBrush x:Key="FinanceLine" Color="#CDD8E0"/>
+    <SolidColorBrush x:Key="FinanceCanvas" Color="#F1F5F7"/>
+    <SolidColorBrush x:Key="FinanceTint" Color="#E7F3F2"/>
+    <Style x:Key="FinanceLabel" TargetType="TextBlock">
+        <Setter Property="Foreground" Value="{StaticResource FinanceInk}"/>
+        <Setter Property="FontSize" Value="13"/>
+        <Setter Property="FontWeight" Value="SemiBold"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
+    </Style>
+    <Style TargetType="TextBlock">
+        <Setter Property="Typography.NumeralAlignment" Value="Tabular"/>
+    </Style>
+    <Style TargetType="Label">
+        <Setter Property="Foreground" Value="{StaticResource FinanceMuted}"/>
+        <Setter Property="FontSize" Value="13"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+    </Style>
+    <Style x:Key="FinanceTextBox" TargetType="TextBox">
+        <Setter Property="FontFamily" Value="Segoe UI"/>
+        <Setter Property="FontSize" Value="14"/>
+        <Setter Property="MinHeight" Value="36"/>
+        <Setter Property="Padding" Value="10,5"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+        <Setter Property="Foreground" Value="{StaticResource FinanceInk}"/>
+        <Setter Property="Background" Value="White"/>
+        <Setter Property="BorderBrush" Value="{StaticResource FinanceLine}"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="SelectionBrush" Value="#BDE5DF"/>
+        <Setter Property="CaretBrush" Value="{StaticResource FinanceAccent}"/>
+        <Setter Property="Typography.NumeralAlignment" Value="Tabular"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="TextBox">
+                    <Border x:Name="FieldBorder" CornerRadius="5" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" SnapsToDevicePixels="True">
+                        <ScrollViewer x:Name="PART_ContentHost" Margin="{TemplateBinding Padding}"/>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsReadOnly" Value="True"><Setter Property="Background" Value="#EDF2F5"/></Trigger>
+                        <Trigger Property="IsEnabled" Value="False"><Setter Property="Background" Value="#EDF2F5"/><Setter Property="Foreground" Value="#4F6575"/></Trigger>
+                        <Trigger Property="IsMouseOver" Value="True"><Setter TargetName="FieldBorder" Property="BorderBrush" Value="#7EABA9"/></Trigger>
+                        <Trigger Property="IsKeyboardFocusWithin" Value="True"><Setter TargetName="FieldBorder" Property="BorderBrush" Value="{StaticResource FinanceAccent}"/><Setter TargetName="FieldBorder" Property="BorderThickness" Value="2"/></Trigger>
+                        <Trigger Property="Validation.HasError" Value="True"><Setter TargetName="FieldBorder" Property="BorderBrush" Value="#B4233B"/></Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <Style TargetType="TextBox" BasedOn="{StaticResource FinanceTextBox}"/>
+    <Style x:Key="FinanceButton" TargetType="Button">
+        <Setter Property="FontFamily" Value="Segoe UI"/>
+        <Setter Property="FontSize" Value="13"/>
+        <Setter Property="FontWeight" Value="SemiBold"/>
+        <Setter Property="MinHeight" Value="36"/>
+        <Setter Property="Padding" Value="14,8"/>
+        <Setter Property="Foreground" Value="{StaticResource FinanceInk}"/>
+        <Setter Property="Background" Value="White"/>
+        <Setter Property="BorderBrush" Value="{StaticResource FinanceLine}"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="HorizontalContentAlignment" Value="Center"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+        <Setter Property="Cursor" Value="Hand"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Border x:Name="ButtonBorder" CornerRadius="6" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Padding="{TemplateBinding Padding}">
+                        <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" RecognizesAccessKey="True"/>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True"><Setter TargetName="ButtonBorder" Property="Opacity" Value="0.83"/><Setter TargetName="ButtonBorder" Property="BorderBrush" Value="#087F82"/></Trigger>
+                        <Trigger Property="IsPressed" Value="True"><Setter TargetName="ButtonBorder" Property="Opacity" Value="0.65"/></Trigger>
+                        <Trigger Property="IsKeyboardFocused" Value="True"><Setter TargetName="ButtonBorder" Property="BorderBrush" Value="#087F82"/><Setter TargetName="ButtonBorder" Property="BorderThickness" Value="2"/></Trigger>
+                        <Trigger Property="IsEnabled" Value="False"><Setter Property="Opacity" Value="0.42"/><Setter Property="Cursor" Value="Arrow"/></Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <Style TargetType="Button" BasedOn="{StaticResource FinanceButton}"/>
+    <Style x:Key="FinancePrimaryButton" TargetType="Button" BasedOn="{StaticResource FinanceButton}">
+        <Setter Property="Background" Value="{StaticResource FinanceAccent}"/>
+        <Setter Property="BorderBrush" Value="{StaticResource FinanceAccent}"/>
+        <Setter Property="Foreground" Value="White"/>
+    </Style>
+    <Style x:Key="FinanceDangerButton" TargetType="Button" BasedOn="{StaticResource FinanceButton}">
+        <Setter Property="Foreground" Value="#A32D3D"/>
+        <Setter Property="BorderBrush" Value="#E6BFC6"/>
+        <Setter Property="Background" Value="#FFF5F5"/>
+    </Style>
+    <Style x:Key="FinanceDatePicker" TargetType="DatePicker">
+        <Setter Property="MinHeight" Value="36"/>
+        <Setter Property="FontFamily" Value="Segoe UI"/>
+        <Setter Property="FontSize" Value="14"/>
+        <Setter Property="Foreground" Value="{StaticResource FinanceInk}"/>
+        <Setter Property="BorderBrush" Value="{StaticResource FinanceLine}"/>
+        <Setter Property="Background" Value="White"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+    </Style>
+    <Style TargetType="DatePicker" BasedOn="{StaticResource FinanceDatePicker}"/>
+    <Style TargetType="ComboBox">
+        <Setter Property="MinHeight" Value="36"/>
+        <Setter Property="FontSize" Value="14"/>
+        <Setter Property="Padding" Value="8,4"/>
+        <Setter Property="Foreground" Value="{StaticResource FinanceInk}"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+    </Style>
+    <Style x:Key="FinanceListView" TargetType="ListView">
+        <Setter Property="FontFamily" Value="Segoe UI"/>
+        <Setter Property="FontSize" Value="13"/>
+        <Setter Property="Foreground" Value="{StaticResource FinanceInk}"/>
+        <Setter Property="Background" Value="White"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="AlternationCount" Value="2"/>
+        <Setter Property="ScrollViewer.CanContentScroll" Value="True"/>
+        <Setter Property="VirtualizingPanel.IsVirtualizing" Value="True"/>
+        <Setter Property="Typography.NumeralAlignment" Value="Tabular"/>
+    </Style>
+    <Style TargetType="ListView" BasedOn="{StaticResource FinanceListView}"/>
+    <Style x:Key="FinanceListRow" TargetType="ListViewItem">
+        <Setter Property="MinHeight" Value="40"/>
+        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+        <Setter Property="Background" Value="White"/>
+        <Setter Property="BorderBrush" Value="#E8EEF1"/>
+        <Setter Property="BorderThickness" Value="0,0,0,1"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ListViewItem">
+                    <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Padding="0,5">
+                        <GridViewRowPresenter Content="{TemplateBinding Content}" Columns="{TemplateBinding GridView.ColumnCollection}" VerticalAlignment="Center"/>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="ItemsControl.AlternationIndex" Value="1"><Setter Property="Background" Value="#F7FAFB"/></Trigger>
+                        <Trigger Property="IsMouseOver" Value="True"><Setter Property="Background" Value="#EEF7F6"/></Trigger>
+                        <Trigger Property="IsSelected" Value="True"><Setter Property="Background" Value="#D8EFEB"/><Setter Property="Foreground" Value="#143D43"/><Setter Property="BorderBrush" Value="#7DBCB5"/></Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <Style TargetType="ListViewItem" BasedOn="{StaticResource FinanceListRow}"/>
+    <Style x:Key="FinanceColumnHeader" TargetType="GridViewColumnHeader">
+        <Setter Property="Height" Value="42"/>
+        <Setter Property="FontSize" Value="12"/>
+        <Setter Property="FontWeight" Value="SemiBold"/>
+        <Setter Property="Foreground" Value="#40596B"/>
+        <Setter Property="Background" Value="#EDF3F5"/>
+        <Setter Property="BorderBrush" Value="#D7E2E7"/>
+        <Setter Property="BorderThickness" Value="0,0,1,1"/>
+        <Setter Property="Padding" Value="12,0"/>
+        <Setter Property="HorizontalContentAlignment" Value="Left"/>
+    </Style>
+    <Style TargetType="GridViewColumnHeader" BasedOn="{StaticResource FinanceColumnHeader}"/>
+    <Style TargetType="DataGrid">
+        <Setter Property="FontFamily" Value="Segoe UI"/>
+        <Setter Property="FontSize" Value="13"/>
+        <Setter Property="RowHeight" Value="38"/>
+        <Setter Property="ColumnHeaderHeight" Value="42"/>
+        <Setter Property="Foreground" Value="{StaticResource FinanceInk}"/>
+        <Setter Property="RowBackground" Value="White"/>
+        <Setter Property="AlternatingRowBackground" Value="#F7FAFB"/>
+        <Setter Property="GridLinesVisibility" Value="Horizontal"/>
+        <Setter Property="HorizontalGridLinesBrush" Value="#E4ECEF"/>
+        <Setter Property="BorderBrush" Value="{StaticResource FinanceLine}"/>
+        <Setter Property="Typography.NumeralAlignment" Value="Tabular"/>
+    </Style>
+    <Style TargetType="DataGridColumnHeader">
+        <Setter Property="Background" Value="#EDF3F5"/>
+        <Setter Property="Foreground" Value="#40596B"/>
+        <Setter Property="FontWeight" Value="SemiBold"/>
+        <Setter Property="Padding" Value="12,8"/>
+        <Setter Property="BorderBrush" Value="#D7E2E7"/>
+        <Setter Property="BorderThickness" Value="0,0,1,1"/>
+    </Style>
+    <Style TargetType="DataGridCell">
+        <Setter Property="Padding" Value="8,5"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Style.Triggers><Trigger Property="IsSelected" Value="True"><Setter Property="Background" Value="#D8EFEB"/><Setter Property="Foreground" Value="#143D43"/></Trigger></Style.Triggers>
+    </Style>
+    <Style TargetType="ToolTip">
+        <Setter Property="Background" Value="#203447"/>
+        <Setter Property="Foreground" Value="White"/>
+        <Setter Property="Padding" Value="10,7"/>
+    </Style>
+</ResourceDictionary>

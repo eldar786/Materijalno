@@ -1,216 +1,101 @@
-﻿<UserControl x:Class="Materijalno.UI.PocetnoStanjePrviPut"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:vm="clr-namespace:Materijalno.ViewModel;assembly=Materijalno.ViewModel"
-             xmlns:local="clr-namespace:Materijalno.UI" xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
-             mc:Ignorable="d" 
-             d:DesignHeight="1000" d:DesignWidth="1900">
-
-    <UserControl.Resources>
-        <DataTemplate DataType="{x:Type vm:PocetnoStanjePrviPutViewModel}">
-            <local:PocetnoStanjePrviPut/>
-        </DataTemplate>
-    </UserControl.Resources>
-
-    <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
-        </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition/>
-        </Grid.RowDefinitions>
-
-        <Border Background="AliceBlue"  BorderThickness="1,0,1,1" Grid.Row="1" Grid.RowSpan="10" Grid.Column="0" Grid.ColumnSpan="6"/>
-        <TextBlock Text="POČETNO STANJE PRVI PUT" FontSize="18" Margin="450,0,0,0" FontWeight="Bold" Grid.Column="0" Grid.ColumnSpan="4" VerticalAlignment="Center" HorizontalAlignment="Center" />
-
-        <Label Grid.Row="1" Grid.Column="0" Margin="0,0,0,0" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="18">Skladište</Label>
-        <TextBox Name="OpBroj" Grid.Row="1" Text="{Binding CurrentItemMat.Kljnaz}" KeyDown="TextBox_KeyDown" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left" FontWeight="Bold"  Width="170" FontSize="18">
+<UserControl xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:vm="clr-namespace:Materijalno.ViewModel;assembly=Materijalno.ViewModel" xmlns:local="clr-namespace:Materijalno.UI" xmlns:i="http://schemas.microsoft.com/xaml/behaviors" x:Class="Materijalno.UI.PocetnoStanjePrviPut" mc:Ignorable="d" d:DesignHeight="1000" d:DesignWidth="1900">
+  <UserControl.Resources>
+    <ResourceDictionary><ResourceDictionary.MergedDictionaries><ResourceDictionary Source="/Materijalno.UI;component/Themes/FinanceTheme.xaml"/></ResourceDictionary.MergedDictionaries><DataTemplate DataType="{x:Type vm:PocetnoStanjePrviPutViewModel}">
+      <local:PocetnoStanjePrviPut/>
+    </DataTemplate>
+  </ResourceDictionary></UserControl.Resources>
+  <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Background="#F1F5F7">
+    <Border Background="White" BorderBrush="#D7E1E7" BorderThickness="1" CornerRadius="10" Margin="20" Padding="20"><StackPanel Margin="0">
+      <TextBlock Text="POČETNO STANJE PRVI PUT" FontSize="22" Margin="0,0,0,16" FontWeight="SemiBold" Foreground="#203447"/>
+      <WrapPanel Margin="0,0,0,12">
+        <StackPanel Orientation="Horizontal" Margin="0,0,18,4">
+          <Label FontSize="13" VerticalAlignment="Center" Width="150" Padding="0,5,8,5">Skladište</Label>
+          <TextBox Name="OpBroj" Text="{Binding CurrentItemMat.Kljnaz}" KeyDown="TextBox_KeyDown" FontWeight="Bold" FontSize="14" VerticalAlignment="Center" MinHeight="30" Width="170">
             <i:Interaction.Triggers>
-                <i:EventTrigger EventName="LostFocus">
-                    <i:InvokeCommandAction Command="{Binding OsvjeziCommand}" />
-                </i:EventTrigger>
+              <i:EventTrigger EventName="LostFocus">
+                <i:InvokeCommandAction Command="{Binding OsvjeziCommand}"/>
+              </i:EventTrigger>
             </i:Interaction.Triggers>
-        </TextBox>
-        <TextBox Grid.Row="1" Grid.Column="2" Text="{Binding CurrentItemTabSkladista.NazivOrg, UpdateSourceTrigger=PropertyChanged}" IsEnabled="False" KeyDown="TextBox_KeyDown" Grid.ColumnSpan="2" VerticalAlignment="Center"  FontSize="18"/>
-
-        <Label Grid.Row="2" Grid.Column="0" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="18">Šifra materijala</Label>
-
-        <TextBox Grid.Row="2" Text="{Binding CurrentItemMat.Ident}" KeyDown="TextBox_KeyDown" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="18"  Width="170">
+          </TextBox>
+          <TextBox Text="{Binding CurrentItemTabSkladista.NazivOrg, UpdateSourceTrigger=PropertyChanged}" IsEnabled="False" KeyDown="TextBox_KeyDown" FontSize="14" VerticalAlignment="Center" MinHeight="30" Width="320"/>
+        </StackPanel>
+      </WrapPanel>
+      <WrapPanel Margin="0,0,0,12">
+        <StackPanel Orientation="Horizontal" Margin="0,0,18,4">
+          <Label FontSize="13" VerticalAlignment="Center" Width="150" Padding="0,5,8,5">Šifra materijala</Label>
+          <TextBox Text="{Binding CurrentItemMat.Ident}" KeyDown="TextBox_KeyDown" FontSize="14" VerticalAlignment="Center" MinHeight="30" Width="170">
             <i:Interaction.Triggers>
-                <i:EventTrigger EventName="LostFocus">
-                    <i:InvokeCommandAction Command="{Binding OsvjeziCommand}" />
-                </i:EventTrigger>
-            
-                <i:EventTrigger EventName="LostFocus">
-                    <i:InvokeCommandAction Command="{Binding RedniBrojCommand}" />
-                </i:EventTrigger>
+              <i:EventTrigger EventName="LostFocus">
+                <i:InvokeCommandAction Command="{Binding OsvjeziCommand}"/>
+              </i:EventTrigger>
+              <i:EventTrigger EventName="LostFocus">
+                <i:InvokeCommandAction Command="{Binding RedniBrojCommand}"/>
+              </i:EventTrigger>
             </i:Interaction.Triggers>
-            
-        </TextBox>
-        <TextBox Grid.Row="2" Grid.Column="2" Text="{Binding CurrentItemTabMaterijala.Nazmat}" IsEnabled="False" KeyDown="TextBox_KeyDown" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="18"  Width="300"  Grid.ColumnSpan="3"/>
-
-        <Label Grid.Row="3" Grid.Column="0" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="18">Jedinica mjere</Label>
-
-        <TextBox Grid.Row="3" Text="KOM" IsEnabled="False" KeyDown="TextBox_KeyDown" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="18"  Width="120"/>
-
-
-        <Label Grid.Row="3" Grid.Column="1" Margin="0,0,-70,0" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="18">Konto 2</Label>
-
-        <TextBox Grid.Row="3" Margin="-190,0,0,0" Text="{Binding CurrentItemTabMaterijalaK.Konto1}" Grid.Column="3" KeyDown="TextBox_KeyDown" IsEnabled="False"  VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="18"  Width="215"/>
-
-        <Label Grid.Row="3" Grid.Column="3" Margin="0,0,90,0" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="18">Konto 3</Label>
-        <TextBox Grid.Row="3" Text="{Binding CurrentItemTabMaterijalaK2.Konto2}" Grid.Column="4" IsEnabled="False" Margin="-50,0,0,0" KeyDown="TextBox_KeyDown" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="18"  Width="215"/>
-
-        <Label Grid.Row="3" Grid.Column="4" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="18">Red. broj</Label>
-        <TextBox Grid.Row="3" Text="{Binding CurrentItemMat.Redbr, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" IsEnabled="False" KeyDown="TextBox_KeyDown" Grid.Column="5" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="18"  Width="120"/>
-
-
-        <Label Grid.Row="5" Grid.Column="0" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,30,0,0" FontSize="18">Količina</Label>
-        <TextBox Grid.Row="5" Text="{Binding CurrentItemMat.Kolic, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, TargetNullValue='0,00', ConverterCulture='de-DE'}" Grid.Column="1" KeyDown="TextBox_KeyDown" VerticalAlignment="Bottom" HorizontalAlignment="Left" FontSize="18"  Width="120" Margin="0,0,0,0">
+          </TextBox>
+          <TextBox Text="{Binding CurrentItemTabMaterijala.Nazmat}" IsEnabled="False" KeyDown="TextBox_KeyDown" FontSize="14" VerticalAlignment="Center" MinHeight="30" Width="320"/>
+        </StackPanel>
+      </WrapPanel>
+      <WrapPanel Margin="0,0,0,12">
+        <StackPanel Orientation="Horizontal" Margin="0,0,18,4">
+          <Label FontSize="13" VerticalAlignment="Center" Width="150" Padding="0,5,8,5">Jedinica mjere</Label>
+          <TextBox Text="KOM" IsEnabled="False" KeyDown="TextBox_KeyDown" FontSize="14" VerticalAlignment="Center" MinHeight="30" Width="170"/>
+        </StackPanel>
+        <StackPanel Orientation="Horizontal" Margin="0,0,18,4">
+          <Label FontSize="13" VerticalAlignment="Center" Width="150" Padding="0,5,8,5">Konto 2</Label>
+          <TextBox Text="{Binding CurrentItemTabMaterijalaK.Konto1}" KeyDown="TextBox_KeyDown" IsEnabled="False" FontSize="14" VerticalAlignment="Center" MinHeight="30" Width="170"/>
+        </StackPanel>
+        <StackPanel Orientation="Horizontal" Margin="0,0,18,4">
+          <Label FontSize="13" VerticalAlignment="Center" Width="150" Padding="0,5,8,5">Konto 3</Label>
+          <TextBox Text="{Binding CurrentItemTabMaterijalaK2.Konto2}" IsEnabled="False" KeyDown="TextBox_KeyDown" FontSize="14" VerticalAlignment="Center" MinHeight="30" Width="170"/>
+        </StackPanel>
+        <StackPanel Orientation="Horizontal" Margin="0,0,18,4">
+          <Label FontSize="13" VerticalAlignment="Center" Width="150" Padding="0,5,8,5">Red. broj</Label>
+          <TextBox Text="{Binding CurrentItemMat.Redbr, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" IsEnabled="False" KeyDown="TextBox_KeyDown" FontSize="14" VerticalAlignment="Center" MinHeight="30" Width="320"/>
+        </StackPanel>
+      </WrapPanel>
+      <WrapPanel Margin="0,0,0,12">
+        <StackPanel Orientation="Horizontal" Margin="0,0,18,4">
+          <Label FontSize="13" VerticalAlignment="Center" Width="150" Padding="0,5,8,5">Količina</Label>
+          <TextBox Text="{Binding CurrentItemMat.Kolic, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, TargetNullValue='0,00', ConverterCulture='de-DE'}" KeyDown="TextBox_KeyDown" FontSize="14" VerticalAlignment="Center" MinHeight="30" Width="170" TextAlignment="Right" Typography.NumeralAlignment="Tabular">
             <i:Interaction.Triggers>
-                <i:EventTrigger EventName="LostFocus">
-                    <i:InvokeCommandAction Command="{Binding NabavnaCijenaCommand}" />
-                </i:EventTrigger>
+              <i:EventTrigger EventName="LostFocus">
+                <i:InvokeCommandAction Command="{Binding NabavnaCijenaCommand}"/>
+              </i:EventTrigger>
             </i:Interaction.Triggers>
-        </TextBox>
-
-        <Label Grid.Row="5" Grid.Column="1" HorizontalAlignment="Right" Margin="0,30,-35,0" VerticalAlignment="Center" FontSize="18">NC</Label>
-
-        <TextBox Grid.Row="5" Margin="-190,30,0,0" Text="{Binding CurrentItemMat.Nc, StringFormat=N9, TargetNullValue='0,00', ConverterCulture='de-DE', UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Grid.Column="3" KeyDown="TextBox_KeyDown" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="18"  Width="215"/>
-
-        <Label Grid.Row="5" Grid.Column="3" Margin="0,30,70,0" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="18">Vrijednost</Label>
-        <TextBox Grid.Row="5" Margin="0,33,60,4" IsEnabled="False" Text="{Binding CurrentItemMat.Vrijed, StringFormat=N2, ConverterCulture='de-DE', TargetNullValue='0,00', UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" KeyDown="TextBox_KeyDown" Grid.Column="3" VerticalAlignment="Center" HorizontalAlignment="Right" FontSize="18"  Width="215" Grid.ColumnSpan="2"/>
-
-        <Label Grid.Row="6" Grid.Column="3" Margin="0,0,5,0" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="18">Ukupna vrijednost</Label>
-        <TextBox Grid.Row="6" Text="{Binding SumVrijed, StringFormat=N2, ConverterCulture='de-DE', TargetNullValue='0,00', UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Grid.Column="4" IsEnabled="False" KeyDown="TextBox_KeyDown"  VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="18"  Width="215"/>
-
-
-        <Grid Grid.Row="9" Grid.Column="0" Grid.ColumnSpan="6" HorizontalAlignment="Center" VerticalAlignment="Center">
-            <WrapPanel HorizontalAlignment="Center" VerticalAlignment="Top" ItemWidth="150" ItemHeight="60" Margin="0,3,0,5">
-                <WrapPanel.Resources>
-                    <Style TargetType="Button">
-                        <Setter Property="FontSize" Value="16"/>
-                        <Setter Property="Padding" Value="10,5"/>
-                        <Setter Property="Margin" Value="10,0"/>
-                        <Setter Property="MinWidth" Value="140"/>
-                        <Setter Property="HorizontalAlignment" Value="Center"/>
-                        <Setter Property="Background" Value="#DDEAFB"/>
-                        <Setter Property="Foreground" Value="#2D2D2D"/>
-                        <Setter Property="BorderBrush" Value="#B0C7E3"/>
-                        <Setter Property="BorderThickness" Value="1.5"/>
-                        <Setter Property="FontWeight" Value="SemiBold"/>
-                        <Setter Property="Height" Value="45"/>
-                        <Setter Property="Template">
-                            <Setter.Value>
-                                <ControlTemplate TargetType="Button">
-                                    <Border Background="{TemplateBinding Background}" 
-                                    BorderBrush="{TemplateBinding BorderBrush}" 
-                                    BorderThickness="{TemplateBinding BorderThickness}" 
-                                    CornerRadius="10">
-                                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                    </Border>
-                                </ControlTemplate>
-                            </Setter.Value>
-                        </Setter>
-
-                        <Style.Triggers>
-                            <Trigger Property="IsMouseOver" Value="True">
-                                <Setter Property="Background" Value="#C5DFFA"/>
-                                <Setter Property="BorderBrush" Value="#A5BDD7"/>
-                                <Setter Property="Cursor" Value="Hand"/>
-                            </Trigger>
-                            <Trigger Property="IsEnabled" Value="False">
-                                <Setter Property="Foreground" Value="DarkGray"/>
-                                <Setter Property="Background" Value="Gray"/>
-                                <Setter Property="BorderBrush" Value="DarkGray"/>
-                            </Trigger>
-                        </Style.Triggers>
-                    </Style>
-                </WrapPanel.Resources>
-                <Button x:Name="btnPrvi" Content="Prvi" FontSize="18" Width="110" Margin="5,5,0,5" HorizontalAlignment="Left" Command="{Binding PrviButtonCommand}"/>
-                <Button x:Name="btnZadnji" FontSize="18" Content="Zadnji" Width="110" Margin="5,5,0,5" Grid.Column="1" HorizontalAlignment="Left" Command="{Binding ZadnjiButtonCommand}"/>
-                <Button x:Name="btnTrazi" Content="Traži" FontSize="18" Width="110" Margin="5,5,0,5" HorizontalAlignment="Left" Command="{Binding TraziSifruMaterijalaCommand}"/>
-                <Button x:Name="btnNovaKalkulacija" Content="Novo skl." FontSize="18" Width="140" Margin="5,5,0,5" HorizontalAlignment="Left" Command="{Binding NovoSklCommand}"/>
-                <Button x:Name="btnSnimi" Content="Snimi" FontSize="18" Width="110" Margin="5,5,0,5" HorizontalAlignment="Left" Command="{Binding SpasiNovuKalkulacijuCommand}"/>
-                <Button x:Name="btnStampa" Content="Štampa" FontSize="18" Width="110" Margin="5,5,0,5" HorizontalAlignment="Left" Click="stampa_button"/>
-                <Button x:Name="btnIzlaz" Content="Kraj Izlaza" FontSize="18" Width="110" Margin="5,5,0,5" HorizontalAlignment="Left" Command="{Binding IzlazCommand}" />
-            </WrapPanel>
-        </Grid>
-
-        <Grid Grid.Row="10" Grid.Column="0" Grid.ColumnSpan="6" HorizontalAlignment="Center" VerticalAlignment="Center">
-            <WrapPanel HorizontalAlignment="Center" VerticalAlignment="Top" ItemWidth="150" ItemHeight="60" Margin="0,3,0,5">
-                <WrapPanel.Resources>
-                    <Style TargetType="Button">
-                        <Setter Property="FontSize" Value="16"/>
-                        <Setter Property="Padding" Value="10,5"/>
-                        <Setter Property="Margin" Value="10,0"/>
-                        <Setter Property="MinWidth" Value="140"/>
-                        <Setter Property="HorizontalAlignment" Value="Center"/>
-                        <Setter Property="Background" Value="#DDEAFB"/>
-                        <Setter Property="Foreground" Value="#2D2D2D"/>
-                        <Setter Property="BorderBrush" Value="#B0C7E3"/>
-                        <Setter Property="BorderThickness" Value="1.5"/>
-                        <Setter Property="FontWeight" Value="SemiBold"/>
-                        <Setter Property="Height" Value="45"/>
-                        <Setter Property="Template">
-                            <Setter.Value>
-                                <ControlTemplate TargetType="Button">
-                                    <Border Background="{TemplateBinding Background}" 
-                                    BorderBrush="{TemplateBinding BorderBrush}" 
-                                    BorderThickness="{TemplateBinding BorderThickness}" 
-                                    CornerRadius="10">
-                                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                    </Border>
-                                </ControlTemplate>
-                            </Setter.Value>
-                        </Setter>
-
-                        <Style.Triggers>
-                            <Trigger Property="IsMouseOver" Value="True">
-                                <Setter Property="Background" Value="#C5DFFA"/>
-                                <Setter Property="BorderBrush" Value="#A5BDD7"/>
-                                <Setter Property="Cursor" Value="Hand"/>
-                            </Trigger>
-                            <Trigger Property="IsEnabled" Value="False">
-                                <Setter Property="Foreground" Value="DarkGray"/>
-                                <Setter Property="Background" Value="Gray"/>
-                                <Setter Property="BorderBrush" Value="DarkGray"/>
-                            </Trigger>
-                        </Style.Triggers>
-                    </Style>
-                </WrapPanel.Resources>
-                <Button x:Name="btnPrethodni" Content="Prethodni" FontSize="18" Width="110" Margin="5,5,0,5" HorizontalAlignment="Left" Command="{Binding PrethodniButtonCommand}" />
-                <Button x:Name="btnSljedeci" FontSize="18" Content="Sljedeci" Width="100" Margin="5,5,0,5" Grid.Column="1" HorizontalAlignment="Left" Command="{Binding NextButtonCommand}"  />
-                <Button x:Name="btnNovaStavka" Content="Nova stavka" FontSize="18" Width="130" Margin="5,5,0,5" HorizontalAlignment="Left" Command="{Binding NovaStavkaCommand}" IsEnabled="False" />
-                <Button x:Name="btnIzmjena" Content="Izmjena" FontSize="18" Width="100" Margin="5,5,0,5" HorizontalAlignment="Left" Command="{Binding UpdateCommand}"/>
-                <Button x:Name="btnSlijedecaStavka" Content="Slij. stavka" FontSize="18" Width="130" Margin="5,5,0,5" HorizontalAlignment="Left" Command="{Binding SlijStavkaButtonCommand}" />
-                <Button x:Name="btnOdustani" Content="Odustani" FontSize="18" Width="110" Margin="5,5,0,5" HorizontalAlignment="Left" Command="{Binding OdustaniCommand}"/>
-                <Button x:Name="btnBrisanje" Content="Brisanje" FontSize="18" Width="100" Margin="5,5,0,5" HorizontalAlignment="Left" Command="{Binding BrisanjeCommand}"/>
-                <!--<Button x:Name="btnIzlaz" Content="Izlaz" FontSize="18" Width="110" Margin="5,5,0,5" HorizontalAlignment="Left" Command="{Binding IzlazCommand}" />-->
-            </WrapPanel>
-        </Grid>
-
-    </Grid>
+          </TextBox>
+        </StackPanel>
+        <StackPanel Orientation="Horizontal" Margin="0,0,18,4">
+          <Label FontSize="13" VerticalAlignment="Center" Width="150" Padding="0,5,8,5">NC</Label>
+          <TextBox Text="{Binding CurrentItemMat.Nc, StringFormat=N9, TargetNullValue='0,00', ConverterCulture='de-DE', UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" KeyDown="TextBox_KeyDown" FontSize="14" VerticalAlignment="Center" MinHeight="30" Width="170" TextAlignment="Right" Typography.NumeralAlignment="Tabular"/>
+        </StackPanel>
+        <StackPanel Orientation="Horizontal" Margin="0,0,18,4">
+          <Label FontSize="13" VerticalAlignment="Center" Width="150" Padding="0,5,8,5">Vrijednost</Label>
+          <TextBox IsEnabled="False" Text="{Binding CurrentItemMat.Vrijed, StringFormat=N2, ConverterCulture='de-DE', TargetNullValue='0,00', UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" KeyDown="TextBox_KeyDown" FontSize="14" VerticalAlignment="Center" MinHeight="30" Width="320" TextAlignment="Right" Typography.NumeralAlignment="Tabular"/>
+        </StackPanel>
+      </WrapPanel>
+      <WrapPanel Margin="0,0,0,12">
+        <StackPanel Orientation="Horizontal" Margin="0,0,18,4">
+          <Label FontSize="13" VerticalAlignment="Center" Width="150" Padding="0,5,8,5">Ukupna vrijednost</Label>
+          <TextBox Text="{Binding SumVrijed, StringFormat=N2, ConverterCulture='de-DE', TargetNullValue='0,00', UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" IsEnabled="False" KeyDown="TextBox_KeyDown" FontSize="14" VerticalAlignment="Center" MinHeight="30" Width="320"/>
+        </StackPanel>
+      </WrapPanel>
+      <Border Margin="0,14,0,0" Padding="0,18,0,0" BorderBrush="#E1E9ED" BorderThickness="0,1,0,0"><WrapPanel Margin="0">
+        <Button x:Name="btnPrvi" Content="Prvi" FontSize="13" Command="{Binding PrviButtonCommand}" Margin="0,0,8,8" MinWidth="64" Padding="14,8" Height="38"/>
+        <Button x:Name="btnZadnji" FontSize="13" Content="Zadnji" Command="{Binding ZadnjiButtonCommand}" Margin="0,0,8,8" MinWidth="64" Padding="14,8" Height="38"/>
+        <Button x:Name="btnTrazi" Content="Traži" FontSize="13" Command="{Binding TraziSifruMaterijalaCommand}" Margin="0,0,8,8" MinWidth="86" Padding="14,8" Height="38"/>
+        <Button x:Name="btnNovaKalkulacija" Content="Novo skl." FontSize="13" Command="{Binding NovoSklCommand}" Margin="0,0,8,8" MinWidth="86" Padding="14,8" Height="38"/>
+        <Button x:Name="btnSnimi" Content="Snimi" FontSize="13" Command="{Binding SpasiNovuKalkulacijuCommand}" Margin="0,0,8,8" MinWidth="86" Padding="14,8" Style="{StaticResource FinancePrimaryButton}" Height="38"/>
+        <Button x:Name="btnStampa" Content="Štampa" FontSize="13" Click="stampa_button" Margin="0,0,8,8" MinWidth="86" Padding="14,8" Style="{StaticResource FinancePrimaryButton}" Height="38"/>
+        <Button x:Name="btnIzlaz" Content="Kraj Izlaza" FontSize="13" Command="{Binding IzlazCommand}" Margin="0,0,8,8" MinWidth="86" Padding="14,8" Height="38"/>
+        <Button x:Name="btnPrethodni" Content="Prethodni" FontSize="13" Command="{Binding PrethodniButtonCommand}" Margin="0,0,8,8" MinWidth="86" Padding="14,8" Height="38"/>
+        <Button x:Name="btnSljedeci" FontSize="13" Content="Sljedeci" Command="{Binding NextButtonCommand}" Margin="0,0,8,8" MinWidth="86" Padding="14,8" Height="38"/>
+        <Button x:Name="btnNovaStavka" Content="Nova stavka" FontSize="13" Command="{Binding NovaStavkaCommand}" IsEnabled="False" Margin="0,0,8,8" MinWidth="86" Padding="14,8" Height="38"/>
+        <Button x:Name="btnIzmjena" Content="Izmjena" FontSize="13" Command="{Binding UpdateCommand}" Margin="0,0,8,8" MinWidth="86" Padding="14,8" Height="38"/>
+        <Button x:Name="btnSlijedecaStavka" Content="Slij. stavka" FontSize="13" Command="{Binding SlijStavkaButtonCommand}" Margin="0,0,8,8" MinWidth="86" Padding="14,8" Height="38"/>
+        <Button x:Name="btnOdustani" Content="Odustani" FontSize="13" Command="{Binding OdustaniCommand}" Margin="0,0,8,8" MinWidth="86" Padding="14,8" Height="38"/>
+        <Button x:Name="btnBrisanje" Content="Brisanje" FontSize="13" Command="{Binding BrisanjeCommand}" Margin="0,0,8,8" MinWidth="86" Padding="14,8" Style="{StaticResource FinanceDangerButton}" Height="38"/>
+      </WrapPanel>
+    </Border></StackPanel>
+  </Border></ScrollViewer>
 </UserControl>

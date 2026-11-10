@@ -39,13 +39,33 @@ namespace Materijalno.UI
             currentTextBox.MoveFocus(new TraversalRequest(FocusNavigationDirection.Next));
         }
 
+        private void Skladiste_LostFocus(object sender, RoutedEventArgs e)
+        {
+            txtSkladiste.GetBindingExpression(TextBox.TextProperty)?.UpdateSource();
+            if (DataContext is StampanjeInventurnihZalihaViewModel vm)
+                vm.RefreshWarehouse();
+        }
+
         private void stampa_button(object sender, RoutedEventArgs e)
         {
             if (DataContext is StampanjeInventurnihZalihaViewModel stampanjeInventurnihZalihaViewModel)
             {
-                StampanjeInventurnihZalihaIzvjestaj stampanjeInventurnihZalihaIzvjestaj = new StampanjeInventurnihZalihaIzvjestaj(stampanjeInventurnihZalihaViewModel);
-
-                stampanjeInventurnihZalihaIzvjestaj.Show();
+                try
+                {
+                    txtSkladiste.GetBindingExpression(TextBox.TextProperty)?.UpdateSource();
+                    if (Validation.GetHasError(txtSkladiste))
+                        throw new Materijalno.Model.Services.InventoryReportUnavailableException("Unesite ispravnu šifru skladišta.");
+                    stampanjeInventurnihZalihaViewModel.RefreshWarehouse();
+                    if (stampanjeInventurnihZalihaViewModel.CurrentItemInv.Kljnaz > 0 &&
+                        stampanjeInventurnihZalihaViewModel.CurrentItemTabSkladista == null)
+                        throw new Materijalno.Model.Services.InventoryReportUnavailableException("Skladište nije prijavljeno u šifarnik.");
+                    var report = new StampanjeInventurnihZalihaIzvjestaj(stampanjeInventurnihZalihaViewModel);
+                    report.Show();
+                }
+                catch (Materijalno.Model.Services.InventoryReportUnavailableException ex)
+                {
+                    MessageBox.Show(ex.Message, "Inventurni popis", MessageBoxButton.OK, MessageBoxImage.Information);
+                }
             }
         }
     }

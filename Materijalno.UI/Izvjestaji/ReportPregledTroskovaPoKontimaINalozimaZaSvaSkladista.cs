@@ -21,7 +21,7 @@ namespace Materijalno.UI.Izvjestaji
         public string Brnar { get; set; }
         public DateTime Datnar { get; set; }
         public string Brfak { get; set; }
-        public int? Kolic { get; set; }
+        public decimal? Kolic { get; set; }
         public decimal? Nc { get; set; }
         public decimal? Vrijed { get; set; }
         public int? Redbr { get; set; }

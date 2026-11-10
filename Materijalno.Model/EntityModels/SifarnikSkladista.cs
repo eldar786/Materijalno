@@ -15,10 +15,10 @@ namespace Materijalno.Model.EntityModels
         public int Id { get; set; }
         public int? Kljnaz { get; set; }
         public string NazivOrg { get; set; }
-        public int? ZiroRacun { get; set; }
-        public int? PozBr { get; set; }
-        public int? DevizniRacun { get; set; }
-        public int? PozBrD { get; set; }
+        public string ZiroRacun { get; set; }
+        public string PozBr { get; set; }
+        public string DevizniRacun { get; set; }
+        public string PozBrD { get; set; }
         public string Opstina { get; set; }
         public string NazivSdk { get; set; }
         public string MjestoAdresa { get; set; }

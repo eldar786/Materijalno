@@ -1,0 +1,64 @@
+PROVJERA NOVIH UNOSA I IZVJESTAJA - 05.11.2026.
+
+DOPUNA INVENTURE: Promjena skladista bira popis tog skladista.
+Za skladiste bez snimljenog popisa prikazuje se jasna informativna
+poruka da prvo treba unijeti i snimiti inventurno stanje. U testnoj
+bazi skladiste 1000 ima popis; skladiste 1001 trenutno nema popis.
+Inventurni listici koriste posljednju sacuvanu NC materijala prema
+Fox izvjestaju, jedinicu mjere iz sifarnika i prazne kolone za upis
+prebrojane kolicine/vrijednosti. Provjereno 96 materijala u skladistima
+1000, 1001 i 1002 prema stvarnom izvornom Fox ispisu, bez razlika.
+
+DOPUNA: Analiticka kartica podrzava stare prazne datume dokumenata.
+Analiticka kartica i Dnevnik otvaraju period od pocetka otvorene godine.
+U Dnevniku povrat prikazuje 0 za ulaznu/izlaznu kolicinu i duguje/potrazuje,
+ukljucujuci ukupne zbirove, kao u originalnom Fox izvjestaju. Nabavna
+cijena ostaje prikazana. Originalni FRX izrazi uporedjeni su sa stvarnim
+RDLC izlazom: 23 reda i 115 numerickih polja bez razlike.
+
+Pokrenite "Pregled testnog Prometa.cmd".
+Naslov prozora mora biti "Materijalno - TESTNI PROMET".
+Ovo je odvojena kopija aplikacije i odvojena testna baza:
+materijalno_fox_test_20261104_215755
+
+U PROMET-u su dodana po cetiri dokumenta:
+Ulaz:              10-26, 10-27, 10-28, 10-29
+Izlaz:             61-211, 61-212, 61-214, 61-217
+Medjuskladisnica:   M-168, M-169, M-170, M-171
+Povrat:            61-213, 61-215, 61-216, 61-218
+
+Materijali:
+990201 - E2E PONDER ALFA
+990202 - E2E PONDER BETA
+Skladista: 1000, 1001, 1002
+Period za izvjestaje: 01.11.2026. do 04.11.2026.
+Datum stanja zaliha/inventure: 04.11.2026.
+
+Primjer pondera za materijal 990201 u skladistu 1000:
+Nakon prva dva ulaza: 300,75 kom / 4.170,88 KM.
+Ponderirana cijena: 13,868262677 KM.
+Izlaz 61-211: 24,75 kom / 343,24 KM.
+Povrat slijedi izbor cijene izvornog Fox indeksa broja kalkulacije.
+
+Na inventurnom popisu skladista 1000 ALFA ima manjak 1 kom,
+a BETA visak 2 kom. Ostali materijali prepisani su po knjigovodstvenoj
+kolicini radi potpunog testnog popisa.
+
+Odabrani novi dokument mozete stampati dugmetom Stampa.
+Za zbirne izvjestaje koristite gore navedeni period i skladista.
+Finansijski nalozi su lokalno formirani; slanje u Oracle je iskljuceno.
+Formirani finansijski nalog zakljucava izvorni dokument za izmjene.
+
+Svi stvarni izvjestaji i tabela poredjenja Fox/WPF su u PDF-u:
+output\pdf\Provjera_prometa_i_izvjestaja.pdf
+PDF ima sadrzaj u oznakama/bookmarks za svaki izvjestaj.
+
+Rezultat: 19/19 cijena i vrijednosti, 690/690 polja, 5/5 salda
+bez razlike u odnosu na originalne Fox metode snimanja na DBF kopiji.
+Provjere: 67 unosa, 79 izvjestaja, 47 regresijskih i 5 WPF prikaza.
+Ukupno 54 stvarna izlaza za stampu; dodatno provjerene cijene u
+njihovim stvarnim tabelama i predznaci finansijskih povrata.
+
+Za redovan rad i dalje koristite "Pokreni Materijalno.cmd".
+Ispravke su primijenjene i na tu aplikaciju, a testni dokumenti ostaju
+u posebnoj bazi. Originalni DBF-ovi nisu mijenjani.

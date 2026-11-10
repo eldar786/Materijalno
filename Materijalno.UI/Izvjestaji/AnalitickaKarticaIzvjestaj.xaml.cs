@@ -1,3 +1,4 @@
+using Materijalno.Model.Services;
 ﻿using Microsoft.Reporting.WinForms;
 using Materijalno.ViewModel;
 using Materijalno.UI;
@@ -52,13 +53,13 @@ namespace Materijalno.UI.Izvjestaji
             var dbContext = new materijalno_knjigovodstvoContext();
 
             //analitickavm.CurrentItemMat.Datun treba staviti od 01.01
-            MatList = new ObservableCollection<Mat>(dbContext.Mat
-                .Where(row => row.Ident == analitickavm.CurrentItemMat.Ident
-                            && row.Kljnaz == analitickavm.CurrentItemMat.Kljnaz
-                             && row.Datun >= analitickavm.CurrentItemMat.Datun &&
-                             row.Datun <= analitickavm.CurrentItemMat.Datnar)
-                .OrderBy(row => row.Datun)
-                .ToList());
+            DateTime from = (analitickavm.CurrentItemMat.Datun ?? DateTime.Today).Date;
+            DateTime to = (analitickavm.CurrentItemMat.Datnar ?? DateTime.Today).Date;
+            var period = ReportQueries.Period(dbContext, from, to).Where(m => m.Ident == analitickavm.CurrentItemMat.Ident && m.Kljnaz == analitickavm.CurrentItemMat.Kljnaz).OrderBy(m => m.Datun).ThenBy(m => m.Id).ToList();
+            var previous = ReportQueries.ForYear(dbContext, from).Where(m => m.Ident == analitickavm.CurrentItemMat.Ident && m.Kljnaz == analitickavm.CurrentItemMat.Kljnaz && m.Datun < from).ToList();
+            if (previous.Count > 0) period.Insert(0, new Mat { Status = "P", Brfak = "PRENOS", Datun = from, Datnar = from, Ident = analitickavm.CurrentItemMat.Ident, Kljnaz = analitickavm.CurrentItemMat.Kljnaz,
+                Kolic = previous.Sum(m => m.Kolic), Vrijed = previous.Sum(m => m.Vrijed), Nc = previous.Sum(m => m.Kolic) == 0 ? 0 : LedgerMath.Price((previous.Sum(m => m.Vrijed) ?? 0) / previous.Sum(m => m.Kolic).Value) });
+            MatList = new ObservableCollection<Mat>(period);
 
             _tabelaMaterijala = dbContext.TabelaMaterijala.ToList();
             _tabelaSkladista = dbContext.SifarnikSkladista.ToList();
@@ -92,14 +93,14 @@ namespace Materijalno.UI.Izvjestaji
 
             reportDt.Columns.Add("Redbr").DataType = typeof(int);
             reportDt.Columns.Add("Ident").DataType = typeof(int);
-            reportDt.Columns.Add("Nazmat").DataType = typeof(string);
-            reportDt.Columns.Add("Kolic").DataType = typeof(int);
+            reportDt.Columns.Add("NazMat").DataType = typeof(string);
+            reportDt.Columns.Add("Kolic").DataType = typeof(decimal);
             reportDt.Columns.Add("Nc").DataType = typeof(decimal);
             reportDt.Columns.Add("Vrijed").DataType = typeof(decimal);
             reportDt.Columns.Add("Brfak").DataType = typeof(string);
             reportDt.Columns.Add("Datun").DataType = typeof(DateTime);
             reportDt.Columns.Add("NazivOrg").DataType = typeof(string);
-            //reportDt.Columns.Add("Totalvrijednost").DataType = typeof(decimal);
+            //reportDt.Columns.Add("TotalVrijednost").DataType = typeof(decimal);
             reportDt.Columns.Add("Status").DataType = typeof(string);
             reportDt.Columns.Add("Kljnaz").DataType = typeof(int);
             reportDt.Columns.Add("Datnar").DataType = typeof(DateTime);
@@ -128,14 +129,14 @@ namespace Materijalno.UI.Izvjestaji
                 _report.Nc = mat.Nc;
                 _report.Vrijed = mat.Vrijed;
                 _report.Brfak = mat.Brfak;
-                _report.Datun = (DateTime)mat.Datun;
+                _report.Datun = mat.Datun;
                 _report.NazivOrg = tabsklad.NazivOrg;
                 //_report.TotalVrijednost = ukupnavrijednost.Vrijed;
                 _report.Status = mat.Status;
                 _report.Kljnaz = mat.Kljnaz;
-                _report.Datnar = (DateTime)mat.Datnar;
-                _report.Od = (DateTime)_analitickavm.CurrentItemMat.Datun;
-                _report.Do = (DateTime)_analitickavm.CurrentItemMat.Datnar;
+                _report.Datnar = mat.Datnar;
+                _report.Od = (_analitickavm.CurrentItemMat.Datun ?? DateTime.Today).Date;
+                _report.Do = (_analitickavm.CurrentItemMat.Datnar ?? DateTime.Today).Date;
 
 
                 lista.Add(_report);

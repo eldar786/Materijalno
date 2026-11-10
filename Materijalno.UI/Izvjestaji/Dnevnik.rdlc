@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Report xmlns="http://schemas.microsoft.com/sqlserver/reporting/2008/01/reportdefinition" xmlns:rd="http://schemas.microsoft.com/SQLServer/reporting/reportdesigner">
   <Body>
     <ReportItems>
@@ -679,15 +679,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=IIF(
-    UCase(Trim(Fields!Status.Value &amp; "")) = "V",
-    0,
-    IIF(
-        Fields!Vrijed.Value &gt; 0,
-        Fields!Kolic.Value,
-        0
-    )
-)</Value>
+                              <Value>=IIF(Fields!Status.Value = "U" OR (Fields!Status.Value = "M" AND Fields!Medus.Value = "1"), Fields!Kolic.Value, 0D)</Value>
                               <Style>
                                 <Format>#,##0.00.</Format>
                               </Style>
@@ -730,11 +722,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=IIF(
-    Fields!Vrijed.Value &lt; 0,
-    Math.Abs(Fields!Kolic.Value),
-    0
-)</Value>
+                              <Value>=IIF(Fields!Status.Value = "I" OR (Fields!Status.Value = "M" AND Fields!Medus.Value &lt;&gt; "1"), -Fields!Kolic.Value, 0D)</Value>
                               <Style>
                                 <Format>#,##0.00.</Format>
                               </Style>
@@ -777,11 +765,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=IIF(
-    UCase(Trim(Fields!Status.Value &amp; "")) = "I",
-    Fields!Nc.Value,
-    Nothing
-)</Value>
+                              <Value>=Fields!Nc.Value</Value>
                               <Style />
                             </TextRun>
                           </TextRuns>
@@ -822,19 +806,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=IIF(
-    UCase(Trim(Fields!Status.Value &amp; "")) = "V",
-    0,
-    IIF(
-        IsNothing(Fields!Vrijed.Value),
-        0,
-        IIF(
-            Fields!Vrijed.Value &gt; 0,
-            Fields!Vrijed.Value,
-            0
-        )
-    )
-)</Value>
+                              <Value>=IIF(Fields!Status.Value = "U" OR (Fields!Status.Value = "M" AND Fields!Medus.Value = "1"), Fields!Vrijed.Value, 0D)</Value>
                               <Style>
                                 <Format>n2</Format>
                                 <Language>bs-Latn-BA</Language>
@@ -877,19 +849,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=IIF(
-    UCase(Trim(Fields!Status.Value &amp; "")) = "V",
-    0,
-    IIF(
-        IsNothing(Fields!Vrijed.Value),
-        0,
-        IIF(
-            Fields!Vrijed.Value &lt; 0,
-            Math.Abs(Fields!Vrijed.Value),
-            0
-        )
-    )
-)</Value>
+                              <Value>=IIF(Fields!Status.Value = "I" OR (Fields!Status.Value = "M" AND Fields!Medus.Value &lt;&gt; "1"), -Fields!Vrijed.Value, 0D)</Value>
                               <Style>
                                 <Format>n2</Format>
                                 <Language>bs-Latn-BA</Language>
@@ -1074,21 +1034,7 @@
           <Paragraph>
             <TextRuns>
               <TextRun>
-                <Value>=Sum(
-    IIF(
-        UCase(Trim(Fields!Status.Value &amp; "")) = "V",
-        0,
-        IIF(
-            IsNothing(Fields!Vrijed.Value),
-            0,
-            IIF(
-                Fields!Vrijed.Value &gt; 0,
-                CDbl(Fields!Vrijed.Value),
-                0
-            )
-        )
-    )
-)</Value>
+                <Value>=Sum(IIF(Fields!Status.Value = "U" OR (Fields!Status.Value = "M" AND Fields!Medus.Value = "1"), Fields!Vrijed.Value, 0D))</Value>
                 <Style>
                   <Format>n2</Format>
                   <Language>bs-Latn-BA</Language>
@@ -1157,19 +1103,7 @@
           <Paragraph>
             <TextRuns>
               <TextRun>
-                <Value>=Math.Abs(
-    Sum(
-        IIF(
-            IsNothing(Fields!Vrijed.Value),
-            0,
-            IIF(
-                Fields!Vrijed.Value &lt; 0,
-                CDbl(Fields!Vrijed.Value),
-                0
-            )
-        )
-    )
-)</Value>
+                <Value>=Sum(IIF(Fields!Status.Value = "I" OR (Fields!Status.Value = "M" AND Fields!Medus.Value &lt;&gt; "1"), -Fields!Vrijed.Value, 0D))</Value>
                 <Style>
                   <Format>n2</Format>
                   <Language>bs-Latn-BA</Language>
@@ -1233,7 +1167,7 @@
         </Style>
       </Textbox>
     </ReportItems>
-    <Height>5.79167in</Height>
+    <Height>7.4731cm</Height>
     <Style />
   </Body>
   <Width>10.04754in</Width>
@@ -1339,20 +1273,8 @@
         <CommandText>/* Local Query */</CommandText>
       </Query>
       <Fields>
-        <Field Name="Brdok">
-          <DataField>Brdok</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
         <Field Name="Brfak">
           <DataField>Brfak</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="Brnar">
-          <DataField>Brnar</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="Cartro">
-          <DataField>Cartro</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
         <Field Name="Datnar">
@@ -1367,10 +1289,6 @@
           <DataField>Do</DataField>
           <rd:TypeName>System.DateTime</rd:TypeName>
         </Field>
-        <Field Name="Id">
-          <DataField>Id</DataField>
-          <rd:TypeName>System.Int32</rd:TypeName>
-        </Field>
         <Field Name="Ident">
           <DataField>Ident</DataField>
           <rd:TypeName>System.Nullable`1[[System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]</rd:TypeName>
@@ -1379,17 +1297,9 @@
           <DataField>Kljnaz</DataField>
           <rd:TypeName>System.Nullable`1[[System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]</rd:TypeName>
         </Field>
-        <Field Name="Kljnaz1">
-          <DataField>Kljnaz1</DataField>
-          <rd:TypeName>System.Nullable`1[[System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]</rd:TypeName>
-        </Field>
         <Field Name="Kolic">
           <DataField>Kolic</DataField>
-          <rd:TypeName>System.Nullable`1[[System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]</rd:TypeName>
-        </Field>
-        <Field Name="Medus">
-          <DataField>Medus</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
+          <rd:TypeName>System.Decimal</rd:TypeName>
         </Field>
         <Field Name="NazivOrg">
           <DataField>NazivOrg</DataField>
@@ -1415,14 +1325,11 @@
           <DataField>Status</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
-        <Field Name="TotalVrijednost">
-          <DataField>TotalVrijednost</DataField>
-          <rd:TypeName>System.Nullable`1[[System.Decimal, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]</rd:TypeName>
-        </Field>
         <Field Name="Vrijed">
           <DataField>Vrijed</DataField>
           <rd:TypeName>System.Nullable`1[[System.Decimal, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]</rd:TypeName>
         </Field>
+      <Field Name="Medus"><DataField>Medus</DataField><rd:TypeName>System.String</rd:TypeName></Field>
       </Fields>
       <rd:DataSetInfo>
         <rd:DataSetName>Materijalno.UI.Izvjestaji</rd:DataSetName>

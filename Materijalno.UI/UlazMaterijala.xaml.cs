@@ -50,7 +50,8 @@ namespace Materijalno.UI
 
         private void MainWindow_DataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
-            // Check if the DataContext is of type UlazMaterijalaViewModel
+            if (e.OldValue is UlazMaterijalaViewModel oldVm)
+                oldVm.OnPrintEvent -= HandlePrintRequest;
             if (e.NewValue is UlazMaterijalaViewModel ulazMaterijalaViewModel)
             {
                 // Subscribe to the print event from the ViewModel
@@ -94,88 +95,13 @@ namespace Materijalno.UI
             }), System.Windows.Threading.DispatcherPriority.Input);
         }
 
-        //private void HandlePrintRequest()
-        //{
-        //    // Create the PrintWindow
-        //    PrintWindow printWindow = new PrintWindow();
-
-        //    // Set the DataContext for the PrintWindow (it could be the same ViewModel or a different one)
-        //    if (DataContext is UlazMaterijalaViewModel ulazMaterijalaViewModel)
-        //    {
-        //        // Pass the current ViewModel to the PrintWindow
-        //        printWindow.DataContext = ulazMaterijalaViewModel;
-
-        //        //if (printWindow.Content is UIElement content)
-        //        //{
-        //        //    content.UpdateLayout();
-        //        //}
-
-        //        // Show the window to print (it can be hidden or shown as preview)
-        //        printWindow.Show();
-
-        //        // Use the PrintDialog to print the window content
-        //        PrintDialog printDialog = new PrintDialog();
-        //        if (printDialog.ShowDialog() == true)
-        //        {
-        //            //printDialog.PrintTicket.PageMediaSize = new PageMediaSize(PageMediaSizeName.ISOA4);
-        //            printDialog.PrintTicket.PageOrientation = PageOrientation.Landscape;
-        //            printDialog.PrintVisual(printWindow, "Print DataGrid");
-        //        }
-
-        //        // Close the print window after printing
-        //        printWindow.Close();
-        //    }
-        //}
-
         private void HandlePrintRequest()
         {
-            // Kreiranje Window za print
-            PrintWindow printWindow = new PrintWindow();
-
-            // Postavljanje DataContext za PrintWindow (uzeli smo UlazMaterijalaViewModel)
-            if (DataContext is UlazMaterijalaViewModel ulazMaterijalaViewModel)
-            {
-                // Dodajemo trenutni ViewModel u PrintWindow
-                printWindow.DataContext = ulazMaterijalaViewModel;
-
-                // Prikazi prozor za print
-                printWindow.Show();
-
-                // Koristimo PrintDialog za ispis zadrzaja prozora
-                PrintDialog printDialog = new PrintDialog();
-
-                if (printDialog.ShowDialog() == true)
-                {
-                    // Postavljamo velicinu na A4 i vodoravna orijentacija
-                    printDialog.PrintTicket.PageMediaSize = new PageMediaSize(PageMediaSizeName.ISOA4);
-                    printDialog.PrintTicket.PageOrientation = PageOrientation.Landscape;
-
-                    //  Izračunamo faktor skaliranja kako bi sadržaj odgovarao formatu A4
-                    double scaleX = printDialog.PrintableAreaWidth / printWindow.ActualWidth;
-                    double scaleY = printDialog.PrintableAreaHeight / printWindow.ActualHeight;
-                    double scale = Math.Min(scaleX, scaleY);
-
-                    // Save the original transform
-                    Transform originalTransform = printWindow.LayoutTransform;
-
-                    // Apply scaling transform to the PrintWindow
-                    printWindow.LayoutTransform = new ScaleTransform(scale, scale);
-
-                    // Measure and arrange the page to the size of the printable area
-                    Size pageSize = new Size(printDialog.PrintableAreaWidth, printDialog.PrintableAreaHeight);
-                    printWindow.Measure(pageSize);
-                    printWindow.Arrange(new Rect(0, 0, pageSize.Width, pageSize.Height));
-
-                    // Print the window's visual
-                    printDialog.PrintVisual(printWindow, "Print DataGrid");
-
-                    // Restore the original transform
-                    printWindow.LayoutTransform = originalTransform;
-                }
-
-                // Close the print window after printing
-                printWindow.Close();
-            }
+            var vm = DataContext as UlazMaterijalaViewModel;
+            if (vm?.CurrentItemMat == null) return;
+            var report = Materijalno.Model.Services.ReceiptPrintReport.Load(vm.CurrentItemMat.Id, vm.CurrentNazivZaSifruKomitenta);
+            var preview = new PrintWindow(report) { Owner = Window.GetWindow(this) };
+            preview.ShowDialog();
         }
 
         private void DatePicker_Loaded(object sender, RoutedEventArgs e)
@@ -345,7 +271,7 @@ namespace Materijalno.UI
         {
             if (e.Key == Key.Enter)
             {
-                MoveFocusToNextControl(sender as TextBox);
+                (sender as UIElement)?.MoveFocus(new TraversalRequest(FocusNavigationDirection.Next));
                 e.Handled = true;
             }
         }

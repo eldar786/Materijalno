@@ -1,3 +1,4 @@
+using Materijalno.Model.Services;
 ﻿using Microsoft.Reporting.WinForms;
 using Materijalno.ViewModel;
 using Materijalno.UI;
@@ -50,7 +51,7 @@ namespace Materijalno.UI.Izvjestaji
             //MatList = dbContext.Mat.ToList();
             
             MatList = new ObservableCollection<Mat>(dbContext.Mat
-                     .Where(row => row.Brfak == medjuskladisnicavm.CurrentItemMat.Brfak && row.Medus == "1")
+                     .Where(row => row.Status == "M" && row.BookYear == (medjuskladisnicavm.CurrentItemMat.Datun ?? DateTime.Today).Year && row.Brfak == medjuskladisnicavm.CurrentItemMat.Brfak && row.Medus == "1")
                      .OrderBy(row => row.Datun)
                      .ToList());
             _tabelaMaterijala = dbContext.TabelaMaterijala.ToList();
@@ -85,14 +86,15 @@ namespace Materijalno.UI.Izvjestaji
             reportDt.Columns.Add("Redbr").DataType = typeof(int);
             reportDt.Columns.Add("Kljnaz1").DataType = typeof(int);
             reportDt.Columns.Add("Ident").DataType = typeof(int);
-            reportDt.Columns.Add("Nazmat").DataType = typeof(string);
-            reportDt.Columns.Add("Kolic").DataType = typeof(int);
+            reportDt.Columns.Add("NazMat").DataType = typeof(string);
+            reportDt.Columns.Add("Kolic").DataType = typeof(decimal);
             reportDt.Columns.Add("Nc").DataType = typeof(decimal);
             reportDt.Columns.Add("Vrijed").DataType = typeof(decimal);
             reportDt.Columns.Add("Brfak").DataType = typeof(string);
             reportDt.Columns.Add("Datun").DataType = typeof(DateTime);
             reportDt.Columns.Add("Brdok").DataType = typeof(string);
-            reportDt.Columns.Add("Totalvrijednost").DataType = typeof(decimal);
+            reportDt.Columns.Add("TotalVrijednost").DataType = typeof(decimal);
+            reportDt.Columns.Add("Kljnaz").DataType = typeof(int);
 
             List<ReportMedjuskladisnica> lista = new List<ReportMedjuskladisnica>();
 
@@ -106,6 +108,7 @@ namespace Materijalno.UI.Izvjestaji
                 _report = new ReportMedjuskladisnica();
                 _report.Redbr = mat.Redbr;
                 _report.Kljnaz1 = mat.Kljnaz1;
+                _report.Kljnaz = mat.Kljnaz;
                 _report.Ident = mat.Ident;
                 _report.NazMat = tabmat.Nazmat;
                 _report.Kolic = mat.Kolic;
@@ -137,6 +140,7 @@ namespace Materijalno.UI.Izvjestaji
                 dr[8] = report.Datun;
                 dr[9] = report.Brdok;
                 dr[10] = report.TotalVrijednost;
+                dr[11] = report.Kljnaz;
 
                 reportDt.Rows.Add(dr);
             }

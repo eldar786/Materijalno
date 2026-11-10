@@ -1,4 +1,5 @@
-﻿using System;
+using Materijalno.Model.Services;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -42,8 +43,7 @@ namespace Materijalno.ViewModel
         //private TabelaMaterijala currentItemTabKonto1;
         private SifarnikSkladista currentItemTabSkladista;
         private SifarnikSkladista currentItemTabSkladistaUlaza;
-        string connectionString = "Server= 192.168.1.213;Trusted_Connection=False;" +
-             "MultipleActiveResultSets=true;User Id=sa;Password=Lutrija1;";
+        string connectionString = Materijalno.Model.Services.DatabaseConfiguration.MaterialConnectionString;
 
         string queryStringStaraSifra_Ime = "SELECT STARA_SIFRA, IME FROM [FINANSIJE2-LINKED SERVER]..[IBS].[GR_KOMITENTI]";
         string currentNazivZaSifruKomitenta;
@@ -400,39 +400,13 @@ namespace Materijalno.ViewModel
         #endregion
 
         #region Methods
-
         public void NabavnaCijena()
         {
-
-            var dbContext = new materijalno_knjigovodstvoContext();
-
-            CurrentItemMat.Nc = dbContext.Mat
-                .Where(row => row.Ident == CurrentItemMat.Ident)
-                .Select(row => row.Nc).FirstOrDefault();
-
-            var culture = new CultureInfo("de-DE");
-
-            if (CurrentItemMat.Kolic.HasValue && CurrentItemMat.Kolic.Value != 0)
-            {
-                CurrentItemMat.Vrijed = (decimal)CurrentItemMat.Kolic.Value * CurrentItemMat.Nc;
-            }
-            else
-
-            {
-                // U slucaju da je Kolic null ili nula, da bi izbjegli dijeljenje sa nulom
-                CurrentItemMat.Nc = 0;
-            }
-
-            dbContext.Update(CurrentItemMat);
-            dbContext.SaveChanges();
-
-            //Staviti po datumu da sortira i dodaj u listu da bi se vidjele promjene
-            MatList = new ObservableCollection<Mat>(dbContext.Mat
-                .Where(row => row.Kljnaz >= 1000 && row.Kljnaz <= 1012 && row.Status == "P")
-                .OrderBy(row => row.Datun)
-                .ToList());
-
-            UpdateCurrentItemData(dbContext);
+            if (CurrentItemMat == null) return;
+            if (!CurrentItemMat.Nc.HasValue && CurrentItemMat.Ident.HasValue && CurrentItemMat.Kljnaz.HasValue)
+                CurrentItemMat.Nc = new MaterialPostingService().ReturnPrice(CurrentItemMat.Ident.Value, CurrentItemMat.Kljnaz.Value, CurrentItemMat.Id);
+            CurrentItemMat.Vrijed = CurrentItemMat.Kolic.HasValue && CurrentItemMat.Nc.HasValue ? (decimal?)LedgerMath.Money(CurrentItemMat.Kolic.Value * CurrentItemMat.Nc.Value) : null;
+            OnPropertyChanged(nameof(CurrentItemMat));
         }
 
         public void Osvjezi()
@@ -581,10 +555,10 @@ namespace Materijalno.ViewModel
 
                 if (resultMessageBox == MessageBoxResult.Yes)
                 {
-                    dbContext.Mat.Remove(CurrentItemMat);
-                    dbContext.SaveChanges();
+                    new MaterialPostingService().Delete(CurrentItemMat);
 
                     MatList.Remove(CurrentItemMat);
+                    if (MatList.Count == 0) { CurrentIndex = 0; CurrentItemMat = new Mat(); OnPropertyChanged(nameof(MatList)); return; }
 
                 }
                 else if (resultMessageBox == MessageBoxResult.No)
@@ -630,8 +604,8 @@ namespace Materijalno.ViewModel
                     .FirstOrDefault();
                 }
 
-                dbContext.Update(CurrentItemMat);
-                dbContext.SaveChanges();
+                CurrentItemMat = new MaterialPostingService().Save(CurrentItemMat);
+                if (MatList != null) { int savedIndex = MatList.ToList().FindIndex(m => m.Id == CurrentItemMat.Id); if (savedIndex >= 0) MatList[savedIndex] = CurrentItemMat; }
 
                 System.Windows.MessageBox.Show("Uspješno ste izmijenili", "Potvrda", MessageBoxButton.OK, MessageBoxImage.Information);
 
@@ -749,7 +723,7 @@ namespace Materijalno.ViewModel
                 currentItemMat.Brdok = "";
                 currentItemMat.Brfak = "";
 
-                var nextYearJanuaryFirst = new DateTime(DateTime.Today.Year + 1, 1, 1);
+                var nextYearJanuaryFirst = new DateTime(new MaterialPostingService().ActiveYear(), 1, 1);
                 currentItemMat.Datun = nextYearJanuaryFirst;
                 currentItemMat.Datnar = nextYearJanuaryFirst;
 
@@ -771,8 +745,8 @@ namespace Materijalno.ViewModel
                 }
 
                 
-                dbContext.Update(CurrentItemMat);
-                dbContext.SaveChanges();
+                CurrentItemMat = new MaterialPostingService().Save(CurrentItemMat);
+                if (MatList != null) { int savedIndex = MatList.ToList().FindIndex(m => m.Id == CurrentItemMat.Id); if (savedIndex >= 0) MatList[savedIndex] = CurrentItemMat; }
 
                 //Staviti po datumu da sortira i dodaj u listu da bi se vidjele promjene
                 MatList = new ObservableCollection<Mat>(dbContext.Mat
@@ -913,6 +887,12 @@ namespace Materijalno.ViewModel
         // Ova metoda radi update CurrentItem i CurrentItemTabMaterijala based on the current index
         private void UpdateCurrentItemData(materijalno_knjigovodstvoContext dbContext)
         {
+            if (MatList == null || MatList.Count == 0)
+            {
+                CurrentIndex = 0; CurrentItemMat = new Mat(); return;
+            }
+            CurrentIndex = Math.Max(0, Math.Min(CurrentIndex, MatList.Count - 1));
+
             if (CurrentItemMat != null)
             {
                 for (int i = 0; i < MatList.Count(); i++)

@@ -35,7 +35,7 @@ namespace Materijalno.Model.EntityModels
         {
             if (!optionsBuilder.IsConfigured)
             {
-                var cs = ConfigurationManager.ConnectionStrings["MaterijalnoDb"].ConnectionString;
+                var cs = Materijalno.Model.Services.DatabaseConfiguration.MaterialConnectionString;
                 optionsBuilder.UseSqlServer(cs);
             }
         }
@@ -128,12 +128,12 @@ namespace Materijalno.Model.EntityModels
                     .IsRequired()
                     .HasColumnName("brdokst")
                     .HasMaxLength(50)
-                    .IsUnicode(false);
+                    ;
 
                 entity.Property(e => e.Brfak)
                     .HasColumnName("brfak")
                     .HasMaxLength(50)
-                    .IsUnicode(false);
+                    ;
 
                 entity.Property(e => e.Bronsta).HasColumnName("bronsta");
 
@@ -149,7 +149,7 @@ namespace Materijalno.Model.EntityModels
                     .IsRequired()
                     .HasColumnName("datvalst")
                     .HasMaxLength(50)
-                    .IsUnicode(false);
+                    ;
 
                 entity.Property(e => e.Devdugst).HasColumnName("devdugst");
 
@@ -197,47 +197,47 @@ namespace Materijalno.Model.EntityModels
                 entity.Property(e => e.Analst)
                     .HasColumnName("analst")
                     .HasMaxLength(50)
-                    .IsUnicode(false);
+                    ;
 
                 entity.Property(e => e.Brdok)
                     .HasColumnName("brdok")
                     .HasMaxLength(50)
-                    .IsUnicode(false);
+                    ;
 
                 entity.Property(e => e.Brfak)
                     .HasColumnName("brfak")
                     .HasMaxLength(50)
-                    .IsUnicode(false);
+                    ;
 
                 entity.Property(e => e.Brnar)
                     .HasColumnName("brnar")
                     .HasMaxLength(50)
-                    .IsUnicode(false);
+                    ;
 
                 entity.Property(e => e.Cartro)
                     .HasColumnName("cartro")
                     .HasMaxLength(50)
-                    .IsUnicode(false);
+                    ;
 
                 entity.Property(e => e.Datnar)
                     .HasColumnName("datnar")
                     .HasColumnType("datetime")
-                    .IsUnicode(false);
+                    ;
 
                 entity.Property(e => e.Datun)
                     .HasColumnName("datun")
                     .HasColumnType("datetime")
-                    .IsUnicode(false);
+                    ;
 
                 entity.Property(e => e.Fcj)
                     .HasColumnName("fcj")
                     .HasMaxLength(50)
-                    .IsUnicode(false);
+                    ;
 
                 entity.Property(e => e.Fvrijed)
                     .HasColumnName("fvrijed")
                     .HasMaxLength(50)
-                    .IsUnicode(false);
+                    ;
 
                 entity.Property(e => e.Ident).HasColumnName("ident");
 
@@ -252,7 +252,7 @@ namespace Materijalno.Model.EntityModels
                 entity.Property(e => e.Konto2)
                     .HasColumnName("konto2")
                     .HasMaxLength(50)
-                    .IsUnicode(false);
+                    ;
 
                 entity.Property(e => e.Kontosklad).HasColumnName("kontosklad");
 
@@ -261,7 +261,7 @@ namespace Materijalno.Model.EntityModels
                 entity.Property(e => e.Medus)
                     .HasColumnName("medus")
                     .HasMaxLength(50)
-                    .IsUnicode(false);
+                    ;
 
                 entity.Property(e => e.Mjtst).HasColumnName("mjtst");
 
@@ -274,19 +274,19 @@ namespace Materijalno.Model.EntityModels
                 entity.Property(e => e.Ppp)
                     .HasColumnName("ppp")
                     .HasMaxLength(50)
-                    .IsUnicode(false);
+                    ;
 
                 entity.Property(e => e.Redbr).HasColumnName("redbr");
 
                 entity.Property(e => e.Status)
                     .HasColumnName("status")
                     .HasMaxLength(50)
-                    .IsUnicode(false);
+                    ;
 
                 entity.Property(e => e.Tarifa)
                     .HasColumnName("tarifa")
                     .HasMaxLength(50)
-                    .IsUnicode(false);
+                    ;
 
                 entity.Property(e => e.Troskovi).HasColumnName("troskovi");
 
@@ -297,7 +297,7 @@ namespace Materijalno.Model.EntityModels
                 entity.Property(e => e.Zavtro)
                     .HasColumnName("zavtro")
                     .HasMaxLength(50)
-                    .IsUnicode(false);
+                    ;
             });
 
             modelBuilder.Entity<Inv>(entity =>
@@ -309,27 +309,27 @@ namespace Materijalno.Model.EntityModels
                 entity.Property(e => e.Analst)
                     .HasColumnName("analst")
                     .HasMaxLength(50)
-                    .IsUnicode(false);
+                    ;
 
                 entity.Property(e => e.Brdok)
                     .HasColumnName("brdok")
                     .HasMaxLength(50)
-                    .IsUnicode(false);
+                    ;
 
                 entity.Property(e => e.Brfak)
                     .HasColumnName("brfak")
                     .HasMaxLength(50)
-                    .IsUnicode(false);
+                    ;
 
                 entity.Property(e => e.Brnar)
                     .HasColumnName("brnar")
                     .HasMaxLength(50)
-                    .IsUnicode(false);
+                    ;
 
                 entity.Property(e => e.Cartro)
                     .HasColumnName("cartro")
                     .HasMaxLength(50)
-                    .IsUnicode(false);
+                    ;
 
                 entity.Property(e => e.Datnar)
                     .HasColumnName("datnar")
@@ -342,12 +342,12 @@ namespace Materijalno.Model.EntityModels
                 entity.Property(e => e.Fcj)
                     .HasColumnName("fcj")
                     .HasMaxLength(50)
-                    .IsUnicode(false);
+                    ;
 
                 entity.Property(e => e.Fvrijed)
                     .HasColumnName("fvrijed")
                     .HasMaxLength(50)
-                    .IsUnicode(false);
+                    ;
 
                 entity.Property(e => e.Ident).HasColumnName("ident");
 
@@ -360,7 +360,7 @@ namespace Materijalno.Model.EntityModels
                 entity.Property(e => e.Konto2)
                     .HasColumnName("konto2")
                     .HasMaxLength(50)
-                    .IsUnicode(false);
+                    ;
 
                 entity.Property(e => e.Kontosklad).HasColumnName("kontosklad");
 
@@ -381,19 +381,19 @@ namespace Materijalno.Model.EntityModels
                 entity.Property(e => e.Ppp)
                     .HasColumnName("ppp")
                     .HasMaxLength(50)
-                    .IsUnicode(false);
+                    ;
 
                 entity.Property(e => e.Redbr).HasColumnName("redbr");
 
                 entity.Property(e => e.Status)
                     .HasColumnName("status")
                     .HasMaxLength(50)
-                    .IsUnicode(false);
+                    ;
 
                 entity.Property(e => e.Tarifa)
                     .HasColumnName("tarifa")
                     .HasMaxLength(50)
-                    .IsUnicode(false);
+                    ;
 
                 entity.Property(e => e.Troskovi)
                     .HasColumnName("troskovi")
@@ -410,12 +410,12 @@ namespace Materijalno.Model.EntityModels
                 entity.Property(e => e.Zavtro)
                     .HasColumnName("zavtro")
                     .HasMaxLength(50)
-                    .IsUnicode(false);
+                    ;
             });
 
             modelBuilder.Entity<TabelaMaterijala>(entity =>
             {
-                entity.HasKey(e => e.Ident);
+                entity.HasKey(e => e.Id);
 
                 entity.ToTable("tabela_materijala");
 
@@ -424,17 +424,17 @@ namespace Materijalno.Model.EntityModels
                 entity.Property(e => e.Jedm)
                     .HasColumnName("jedm")
                     .HasMaxLength(3)
-                    .IsUnicode(false);
+                    ;
 
                 entity.Property(e => e.Konto1).HasColumnName("konto1");
 
                 entity.Property(e => e.Konto2)
                     .HasColumnName("konto2")
-                    .IsUnicode(false);
+                    ;
 
                 entity.Property(e => e.Nazmat)
                     .HasColumnName("nazmat")
-                    .HasMaxLength(38);
+                    .HasMaxLength(220);
 
                 entity.Property(e => e.Siftar).HasColumnName("siftar");
             });

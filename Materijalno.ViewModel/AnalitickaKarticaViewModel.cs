@@ -40,8 +40,7 @@ namespace Materijalno.ViewModel
         //private TabelaMaterijala currentItemTabKonto1;
         private SifarnikSkladista currentItemTabSkladista;
         private SifarnikSkladista currentItemTabSkladistaUlaza;
-        string connectionString = "Server= 192.168.1.213;Trusted_Connection=False;" +
-             "MultipleActiveResultSets=true;User Id=sa;Password=Lutrija1;";
+        string connectionString = Materijalno.Model.Services.DatabaseConfiguration.MaterialConnectionString;
 
         string queryStringStaraSifra_Ime = "SELECT STARA_SIFRA, IME FROM [FINANSIJE2-LINKED SERVER]..[IBS].[GR_KOMITENTI]";
         string currentNazivZaSifruKomitenta;
@@ -227,6 +226,13 @@ namespace Materijalno.ViewModel
                      .ToList());
 
                 UpdateCurrentItemData(dbContext);
+
+                // Report filters are separate from the selected ledger row;
+                // an empty Fox document date must not become the period end.
+                int year = new Materijalno.Model.Services.MaterialPostingService().ActiveYear();
+                CurrentItemMat = new Mat { Ident = CurrentItemMat.Ident, Kljnaz = CurrentItemMat.Kljnaz,
+                    Datun = new DateTime(year, 1, 1),
+                    Datnar = year == DateTime.Today.Year ? DateTime.Today : new DateTime(year, 12, 31) };
 
                 StaraSifra_Ime_List = DohvatiNazivKomitenta();
             }
@@ -830,6 +836,12 @@ namespace Materijalno.ViewModel
         // Ova metoda radi update CurrentItem i CurrentItemTabMaterijala based on the current index
         private void UpdateCurrentItemData(materijalno_knjigovodstvoContext dbContext)
         {
+            if (MatList == null || MatList.Count == 0)
+            {
+                CurrentIndex = 0; CurrentItemMat = new Mat(); return;
+            }
+            CurrentIndex = Math.Max(0, Math.Min(CurrentIndex, MatList.Count - 1));
+
             if (CurrentItemMat != null)
             {
                 for (int i = 0; i < MatList.Count(); i++)

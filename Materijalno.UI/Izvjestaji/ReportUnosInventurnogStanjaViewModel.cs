@@ -12,7 +12,7 @@ namespace Materijalno.UI.Izvjestaji
     public class ReportUnosInventurnogStanjaViewModel
     {
         public int Id { get; set; }
-        public int Kljnaz { get; set; }
+        public int? Kljnaz { get; set; }
         public int? Ident { get; set; }
         public DateTime? Datun { get; set; }
         public string Analst { get; set; }
@@ -20,12 +20,12 @@ namespace Materijalno.UI.Izvjestaji
         public string Brnar { get; set; }
         public DateTime? Datnar { get; set; }
         public string Brfak { get; set; }
-        public int? Kolic { get; set; }
+        public decimal? Kolic { get; set; }
         public decimal Nc { get; set; }
         public decimal Vrijed { get; set; }
         public int? Redbr { get; set; }
         public string Status { get; set; }
-        public int Konto1 { get; set; }
+        public int? Konto1 { get; set; }
         public string Konto2 { get; set; }
         public string Fcj { get; set; }
         public decimal? Troskovi { get; set; }

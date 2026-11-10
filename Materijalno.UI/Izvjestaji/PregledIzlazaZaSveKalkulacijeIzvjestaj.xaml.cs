@@ -1,3 +1,4 @@
+using Materijalno.Model.Services;
 ﻿using Microsoft.Reporting.WinForms;
 using Materijalno.ViewModel;
 using Materijalno.UI;
@@ -56,7 +57,7 @@ namespace Materijalno.UI.Izvjestaji
                 pregledIzlazaZaSveKalkulacijevm.CurrentItemMat.Datnar.Value.Date.AddDays(1);
 
             MatList = new ObservableCollection<Mat>(
-                dbContext.Mat
+                ReportQueries.Period(dbContext, startDate, endDateExclusive.AddDays(-1))
                     .Where(row =>
                         row.Status == "I" &&
                         row.Kljnaz == pregledIzlazaZaSveKalkulacijevm.CurrentItemMat.Kljnaz &&
@@ -99,14 +100,14 @@ namespace Materijalno.UI.Izvjestaji
 
             reportDt.Columns.Add("Redbr").DataType = typeof(int);
             reportDt.Columns.Add("Ident").DataType = typeof(int);
-            reportDt.Columns.Add("Nazmat").DataType = typeof(string);
-            reportDt.Columns.Add("Kolic").DataType = typeof(int);
+            reportDt.Columns.Add("NazMat").DataType = typeof(string);
+            reportDt.Columns.Add("Kolic").DataType = typeof(decimal);
             reportDt.Columns.Add("Nc").DataType = typeof(decimal);
             reportDt.Columns.Add("Vrijed").DataType = typeof(decimal);
             reportDt.Columns.Add("Brfak").DataType = typeof(string);
             reportDt.Columns.Add("Datun").DataType = typeof(DateTime);
             reportDt.Columns.Add("NazivOrg").DataType = typeof(string);
-            //reportDt.Columns.Add("Totalvrijednost").DataType = typeof(decimal);
+            //reportDt.Columns.Add("TotalVrijednost").DataType = typeof(decimal);
             reportDt.Columns.Add("Status").DataType = typeof(string);
             reportDt.Columns.Add("Kljnaz").DataType = typeof(int);
             reportDt.Columns.Add("Datnar").DataType = typeof(DateTime);

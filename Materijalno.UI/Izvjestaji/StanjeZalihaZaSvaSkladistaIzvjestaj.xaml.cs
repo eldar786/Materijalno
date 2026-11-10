@@ -1,3 +1,4 @@
+using Materijalno.Model.Services;
 ﻿using Microsoft.Reporting.WinForms;
 using Materijalno.ViewModel;
 using Materijalno.UI;
@@ -47,8 +48,8 @@ namespace Materijalno.UI.Izvjestaji
 
             var dbContext = new materijalno_knjigovodstvoContext();
 
-            MatList = new ObservableCollection<Mat>(dbContext.Mat
-                     .Where(row => row.Datun <= stanjeZalihaZaSvaSkladistavm.CurrentItemMat.Datun && row.Ident != 0) // Remove specific Kljnaz filtering
+            MatList = new ObservableCollection<Mat>(ReportQueries.AtDate(dbContext, stanjeZalihaZaSvaSkladistavm.CurrentItemMat.Datun ?? DateTime.Today)
+                     .Where(row => true && row.Ident != 0) // Remove specific Kljnaz filtering
                      .AsEnumerable() // Forces execution in-memory to enable GroupBy & OrderBy
                      .GroupBy(row => new { row.Kljnaz, row.Ident }) // Group by BOTH Kljnaz and Ident
                      .Select(grouped => new Mat
@@ -94,8 +95,8 @@ namespace Materijalno.UI.Izvjestaji
             reportDt = new DataTable("StanjeZalihaZaSvaSkladista");
 
             reportDt.Columns.Add("Ident").DataType = typeof(int);
-            reportDt.Columns.Add("Nazmat").DataType = typeof(string);
-            reportDt.Columns.Add("Kolic").DataType = typeof(int);
+            reportDt.Columns.Add("NazMat").DataType = typeof(string);
+            reportDt.Columns.Add("Kolic").DataType = typeof(decimal);
             reportDt.Columns.Add("Vrijed").DataType = typeof(decimal);
             reportDt.Columns.Add("Datun").DataType = typeof(DateTime);
             reportDt.Columns.Add("NazivOrg").DataType = typeof(string);

@@ -293,53 +293,25 @@ namespace Materijalno.ViewModel
         {
             OdabraniVM = new PregledIzlazaZaJednuKalkulacijuViewModel(this);
         }
-
         public void Arhiva()
         {
-            MessageBoxResult rezultat = MessageBox.Show("Da li ste sigurni da ûelite arhivirati?", "Potvrda arhiviranja", MessageBoxButton.YesNo, MessageBoxImage.Question);
-
-            if (rezultat != MessageBoxResult.Yes)
+            if (MessageBox.Show("Napraviti rezervnu kopiju trenutne Fox SQL baze?", "Arhiva", MessageBoxButton.YesNo, MessageBoxImage.Question) != MessageBoxResult.Yes) return;
+            try
             {
-                return;
+                using (var connection = new SqlConnection(Materijalno.Model.Services.DatabaseConfiguration.MaterialConnectionString))
+                {
+                    connection.Open();
+                    string directory;
+                    using (var cmd = new SqlCommand("SELECT CONVERT(nvarchar(4000),SERVERPROPERTY('InstanceDefaultBackupPath'))", connection)) directory = Convert.ToString(cmd.ExecuteScalar());
+                    if (string.IsNullOrWhiteSpace(directory)) throw new InvalidOperationException("SQL Server nema pode≈°enu lokaciju rezervnih kopija.");
+                    string file = Path.Combine(directory, connection.Database + "_" + DateTime.Now.ToString("yyyyMMdd_HHmmss") + "_" + Guid.NewGuid().ToString("N").Substring(0, 8) + ".bak");
+                    string database = connection.Database.Replace("]", "]]");
+                    using (var cmd = new SqlCommand("BACKUP DATABASE [" + database + "] TO DISK=@path WITH COPY_ONLY,CHECKSUM", connection))
+                    { cmd.Parameters.AddWithValue("@path", file); cmd.CommandTimeout = 300; cmd.ExecuteNonQuery(); }
+                    MessageBox.Show("Rezervna kopija je saƒçuvana na SQL serveru:\n" + file, "Arhiva", MessageBoxButton.OK, MessageBoxImage.Information);
+                }
             }
-            ////string conn = "Server= 192.168.1.213;Trusted_Connection=False;" +
-            ////             "MultipleActiveResultSets=true;User Id=sa;Password=Lutrija1;";
-
-            //string connectionString = "Data Source=192.168.1.213;Initial Catalog=materijalno_knjigovodstvo;Integrated Security=True";
-
-            string connectionString = "Server=192.168.1.213;Database=materijalno_knjigovodstvo;Trusted_Connection=True;";
-
-            string serverBackupPath = @"C:\Program Files\Microsoft SQL Server\MSSQL15.LUTRIJASQL\MSSQL\Backup\materijalno_knjigovodstvo_" + DateTime.Now.ToString("yyyyMMdd_HHmmss") + ".bak";
-
-            //Ovaj if je iskljucen jer ne mozemo citati sa localne strane server path
-            //if (Directory.Exists(Path.GetDirectoryName(serverBackupPath)))
-            //{
-                string backupQuery = $@"
-            BACKUP DATABASE [materijalno_knjigovodstvo]
-            TO DISK = N'{serverBackupPath}'
-            WITH FORMAT, INIT, 
-            NAME = 'Full Backup of materijalno_knjigovodstvo';";
-
-                try
-                {
-                    using (SqlConnection conn = new SqlConnection(connectionString))
-                    {
-                        conn.Open();
-                        using (SqlCommand cmd = new SqlCommand(backupQuery, conn))
-                        {
-                            cmd.ExecuteNonQuery();
-                        }
-                    }
-
-                    // Optional: Success message
-                    System.Windows.MessageBox.Show("Uspjeöno ste obavili arhiviranje!", "Potvrda", MessageBoxButton.OK, MessageBoxImage.Information);
-                }
-                catch (Exception ex)
-                {
-                    // Handle error
-                    System.Windows.MessageBox.Show(ex.Message, "Greöka", MessageBoxButton.OK, MessageBoxImage.Error);
-                }
-            //}
+            catch (Exception ex) { MessageBox.Show(ex.Message, "Arhiva", MessageBoxButton.OK, MessageBoxImage.Warning); }
         }
 
         public object OdabraniVM

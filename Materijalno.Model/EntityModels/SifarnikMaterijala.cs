@@ -15,6 +15,6 @@ namespace Materijalno.Model.EntityModels
         public string Jedm { get; set; }
         public int? Siftar { get; set; }
         public int? Konto1 { get; set; }
-        public int? Konto2 { get; set; }
+        public string Konto2 { get; set; }
     }
 }

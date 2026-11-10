@@ -1,0 +1,117 @@
+MATERIJALNO - PRODUKCIJSKI FOX PODACI
+
+Pokretanje: dvaput kliknite "Pokreni Materijalno.cmd" u ovom folderu.
+Izvrsna aplikacija: artifacts\FoxApp\Materijalno.UI.exe
+Nova SQL baza: materijalno_fox_20261105_102038
+
+Izvor: C:\Users\eldar.bajrovic\OneDrive - Lutrija BiH\Radna površina\MATVM
+Presjek podataka: 5. 11. 2026. u 10:20:39 (Europe/Sarajevo).
+Ovo je preneseni presjek. Nova WPF aplikacija radi u vlastitoj SQL bazi.
+
+Preneseno je svih 35 DBF tabela, ukupno 137.713 fizickih redova,
+ukljucujuci obrisane redove u izvornoj arhivi. Provjereno je
+3.700.891 polje bez razlika. Svih 61 izvornih podatkovnih datoteka
+(DBF, FPT, CDX, DBC i druge prisutne podatkovne datoteke) sacuvano je
+i na disku i u dbo.fox_source_files kao identican binarni sadrzaj.
+Sve tabele nalaze se i u fox_raw; operativne tabele WPF-a popunjene
+su aktivnim podacima iz produkcije.
+
+Promet: 3.925 aktivnih izvornih redova mat, od toga 3.916 knjizenja
+i 9 praznih izvornih nacrta koji ne mijenjaju zalihu.
+Materijali: 175. Skladista: 13. Finansijske stavke: 5.544.
+Medjuskladisni parovi: 924. Cetiri potpuno identicne duple kontne
+veze imaju jednu operativnu vezu; svi izvorni redovi su sacuvani.
+
+Saldo svih knjizenja: 13.201.650,00 kom / 1.807.828,77 KM.
+Native Fox i SQL dali su isti broj knjizenja, kolicinu i vrijednost.
+Posljednji datum knjizenja u dostavljenoj produkcijskoj mapi
+je 30.09.2026.
+Brojaci za 2026: ulaz 25, izlaz/povrat 239, medjuskladisnica 188.
+Originalni INV sadrzi jedan prazan red, bez snimljenog popisa.
+Popis se ne dopunjava izmisljenim ili ranijim testnim podacima.
+
+Provjereno je otvaranje svih cetiri vrste Prometa i stvarni izvjestaji
+Dnevnik, Analiticka kartica, Inventurni listici i stanje svih skladista.
+Stanje svih skladista u izvjestaju slaze se s ukupnim saldom.
+Finansijski prijenos u Oracle ostaje iskljucen; nista nije poslano.
+
+Testna verzija "Pregled testnog Prometa.cmd" i njena baza su odvojene.
+Testni materijali 990201/990202 i testni dokumenti nisu preneseni
+u ovu novu produkcijsku kopiju. Za redovan rad koristite glavni launcher.
+
+Prethodna SQL baza ostaje sacuvana. Napravljen je COPY_ONLY SQL backup
+nove baze i provjeren RESTORE VERIFYONLY/CHECKSUM.
+Rezultati provjera, presjek i prethodne konfiguracije:
+D:\Materijalno Novo\artifacts\ProductionImport\20261105_102038
+
+ISPRAVKE TROSKOVA I INVENTURNIH ZALIHA - 05.11.2026.
+Pregled troskova sada koristi samo izlaze i Fox izraze predznaka.
+Kockice / 1001 / 5111116 za 2026: 183,92.
+Unos skladista u Stampanje inventurnih zaliha vise se ne brise.
+Bez snimljenog popisa izvjestaj se otvara s inventurnim nulama, kao Fox.
+To ne snima inventurni popis; knjigovodstvene zalihe ostaju vidljive.
+Ispravke su postavljene i u Debug verziju za pokretanje iz Visual Studija.
+Detaljna provjera: D:\Materijalno Novo\artifacts\FoxComparison\CostsInventory_20261105_142136
+
+
+NALOZI ZA FINANSIJE - 06.11.2026.
+Ispravljeni unos kalkulacije, datum/opisi/analitike i stampa naloga.
+Provedeno 113 provjera na odvojenoj finansijskoj testnoj kopiji.
+Oracle prijenos i dalje je iskljucen; radna baza ne sadrzi testne naloge.
+Detalji: D:\Materijalno Novo\artifacts\FoxComparison\Finance_20261106_084644
+
+
+06.11.2026. - Novi dizajn aplikacije
+Novi izgled je postavljen u standardni Debug (Visual Studio) i artifacts\FoxApp (Pokreni Materijalno.cmd).
+Nazivi, hijerarhija i redoslijed menija ostali su isti.
+Tamni meni označava aktivnu stranicu; obrasci i tabele koriste zajedničku svijetlu temu.
+Brojčana polja su desno poravnata; postojeći formati i preciznost iznosa su sačuvani.
+Provjere: 49 provjera menija/veza i 70 vizuelnih provjera ekrana i kontrola; build bez grešaka.
+Provjere su koristile izolovane testne podatke, bez snimanja dokumenata ili formiranja naloga.
+Detalji i slike: artifacts\DesktopDesign_20261106_094829.
+
+06.11.2026. - Ispravka: Izlaz materijala / Traži / Nova stavka
+Nova stavka sada otvara radni unos bez greške Sequence contains no elements.
+Novi redni broj uzima u obzir postojeće radne stavke istog dokumenta i godine.
+Enter u polju Količina potvrđuje unos, obračuna nabavnu cijenu/vrijednost i prebacuje fokus na Snimi; ne snima automatski.
+Provjereno 17 regresijskih slučajeva na izolovanoj testnoj bazi; privremeni testni redovi su uklonjeni i stanje vraćeno.
+Ispravka je postavljena u Debug (Visual Studio) i artifacts\FoxApp (Pokreni Materijalno.cmd).
+
+06.11.2026. - Međuskladišnica: fokus, dugmad i brisanje
+Količina + Enter -> Snimi; uspješno Snimi -> Slij. stavka; Slij. stavka -> Šifra materijala (Ident).
+Tokom novog unosa i sljedeće stavke dostupni su samo Snimi i Odustani.
+Nakon snimanja dostupni su Slij. stavka i Izlaz. Izlaz vraća komande za pregled, novu međuskladišnicu, štampu i brisanje.
+Brisanje osvježava prikaz i bira preostali red; prazan pregled čisti materijal i oba naziva skladišta.
+Provjereno 52 slučaja na novoj izolovanoj SQL kopiji; glavna konfiguracija baze je nepromijenjena.
+Fox poređenje je urađeno čitanjem 4 SCX/SCT datoteke, bez pokretanja ili izmjena Fox aplikacije.
+Ispravka je postavljena u Debug (Visual Studio) i artifacts\FoxApp (Pokreni Materijalno.cmd).
+
+06.11.2026. - Ujednačena pomoćna polja međuskladišnice
+Nova međuskladišnica, Nova stavka i Slij. stavka koriste jednake početne vrijednosti.
+FCJ, TROSKOVI, CARTRO, ZAVTRO, PPP, FVRIJED, PORPPP i TROSPE: nula; TARIFA: prazan tekst; neuneseni OURST i MJTST: nula.
+I izlazni i ulazni red prenosa dobijaju popunjene pomoćne vrijednosti. Sačuvane nenulte vrijednosti se zadržavaju.
+Nakon provjerenog SQL backupa usklađena su tri ranija WPF reda s nedostajućim vrijednostima. Količine, cijene, vrijednosti i veze dokumenata imaju isti kontrolni hash prije i poslije.
+FOX_RECNO je izvorni fizički broj zapisa u Fox DBF tabeli pri importu. Novi WPF red nema izvorni Fox zapis i ispravno ima NULL; identitet novog reda vodi SQL ID i line_token.
+Provjera: 65 testova na izolovanoj bazi i dodatna provjera sigurnog popunjavanja ranijih NULL polja.
+Ispravka je postavljena u Debug (Visual Studio) i artifacts\FoxApp (Pokreni Materijalno.cmd).
+
+06.11.2026. - Povrat materijala: tastatura i datumi
+Količina + Enter -> Snimi; uspješno Snimi -> Slij. stavka; Slij. stavka -> Šifra materijala (Ident).
+Oba datumska polja (datun i datnar) automatski dodaju tačke: 06112026 -> 06.11.2026.
+Enter iz datun potvrđuje datum i fokusira broj dokumenta; Enter iz datnar potvrđuje datum i fokusira Ident.
+Neispravan datum zadržava fokus i prethodnu vrijednost. Podržani su ispravan unos prijestupne godine, brisanje i lijepljenje datuma.
+Snimanje povrata odmah prebacuje fokus na sljedeću stavku, bez dodatnog prozora potvrde uspjeha.
+Provjera: 57 regresijskih provjera na izolovanoj testnoj bazi; dva povrata snimljena i provjerena, testni redovi potom uklonjeni i početno stanje vraćeno.
+Ispravka je postavljena u Debug (Visual Studio) i artifacts\FoxApp (Pokreni Materijalno.cmd).
+
+
+09.11.2026. - PROMET / ULAZ: vraćen detaljni izvještaj prema Fox ulazi.frx
+- Pokrenuti F5 iz Visual Studija ili Pokreni Materijalno.cmd.
+- Promet > Ulaz materijala > izabrati snimljenu kalkulaciju > Štampa.
+- Otvara se A4 pregled sa toolbarom za štampanje, PDF izvoz i pregled stranica.
+- Prikazuje broj kalkulacije, datum dokumenta DATNAR, dobavljača, KONTO1 i naziv konta.
+- Vraćene kolone: redni broj/tarifa iz šifarnika materijala, šifra/naziv, jedinica mjere, količina, fakturna cijena (4 decimale), fakturna vrijednost, troškovi, PDV, nabavna cijena (9 decimala) i vrijednost.
+- Analitika carine, špedicije i ostalih troškova po stavci; ukupne vrijednosti na kraju. PDV u detalju prati kumulativni zbir iz Fox FRX predloška.
+- Po Fox pravilima kalkulacija se ograničava i datumima, dobavljačem i brojem dokumenta, uz skladište i knjigovodstvenu godinu nove aplikacije.
+- Provjereno 22 uvezena U reda prema originalnom mat.dbf, 397 provjera prošlo, 6 PDF izvještaja bez upozorenja; primjer od 13 stavki ima 4 ispravne stranice.
+- Nisu mijenjani podaci u SQL ili Fox bazama niti konekcije. Izmjena postavljena u Debug i artifacts/FoxApp.

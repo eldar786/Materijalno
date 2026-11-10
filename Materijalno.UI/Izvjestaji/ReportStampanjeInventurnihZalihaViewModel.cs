@@ -20,7 +20,7 @@ namespace Materijalno.UI.Izvjestaji
         public string Brnar { get; set; }
         public DateTime? Datnar { get; set; }
         public string Brfak { get; set; }
-        public int? Kolic { get; set; }
+        public decimal? Kolic { get; set; }
         public decimal Nc { get; set; }
         public decimal Vrijed { get; set; }
         public int? Redbr { get; set; }
@@ -44,18 +44,18 @@ namespace Materijalno.UI.Izvjestaji
         public string NazivOrg { get; set; }
         public string NazMat { get; set; }
         public decimal VrijedRazlika { get; set; }
-        public int? KolicRazlika { get; set; }
+        public decimal? KolicRazlika { get; set; }
 
-        public int? KolicRazlikaVisak { get; set; }
-        public int? KolicRazlikaManjak { get; set; }
+        public decimal? KolicRazlikaVisak { get; set; }
+        public decimal? KolicRazlikaManjak { get; set; }
 
         public decimal? VrijedRazlikaVisak { get; set; }
         public decimal? VrijedRazlikaManjak { get; set; }
 
         //Ovo je potrebno da bi u izvjestaju prikazivao podatke iz dvije razlicite tabele 'Mat' i 'Inv'
-        public int MatKolic { get; set; }
+        public decimal MatKolic { get; set; }
         public decimal MatVrijed { get; set; }
-        public int InvKolic { get; set; }
+        public decimal InvKolic { get; set; }
         public decimal InvVrijed { get; set; }
 
         public ObservableCollection<Inv> InvList;
