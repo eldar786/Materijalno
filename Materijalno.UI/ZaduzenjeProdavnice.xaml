@@ -12,7 +12,7 @@
    <Grid>
     <Grid.ColumnDefinitions><ColumnDefinition Width="140"/><ColumnDefinition Width="*"/><ColumnDefinition Width="16"/><ColumnDefinition Width="110"/></Grid.ColumnDefinitions>
     <TextBlock Text="Broj kalkulacije" FontFamily="Segoe UI" FontSize="14" VerticalAlignment="Center"/>
-    <TextBox x:Name="txtBrojKalkulacije" Grid.Column="1" Text="{Binding BrojMedjuskladisnice, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Height="40" FontFamily="Segoe UI" FontSize="14" Padding="12,8" BorderBrush="#CDD8E0" BorderThickness="1" VerticalContentAlignment="Center"/>
+    <TextBox x:Name="txtBrojKalkulacije" Grid.Column="1" Text="{Binding BrojMedjuskladisnice, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Height="40" FontFamily="Segoe UI" FontSize="14" Padding="12,4" BorderBrush="#CDD8E0" BorderThickness="1" VerticalContentAlignment="Center"/>
     <Button x:Name="btnFormiraj" Grid.Column="3" Content="Formiraj" Command="{Binding FormirajCommand}" Height="40" FontFamily="Segoe UI" FontSize="14" FontWeight="SemiBold" Background="#087F82" Foreground="White" BorderThickness="0" Cursor="Hand" Style="{StaticResource FinancePrimaryButton}"/>
    </Grid>
   </Border>

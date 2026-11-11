@@ -171,3 +171,10 @@ Backup poslije: C:\Program Files\Microsoft SQL Server\MSSQL15.LUTRIJASQL\MSSQL\B
 - Za 31.10.2026. generisan fajl identičan korisnikovom Fox primjeru bajt-po-bajt: 24.863 bajta, 319 redova, 11 stranica.
 - Prošlo 18 provjera, uključujući kreiranje/prepisivanje fajla i raspored WPF dugmeta. Korisnikov originalni fajl ostao je nepromijenjen.
 - Izmjena kompajlirana u Debug i postavljena u artifacts/FoxApp i artifacts/PrometTest. Konfiguracije i podaci u bazama nisu mijenjani. Restartovati aplikaciju/F5.
+
+
+11.11.2026. - Vidljivost Broja kalkulacije u Nalozima za finansije
+- Ispravljeno na sva četiri ekrana: Ulaz u centralni magacin, Zaduženje prodavnice, Međuskladišnica i Povrat u skladište.
+- Preveliki vertikalni padding uz zajednički TextBox predložak ostavljao je samo 6 piksela za tekst. Smanjen je sa 8 na 4, pa sada postoje 22 piksela za tekst visine 18,62.
+- Vizuelno provjerena sva četiri stvarna WPF ekrana i dvosmjerna veza unosa s ViewModelom. Dugme Formiraj nije pokretano; baze i konfiguracije nisu mijenjane.
+- Ispravka je kompajlirana i postavljena u Debug, artifacts/FoxApp i artifacts/PrometTest uz backup prethodnog UI-a. Ponovo pokrenuti aplikaciju/F5.
