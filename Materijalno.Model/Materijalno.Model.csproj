@@ -182,6 +182,7 @@
     <Compile Include="Services\ReportQueries.cs" />
     <Compile Include="Services\ReceiptPrintReport.cs" />
     <Compile Include="Services\SummaryReports.cs" />
+    <Compile Include="Services\StockFileExport.cs" />
     <Compile Include="Services\YearCloseService.cs" />
     <Compile Include="EntityModels\Mat.cs" />
     <Compile Include="EntityModels\materijalno_knjigovodstvoContext.cs" />

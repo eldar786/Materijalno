@@ -110,6 +110,11 @@
 
                 </Button>
 
+                <Button Grid.Column="4" x:Name="btnFajl" Content="Fajl" Click="fajl_button"
+                        Style="{StaticResource FinanceButton}" Width="110" Height="40" Margin="12,0,0,0"
+                        HorizontalAlignment="Left" VerticalAlignment="Center"
+                        ToolTip="Snimi izvještaj u C:\zalihe\zalihesve.TXT"/>
+
 
             </Grid>
 

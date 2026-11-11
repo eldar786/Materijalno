@@ -185,5 +185,34 @@ namespace Materijalno.UI
                 stanjeZalihaZaSvaSkladistaIzvjestaj.Show();
             }
         }
+
+        private void fajl_button(object sender, RoutedEventArgs e)
+        {
+            var vm = DataContext as StanjeZalihaZaSvaSkladistaViewModel;
+            if (vm?.CurrentItemMat == null) return;
+            dtpOd.ApplyTemplate();
+            var input = dtpOd.Template.FindName("PART_TextBox", dtpOd) as DatePickerTextBox;
+            DateTime date;
+            if (input == null || !DateTime.TryParseExact((input.Text ?? "").Trim().TrimEnd('.'),
+                new[] { "dd.MM.yyyy", "d.M.yyyy" }, CultureInfo.InvariantCulture, DateTimeStyles.None, out date))
+            {
+                MessageBox.Show("Unesite ispravan datum u formatu dd.MM.yyyy.", "Fajl", MessageBoxButton.OK, MessageBoxImage.Information);
+                dtpOd.Focus(); return;
+            }
+            dtpOd.SetCurrentValue(DatePicker.SelectedDateProperty, date.Date);
+            dtpOd.GetBindingExpression(DatePicker.SelectedDateProperty)?.UpdateSource();
+            try
+            {
+                btnFajl.IsEnabled = false;
+                Materijalno.Model.Services.StockFileExport.Export(date);
+                MessageBox.Show("Datoteka je sačuvana:\n" + Materijalno.Model.Services.StockFileExport.DefaultPath,
+                    "Fajl", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+            catch (Exception exception)
+            {
+                MessageBox.Show("Datoteka nije sačuvana.\n" + exception.Message, "Fajl", MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
+            finally { btnFajl.IsEnabled = true; }
+        }
     }
 }

@@ -161,3 +161,13 @@ Ponovo pokrenuti aplikaciju/F5 prije rada sa osvježenim podacima.
 
 Backup prije: C:\Program Files\Microsoft SQL Server\MSSQL15.LUTRIJASQL\MSSQL\Backup\materijalno_fox_20261105_102038_20261110_102040.bak
 Backup poslije: C:\Program Files\Microsoft SQL Server\MSSQL15.LUTRIJASQL\MSSQL\Backup\materijalno_fox_20261105_102038_20261110_103304.bak
+
+
+11.11.2026. - Stanje zaliha / Za sva skladišta / Fajl
+- Dodato dugme Fajl pored Štampa. Izabrati Do datuma i kliknuti Fajl.
+- Izvoz piše C:\zalihe\zalihesve.TXT; folder se kreira po potrebi, postojeći fajl zamjenjuje se novim.
+- Format je Fox REPORT FORM zalihsve ... TO FILE ... ASCII iz originalnog matvm.exe: Windows-1250 bez BOM-a, CRLF, iste kolone, cijele riječi u nazivima, isti redoslijed šifara i skladišta, podzbirovi i stranice. Izvorne vodeće nule u šiframa se čuvaju.
+- Zadržan izvorni uslov datun<=izabrani datum i redbr<>0, s knjigovodstvenom godinom izabranog datuma nove aplikacije.
+- Za 31.10.2026. generisan fajl identičan korisnikovom Fox primjeru bajt-po-bajt: 24.863 bajta, 319 redova, 11 stranica.
+- Prošlo 18 provjera, uključujući kreiranje/prepisivanje fajla i raspored WPF dugmeta. Korisnikov originalni fajl ostao je nepromijenjen.
+- Izmjena kompajlirana u Debug i postavljena u artifacts/FoxApp i artifacts/PrometTest. Konfiguracije i podaci u bazama nisu mijenjani. Restartovati aplikaciju/F5.
