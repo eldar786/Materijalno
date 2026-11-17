@@ -843,6 +843,14 @@ namespace Materijalno.ViewModel
         }
                 private void Print() { if (CurrentItemMat == null || CurrentItemMat.IsDraft) throw new InvalidOperationException("Prvo snimite kalkulaciju."); OnPrintEvent?.Invoke(); }
 
+        public void OsvjeziNazivKomitenta()
+        {
+            string code = CurrentItemMat?.Analst?.Trim();
+            CurrentNazivZaSifruKomitenta = string.IsNullOrEmpty(code) ? "" :
+                StaraSifra_Ime_List?.FirstOrDefault(row => row != null &&
+                    string.Equals(row.STARA_SIFRA?.Trim(), code, StringComparison.OrdinalIgnoreCase))?.IME ?? "";
+        }
+
         private void Osvjezi()
         {
             var dbContext = new materijalno_knjigovodstvoContext();
@@ -1580,16 +1588,7 @@ namespace Materijalno.ViewModel
             CurrentItemTabMaterijala = TebelaMaterijalaList.FirstOrDefault();
 
             // Pronađi naziv komitenta
-            CurrentNazivZaSifruKomitenta = "";
-
-            if (StaraSifra_Ime_List != null &&
-                !string.IsNullOrWhiteSpace(CurrentItemMat.Analst))
-            {
-                CurrentNazivZaSifruKomitenta =
-                    StaraSifra_Ime_List
-                        .FirstOrDefault(row =>
-                            row.STARA_SIFRA == CurrentItemMat.Analst)?.IME ?? "";
-            }
+            OsvjeziNazivKomitenta();
 
             // Ako je korisnik odabrao novog komitenta
             if (selectedKomitent != null && novaStavkaUToku)

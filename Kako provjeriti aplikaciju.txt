@@ -224,3 +224,10 @@ Backup poslije: C:\Program Files\Microsoft SQL Server\MSSQL15.LUTRIJASQL\MSSQL\B
 - QuantityInput.cs izričito je uključen u UI projekat. Ako Visual Studio zatraži osvježavanje projekta, izabrati Reload All.
 - QA i završni build uspješni. Prošla 51 provjera na stvarnim WPF kontrolama sa izoliranim DataContextom, bez SQL/Oracle konekcija ili poslovnih unosa.
 - Izmjena postavljena u Debug, artifacts/FoxApp i artifacts/PrometTest; konfiguracije nepromijenjene. Restartovati aplikaciju/F5.
+
+17.11.2026. - Ulaz: osvježavanje naziva komitenta nakon unosa šifre
+- Napuštanje Šifre komitenta (Enter/Tab ili klik u drugo polje) prvo potvrđuje tekst u CurrentItemMat.Analst, pa osvježava naziv iz već učitanog spiska komitenata.
+- Ne učitava se ponovo kalkulacija niti zamjenjuje trenutna stavka. Ostala unesena polja ostaju sačuvana u aktivnom unosu.
+- Prazna ili nepoznata šifra briše prethodni naziv. Pri traženju se zanemaruju razmaci na krajevima šifre, uz čuvanje vodećih nula u samoj šifri.
+- Prošlo 10 provjera stvarnih WPF bindinga i LostKeyboardFocus handlera sa izoliranim spiskom komitenata: promjena komitenta, vodeće nule, nepoznata/prazna šifra i nepromijenjena ostala polja. Test nije pristupao SQL/Oracle bazama.
+- QA i završni Debug build uspješni. Datoteke postavljene u Debug, artifacts/FoxApp i artifacts/PrometTest; konfiguracije nepromijenjene. Pokrenuti aplikaciju ponovo/F5.

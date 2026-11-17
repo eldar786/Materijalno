@@ -24,6 +24,16 @@ namespace Materijalno.UI
     /// </summary>
     public partial class UlazMaterijala : UserControl
     {
+        private void Komitent_LostKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
+        {
+            var input = sender as TextBox;
+            if (input == null || input.IsKeyboardFocusWithin) return;
+            // Commit the newly typed code before looking up its display name.
+            input.GetBindingExpression(TextBox.TextProperty)?.UpdateSource();
+            if (Validation.GetHasError(input)) return;
+            (DataContext as UlazMaterijalaViewModel)?.OsvjeziNazivKomitenta();
+        }
+
         private void Kolicina_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key != Key.Enter) return;

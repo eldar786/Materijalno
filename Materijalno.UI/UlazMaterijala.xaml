@@ -35,7 +35,7 @@
       <WrapPanel Margin="0,0,0,12">
         <StackPanel Orientation="Horizontal" Margin="0,0,18,4">
           <Label FontSize="13" VerticalAlignment="Center" Width="150" Padding="0,5,8,5">Šifra komitenta</Label>
-          <TextBox Text="{Binding CurrentItemMat.Analst}" x:Name="txtAnalst" CharacterCasing="Upper" KeyDown="TextBox_KeyDown" FontSize="14" VerticalAlignment="Center" MinHeight="30" Width="170">
+          <TextBox Text="{Binding CurrentItemMat.Analst, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" x:Name="txtAnalst" CharacterCasing="Upper" KeyDown="TextBox_KeyDown" LostKeyboardFocus="Komitent_LostKeyboardFocus" FontSize="14" VerticalAlignment="Center" MinHeight="30" Width="170">
             <TextBox.InputBindings>
               <MouseBinding Gesture="RightClick" Command="{Binding OtvoriKomitentListuCommand}"/>
             </TextBox.InputBindings>
