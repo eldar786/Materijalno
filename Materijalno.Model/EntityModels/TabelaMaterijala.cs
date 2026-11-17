@@ -11,7 +11,7 @@ namespace Materijalno.Model.EntityModels
     {
         public int Id { get; set; }
 
-        public int Ident { get; set; }
+        public string Ident { get; set; }
         public string Nazmat { get; set; }
         public string Jedm { get; set; }
         public int? Siftar { get; set; }

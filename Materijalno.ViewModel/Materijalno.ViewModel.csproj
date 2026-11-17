@@ -193,7 +193,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AnalitickaKarticaViewModel.cs" />
-    <Compile Include="Services\*.cs" />
+    <Compile Include="Services\FinancialOrderViewModel.cs" />
+    <Compile Include="Services\OracleFinancialGateway.cs" />
+    <Compile Include="Services\PrometNavigationGuard.cs" />
+    <Compile Include="Services\SummaryReportViewModel.cs" />
     <Compile Include="ApplicationViewModel.cs" />
     <Compile Include="CentralniMagacinViewModel.cs" />
     <Compile Include="DnevnikViewModel.cs" />

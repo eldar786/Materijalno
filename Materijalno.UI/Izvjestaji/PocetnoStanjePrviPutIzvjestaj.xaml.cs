@@ -75,7 +75,7 @@ namespace Materijalno.UI.Izvjestaji
         {
             reportDt = new DataTable("PocetnoStanjePrviPut");
 
-            reportDt.Columns.Add("Ident").DataType = typeof(int);
+            reportDt.Columns.Add("Ident").DataType = typeof(string);
             reportDt.Columns.Add("NazMat").DataType = typeof(string);
             reportDt.Columns.Add("Kolic").DataType = typeof(decimal);
             reportDt.Columns.Add("Vrijed").DataType = typeof(decimal);

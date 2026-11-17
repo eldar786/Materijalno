@@ -47,10 +47,12 @@ namespace Materijalno.UI
             var button = sender as Button;
             if (button == null || button.Command == null)
                 return;
+            var previousPage = ((GlavniViewModel)DataContext).OdabraniVM;
             // Commands execute after the routed click. Update only the presentation afterwards.
             Dispatcher.BeginInvoke(new Action(() =>
             {
-                if (((GlavniViewModel)DataContext).OdabraniVM == null) return;
+                var currentPage = ((GlavniViewModel)DataContext).OdabraniVM;
+                if (currentPage == null || ReferenceEquals(currentPage, previousPage)) return;
                 foreach (var item in MenuButtons(glavniStackPanel)) item.Tag = null;
                 button.Tag = "Selected";
                 PageText.Text = button.Content as string ?? "Arhiva";

@@ -367,7 +367,7 @@ namespace Materijalno.ViewModel
         #region Methods
         public void NabavnaCijena()
         {
-            if (CurrentItemInv == null || !CurrentItemInv.Ident.HasValue || CurrentItemInv.Kljnaz <= 0) return;
+            if (CurrentItemInv == null || string.IsNullOrWhiteSpace(CurrentItemInv.Ident) || CurrentItemInv.Kljnaz <= 0) return;
             try
             {
                 CurrentItemInv.Nc = new InventoryService().Quote(CurrentItemInv);
@@ -570,11 +570,6 @@ namespace Materijalno.ViewModel
 
 
             // Ident kolona
-            int? maxValue_SifraMat = dbContext.TabelaMaterijala
-                .Max(row => row.Ident);
-
-            int? minValue_SifraMat = dbContext.TabelaMaterijala
-                .Min(row => row.Ident);
 
 
             if (CurrentItemInv.Kljnaz < minValue_Skladiste || CurrentItemInv.Kljnaz > maxValue_Skladiste)
@@ -585,10 +580,10 @@ namespace Materijalno.ViewModel
                 CurrentItemInv.Kljnaz = 0;
             }
 
-            if (CurrentItemInv.Ident < minValue_SifraMat || CurrentItemInv.Ident > maxValue_SifraMat)
+            if (!string.IsNullOrWhiteSpace(CurrentItemInv.Ident) && !dbContext.TabelaMaterijala.Any(row => row.Ident == CurrentItemInv.Ident))
             {
                 System.Windows.MessageBox.Show("Materijal ne postoji!", "Upozorenje", MessageBoxButton.OK, MessageBoxImage.Information);
-                CurrentItemInv.Ident = 0;
+                CurrentItemInv.Ident = null;
             }
 
 

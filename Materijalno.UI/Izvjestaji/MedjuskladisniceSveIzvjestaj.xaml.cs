@@ -56,7 +56,7 @@ namespace Materijalno.UI.Izvjestaji
                            // && row.Kljnaz == medjuskladisniceSvevm.CurrentItemMat.Kljnaz
                             && true // Start date condition
                             && true
-                            && row.Medus == "1" &&row.Ident != 0) // End date condition
+                            && row.Medus == "1" &&(row.Ident != null && row.Ident != "")) // End date condition
                      .OrderBy(row => row.Datun) // Sort by start date
                      .ToList());
 
@@ -95,7 +95,7 @@ namespace Materijalno.UI.Izvjestaji
 
             reportDt.Columns.Add("Redbr").DataType = typeof(int);
             reportDt.Columns.Add("Kljnaz").DataType = typeof(int);
-            reportDt.Columns.Add("Ident").DataType = typeof(int);
+            reportDt.Columns.Add("Ident").DataType = typeof(string);
             reportDt.Columns.Add("NazMat").DataType = typeof(string);
             reportDt.Columns.Add("Kolic").DataType = typeof(decimal);
             reportDt.Columns.Add("Nc").DataType = typeof(decimal);

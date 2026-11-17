@@ -403,8 +403,8 @@ namespace Materijalno.ViewModel
         public void NabavnaCijena()
         {
             if (CurrentItemMat == null) return;
-            if (!CurrentItemMat.Nc.HasValue && CurrentItemMat.Ident.HasValue && CurrentItemMat.Kljnaz.HasValue)
-                CurrentItemMat.Nc = new MaterialPostingService().ReturnPrice(CurrentItemMat.Ident.Value, CurrentItemMat.Kljnaz.Value, CurrentItemMat.Id);
+            if (!CurrentItemMat.Nc.HasValue && !string.IsNullOrWhiteSpace(CurrentItemMat.Ident) && CurrentItemMat.Kljnaz.HasValue)
+                CurrentItemMat.Nc = new MaterialPostingService().ReturnPrice(CurrentItemMat.Ident, CurrentItemMat.Kljnaz.Value, CurrentItemMat.Id);
             CurrentItemMat.Vrijed = CurrentItemMat.Kolic.HasValue && CurrentItemMat.Nc.HasValue ? (decimal?)LedgerMath.Money(CurrentItemMat.Kolic.Value * CurrentItemMat.Nc.Value) : null;
             OnPropertyChanged(nameof(CurrentItemMat));
         }
@@ -421,11 +421,6 @@ namespace Materijalno.ViewModel
                 .Min(row => row.Kljnaz);
 
             // Ident kolona
-            int? maxValue_SifraMat = dbContext.Mat
-                .Max(row => row.Ident);
-
-            int? minValue_SifraMat = dbContext.Mat
-                .Min(row => row.Ident);
 
             if (CurrentItemMat.Kljnaz == 1000)
             {
@@ -439,10 +434,10 @@ namespace Materijalno.ViewModel
                 //TextBox Skladiste vratiti na prazno
                 CurrentItemMat.Kljnaz = 0;
             }
-            if (CurrentItemMat.Ident < minValue_SifraMat || CurrentItemMat.Ident > maxValue_SifraMat)
+            if (!string.IsNullOrWhiteSpace(CurrentItemMat.Ident) && !dbContext.TabelaMaterijala.Any(row => row.Ident == CurrentItemMat.Ident))
             {
                 System.Windows.MessageBox.Show("Materijal ne postoji!", "Upozorenje", MessageBoxButton.OK, MessageBoxImage.Information);
-                CurrentItemMat.Ident = 0;
+                CurrentItemMat.Ident = null;
             }
             UpdateCurrentItemData(dbContext);
         }

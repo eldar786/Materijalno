@@ -178,3 +178,34 @@ Backup poslije: C:\Program Files\Microsoft SQL Server\MSSQL15.LUTRIJASQL\MSSQL\B
 - Preveliki vertikalni padding uz zajednički TextBox predložak ostavljao je samo 6 piksela za tekst. Smanjen je sa 8 na 4, pa sada postoje 22 piksela za tekst visine 18,62.
 - Vizuelno provjerena sva četiri stvarna WPF ekrana i dvosmjerna veza unosa s ViewModelom. Dugme Formiraj nije pokretano; baze i konfiguracije nisu mijenjane.
 - Ispravka je kompajlirana i postavljena u Debug, artifacts/FoxApp i artifacts/PrometTest uz backup prethodnog UI-a. Ponovo pokrenuti aplikaciju/F5.
+
+17.11.2026. - Šifre materijala i vodeće nule
+- U postojećoj bazi materijalno_fox_20261105_102038 šifre se sada čuvaju kao varchar(9), prema Fox poljima C(9): dbo.mat.ident, dbo.inv.ident, dbo.tabela_materijala.ident i dbo.sifarnik_materijal_skladiste_konto.Sifmat.
+- Vraćene su izvorne šifre 087001 do 098001 prema Fox podacima. Nule nisu dodavane svim šiframa; npr. šifra 2 ostaje 2. Noviji unosi iz WPF aplikacije povezani su sa istim materijalom i sačuvani.
+- Provjereno svih 5.645 redova povezanih tabela. 867 redova u tim tabelama ima šifru s vodećom nulom (735 u mat). Količine, cijene, vrijednosti, dokumenti, finansijski nalozi i brojači nisu promijenjeni; tehnički row_version se prirodno osvježava pri SQL UPDATE.
+- Unos šifre u šest ekrana prometa/inventure sada koristi tekst: 094001 ostaje 094001 nakon promjene fokusa i snimanja. Koristiti punu šifru iz šifarnika; 94001 i 094001 sada su različiti tekstovi.
+- Prošli su rollback proba i konačna transakcija (5.853 provjere), 56 provjera WPF unosa/16 izvještaja i 37 završnih provjera na postojećim podacima, uključujući salda i TXT izvoz.
+- Nije kreirana nova baza. Oracle nije pozivan. Hash provjera potvrdila je da je svih 61 Fox datoteka ostalo nepromijenjeno. Konekcije i Oracle TESTPDB postavke sačuvane su bez izmjena.
+- Izvršne datoteke i izvještaji postavljeni su u Debug, artifacts/FoxApp i artifacts/PrometTest. Pokrenuti Pokreni Materijalno.cmd ili F5 iz D:\Materijalno Novo. Stare verzije binarnih datoteka ne koristiti sa promijenjenom šemom.
+- Za provjeru: otvoriti Promet, odabrati postojeći materijal 094001 i promijeniti polje; nula mora ostati, a naziv materijala mora biti prepoznat. Pri stvarnom unosu popuniti ostala obavezna polja i Snimi. Pri ponovnom otvaranju dokumenta šifra mora ostati 094001.
+- SQL provjera: SELECT id, ident FROM dbo.mat WHERE ident='094001'; SELECT ident,nazmat FROM dbo.tabela_materijala WHERE ident IN ('087001','088001','090001','094001');
+- Backup prije: C:\Program Files\Microsoft SQL Server\MSSQL15.LUTRIJASQL\MSSQL\Backup\materijalno_fox_20261105_102038_20261117_095208.bak
+- Backup poslije: C:\Program Files\Microsoft SQL Server\MSSQL15.LUTRIJASQL\MSSQL\Backup\materijalno_fox_20261105_102038_20261117_102615.bak
+- Oba SQL backupa su COPY_ONLY sa CHECKSUM i uspješnim RESTORE VERIFYONLY. Detaljni nalazi i kopije izvornog koda/binarnih datoteka: artifacts/MaterialIdentifiers_20261117_095205.
+
+17.11.2026. - Zaštita nedovršenog unosa u Prometu
+- Obuhvaćeni su Ulaz materijala, Izlaz materijala, Međuskladišnica i Povrat materijala.
+- Nakon otvaranja novog dokumenta, Nove stavke ili Slij. stavke glavni meni ne otvara drugi ekran dok se aktivni unos uspješno ne snimi ili otkaže preko Odustani.
+- Poruka: Molimo unesite sva obavezna polja i kliknite SNIMI ili odustanite od unosa klikom na ODUSTANI prije otvaranja druge opcije iz menija.
+- Popunjena polja sama po sebi ne oslobađaju meni. Ako Snimi vrati grešku/obavezno polje nedostaje, unos ostaje zaštićen.
+- Klik na drugi ekran ne mijenja aktivni unos, naslov ni označenu opciju menija. Provjera se izvršava prije kreiranja drugog ViewModela.
+- Sačuvana stavka oslobađa meni i kada je tekući dokument još otvoren za dodavanje sljedeće stavke. Klik Slij. stavka ponovo uključuje zaštitu.
+- Provjere: 548 uspješnih provjera, četiri Promet ViewModela i svih 31 komanda lijevog menija, kao i stvarni WPF Click handler/naslov/oznaka. SQL/Oracle nisu korišteni u testovima; testni proces nema aktivne konekcije.
+- Izmjena kompajlirana i postavljena u Debug, artifacts/FoxApp i artifacts/PrometTest; konfiguracije nepromijenjene. Originalna otvorena aplikacija zatvorena je u pregledu Povrata, bez aktivnog Snimi/Odustani unosa.
+- Za ručnu provjeru: Nova kalkulacija/Novo zaduženje/Nova međuskladišnica/Novi povrat -> klik Dnevnik ili Šifarnik materijala -> mora ostati isti promet uz upozorenje. Snimi sa nedostajućim poljima ne smije osloboditi meni. Nakon uspješnog Snimi ili potvrđenog Odustani meni ponovo radi. Ponoviti za Nova stavka i Slij. stavka.
+- Pokrenuti ponovo Pokreni Materijalno.cmd ili F5. Backup izvornog koda/binarnih datoteka i zapis provjera: artifacts/PrometNavigation_20261117_131532.
+
+17.11.2026. - Visual Studio ne prepoznaje novu zaštitu menija
+- Zamijenjen Services\*.cs u Materijalno.ViewModel.csproj pojedinačnim Compile unosima za četiri servisne datoteke, uključujući Services\PrometNavigationGuard.cs. IActivePrometEntry i PrometNavigationGuard nalaze se u toj datoteci.
+- Potpuni Rebuild rješenja uspješan: 0 grešaka. Prošlo ponovo svih 548 provjera zaštite menija. Izvršne datoteke usklađene u Debug, artifacts/FoxApp i artifacts/PrometTest.
+- Ako Visual Studio prikaže File Modification Detected, izabrati Reload All; zatim Build > Rebuild Solution i F5. Nisu potrebne nove reference ni NuGet paketi.

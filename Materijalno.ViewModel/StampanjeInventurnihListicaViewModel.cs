@@ -326,11 +326,6 @@ namespace Materijalno.ViewModel
                 .Min(row => row.Kljnaz1);
 
             // Ident kolona
-            int? maxValue_SifraMat = dbContext.Mat
-                .Max(row => row.Ident);
-
-            int? minValue_SifraMat = dbContext.Mat
-                .Min(row => row.Ident);
 
             if (CurrentItemMat == null)
             {
@@ -365,10 +360,10 @@ namespace Materijalno.ViewModel
                 CurrentItemMat.Kljnaz1 = 0;
             }
 
-            if (CurrentItemMat.Ident < minValue_SifraMat || CurrentItemMat.Ident > maxValue_SifraMat)
+            if (!string.IsNullOrWhiteSpace(CurrentItemMat.Ident) && !dbContext.TabelaMaterijala.Any(row => row.Ident == CurrentItemMat.Ident))
             {
                 System.Windows.MessageBox.Show("Materijal ne postoji!", "Upozorenje", MessageBoxButton.OK, MessageBoxImage.Information);
-                CurrentItemMat.Ident = 0;
+                CurrentItemMat.Ident = null;
             }
 
             UpdateCurrentItemData(dbContext);

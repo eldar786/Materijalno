@@ -30,12 +30,12 @@ namespace Materijalno.Model.Services
             return int.Parse(value, CultureInfo.InvariantCulture);
         }
 
-        public StockBalance Balance(int material, int warehouse, int excludedId = 0, Guid? excludedPair = null, DateTime? at = null)
+        public StockBalance Balance(string material, int warehouse, int excludedId = 0, Guid? excludedPair = null, DateTime? at = null)
         {
             using (var db = _create()) return Balance(db, material, warehouse, excludedId, excludedPair, at);
         }
 
-        internal static StockBalance Balance(materijalno_knjigovodstvoContext db, int material, int warehouse,
+        internal static StockBalance Balance(materijalno_knjigovodstvoContext db, string material, int warehouse,
             int excludedId = 0, Guid? excludedPair = null, DateTime? at = null)
         {
             var query = db.Mat.Where(m => m.Ident == material && m.Kljnaz == warehouse && m.Id != excludedId);
@@ -50,12 +50,12 @@ namespace Materijalno.Model.Services
             return new StockBalance { Quantity = query.Sum(m => m.Kolic) ?? 0, Value = query.Sum(m => m.Vrijed) ?? 0 };
         }
 
-        public decimal? ReturnPrice(int material, int warehouse, int excludedId = 0)
+        public decimal? ReturnPrice(string material, int warehouse, int excludedId = 0)
         {
             using (var db = _create()) return ReturnPrice(db, material, warehouse, excludedId);
         }
 
-        private static decimal? ReturnPrice(materijalno_knjigovodstvoContext db, int material, int warehouse, int excludedId)
+        private static decimal? ReturnPrice(materijalno_knjigovodstvoContext db, string material, int warehouse, int excludedId)
         {
             return db.Mat.Where(m => m.Ident == material && m.Kljnaz == warehouse && m.Id != excludedId && m.Nc != null)
                 // izlazi1p.scx opens Mat ordered by its Brfak index, then uses
@@ -111,7 +111,7 @@ namespace Materijalno.Model.Services
                 if (existed) EnsureMutable(db, stored, changed);
                 decimal quantity = Math.Abs(input.Kolic ?? 0);
                 if (quantity <= 0) throw new InvalidOperationException("Količina mora biti veća od nule.");
-                var stock = Balance(db, input.Ident.Value, input.Kljnaz.Value, stored?.Id ?? 0);
+                var stock = Balance(db, input.Ident, input.Kljnaz.Value, stored?.Id ?? 0);
                 decimal price;
                 decimal value;
                 switch (input.Status)
@@ -132,7 +132,7 @@ namespace Materijalno.Model.Services
                         quantity = -quantity; value = -value;
                         break;
                     case "V":
-                        var lastPrice = existed && !changed ? stored.Nc : ReturnPrice(db, input.Ident.Value, input.Kljnaz.Value, stored?.Id ?? 0);
+                        var lastPrice = existed && !changed ? stored.Nc : ReturnPrice(db, input.Ident, input.Kljnaz.Value, stored?.Id ?? 0);
                         if (!lastPrice.HasValue) throw new InvalidOperationException("Nema ranije nabavne cijene za povrat u odabrano skladište.");
                         price = lastPrice.Value; value = LedgerMath.Money(quantity * price);
                         break;
@@ -147,7 +147,7 @@ namespace Materijalno.Model.Services
                 }
                 if (stock.Quantity + quantity < 0) throw new InvalidOperationException("Izmjena bi napravila negativnu zalihu.");
                 input.Kolic = quantity; input.Nc = price; input.Vrijed = value;
-                input.Kontosklad = Account(db, input.Ident.Value, input.Kljnaz.Value);
+                input.Kontosklad = Account(db, input.Ident, input.Kljnaz.Value);
                 input.Konto1 = db.TabelaMaterijala.Single(m => m.Ident == input.Ident).Konto1;
                 input.Kljnaz1 = null; input.Kontosklad1 = null; input.Medus = "";
                 input.IsDraft = false; input.IsArchived = false; input.BookYear = ActiveYear(db);
@@ -209,21 +209,21 @@ namespace Materijalno.Model.Services
                 bool existed = source != null && !source.IsDraft;
                 bool changed = existed && (source.Kljnaz != sourceWarehouse || source.Kljnaz1 != destinationWarehouse || source.Ident != input.Ident || Math.Abs(source.Kolic ?? 0) != quantity);
                 if (existed) EnsureMutable(db, source, changed);
-                var stock = Balance(db, input.Ident.Value, sourceWarehouse, 0, selected?.TransferPairId);
+                var stock = Balance(db, input.Ident, sourceWarehouse, 0, selected?.TransferPairId);
                 decimal amount = LedgerMath.IssueValue(stock, quantity);
                 decimal price = existed && !changed ? source.Nc ?? stock.UnitCost : stock.UnitCost;
                 if (existed && !changed) amount = Math.Abs(source.Vrijed ?? 0);
                 if (existed && changed && destination != null)
                 {
-                    var targetStock = Balance(db, destination.Ident.Value, destination.Kljnaz.Value, 0, pairId);
+                    var targetStock = Balance(db, destination.Ident, destination.Kljnaz.Value, 0, pairId);
                     if (targetStock.Quantity < 0) throw new InvalidOperationException("Odredište je već koristilo preneseni materijal.");
                 }
                 var document = Document(db, "M", ActiveYear(db), input.Brfak ?? "", sourceWarehouse);
                 if (source == null) { source = CreateTransferDraft(); db.Mat.Add(source); }
                 if (destination == null) { destination = CreateTransferDraft(); db.Mat.Add(destination); }
                 var materialAccount = db.TabelaMaterijala.Single(m => m.Ident == input.Ident).Konto1;
-                int sourceAccount = Account(db, input.Ident.Value, sourceWarehouse);
-                int targetAccount = Account(db, input.Ident.Value, destinationWarehouse);
+                int sourceAccount = Account(db, input.Ident, sourceWarehouse);
+                int targetAccount = Account(db, input.Ident, destinationWarehouse);
                 foreach (var row in new[] { source, destination })
                 {
                     if (!existed)
@@ -267,7 +267,7 @@ namespace Materijalno.Model.Services
                     if (!current.IsDraft)
                     {
                         EnsureMutable(db, current, true);
-                        var remaining = Balance(db, current.Ident.Value, current.Kljnaz.Value, current.Id);
+                        var remaining = Balance(db, current.Ident, current.Kljnaz.Value, current.Id);
                         if (remaining.Quantity < 0) throw new InvalidOperationException("Brisanje bi napravilo negativnu zalihu.");
                     }
                     db.Mat.Remove(current);
@@ -279,14 +279,15 @@ namespace Materijalno.Model.Services
 
         private static void ValidateIdentity(materijalno_knjigovodstvoContext db, Mat input)
         {
-            if (!input.Ident.HasValue || !db.TabelaMaterijala.Any(m => m.Ident == input.Ident)) throw new InvalidOperationException("Materijal ne postoji u šifarniku.");
+            input.Ident = MaterialIdentifier.Normalize(input.Ident);
+            if (!MaterialIdentifier.IsValid(input.Ident) || !db.TabelaMaterijala.Any(m => m.Ident == input.Ident)) throw new InvalidOperationException("Materijal ne postoji u šifarniku.");
             if (!input.Kljnaz.HasValue || !db.SifarnikSkladista.Any(w => w.Kljnaz == input.Kljnaz)) throw new InvalidOperationException("Skladište ne postoji u šifarniku.");
             if (input.Status != "P" && (!input.Datun.HasValue || input.Datun.Value.Year != ActiveYear(db))) throw new InvalidOperationException("Datum mora pripadati otvorenoj knjigovodstvenoj godini.");
             if (input.Status != "P" && (string.IsNullOrWhiteSpace(input.Brfak) || string.IsNullOrWhiteSpace(input.Brdok)))
                 throw new InvalidOperationException("Unesite broj kalkulacije i izvornog dokumenta.");
         }
 
-        internal static int Account(materijalno_knjigovodstvoContext db, int material, int warehouse)
+        internal static int Account(materijalno_knjigovodstvoContext db, string material, int warehouse)
         {
             var account = db.SifarnikMaterijalSkladisteKonto.SingleOrDefault(m => m.Sifmat == material && m.Sifskla == warehouse)?.Sifkonta;
             if (!account.HasValue || !db.SifarnikKonta.Any(c => c.Sifkonta == account))

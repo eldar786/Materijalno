@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
@@ -35,13 +35,13 @@ namespace Materijalno.Model.EntityModels
             ChangeTracker.DetectChanges();
             foreach (var entry in ChangeTracker.Entries<Mat>().Where(e => e.Entity.IsDraft && (e.State == EntityState.Added || e.State == EntityState.Modified)).ToList())
             {
-                if (entry.Entity.Ident <= 0) entry.Entity.Ident = null;
+                if (!Materijalno.Model.Services.MaterialIdentifier.IsValid(entry.Entity.Ident)) entry.Entity.Ident = null;
                 if (entry.Entity.Kljnaz <= 0) entry.Entity.Kljnaz = null;
                 if (entry.Entity.Kljnaz1 <= 0) entry.Entity.Kljnaz1 = null;
             }
             foreach (var entry in ChangeTracker.Entries<Inv>().Where(e => e.Entity.IsDraft && (e.State == EntityState.Added || e.State == EntityState.Modified)).ToList())
             {
-                if (entry.Entity.Ident <= 0) entry.Entity.Ident = null;
+                if (!Materijalno.Model.Services.MaterialIdentifier.IsValid(entry.Entity.Ident)) entry.Entity.Ident = null;
                 if (entry.Entity.Kljnaz <= 0) entry.Entity.Kljnaz = null;
             }
             ChangeTracker.DetectChanges();
@@ -67,7 +67,8 @@ namespace Materijalno.Model.EntityModels
             foreach (var entry in ChangeTracker.Entries<SifarnikMaterijala>().Where(e => e.State == EntityState.Added || e.State == EntityState.Modified).ToList())
             {
                 var material = entry.Entity;
-                if (material.Ident.GetValueOrDefault() <= 0 || string.IsNullOrWhiteSpace(material.Nazmat) || string.IsNullOrWhiteSpace(material.Jedm) ||
+                material.Ident = Materijalno.Model.Services.MaterialIdentifier.Normalize(material.Ident);
+                if (!Materijalno.Model.Services.MaterialIdentifier.IsValid(material.Ident) || string.IsNullOrWhiteSpace(material.Nazmat) || string.IsNullOrWhiteSpace(material.Jedm) ||
                     !material.Konto1.HasValue || !SifarnikKonta.Any(a => a.Sifkonta == material.Konto1))
                     throw new InvalidOperationException("Unesite pozitivnu šifru, naziv, jedinicu mjere i postojeći konto materijala.");
             }
@@ -90,6 +91,9 @@ namespace Materijalno.Model.EntityModels
                 .Where(e => e.State == EntityState.Added || e.State == EntityState.Modified).ToList())
             {
                 var v = entry.Entity;
+                v.Sifmat = Materijalno.Model.Services.MaterialIdentifier.Normalize(v.Sifmat);
+                if (!Materijalno.Model.Services.MaterialIdentifier.IsValid(v.Sifmat))
+                    throw new InvalidOperationException("Unesite ispravnu šifru materijala.");
                 if (!TabelaMaterijala.Any(m => m.Ident == v.Sifmat) ||
                     !SifarnikSkladista.Any(m => m.Kljnaz == v.Sifskla) ||
                     !SifarnikKonta.Any(m => m.Sifkonta == v.Sifkonta))
@@ -101,6 +105,12 @@ namespace Materijalno.Model.EntityModels
 
         partial void OnModelCreatingPartial(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<Mat>().Property(m => m.Ident).HasMaxLength(9).IsUnicode(false);
+            modelBuilder.Entity<Inv>().Property(m => m.Ident).HasMaxLength(9).IsUnicode(false);
+            modelBuilder.Entity<TabelaMaterijala>().Property(m => m.Ident).HasMaxLength(9).IsUnicode(false);
+            modelBuilder.Entity<SifarnikMaterijala>().Property(m => m.Ident).HasMaxLength(9).IsUnicode(false);
+            modelBuilder.Entity<SifarnikMaterijalSkladisteKonto>().Property(m => m.Sifmat).HasMaxLength(9).IsUnicode(false);
+
             modelBuilder.Entity<Mat>(e =>
             {
                 e.HasQueryFilter(m => !m.IsDraft && !m.IsArchived);

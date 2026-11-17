@@ -179,6 +179,7 @@
     <Compile Include="Services\InventoryService.cs" />
     <Compile Include="Services\LedgerMath.cs" />
     <Compile Include="Services\MaterialPostingService.cs" />
+    <Compile Include="Services\MaterialIdentifier.cs" />
     <Compile Include="Services\ReportQueries.cs" />
     <Compile Include="Services\ReceiptPrintReport.cs" />
     <Compile Include="Services\SummaryReports.cs" />

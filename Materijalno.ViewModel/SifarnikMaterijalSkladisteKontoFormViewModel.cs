@@ -36,7 +36,7 @@ namespace Materijalno.ViewModel
 
         private bool ValidationSifarnikMaterijalSkladisteKonto()
         {
-            if (!sifarnikMaterijalSkladisteKonto.Sifmat.HasValue ||
+            if (string.IsNullOrWhiteSpace(sifarnikMaterijalSkladisteKonto.Sifmat) ||
                 !sifarnikMaterijalSkladisteKonto.Sifskla.HasValue ||
                 !sifarnikMaterijalSkladisteKonto.Sifkonta.HasValue)
             {

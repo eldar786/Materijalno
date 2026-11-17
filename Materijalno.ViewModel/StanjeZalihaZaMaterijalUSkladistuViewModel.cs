@@ -54,7 +54,7 @@ namespace Materijalno.ViewModel
         private bool spasi = false;
 
         private int? kljnaz;
-        private int? ident;
+        private string ident;
         private decimal kolic;
         private decimal nc;
         private decimal vrijed;
@@ -75,7 +75,7 @@ namespace Materijalno.ViewModel
             }
         }
 
-        public int? Ident
+        public string Ident
         {
             get { return ident; }
             set
@@ -248,7 +248,7 @@ namespace Materijalno.ViewModel
         public void Prikazi()
         {
             int? a = Kljnaz;
-            int? b = Ident;
+            string b = Ident;
             DateTime c = Datun;
             decimal d = Kolic;
             decimal e = Nc;
@@ -280,7 +280,7 @@ namespace Materijalno.ViewModel
                 cijena = ukupnaVrijednost / ukupnaKolicina;
             }
 
-            else if (kljnaz == null || ident == null || kljnaz == 0 || ident == 0)
+            else if (kljnaz == null || ident == null || kljnaz == 0 || string.IsNullOrEmpty(ident))
             {
                 System.Windows.MessageBox.Show("Niste unijeli ispravno vrijednosti!", "Upozorenje", MessageBoxButton.OK, MessageBoxImage.Information);
                 return;
@@ -310,11 +310,6 @@ namespace Materijalno.ViewModel
                 .Min(row => row.Kljnaz1);
 
             // Ident kolona
-            int? maxValue_SifraMat = dbContext.Mat
-                .Max(row => row.Ident);
-
-            int? minValue_SifraMat = dbContext.Mat
-                .Min(row => row.Ident);
 
             if (Kljnaz == 999 && Kljnaz <= 1012)
             {
@@ -329,10 +324,10 @@ namespace Materijalno.ViewModel
                 Kljnaz = 0;
             }
 
-            if (Ident < minValue_SifraMat || Ident > maxValue_SifraMat)
+            if (!string.IsNullOrWhiteSpace(Ident) && !dbContext.TabelaMaterijala.Any(row => row.Ident == Ident))
             {
                 System.Windows.MessageBox.Show("Materijal ne postoji!", "Upozorenje", MessageBoxButton.OK, MessageBoxImage.Information);
-                Ident = 0;
+                Ident = null;
             }
 
             UpdateCurrentItemData(dbContext);

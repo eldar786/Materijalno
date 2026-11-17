@@ -137,7 +137,7 @@
                 <TextBlock Grid.Row="2" Grid.Column="0" Text="Šifra materijala" Style="{StaticResource FormLabelStyle}"/>
 
 
-                <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding CurrentItemMat.Ident}" KeyDown="TextBox_KeyDown" Style="{StaticResource FormTextBoxStyle}">
+                <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding CurrentItemMat.Ident}" KeyDown="TextBox_KeyDown" Style="{StaticResource FormTextBoxStyle}" MaxLength="9">
 
                     <i:Interaction.Triggers>
 

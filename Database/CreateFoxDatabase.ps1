@@ -1,4 +1,4 @@
-param(
+﻿param(
  [Parameter(Mandatory=$true)][ValidatePattern('^materijalno_fox_(test_)?[0-9]{8}_[0-9]{6}$')][string]$DatabaseName,
  [string]$FoxFolder='C:\Users\eldar.bajrovic\OneDrive - Lutrija BiH\Radna površina\MATVM',
  [string]$ConfigurationPath=(Join-Path $PSScriptRoot '..\Materijalno.UI\App.config'),
@@ -56,11 +56,11 @@ try {
   $hash=(Get-FileHash -LiteralPath (Join-Path $FoxFolder ($name+'.dbf')) -Algorithm SHA256).Hash
   Bulk 'dbo.fox_import_manifest' @(@{table_name=$name;physical_rows=$table.Records.Count;active_rows=@($table.Records | Where-Object {-not $_.Deleted}).Count;source_hash=$hash})
  }
- $material=@(foreach($row in $tables.mater.Records){if($row.Deleted){continue};$v=$row.Values;@{Id=$row.RecordNumber;ident=(Code $v.IDENT);nazmat=(Text $v.NAZMAT);jedm=(Text $v.JEDM);siftar=(Code $v.SIFTAR);konto1=(Code $v.KONTO1);konto2=(Text $v.KONTO2)}})
+ $material=@(foreach($row in $tables.mater.Records){if($row.Deleted){continue};$v=$row.Values;@{Id=$row.RecordNumber;ident=(Text $v.IDENT);nazmat=(Text $v.NAZMAT);jedm=(Text $v.JEDM);siftar=(Code $v.SIFTAR);konto1=(Code $v.KONTO1);konto2=(Text $v.KONTO2)}})
  Bulk 'dbo.tabela_materijala' $material
  Bulk 'dbo.sifarnik_skladista' @(foreach($row in $tables.datnaz.Records){if($row.Deleted){continue};$v=$row.Values;@{id=$row.RecordNumber;kljnaz=(Code $v.KLJNAZ);naziv_org=(Text $v.NAZIVORG);ziro_racun=(Text $v.ZIRORCUN);poz_br=(Text $v.POZBR);devizni_racun=(Text $v.DEVRAC);poz_br_d=(Text $v.POZBRD);opstina=(Text $v.OPSTINA);naziv_sdk=(Text $v.NAZIVSDK);mjesto_adresa=(Text $v.MJEADR)}})
  Bulk 'dbo.sifarnik_konta' @(foreach($row in $tables.skontdat.Records){if($row.Deleted){continue};$v=$row.Values;@{id=$row.RecordNumber;sifkonta=(Code $v.SIFKONTA);nazkont=(Text $v.NAZKONT);stakont=(Code $v.STAKONT);stamt=(Code $v.STAMT)}})
- $seenLinks=@{};$links=@(foreach($row in $tables.kontosklad.Records){if($row.Deleted){continue};$v=$row.Values;$key=(Code $v.SIFMAT).ToString()+'|'+(Code $v.SIFSKLA).ToString();$account=Code $v.SIFKONTA;if($seenLinks.ContainsKey($key)){if($seenLinks[$key] -ne $account){throw ('Višeznačan izvorni konto za par '+$key)};continue};$seenLinks[$key]=$account;@{Id=$row.RecordNumber;Sifmat=(Code $v.SIFMAT);Sifskla=(Code $v.SIFSKLA);Sifkonta=$account}})
+ $seenLinks=@{};$links=@(foreach($row in $tables.kontosklad.Records){if($row.Deleted){continue};$v=$row.Values;$key=(Code $v.SIFMAT).ToString()+'|'+(Code $v.SIFSKLA).ToString();$account=Code $v.SIFKONTA;if($seenLinks.ContainsKey($key)){if($seenLinks[$key] -ne $account){throw ('Višeznačan izvorni konto za par '+$key)};continue};$seenLinks[$key]=$account;@{Id=$row.RecordNumber;Sifmat=(Text $v.SIFMAT);Sifskla=(Code $v.SIFSKLA);Sifkonta=$account}})
  Bulk 'dbo.sifarnik_materijal_skladiste_konto' $links
  $activeMat=@($tables.mat.Records | Where-Object {-not $_.Deleted})
  $year=($activeMat | ForEach-Object {if((Text $_.Values.DATUN).Length -eq 8){[int]$_.Values.DATUN.Substring(0,4)}} | Measure-Object -Maximum).Maximum
@@ -74,14 +74,14 @@ try {
   }
   $r=[ordered]@{id=$row.RecordNumber;is_draft=(-not $posted);is_archived=$false;book_year=$bookYear;document_id=$docId;transfer_pair_id=$pairId;line_token=(StableGuid ('mat:'+ $row.RecordNumber));fox_recno=$row.RecordNumber}
   foreach($f in $tables.mat.Fields){$target=if($f.Name -eq 'KONTOSKLA2'){'kontosklad1'}else{$f.Name.ToLowerInvariant()};$value=$v[$f.Name]
-   $r[$target]=if($f.Type -eq 'D'){Day $value}elseif($target -in @('kljnaz','kljnaz1','ident','konto1','kontosklad','kontosklad1','ourst','mjtst','redbr')){Code $value}elseif($target -in @('kolic','nc','vrijed','troskovi','porppp','trospe')){$n=Num $value;if($null -eq $n){[decimal]0}else{$n}}else{Text $value}
+   $r[$target]=if($target -eq 'ident'){if([string]::IsNullOrWhiteSpace($value)){$null}else{Text $value}}elseif($f.Type -eq 'D'){Day $value}elseif($target -in @('kljnaz','kljnaz1','ident','konto1','kontosklad','kontosklad1','ourst','mjtst','redbr')){Code $value}elseif($target -in @('kolic','nc','vrijed','troskovi','porppp','trospe')){$n=Num $value;if($null -eq $n){[decimal]0}else{$n}}else{Text $value}
   };$r
  })
  foreach($pair in $pairs.Values){if($pair.Count -ne 2 -or (Num $pair[0].KOLIC)+(Num $pair[1].KOLIC) -ne 0 -or (Num $pair[0].VRIJED)+(Num $pair[1].VRIJED) -ne 0){throw 'Izvorna međuskladišnica nema uravnotežen par.'}}
  Bulk 'dbo.material_document' @($docs.Values)
  Bulk 'dbo.mat' $matRows
  $invRows=@(foreach($row in $tables.inv.Records){if($row.Deleted){continue};$r=[ordered]@{id=$row.RecordNumber;is_draft=((Code $row.Values.IDENT) -le 0);is_archived=$false;inventory_date=(Day $row.Values.DATUN);inventory_session_id=$null;fox_recno=$row.RecordNumber}
- foreach($f in $tables.inv.Fields){$target=if($f.Name -eq 'KONTOSKLA2'){'kontosklad1'}else{$f.Name.ToLowerInvariant()};$value=$row.Values[$f.Name];$r[$target]=if($f.Type -eq 'D'){Day $value}elseif($target -in @('kljnaz','ident','konto1','kontosklad','kontosklad1','ourst','mjtst','redbr')){Code $value}elseif($target -in @('kolic','nc','vrijed','troskovi','porppp','trospe')){$n=Num $value;if($null -eq $n){[decimal]0}else{$n}}else{Text $value}};$r})
+ foreach($f in $tables.inv.Fields){$target=if($f.Name -eq 'KONTOSKLA2'){'kontosklad1'}else{$f.Name.ToLowerInvariant()};$value=$row.Values[$f.Name];$r[$target]=if($target -eq 'ident'){if([string]::IsNullOrWhiteSpace($value)){$null}else{Text $value}}elseif($f.Type -eq 'D'){Day $value}elseif($target -in @('kljnaz','ident','konto1','kontosklad','kontosklad1','ourst','mjtst','redbr')){Code $value}elseif($target -in @('kolic','nc','vrijed','troskovi','porppp','trospe')){$n=Num $value;if($null -eq $n){[decimal]0}else{$n}}else{Text $value}};$r})
  Bulk 'dbo.inv' $invRows
  $nalRows=@(foreach($row in $tables.nalmat.Records){if($row.Deleted){continue};$r=[ordered]@{id=$row.RecordNumber;fox_recno=$row.RecordNumber;batch_id=$null};foreach($f in $tables.nalmat.Fields){$target=$f.Name.ToLowerInvariant();$value=$row.Values[$f.Name];$r[$target]=if($target -in @('datnsta','datdokst')){Day $value}elseif($target -in @('rostav','sifakt','bronsta','sintstav','kukistav','ourst','mjtst')){$n=Code $value;if($null -eq $n -and $target -in @('rostav','sifakt','bronsta','sintstav','kukistav')){0}else{$n}}elseif($target -in @('kurs','dug1st','pot1st','stodug1','stopot1','devdugst','devpotst','stodevd','stodevp')){$n=Num $value;if($null -eq $n){[decimal]0}else{$n}}else{Text $value}};$r})
  Bulk 'dbo.nalmat' $nalRows

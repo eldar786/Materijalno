@@ -15,8 +15,8 @@ def el(parent, name, text=None, **attrs):
     return node
 def inch(value): return f'{value:.6f}in'
 width = 7.64
-fields = dict.fromkeys(['Id','FoxRecno','Redbr','Ident'], 'System.Int32')
-fields.update(dict.fromkeys(['Nazmat','Jedm','Tarifa'], 'System.String'))
+fields = dict.fromkeys(['Id','FoxRecno','Redbr'], 'System.Int32')
+fields.update(dict.fromkeys(['Ident','Nazmat','Jedm','Tarifa'], 'System.String'))
 fields.update(dict.fromkeys(['Kolic','Fcj','Fvrijed','Troskovi','Cartro','Trospe','Zavtro','TotalCosts','Ppp','Porppp','Nc','Vrijed'], 'System.Decimal'))
 params = ['Organization','Number','DocumentNumber','DocumentDate','SupplierCode','SupplierName','Account','AccountName']
 mapping = {'date()':'=Today()', 'ident':'=Fields!Ident.Value','analst':'=Parameters!SupplierCode.Value',

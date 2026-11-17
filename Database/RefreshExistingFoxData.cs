@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
@@ -90,7 +90,7 @@ public static class RefreshExistingFoxData
     static void BuildMasters()
     {
         var materials=Empty("dbo.tabela_materijala");
-        foreach(var r in Active("mater")){var v=r.Values;Add(materials,"Id",r.RecordNumber,"ident",Code(v["IDENT"]),"nazmat",Text(v["NAZMAT"]),"jedm",Text(v["JEDM"]),"siftar",Code(v["SIFTAR"]),"konto1",Code(v["KONTO1"]),"konto2",Text(v["KONTO2"]));}
+        foreach(var r in Active("mater")){var v=r.Values;Add(materials,"Id",r.RecordNumber,"ident",Text(v["IDENT"]),"nazmat",Text(v["NAZMAT"]),"jedm",Text(v["JEDM"]),"siftar",Code(v["SIFTAR"]),"konto1",Code(v["KONTO1"]),"konto2",Text(v["KONTO2"]));}
         data.Add(materials.TableName,materials);
         var warehouses=Empty("dbo.sifarnik_skladista");
         foreach(var r in Active("datnaz")){var v=r.Values;Add(warehouses,"id",r.RecordNumber,"kljnaz",Code(v["KLJNAZ"]),"naziv_org",Text(v["NAZIVORG"]),"ziro_racun",Text(v["ZIRORCUN"]),"poz_br",Text(v["POZBR"]),"devizni_racun",Text(v["DEVRAC"]),"poz_br_d",Text(v["POZBRD"]),"opstina",Text(v["OPSTINA"]),"naziv_sdk",Text(v["NAZIVSDK"]),"mjesto_adresa",Text(v["MJEADR"]));}
@@ -101,7 +101,7 @@ public static class RefreshExistingFoxData
         var links=Empty("dbo.sifarnik_materijal_skladiste_konto");var seen=new Dictionary<string,int?>();
         foreach(var r in Active("kontosklad")){var v=r.Values;string key=Code(v["SIFMAT"])+"|"+Code(v["SIFSKLA"]);int? account=Code(v["SIFKONTA"]);
             if(seen.ContainsKey(key)){if(seen[key]!=account)throw new Exception("Ambiguous material/warehouse account: "+key);continue;}
-            seen.Add(key,account);Add(links,"Id",r.RecordNumber,"Sifmat",Code(v["SIFMAT"]),"Sifskla",Code(v["SIFSKLA"]),"Sifkonta",account);
+            seen.Add(key,account);Add(links,"Id",r.RecordNumber,"Sifmat",Text(v["SIFMAT"]),"Sifskla",Code(v["SIFSKLA"]),"Sifkonta",account);
         }
         data.Add(links.TableName,links);
     }
@@ -113,7 +113,8 @@ public static class RefreshExistingFoxData
             string col=field.Name.Equals("KONTOSKLA2",StringComparison.OrdinalIgnoreCase)?"kontosklad1":field.Name.ToLowerInvariant();
             if(!row.Table.Columns.Contains(col))throw new Exception("Unknown operational Fox field: "+table+"."+col);
             string val=r.Values[field.Name];object mapped;
-            if(row.Table.Columns[col].DataType==typeof(DateTime))mapped=Day(val);
+            if(col=="ident")mapped=string.IsNullOrWhiteSpace(val)?null:Text(val);
+            else if(row.Table.Columns[col].DataType==typeof(DateTime))mapped=Day(val);
             else if(integers.Contains(col)){int? n=Code(val);mapped=(table=="nalmat"&&new[]{"rostav","sifakt","bronsta","sintstav","kukistav"}.Contains(col))?(object)(n??0):n;}
             else if(decimals.Contains(col))mapped=Num(val)??0;
             else mapped=Text(val);

@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.IO;
@@ -10,6 +10,7 @@ using System.Windows.Input;
 using Materijalno;
 using Materijalno.Model;
 using Microsoft.Win32;
+using Materijalno.ViewModel.Services;
 
 namespace Materijalno.ViewModel
 {
@@ -17,6 +18,15 @@ namespace Materijalno.ViewModel
     {
         ApplicationViewModel _avm;
         private object _odabraniVM;
+
+        private readonly PrometNavigationGuard _navigationGuard = new PrometNavigationGuard(message =>
+            MessageBox.Show(message, "Nedovršen unos prometa", MessageBoxButton.OK, MessageBoxImage.Warning));
+
+        private ICommand CreateMenuCommand(Action openPage)
+        {
+            // Check before constructing another ViewModel, which may reset entry state.
+            return new RelayCommand(() => _navigationGuard.TryNavigate(openPage));
+        }
 
         private object _odabraniVMW;
 
@@ -65,50 +75,50 @@ namespace Materijalno.ViewModel
             _avm = avm;
             _avm.OdabraniVM = this;
 
-            SifarnikSkladistaCommand = new RelayCommand(OtvoriSifarnikSkladista);
-            GlavniCommand = new RelayCommand(OtvoriGlavni);
+            SifarnikSkladistaCommand = CreateMenuCommand(OtvoriSifarnikSkladista);
+            GlavniCommand = CreateMenuCommand(OtvoriGlavni);
         }
 
         public GlavniViewModel()
         {
-            SifarnikSkladistaCommand = new RelayCommand(OtvoriSifarnikSkladista);
-            ZaduzenjeCommand = new RelayCommand(OtvoriZaduzenje);
-            PostavkaNovogPocetnogStanjaCommand = new RelayCommand(OtvoriPostavkaNovogPocetnogStanja);
-            PocetnoStanjePrviPutCommand = new RelayCommand(OtvoriPocetnoStanjePrviPut);
-            StampanjeInventurnihZalihaCommand = new RelayCommand(OtvoriStampanjeInventurnihZaliha);
-            UnosInventurnogStanjaCommand = new RelayCommand(OtvoriUnosInventurnogStanja);
-            NaloziZaFinansijePrintanjeNalogaCommand = new RelayCommand(OtvoriNaloziZaFinansijePrintanjeNaloga);
-            StampanjeInventurnihListicaCommand = new RelayCommand(OtvoriStampanjeInventurnihListica);
-            PovratUSkladisteCommand = new RelayCommand(OtvoriPovratUSkladiste);
-            NaloziMedjuskladisnicaCommand = new RelayCommand(OtvoriNaloziMedjuskladisnice);
-            ZaduzenjeProdavniceCommand = new RelayCommand(OtvoriZaduzenjeProdavnice);
-            CentralniMagacinCommand = new RelayCommand(OtvoriCentralniMagacin);
-            PovratMaterijalaCommand = new RelayCommand(OtvoriPovratMaterijala);
-            IzlazMaterijalaCommand = new RelayCommand(OtvoriIzlazMaterijala);
-            MedjuskladisnicaCommand = new RelayCommand(OtvoriMedjuskladisnica);
-            UlazMaterijalaCommand = new RelayCommand(OtvoriUlazMaterijala);
-            SifarnikMaterijalSkladisteKontoCommand = new RelayCommand(OtvoriSifarnikMaterijalSkladisteKonto);
-            SifarnikMaterijalaCommand = new RelayCommand(OtvoriSifarnikMaterijala);
-            SifarnikKontaCommand = new RelayCommand(OtvoriSifarnikKonta);
-            AnalitickaKarticaCommand = new RelayCommand(OtvoriAnalitickaKartica);
-            DnevnikCommand = new RelayCommand(OtvoriDnevnik);
-            RekapitulacijaZalihaCommand = new RelayCommand(OtvoriRekapitulacijaZaliha);
-            RekapitulacijaTroskovaCommand = new RelayCommand(OtvoriRekapitulacijaTroskova);
-            PoKontimaIKalkulacijamaCommand = new RelayCommand(OtvoriPoKontimaIKalkulacijama);
-            ZaJednuKalkulacijuPregledUlazaCommand = new RelayCommand(OtvoriZaJednuKalkulacijuPregledUlaza);
-            ZaSveKalkulacijePregledUlazaCommand = new RelayCommand(OtvoriZaSveKalkulacijePregledUlaza);
-            ZaSveKalkulacijePregledIzlazaCommand = new RelayCommand(OtvoriZaSveKalkulacijePregledIzlaza);
-            PoKontimaINalozimaZaSvaSkladistaCommand = new RelayCommand(OtvoriPoKontimaINalozimaZaSvaSkladista);
-            PoKontimaIRadnimNalozimaCommand = new RelayCommand(OtvoriPoKontimaIRadnimNalozima);
-            PoKontimaCommand = new RelayCommand(OtvoriPoKontima);
-            ZaSvaSkladistaCommand = new RelayCommand(OtvoriZaSvaSkladista);
-            ZaSkladisteStanjeZalihaCommand = new RelayCommand(OtvoriZaSkladisteStanjeZaliha);
-            ZaMaterijalUSkladistuCommand = new RelayCommand(OtvoriZaMaterijalUSkladistu);
-            ZaSkladisteMedjuskladisniceCommand = new RelayCommand(OtvoriZaSkladisteMedjuskladisnice);
-            MedjuskladisniceSveCommand = new RelayCommand(OtvoriMedjuskladisniceSve);
-            MedjuskladisniceJednaCommand = new RelayCommand(OtvoriMedjuskladisniceJedna);
-            ZaJednuKalkulacijuPregledIzlazaCommand = new RelayCommand(OtvoriZaJednuKalkulacijuPregledIzlaza);
-            ArhivaCommand = new RelayCommand(Arhiva);
+            SifarnikSkladistaCommand = CreateMenuCommand(OtvoriSifarnikSkladista);
+            ZaduzenjeCommand = CreateMenuCommand(OtvoriZaduzenje);
+            PostavkaNovogPocetnogStanjaCommand = CreateMenuCommand(OtvoriPostavkaNovogPocetnogStanja);
+            PocetnoStanjePrviPutCommand = CreateMenuCommand(OtvoriPocetnoStanjePrviPut);
+            StampanjeInventurnihZalihaCommand = CreateMenuCommand(OtvoriStampanjeInventurnihZaliha);
+            UnosInventurnogStanjaCommand = CreateMenuCommand(OtvoriUnosInventurnogStanja);
+            NaloziZaFinansijePrintanjeNalogaCommand = CreateMenuCommand(OtvoriNaloziZaFinansijePrintanjeNaloga);
+            StampanjeInventurnihListicaCommand = CreateMenuCommand(OtvoriStampanjeInventurnihListica);
+            PovratUSkladisteCommand = CreateMenuCommand(OtvoriPovratUSkladiste);
+            NaloziMedjuskladisnicaCommand = CreateMenuCommand(OtvoriNaloziMedjuskladisnice);
+            ZaduzenjeProdavniceCommand = CreateMenuCommand(OtvoriZaduzenjeProdavnice);
+            CentralniMagacinCommand = CreateMenuCommand(OtvoriCentralniMagacin);
+            PovratMaterijalaCommand = CreateMenuCommand(OtvoriPovratMaterijala);
+            IzlazMaterijalaCommand = CreateMenuCommand(OtvoriIzlazMaterijala);
+            MedjuskladisnicaCommand = CreateMenuCommand(OtvoriMedjuskladisnica);
+            UlazMaterijalaCommand = CreateMenuCommand(OtvoriUlazMaterijala);
+            SifarnikMaterijalSkladisteKontoCommand = CreateMenuCommand(OtvoriSifarnikMaterijalSkladisteKonto);
+            SifarnikMaterijalaCommand = CreateMenuCommand(OtvoriSifarnikMaterijala);
+            SifarnikKontaCommand = CreateMenuCommand(OtvoriSifarnikKonta);
+            AnalitickaKarticaCommand = CreateMenuCommand(OtvoriAnalitickaKartica);
+            DnevnikCommand = CreateMenuCommand(OtvoriDnevnik);
+            RekapitulacijaZalihaCommand = CreateMenuCommand(OtvoriRekapitulacijaZaliha);
+            RekapitulacijaTroskovaCommand = CreateMenuCommand(OtvoriRekapitulacijaTroskova);
+            PoKontimaIKalkulacijamaCommand = CreateMenuCommand(OtvoriPoKontimaIKalkulacijama);
+            ZaJednuKalkulacijuPregledUlazaCommand = CreateMenuCommand(OtvoriZaJednuKalkulacijuPregledUlaza);
+            ZaSveKalkulacijePregledUlazaCommand = CreateMenuCommand(OtvoriZaSveKalkulacijePregledUlaza);
+            ZaSveKalkulacijePregledIzlazaCommand = CreateMenuCommand(OtvoriZaSveKalkulacijePregledIzlaza);
+            PoKontimaINalozimaZaSvaSkladistaCommand = CreateMenuCommand(OtvoriPoKontimaINalozimaZaSvaSkladista);
+            PoKontimaIRadnimNalozimaCommand = CreateMenuCommand(OtvoriPoKontimaIRadnimNalozima);
+            PoKontimaCommand = CreateMenuCommand(OtvoriPoKontima);
+            ZaSvaSkladistaCommand = CreateMenuCommand(OtvoriZaSvaSkladista);
+            ZaSkladisteStanjeZalihaCommand = CreateMenuCommand(OtvoriZaSkladisteStanjeZaliha);
+            ZaMaterijalUSkladistuCommand = CreateMenuCommand(OtvoriZaMaterijalUSkladistu);
+            ZaSkladisteMedjuskladisniceCommand = CreateMenuCommand(OtvoriZaSkladisteMedjuskladisnice);
+            MedjuskladisniceSveCommand = CreateMenuCommand(OtvoriMedjuskladisniceSve);
+            MedjuskladisniceJednaCommand = CreateMenuCommand(OtvoriMedjuskladisniceJedna);
+            ZaJednuKalkulacijuPregledIzlazaCommand = CreateMenuCommand(OtvoriZaJednuKalkulacijuPregledIzlaza);
+            ArhivaCommand = CreateMenuCommand(Arhiva);
 
         }
 
@@ -322,6 +332,7 @@ namespace Materijalno.ViewModel
             set
             {
                 _odabraniVM = value;
+                _navigationGuard.TrackPage(value);
                 OnPropertyChanged("OdabraniVM");
             }
 

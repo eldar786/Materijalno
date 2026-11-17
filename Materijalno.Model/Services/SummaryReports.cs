@@ -58,12 +58,12 @@ namespace Materijalno.Model.Services
                 else
                 {
                     table.Columns.Add("Datum", typeof(DateTime)); table.Columns.Add("Kalkulacija"); table.Columns.Add("Skladište", typeof(int));
-                    table.Columns.Add("Ident", typeof(int)); table.Columns.Add("Materijal"); table.Columns.Add("Količina", typeof(decimal));
+                    table.Columns.Add("Ident", typeof(string)); table.Columns.Add("Materijal"); table.Columns.Add("Količina", typeof(decimal));
                     table.Columns.Add("Cijena", typeof(decimal)); table.Columns.Add("Vrijednost", typeof(decimal));
                     foreach (var m in rows)
                     {
                         string name; decimal sign = receipt ? 1 : -1;
-                        table.Rows.Add(m.Datun, m.Brfak, m.Kljnaz, m.Ident, materials.TryGetValue(m.Ident ?? 0, out name) ? name : "", sign * (m.Kolic ?? 0), m.Nc ?? 0, sign * (m.Vrijed ?? 0));
+                        table.Rows.Add(m.Datun, m.Brfak, m.Kljnaz, m.Ident, materials.TryGetValue(m.Ident ?? "", out name) ? name : "", sign * (m.Kolic ?? 0), m.Nc ?? 0, sign * (m.Vrijed ?? 0));
                     }
                     title = receipt ? "Pregled ulaza" : "Pregled izlaza i povrata";
                     if (single) title += " – " + number;

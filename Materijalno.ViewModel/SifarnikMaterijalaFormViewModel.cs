@@ -39,7 +39,7 @@ namespace Materijalno.ViewModel
         {
             if (string.IsNullOrWhiteSpace(sifarnikMaterijala.Nazmat) ||
                 string.IsNullOrWhiteSpace(sifarnikMaterijala.Jedm) ||
-                !SifarnikMaterijala.Ident.HasValue ||
+                string.IsNullOrWhiteSpace(SifarnikMaterijala.Ident) ||
                 !SifarnikMaterijala.Konto1.HasValue )
 
             {

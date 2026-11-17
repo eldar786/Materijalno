@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -54,16 +54,16 @@ namespace Materijalno.Model.Services
             var first = rows[0];
             var master = materials.GroupBy(m => m.Ident).ToDictionary(g => g.Key, g => g.First());
             var table = new DataTable("Ulaz");
-            foreach (string name in new[] { "Id", "FoxRecno", "Redbr", "Ident" }) table.Columns.Add(name, typeof(int));
-            foreach (string name in new[] { "Nazmat", "Jedm", "Tarifa" }) table.Columns.Add(name);
+            foreach (string name in new[] { "Id", "FoxRecno", "Redbr" }) table.Columns.Add(name, typeof(int));
+            foreach (string name in new[] { "Ident", "Nazmat", "Jedm", "Tarifa" }) table.Columns.Add(name);
             foreach (string name in new[] { "Kolic", "Fcj", "Fvrijed", "Troskovi", "Cartro", "Trospe", "Zavtro", "TotalCosts", "Ppp", "Porppp", "Nc", "Vrijed" })
                 table.Columns.Add(name, typeof(decimal));
             foreach (var m in rows)
             {
                 TabelaMaterijala material;
-                master.TryGetValue(m.Ident ?? 0, out material);
+                master.TryGetValue(m.Ident ?? "", out material);
                 decimal customs = LedgerMath.ParseAmount(m.Cartro), other = LedgerMath.ParseAmount(m.Zavtro), freight = m.Trospe ?? 0;
-                table.Rows.Add(m.Id, (object)m.FoxRecno ?? DBNull.Value, m.Redbr ?? 0, m.Ident ?? 0,
+                table.Rows.Add(m.Id, (object)m.FoxRecno ?? DBNull.Value, m.Redbr ?? 0, m.Ident ?? "",
                     material?.Nazmat ?? "", material?.Jedm ?? "", material?.Siftar?.ToString() ?? "",
                     m.Kolic ?? 0, LedgerMath.ParseAmount(m.Fcj), LedgerMath.ParseAmount(m.Fvrijed), m.Troskovi ?? 0,
                     customs, freight, other, customs + other + freight, LedgerMath.ParseAmount(m.Ppp), m.Porppp ?? 0, m.Nc ?? 0, m.Vrijed ?? 0);

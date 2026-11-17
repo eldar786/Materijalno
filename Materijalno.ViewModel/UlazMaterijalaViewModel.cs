@@ -26,8 +26,11 @@ using Newtonsoft.Json.Linq;
 
 namespace Materijalno.ViewModel
 {
-    public class UlazMaterijalaViewModel : INotifyPropertyChanged
+    public class UlazMaterijalaViewModel : INotifyPropertyChanged, Services.IActivePrometEntry
     {
+        public bool HasUnsavedEntry => novaStavkaUToku ||
+            (CurrentItemMat != null && CurrentItemMat.Id > 0 && CurrentItemMat.IsDraft);
+
         #region Fields
 
         private ApplicationViewModel _avm;
@@ -845,16 +848,11 @@ namespace Materijalno.ViewModel
             var dbContext = new materijalno_knjigovodstvoContext();
 
             // Ident kolona
-            int? maxValue_SifraMat = dbContext.Mat
-                .Max(row => row.Ident);
 
-            int? minValue_SifraMat = dbContext.Mat
-                .Min(row => row.Ident);
-
-            if (CurrentItemMat.Ident < minValue_SifraMat || CurrentItemMat.Ident > maxValue_SifraMat)
+            if (!string.IsNullOrWhiteSpace(CurrentItemMat.Ident) && !dbContext.TabelaMaterijala.Any(row => row.Ident == CurrentItemMat.Ident))
             {
                 System.Windows.MessageBox.Show("Materijal ne postoji!", "Upozorenje", MessageBoxButton.OK, MessageBoxImage.Information);
-                CurrentItemMat.Ident = 0;
+                CurrentItemMat.Ident = null;
             }
 
 
@@ -1093,8 +1091,8 @@ namespace Materijalno.ViewModel
 
             if (string.IsNullOrWhiteSpace(CurrentItemMat.Analst) ||
                 string.IsNullOrWhiteSpace(CurrentItemMat.Brdok) ||
-                !CurrentItemMat.Ident.HasValue ||
-                CurrentItemMat.Ident.Value <= 0 ||
+                string.IsNullOrWhiteSpace(CurrentItemMat.Ident) ||
+                !Materijalno.Model.Services.MaterialIdentifier.IsValid(CurrentItemMat.Ident) ||
                 !CurrentItemMat.Kolic.HasValue ||
                 CurrentItemMat.Kolic.Value <= 0 ||
                 string.IsNullOrWhiteSpace(CurrentItemMat.Fvrijed))

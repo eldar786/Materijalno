@@ -49,7 +49,7 @@ namespace Materijalno.UI.Izvjestaji
             var dbContext = new materijalno_knjigovodstvoContext();
 
             MatList = new ObservableCollection<Mat>(ReportQueries.AtDate(dbContext, stanjeZalihaZaSvaSkladistavm.CurrentItemMat.Datun ?? DateTime.Today)
-                     .Where(row => true && row.Ident != 0) // Remove specific Kljnaz filtering
+                     .Where(row => true && (row.Ident != null && row.Ident != "")) // Remove specific Kljnaz filtering
                      .AsEnumerable() // Forces execution in-memory to enable GroupBy & OrderBy
                      .GroupBy(row => new { row.Kljnaz, row.Ident }) // Group by BOTH Kljnaz and Ident
                      .Select(grouped => new Mat
@@ -94,7 +94,7 @@ namespace Materijalno.UI.Izvjestaji
         {
             reportDt = new DataTable("StanjeZalihaZaSvaSkladista");
 
-            reportDt.Columns.Add("Ident").DataType = typeof(int);
+            reportDt.Columns.Add("Ident").DataType = typeof(string);
             reportDt.Columns.Add("NazMat").DataType = typeof(string);
             reportDt.Columns.Add("Kolic").DataType = typeof(decimal);
             reportDt.Columns.Add("Vrijed").DataType = typeof(decimal);

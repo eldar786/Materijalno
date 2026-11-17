@@ -14,7 +14,7 @@ namespace Materijalno.UI.Izvjestaji
         public int Id { get; set; }
         public int? Kljnaz { get; set; }
         public int? Kljnaz1 { get; set; }
-        public int? Ident { get; set; }
+        public string Ident { get; set; }
         public DateTime Datun { get; set; }
         public string NazMat { get; set; }
         public string Brdok { get; set; }

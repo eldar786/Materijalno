@@ -1916,7 +1916,7 @@ robe</Value>
         </Field>
         <Field Name="Ident">
           <DataField>Ident</DataField>
-          <rd:TypeName>System.Int32</rd:TypeName>
+          <rd:TypeName>System.String</rd:TypeName>
         </Field>
         <Field Name="Nazmat">
           <DataField>Nazmat</DataField>

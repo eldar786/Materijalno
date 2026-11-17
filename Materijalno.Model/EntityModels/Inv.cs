@@ -18,7 +18,7 @@ namespace Materijalno.Model.EntityModels
 
         public int Id { get; set; }
         public int? Kljnaz { get; set; }
-        public int? Ident { get; set; }
+        public string Ident { get; set; }
         public DateTime? Datun { get; set; } = DateTime.Today;
         public string Analst { get; set; }
         public string Brdok { get; set; }

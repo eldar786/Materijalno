@@ -25,8 +25,11 @@ using System.Globalization;
 
 namespace Materijalno.ViewModel
 {
-    public class PovratMaterijalaViewModel : INotifyPropertyChanged
+    public class PovratMaterijalaViewModel : INotifyPropertyChanged, Services.IActivePrometEntry
     {
+        public bool HasUnsavedEntry => isNovaKalkulacijaClicked ||
+            (CurrentItemMat != null && CurrentItemMat.Id > 0 && CurrentItemMat.IsDraft);
+
         #region Fields
 
         private ApplicationViewModel _avm;
@@ -357,8 +360,8 @@ namespace Materijalno.ViewModel
         }
         public void NabavnaCijena()
         {
-            if (CurrentItemMat == null || !CurrentItemMat.Ident.HasValue || !CurrentItemMat.Kljnaz.HasValue) return;
-            CurrentItemMat.Nc = new MaterialPostingService().ReturnPrice(CurrentItemMat.Ident.Value, CurrentItemMat.Kljnaz.Value, CurrentItemMat.Id);
+            if (CurrentItemMat == null || string.IsNullOrWhiteSpace(CurrentItemMat.Ident) || !CurrentItemMat.Kljnaz.HasValue) return;
+            CurrentItemMat.Nc = new MaterialPostingService().ReturnPrice(CurrentItemMat.Ident, CurrentItemMat.Kljnaz.Value, CurrentItemMat.Id);
             CurrentItemMat.Vrijed = CurrentItemMat.Nc.HasValue && CurrentItemMat.Kolic.HasValue ? (decimal?)LedgerMath.Money(CurrentItemMat.Nc.Value * Math.Abs(CurrentItemMat.Kolic.Value)) : null;
             OnPropertyChanged(nameof(CurrentItemMat));
         }
@@ -375,11 +378,6 @@ namespace Materijalno.ViewModel
                 .Min(row => row.Kljnaz);
 
             // Ident kolona
-            int? maxValue_SifraMat = dbContext.Mat
-                .Max(row => row.Ident);
-
-            int? minValue_SifraMat = dbContext.Mat
-                .Min(row => row.Ident);
 
             if (CurrentItemMat.Kljnaz == 1000)
             {
@@ -393,10 +391,10 @@ namespace Materijalno.ViewModel
                 //TextBox Skladiste vratiti na prazno
                 CurrentItemMat.Kljnaz = 0;
             }
-            if (CurrentItemMat.Ident < minValue_SifraMat || CurrentItemMat.Ident > maxValue_SifraMat)
+            if (!string.IsNullOrWhiteSpace(CurrentItemMat.Ident) && !dbContext.TabelaMaterijala.Any(row => row.Ident == CurrentItemMat.Ident))
             {
                 System.Windows.MessageBox.Show("Materijal ne postoji!", "Upozorenje", MessageBoxButton.OK, MessageBoxImage.Information);
-                CurrentItemMat.Ident = 0;
+                CurrentItemMat.Ident = null;
             }
             UpdateCurrentItemData(dbContext);
 
@@ -877,7 +875,7 @@ namespace Materijalno.ViewModel
                         // Nova stavka
                         Redbr = redbr + 1,
                         Status = "V",
-                        Ident = 0,
+                        Ident = null,
                         Kolic = 0,
                         Nc = 0m,
                         Vrijed = 0m

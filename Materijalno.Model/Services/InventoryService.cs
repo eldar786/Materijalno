@@ -22,10 +22,10 @@ namespace Materijalno.Model.Services
 
         private static decimal Quote(materijalno_knjigovodstvoContext db, Inv input)
         {
-            if (input == null || !input.Ident.HasValue || input.Kljnaz.GetValueOrDefault() <= 0)
+            if (input == null || string.IsNullOrWhiteSpace(input.Ident) || input.Kljnaz.GetValueOrDefault() <= 0)
                 throw new InvalidOperationException("Odaberite materijal i skladište inventure.");
             DateTime day = (input.InventoryDate ?? input.Datun ?? DateTime.Today).Date;
-            var balance = MaterialPostingService.Balance(db, input.Ident.Value, input.Kljnaz.Value, at: day);
+            var balance = MaterialPostingService.Balance(db, input.Ident, input.Kljnaz.Value, at: day);
             if (balance.Quantity < 0 || balance.Value < 0)
                 throw new InvalidOperationException("Knjigovodstveni saldo na datum inventure nije ispravan.");
             if (balance.Quantity > 0) return balance.UnitCost;
@@ -43,6 +43,8 @@ namespace Materijalno.Model.Services
         public Inv Save(Inv input)
         {
             if (input == null) throw new InvalidOperationException("Nema inventurne stavke.");
+            input.Ident = MaterialIdentifier.Normalize(input.Ident);
+            if (!MaterialIdentifier.IsValid(input.Ident)) throw new InvalidOperationException("Unesite ispravnu šifru materijala.");
             using (var db = _create())
             using (var transaction = db.Database.BeginTransaction(IsolationLevel.Serializable))
             using (db.AllowPosting())
@@ -61,7 +63,7 @@ namespace Materijalno.Model.Services
                 input.Vrijed = LedgerMath.Money(input.Kolic.Value * input.Nc);
                 input.Datun = day; input.Datnar = day; input.InventoryDate = day; input.InventorySessionId = session;
                 input.Status = "P"; input.IsDraft = false; input.IsArchived = false;
-                input.Kontosklad = MaterialPostingService.Account(db, input.Ident.Value, input.Kljnaz.Value);
+                input.Kontosklad = MaterialPostingService.Account(db, input.Ident, input.Kljnaz.Value);
                 input.Konto1 = db.TabelaMaterijala.Single(m => m.Ident == input.Ident).Konto1 ?? 0;
                 var stored = input.Id == 0 ? null : db.Inv.IgnoreQueryFilters().SingleOrDefault(i => i.Id == input.Id);
                 if (stored == null)

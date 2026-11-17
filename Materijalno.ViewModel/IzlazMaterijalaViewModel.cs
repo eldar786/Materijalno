@@ -25,8 +25,11 @@ using System.Globalization;
 
 namespace Materijalno.ViewModel
 {
-    public class IzlazMaterijalaViewModel : INotifyPropertyChanged
+    public class IzlazMaterijalaViewModel : INotifyPropertyChanged, Services.IActivePrometEntry
     {
+        public bool HasUnsavedEntry => isNovaKalkulacijaClicked ||
+            (CurrentItemMat != null && CurrentItemMat.Id > 0 && CurrentItemMat.IsDraft);
+
         #region Fields
 
         private ApplicationViewModel _avm;
@@ -367,11 +370,11 @@ namespace Materijalno.ViewModel
         }
         public void NabavnaCijena()
         {
-            if (CurrentItemMat == null || !CurrentItemMat.Ident.HasValue || !CurrentItemMat.Kljnaz.HasValue || !CurrentItemMat.Kolic.HasValue) return;
+            if (CurrentItemMat == null || string.IsNullOrWhiteSpace(CurrentItemMat.Ident) || !CurrentItemMat.Kljnaz.HasValue || !CurrentItemMat.Kolic.HasValue) return;
             try
             {
                 var service = new MaterialPostingService();
-                var stock = service.Balance(CurrentItemMat.Ident.Value, CurrentItemMat.Kljnaz.Value, CurrentItemMat.Id);
+                var stock = service.Balance(CurrentItemMat.Ident, CurrentItemMat.Kljnaz.Value, CurrentItemMat.Id);
                 decimal quantity = Math.Abs(CurrentItemMat.Kolic.Value);
                 CurrentItemMat.Nc = stock.UnitCost;
                 CurrentItemMat.Kolic = -quantity;
@@ -466,11 +469,6 @@ namespace Materijalno.ViewModel
                 .Min(row => row.Kljnaz);
 
             // Ident kolona
-            int? maxValue_SifraMat = dbContext.Mat
-                .Max(row => row.Ident);
-
-            int? minValue_SifraMat = dbContext.Mat
-                .Min(row => row.Ident);
 
             if (CurrentItemMat.Kljnaz == 1000)
             {
@@ -484,10 +482,10 @@ namespace Materijalno.ViewModel
                 //TextBox Skladiste vratiti na prazno
                 CurrentItemMat.Kljnaz = 0;
             }
-            if (CurrentItemMat.Ident < minValue_SifraMat || CurrentItemMat.Ident > maxValue_SifraMat)
+            if (!string.IsNullOrWhiteSpace(CurrentItemMat.Ident) && !dbContext.TabelaMaterijala.Any(row => row.Ident == CurrentItemMat.Ident))
             {
                 System.Windows.MessageBox.Show("Materijal ne postoji!", "Upozorenje", MessageBoxButton.OK, MessageBoxImage.Information);
-                CurrentItemMat.Ident = 0;
+                CurrentItemMat.Ident = null;
             }
             UpdateCurrentItemData(dbContext);
         }
@@ -892,11 +890,11 @@ namespace Materijalno.ViewModel
         }
         private bool ValidacijaZaliheMaterijala()
         {
-            if (CurrentItemMat == null || !CurrentItemMat.Ident.HasValue || !CurrentItemMat.Kolic.HasValue) return false;
+            if (CurrentItemMat == null || string.IsNullOrWhiteSpace(CurrentItemMat.Ident) || !CurrentItemMat.Kolic.HasValue) return false;
             int warehouse = CurrentItemMat.Status == "M" && CurrentItemMat.Medus == "1" ? CurrentItemMat.Kljnaz1 ?? 0 : CurrentItemMat.Kljnaz ?? 0;
             try
             {
-                var stock = new MaterialPostingService().Balance(CurrentItemMat.Ident.Value, warehouse, CurrentItemMat.Id, CurrentItemMat.TransferPairId);
+                var stock = new MaterialPostingService().Balance(CurrentItemMat.Ident, warehouse, CurrentItemMat.Id, CurrentItemMat.TransferPairId);
                 LedgerMath.IssueValue(stock, Math.Abs(CurrentItemMat.Kolic.Value));
                 return true;
             }
@@ -1133,7 +1131,7 @@ namespace Materijalno.ViewModel
                         Status = "I",
                         Kljnaz1 = 0,
 
-                        Ident = 0,
+                        Ident = null,
                         Kolic = 0,
                         Nc = 0m,
                         Vrijed = 0m

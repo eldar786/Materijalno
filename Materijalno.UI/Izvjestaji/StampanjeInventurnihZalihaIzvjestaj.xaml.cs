@@ -53,7 +53,7 @@ namespace Materijalno.UI.Izvjestaji
 
         public class DiffRow
         {
-            public int Ident { get; set; }
+            public string Ident { get; set; }
             public int? Kljnaz { get; set; }
 
             public decimal MatKolic { get; set; }
@@ -140,7 +140,7 @@ namespace Materijalno.UI.Izvjestaji
                        from i in gj.DefaultIfEmpty()
                        select new DiffRow
                        {
-                           Ident = m.Ident ?? 0,
+                           Ident = m.Ident ?? "",
                            Kljnaz = m.Kljnaz,
 
                            MatKolic = m.Kolic ?? 0,
@@ -167,7 +167,7 @@ namespace Materijalno.UI.Izvjestaji
                             where m == null
                             select new DiffRow
                             {
-                                Ident = i.Ident ?? 0,
+                                Ident = i.Ident ?? "",
                                 Kljnaz = i.Kljnaz,
 
                                 MatKolic = 0,
@@ -223,7 +223,7 @@ namespace Materijalno.UI.Izvjestaji
         {
             reportDt = new DataTable("StampanjeInventurnihZaliha");
 
-            reportDt.Columns.Add("Ident").DataType = typeof(int);
+            reportDt.Columns.Add("Ident").DataType = typeof(string);
             reportDt.Columns.Add("NazMat").DataType = typeof(string);
             reportDt.Columns.Add("Kolic").DataType = typeof(decimal);
             reportDt.Columns.Add("Vrijed").DataType = typeof(decimal);

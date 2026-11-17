@@ -34,7 +34,7 @@ namespace Materijalno.Model.Services
             var groups = rows.GroupBy(m => new {
                 // kontona1.frx consolidates all warehouses under each account.
                 Kljnaz = byDocument ? (int?)null : m.Kljnaz,
-                Account = master.ContainsKey(m.Ident ?? 0) ? master[m.Ident.Value].Konto1 : m.Konto1,
+                Account = master.ContainsKey(m.Ident ?? "") ? master[m.Ident].Konto1 : m.Konto1,
                 Document = byDocument ? m.Brfak ?? "" : ""
             }).OrderBy(g => g.Key.Kljnaz).ThenBy(g => g.Key.Account).ThenBy(g => g.Key.Document);
             foreach (var group in groups)

@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Globalization;
@@ -20,36 +20,23 @@ namespace Materijalno.Model.Services
             using (var db = new materijalno_knjigovodstvoContext())
             {
                 // Original Fajl button: kljnaz<>'' AND datun<=adat2 AND redbr<>0.
-                var movements = ReportQueries.AtDate(db, date).Where(m => m.Kljnaz > 0 && m.Ident > 0 &&
+                var movements = ReportQueries.AtDate(db, date).Where(m => m.Kljnaz > 0 && (m.Ident != null && m.Ident != "") &&
                     m.Redbr.HasValue && m.Redbr.Value != 0).ToList();
-                var codes = new Dictionary<int, string>();
-                using (var connection = new SqlConnection(DatabaseConfiguration.MaterialConnectionString))
-                {
-                    connection.Open();
-                    using (var command = new SqlCommand("SELECT IDENT FROM fox_raw.mater WHERE fox_deleted=0", connection))
-                    using (var reader = command.ExecuteReader())
-                    {
-                        while (reader.Read())
-                        {
-                            string code = reader.GetString(0).Trim(); int ident;
-                            if (int.TryParse(code, NumberStyles.Integer, CultureInfo.InvariantCulture, out ident)) codes[ident] = code;
-                        }
-                    }
-                }
+                var codes = new Dictionary<string, string>(StringComparer.Ordinal);
                 return Build(movements, db.TabelaMaterijala.AsNoTracking().ToList(),
                     db.SifarnikSkladista.AsNoTracking().ToList(), codes, date, generated);
             }
         }
 
         public static byte[] Build(IEnumerable<Mat> movements, IEnumerable<TabelaMaterijala> materials,
-            IEnumerable<SifarnikSkladista> warehouses, IDictionary<int, string> sourceCodes, DateTime date, DateTime generated)
+            IEnumerable<SifarnikSkladista> warehouses, IDictionary<string, string> sourceCodes, DateTime date, DateTime generated)
         {
             var master = materials.ToDictionary(m => m.Ident);
             var warehouseNames = warehouses.ToDictionary(w => w.Kljnaz, w => w.NazivOrg ?? "");
-            Func<int, string> code = ident => sourceCodes.ContainsKey(ident) ? sourceCodes[ident] : ident.ToString(CultureInfo.InvariantCulture);
+            Func<string, string> code = ident => sourceCodes.ContainsKey(ident) ? sourceCodes[ident] : ident;
             var groups = movements.Where(m => !m.IsDraft && m.BookYear == date.Year && m.Datun.HasValue &&
-                    m.Datun.Value.Date <= date.Date && m.Kljnaz > 0 && m.Ident > 0 && m.Redbr.GetValueOrDefault() != 0)
-                .GroupBy(m => new { Warehouse = m.Kljnaz.Value, Ident = m.Ident.Value })
+                    m.Datun.Value.Date <= date.Date && m.Kljnaz > 0 && (m.Ident != null && m.Ident != "") && m.Redbr.GetValueOrDefault() != 0)
+                .GroupBy(m => new { Warehouse = m.Kljnaz.Value, Ident = m.Ident })
                 .OrderBy(g => g.Key.Warehouse).ThenBy(g => code(g.Key.Ident), StringComparer.Ordinal).ToList();
             if (groups.Count == 0) throw new InvalidOperationException("Nema podataka o zalihama za odabrani datum.");
 
