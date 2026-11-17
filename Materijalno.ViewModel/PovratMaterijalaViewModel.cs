@@ -46,6 +46,7 @@ namespace Materijalno.ViewModel
         public event PropertyChangedEventHandler PropertyChanged;
         public event Action RequestFocusSlijedecaStavka;
         public event Action RequestFocusIdent;
+        public event Action RequestFocusWarehouse;
 
         private bool prethodniButtonIsExecuted = false;
         private bool nextButtonIsExecuted = false;
@@ -622,7 +623,8 @@ namespace Materijalno.ViewModel
                     //Kljnaz = 1000
                     Status = "V",
                     Kljnaz1 = 0,
-                    Redbr = 1
+                    Redbr = 1,
+                    Kolic = 0m
                 });
 
                 CurrentIndex = MatList.Count - 1;
@@ -639,6 +641,7 @@ namespace Materijalno.ViewModel
 
                 UpdateCurrentItemData(dbContext);
             }
+            RequestFocusWarehouse?.Invoke();
         }
 
         private bool ValidacijaSpasi()
@@ -931,7 +934,8 @@ namespace Materijalno.ViewModel
                     Datnar = snimljeniCurrentMat.Datnar,
                     Brdok = snimljeniCurrentMat.Brdok,
                     Status = "V",
-                    Kljnaz1 = 0
+                    Kljnaz1 = 0,
+                    Kolic = 0m
                 });
 
                 CurrentIndex = MatList.Count - 1;

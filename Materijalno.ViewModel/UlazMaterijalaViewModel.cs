@@ -893,6 +893,7 @@ namespace Materijalno.ViewModel
                     Kljnaz1 = 0,
                     Status = "U",
                     Redbr = 1,
+                    Kolic = 0m,
                     Brnar = "",
                     Konto2 = "",
                     Kontosklad1 = 0,
@@ -1010,7 +1011,7 @@ namespace Materijalno.ViewModel
 
                         // NOVI MATERIJAL
                         Ident = null,
-                        Kolic = null,
+                        Kolic = 0m,
                         Nc = null,
                         Vrijed = null,
                         Fvrijed = "",
@@ -1270,6 +1271,7 @@ namespace Materijalno.ViewModel
                     // Ostala početna polja
                     Status = "U",
                     Brnar = "",
+                    Kolic = 0m,
                     Konto2 = "",
                     Kontosklad1 = 0,
                     Tarifa = "1",

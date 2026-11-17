@@ -53,6 +53,7 @@ namespace Materijalno.ViewModel
         public static bool isOdustaniEnabled = false;
         public static bool isIzlazEnable = false;
         public event Action RequestFocusIdent;
+        public event Action RequestFocusWarehouse;
 
         private bool _unosMedjuskladisniceAktivan = false;
 
@@ -771,6 +772,7 @@ namespace Materijalno.ViewModel
                 UpdateCurrentItemData(db);
             }
             SetWorkflow(TransferWorkflow.Editing);
+            RequestFocusWarehouse?.Invoke();
         }
         private void NovaStavkaButton()
         {

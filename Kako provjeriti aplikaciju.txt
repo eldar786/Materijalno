@@ -209,3 +209,18 @@ Backup poslije: C:\Program Files\Microsoft SQL Server\MSSQL15.LUTRIJASQL\MSSQL\B
 - Zamijenjen Services\*.cs u Materijalno.ViewModel.csproj pojedinačnim Compile unosima za četiri servisne datoteke, uključujući Services\PrometNavigationGuard.cs. IActivePrometEntry i PrometNavigationGuard nalaze se u toj datoteci.
 - Potpuni Rebuild rješenja uspješan: 0 grešaka. Prošlo ponovo svih 548 provjera zaštite menija. Izvršne datoteke usklađene u Debug, artifacts/FoxApp i artifacts/PrometTest.
 - Ako Visual Studio prikaže File Modification Detected, izabrati Reload All; zatim Build > Rebuild Solution i F5. Nisu potrebne nove reference ni NuGet paketi.
+
+17.11.2026. - Fokus na skladište pri novom prometu
+- Novo zaduženje (Izlaz), Nova međuskladišnica i Novi povrat nakon uspješnog otvaranja dokumenta postavljaju fokus na TextBox OpBroj za kljnaz/izvorno skladište.
+- Fokus se postavlja nakon osvježavanja prikaza; postojeći sadržaj polja je označen radi lakšeg unosa. Događaj nije vezan za Nova stavka/Slij. stavka, koje zadržavaju fokus na šifri materijala.
+- QA i završni Debug build uspješni. Izmjena postavljena u artifacts/FoxApp i artifacts/PrometTest, uz backup prethodnih datoteka i nepromijenjene konfiguracije. Nisu kreirani probni poslovni unosi niti mijenjani podaci u bazama.
+- Pokrenuti aplikaciju ponovo ili F5. Nakon svakog od tri navedena dugmeta unos tastaturom treba odmah ići u Skladište.
+
+17.11.2026. - Količina u Ulazu, Izlazu i Povratu
+- Novi dokument, Nova stavka i Slij. stavka počinju količinom 0, prikazanom kao 0,00.
+- Dolazak fokusa tastaturom ili prvi klik miša označava cijelu količinu za direktno prepisivanje. Naredni klik u već aktivnom polju dopušta uobičajeno postavljanje kursora.
+- Enter potvrđuje numerički unos i prikazuje dvije decimale: 12 -> 12,00; 12,5 -> 12,50; 1000 -> 1.000,00. Neispravan tekst ne mijenja količinu niti pomjera fokus.
+- Na Ulazu Enter i dalje vodi na Fakturnu vrijednost; na Izlazu/Povratu na Snimi. Postojeći LostFocus obračun cijene je zadržan.
+- QuantityInput.cs izričito je uključen u UI projekat. Ako Visual Studio zatraži osvježavanje projekta, izabrati Reload All.
+- QA i završni build uspješni. Prošla 51 provjera na stvarnim WPF kontrolama sa izoliranim DataContextom, bez SQL/Oracle konekcija ili poslovnih unosa.
+- Izmjena postavljena u Debug, artifacts/FoxApp i artifacts/PrometTest; konfiguracije nepromijenjene. Restartovati aplikaciju/F5.

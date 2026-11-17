@@ -1,4 +1,4 @@
-<UserControl xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:vm="clr-namespace:Materijalno.ViewModel;assembly=Materijalno.ViewModel" xmlns:local="clr-namespace:Materijalno.UI" xmlns:i="http://schemas.microsoft.com/xaml/behaviors" x:Class="Materijalno.UI.IzlazMaterijala" mc:Ignorable="d" d:DesignHeight="900" d:DesignWidth="1900">
+<UserControl xmlns:quantity="clr-namespace:Materijalno.UI.Helpers" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:vm="clr-namespace:Materijalno.ViewModel;assembly=Materijalno.ViewModel" xmlns:local="clr-namespace:Materijalno.UI" xmlns:i="http://schemas.microsoft.com/xaml/behaviors" x:Class="Materijalno.UI.IzlazMaterijala" mc:Ignorable="d" d:DesignHeight="900" d:DesignWidth="1900">
   <UserControl.Resources>
     <ResourceDictionary><ResourceDictionary.MergedDictionaries><ResourceDictionary Source="/Materijalno.UI;component/Themes/FinanceTheme.xaml"/></ResourceDictionary.MergedDictionaries><DataTemplate DataType="{x:Type vm:IzlazMaterijalaViewModel}">
       <local:IzlazMaterijala/>
@@ -73,7 +73,7 @@
       <WrapPanel Margin="0,0,0,12">
         <StackPanel Orientation="Horizontal" Margin="0,0,18,4">
           <Label FontSize="13" VerticalAlignment="Center" Width="150" Padding="0,5,8,5">Količina</Label>
-          <TextBox x:Name="txtKolicina" Text="{Binding CurrentItemMat.Kolic, UpdateSourceTrigger=LostFocus, StringFormat=N2, Mode=TwoWay, ConverterCulture='de-DE'}" KeyDown="Kolicina_KeyDown" FontSize="14" VerticalAlignment="Center" MinHeight="30" Width="170" TextAlignment="Right" Typography.NumeralAlignment="Tabular">
+          <TextBox x:Name="txtKolicina" Text="{Binding CurrentItemMat.Kolic, UpdateSourceTrigger=LostFocus, StringFormat=N2, Mode=TwoWay, TargetNullValue='0,00', ConverterCulture='de-DE'}" KeyDown="Kolicina_KeyDown" FontSize="14" VerticalAlignment="Center" MinHeight="30" Width="170" TextAlignment="Right" Typography.NumeralAlignment="Tabular" quantity:QuantityInput.SelectAllOnFocus="True">
             <i:Interaction.Triggers>
               <i:EventTrigger EventName="LostFocus">
                 <i:InvokeCommandAction Command="{Binding NabavnaCijenaCommand}"/>

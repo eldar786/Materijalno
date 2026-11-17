@@ -39,13 +39,27 @@ namespace Materijalno.UI
                 oldVm.OnPrintEvent -= HandlePrintRequest;
                 oldVm.RequestFocusSlijedecaStavka -= FocusSlijedecaStavka;
                 oldVm.RequestFocusIdent -= FocusIdent;
+                oldVm.RequestFocusWarehouse -= FocusWarehouse;
             }
             if (e.NewValue is PovratMaterijalaViewModel newVm)
             {
                 newVm.OnPrintEvent += HandlePrintRequest;
                 newVm.RequestFocusSlijedecaStavka += FocusSlijedecaStavka;
                 newVm.RequestFocusIdent += FocusIdent;
+                newVm.RequestFocusWarehouse += FocusWarehouse;
             }
+        }
+
+        private void FocusWarehouse()
+        {
+            Dispatcher.BeginInvoke(new Action(() =>
+            {
+                if (OpBroj.IsEnabled && OpBroj.IsVisible)
+                {
+                    Keyboard.Focus(OpBroj);
+                    OpBroj.SelectAll();
+                }
+            }), System.Windows.Threading.DispatcherPriority.ContextIdle);
         }
 
         private void FocusSlijedecaStavka()
@@ -75,8 +89,7 @@ namespace Materijalno.UI
             e.Handled = true;
             var input = sender as TextBox;
             if (input == null) return;
-            input.GetBindingExpression(TextBox.TextProperty)?.UpdateSource();
-            if (Validation.GetHasError(input)) return;
+            if (!Helpers.QuantityInput.Commit(input)) return;
             if (btnSnimi.IsEnabled && btnSnimi.IsVisible) Keyboard.Focus(btnSnimi);
         }
 

@@ -73,14 +73,28 @@ namespace Materijalno.UI
             {
                 oldVm.OnPrintEvent -= HandlePrintRequest;
                 oldVm.RequestFocusIdent -= FokusNaIdent;
+                oldVm.RequestFocusWarehouse -= FocusWarehouse;
                 oldVm.RequestFocusSlijedecaStavka -= FokusNaSlijedecuStavku;
             }
 
             if (e.NewValue is MedjuskladisnicaViewModel newVm)
             {
                 newVm.RequestFocusIdent += FokusNaIdent;
+                newVm.RequestFocusWarehouse += FocusWarehouse;
                 newVm.RequestFocusSlijedecaStavka += FokusNaSlijedecuStavku;
             }
+        }
+
+        private void FocusWarehouse()
+        {
+            Dispatcher.BeginInvoke(new Action(() =>
+            {
+                if (OpBroj.IsEnabled && OpBroj.IsVisible)
+                {
+                    Keyboard.Focus(OpBroj);
+                    OpBroj.SelectAll();
+                }
+            }), System.Windows.Threading.DispatcherPriority.ContextIdle);
         }
 
         private void FokusNaIdent()

@@ -24,6 +24,15 @@ namespace Materijalno.UI
     /// </summary>
     public partial class UlazMaterijala : UserControl
     {
+        private void Kolicina_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key != Key.Enter) return;
+            e.Handled = true;
+            var input = sender as TextBox;
+            if (!Helpers.QuantityInput.Commit(input)) return;
+            input.MoveFocus(new TraversalRequest(FocusNavigationDirection.Next));
+        }
+
         public UlazMaterijala()
         {
             InitializeComponent();

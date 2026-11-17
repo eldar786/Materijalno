@@ -295,6 +295,7 @@
       <DependentUpon>Dnevnik.xaml</DependentUpon>
     </Compile>
     <Compile Include="Helpers\PathHelper.cs" />
+    <Compile Include="Helpers\QuantityInput.cs" />
     <Compile Include="InvLista.xaml.cs">
       <DependentUpon>InvLista.xaml</DependentUpon>
     </Compile>

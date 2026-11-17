@@ -34,6 +34,7 @@ namespace Materijalno.UI
             {
                 vm.RequestFocusSlijedecaStavka += FocusSlijedecaStavka;
                 vm.RequestFocusIdent += FocusIdent;
+                vm.RequestFocusWarehouse += FocusWarehouse;
             }
 
             this.DataContextChanged += MainWindow_DataContextChanged;
@@ -44,13 +45,27 @@ namespace Materijalno.UI
             {
                 oldVm.RequestFocusSlijedecaStavka -= FocusSlijedecaStavka;
                 oldVm.RequestFocusIdent -= FocusIdent;
+                oldVm.RequestFocusWarehouse -= FocusWarehouse;
             }
 
             if (e.NewValue is IzlazMaterijalaViewModel newVm)
             {
                 newVm.RequestFocusSlijedecaStavka += FocusSlijedecaStavka;
                 newVm.RequestFocusIdent += FocusIdent;
+                newVm.RequestFocusWarehouse += FocusWarehouse;
             }
+        }
+
+        private void FocusWarehouse()
+        {
+            Dispatcher.BeginInvoke(new Action(() =>
+            {
+                if (OpBroj.IsEnabled && OpBroj.IsVisible)
+                {
+                    Keyboard.Focus(OpBroj);
+                    OpBroj.SelectAll();
+                }
+            }), System.Windows.Threading.DispatcherPriority.ContextIdle);
         }
 
         private void FocusSlijedecaStavka()
@@ -150,8 +165,7 @@ namespace Materijalno.UI
 
             var input = sender as TextBox;
             if (input == null) return;
-            input.GetBindingExpression(TextBox.TextProperty)?.UpdateSource();
-            if (Validation.GetHasError(input)) return;
+            if (!Helpers.QuantityInput.Commit(input)) return;
 
             // Leaving the field runs the existing LostFocus cost calculation.
             // Enter only moves focus; saving still requires activating Snimi.
