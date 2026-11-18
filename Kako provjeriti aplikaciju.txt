@@ -231,3 +231,44 @@ Backup poslije: C:\Program Files\Microsoft SQL Server\MSSQL15.LUTRIJASQL\MSSQL\B
 - Prazna ili nepoznata šifra briše prethodni naziv. Pri traženju se zanemaruju razmaci na krajevima šifre, uz čuvanje vodećih nula u samoj šifri.
 - Prošlo 10 provjera stvarnih WPF bindinga i LostKeyboardFocus handlera sa izoliranim spiskom komitenata: promjena komitenta, vodeće nule, nepoznata/prazna šifra i nepromijenjena ostala polja. Test nije pristupao SQL/Oracle bazama.
 - QA i završni Debug build uspješni. Datoteke postavljene u Debug, artifacts/FoxApp i artifacts/PrometTest; konfiguracije nepromijenjene. Pokrenuti aplikaciju ponovo/F5.
+
+18.11.2026. - Početno stanje prvi put: Konto3, NC i ukupna vrijednost
+- Referenca je originalna Fox forma unpoc.scx/sct (čitana kao datoteka, bez pokretanja Foxa).
+- Naziv Konto2 na formi prikazuje mater.konto1, a naziv Konto3 prikazuje mater.konto2. Tabela materijalnog prometa nema novu kolonu konto3. U trenutnom Fox i SQL šifarniku svih 175 materijala ima prazno konto2, pa Konto3 treba ostati prazan. Ispravljeno je povezivanje prema šifri materijala i obavještavanje UI-a; pri snimanju P prenosi se materijal.konto2 umjesto prisilnog brisanja.
+- Promjena šifre materijala ili skladišta potvrđuje unesenu vrijednost prije lookup-a. NC se osvježava iz prvog snimljenog ulaza U za isti materijal/skladište, u redoslijedu Fox zapisa, za odgovarajuću knjigovodstvenu godinu. Ako ulaza nema, stara NC i vrijednost se brišu; treba unijeti poznatu početnu cijenu. Ponovni izlazak iz nepromijenjene šifre ne prepisuje ručno unesenu NC.
+- Vrijednost stavke = količina × NC; NC se čuva na 9 decimala, vrijednost zaokružuje na 2 decimale kao pri snimanju. Promjena količine ili NC preračunava i vrijednost i zbir.
+- Ukupna vrijednost je zbir početnih stanja P odabranog skladišta i godine, uz tekuću stavku uračunatu tačno jednom. Pri izmjeni se zamjenjuje stara vrijednost odabranog reda; pri unosu se prikazuje prethodni zbir + tekuća nesnimljena stavka. Tuđi nacrti i drugi prometi nisu uključeni. Ponovljena validacija NC ne sabira isti iznos više puta.
+- Fox pri ulasku računa SUM vrijed FOR kljnaz=m.kljnaz AND status='P', a u Valid NC dodaje iznos stavke u avrijed. Nova aplikacija ponovo računa isti zbir da izbjegne višestruko dodavanje iste stavke pri ponovnom izlasku iz NC.
+- Nezavisno poređenje postojećih zbirova sa Fox tabelom potvrdilo je identične iznose u svih 11 skladišta sa početnim stanjem; npr. 1001 = 20.111,04, 1000 = 1.494.905,22.
+- Prošlo je 219 provjera: stvarni WPF bindingi i događaji, promjena NC, oba konta, korekcija/nova stavka/ponovljeni preračun, svi materijali i skladišta, 10 nezavisnih poređenja prve uvozne cijene sa Fox zapisom. SQL provjere su bile read-only, bez stvarnog poslovnog Snimi ili Oracle poziva. Hash prije/poslije potvrdio je nepromijenjene mat, tabela_materijala, nalmat i document_counter, uključujući row_version.
+- Hash svih 61 originalnih Fox datoteka podataka i četiri datoteke pregledanih formi ostao je nepromijenjen. Backup izvornog koda/binarnih datoteka i detaljni nalazi: artifacts/InitialStock_20261118_100928.
+- Nova datoteka InitialStockRules.cs izričito je uključena u Model projekat. Ako Visual Studio zatraži osvježavanje projekta, izabrati Reload All. Konfiguracije baze/Oracle postavke nisu mijenjane.
+- Nakon zatvaranja aplikacije završen i Debug build cijelog rješenja sa 0 grešaka. Debug, artifacts/FoxApp i artifacts/PrometTest imaju usklađene izvršne datoteke. Može se pokrenuti preko F5 ili Pokreni Materijalno.cmd.
+
+18.11.2026. - Stvarno snimanje tri početna stanja i završno čišćenje
+- Test izvršen u postojećoj bazi materijalno_fox_20261105_102038, kroz stvarne WPF kontrole i ViewModel komande Novo skl., Slij. stavka i Snimi. Prije testa kreiran i verificiran SQL backup; Fox tabele samo kopirane/čitane.
+- Odabrani su postojeći materijali 25, 163 i 094001 u skladištu 1000 koji imaju ulaznu cijenu, ali nisu imali početno stanje.
+- Prvi unos: 25, količina 11, NC 3,147300000, vrijednost 34,62; ukupno skladište poslije Snimi 1.494.939,84.
+- Drugi unos: 163, količina 7, NC 2,831400000, vrijednost 19,82; ukupno poslije Snimi 1.494.959,66.
+- Treći unos: 094001, količina 13, NC 0,154847730, vrijednost 2,01; ukupno poslije Snimi 1.494.961,67.
+- Početni zbir je bio 1.494.905,22; tri probna unosa dodala su 56,45. Sva tri NC automatski preuzeta i jednaka prvom odgovarajućem Fox U zapisu. Vrijednosti nezavisno izračunate kao količina × Fox NC, zaokruženo na dvije decimale.
+- Svaki snimljeni red učitan iz zasebnog EF konteksta: NC, količina, vrijednost, oba konta, datum 01.01.2026, status P, IsDraft=false i FoxRecno=NULL provjereni. Ponovno otvaranje stranice zadržalo je isti zbir. Duplo početno stanje odbijeno.
+- Prošlo 48 provjera. Probni redovi ID 4155, 4156 i 4157 potom uklonjeni po tačnom ID + LineToken; nisu ostavljeni u bazi. Hash svih postojećih mat/inv/master/veza/dokumenata/nalmat/finansijskih evidencija i poslovnih brojača identičan prije i poslije čišćenja. Tehnički SQL identity i globalni rowversion brojači prirodno napreduju pri stvarnim probnim upisima; nisu resetovani.
+- Nije kreirana nova baza. Nisu formirani finansijski nalozi niti pokretan finansijski izvoz. Originalne Fox datoteke ostale nepromijenjene. Test je koristio normalni konstruktor stranice, koji može čitati spisak komitenata preko postojećeg linked servera.
+- Dokazi i backup putanja: artifacts/InitialStockPosting_20261118_112150 (plan.json, saved_results.json, posting_checks.log, cleanup.json, result.json, hashes_before.json i hashes_after.json).
+
+18.11.2026. - Početno stanje prvi put: stvarni test Izmjena, Snimi, Odustani i Brisanje
+- Fox unpoc.scx: Izmjena uključuje uređivanje i fokus na količinu; tek Snimi radi GATHER. Odustani ponovo učitava postojeći zapis. Brisanje uz potvrdu briše tekući red i prelazi na sljedeći/prethodni preživjeli red.
+- Ispravljena nova aplikacija: Izmjena sada otvara odvojenu nesnimljenu kopiju; količina/NC su u pregledu read-only, a u izmjeni dostupni. Snimi ažurira isti red. Odustani vraća SQL podatke i ne briše snimljenu stavku. Kod novog unosa Odustani briše samo vlastiti draft. Poslije Snimi Odustani je nedostupan dok se ne otvori novi unos/izmjena.
+- Aktivni unos/izmjena početnog stanja sada koristi i zajedničku zaštitu navigacije glavnog menija. Nakon brisanja lista se ponovo učita, obrisani red nestane, NC/naziv/konta/zbir pripadaju novoizabranom redu. Redoslijed skladište + šifra usklađen je sa Fox Kljnazi indeksom. Ako se pređe u drugo skladište, zbir prikazuje to novo skladište.
+- Napomena o računu: Fox NC Valid koristi avrijed=avrijed+m.vrijed, što pri ponovljenoj validaciji može ponovo dodati isti iznos. Nova aplikacija provjerava stvarni zbir: stari zbir - stara vrijednost + nova vrijednost. Postojeće spremljene vrijednosti i Fox formula količina × NC ostaju referenca; ne prepisuje se greška dvostrukog sabiranja.
+- Stvarni test u postojećoj bazi, tri probna P reda u skladištu 1000: 25, 163 i 094001. Nakon početnog snimanja zbir 1.494.961,67.
+- Izmjena 25: količina 11, NC 4,25, vrijednost 46,75; zbir 1.494.973,80.
+- Izmjena 163: količina 9, NC 2,8314, vrijednost 25,48; zbir 1.494.979,46.
+- Izmjena 094001: količina 20, NC 0,20, vrijednost 4,00; zbir 1.494.981,45.
+- Poslije ponovnog otvaranja potvrđeni NC i zbir. Odustajanje od probne NC 999 vratilo je staru NC i zbir bez SQL izmjene. Količina 0 odbijena, zapis ostao nepromijenjen, a Odustani je vratio prikaz.
+- Brisanje 094001: zbir skladišta 1000 = 1.494.977,45; brisanje 163 = 1.494.951,97; brisanje 25 = početnih 1.494.905,22. Nakon posljednjeg brisanja odabran je prvi sljedeći red skladišta 1001, pa UI prikazuje njegovu NC i zbir, kao Fox prelazak na sljedeći zapis.
+- Prošlo 67 provjera stvarnih upisa/izmjena/brisanja i 219 read-only regresionih provjera. Testovi su koristili stvarne WPF bindinge i zajedničke aplikacijske metode koje komande pozivaju nakon potvrde. Test brisanja pozivao je istu metodu poslije potvrde direktno; nije automatizirano potvrđivanje brisanja korisničkih redova.
+- Svi probni redovi (4159,4160,4161 i novi otkazani draft 4162) uklonjeni kroz testirane metode; završni cleanup nije morao ukloniti dodatne redove. Hash svih devet praćenih operativnih/finansijskih tabela i poslovnih brojača identičan prije/poslije. Tehnički identity/globalni rowversion brojači prirodno napreduju; nisu resetovani.
+- Originalni Fox podaci i forma nepromijenjeni (61 datoteka + 2 datoteke forme). Nije kreirana nova baza, nisu formirani finansijski nalozi. Postavke SQL/Oracle konekcija sačuvane. Detalji/backup: artifacts/InitialStockEditDelete_20261118_113829.
+- Završni Debug build prošao sa 0 grešaka. Ispravka postavljena u Debug, artifacts/FoxApp i artifacts/PrometTest. Pokrenuti aplikaciju ponovo ili F5.

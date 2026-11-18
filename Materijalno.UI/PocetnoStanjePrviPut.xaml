@@ -10,29 +10,14 @@
       <WrapPanel Margin="0,0,0,12">
         <StackPanel Orientation="Horizontal" Margin="0,0,18,4">
           <Label FontSize="13" VerticalAlignment="Center" Width="150" Padding="0,5,8,5">Skladište</Label>
-          <TextBox Name="OpBroj" Text="{Binding CurrentItemMat.Kljnaz}" KeyDown="TextBox_KeyDown" FontWeight="Bold" FontSize="14" VerticalAlignment="Center" MinHeight="30" Width="170">
-            <i:Interaction.Triggers>
-              <i:EventTrigger EventName="LostFocus">
-                <i:InvokeCommandAction Command="{Binding OsvjeziCommand}"/>
-              </i:EventTrigger>
-            </i:Interaction.Triggers>
-          </TextBox>
+          <TextBox Name="OpBroj" Text="{Binding CurrentItemMat.Kljnaz, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" KeyDown="TextBox_KeyDown" FontWeight="Bold" FontSize="14" VerticalAlignment="Center" MinHeight="30" Width="170" LostKeyboardFocus="Reference_LostKeyboardFocus" IsReadOnly="{Binding IsEntryReadOnly}"/>
           <TextBox Text="{Binding CurrentItemTabSkladista.NazivOrg, UpdateSourceTrigger=PropertyChanged}" IsEnabled="False" KeyDown="TextBox_KeyDown" FontSize="14" VerticalAlignment="Center" MinHeight="30" Width="320"/>
         </StackPanel>
       </WrapPanel>
       <WrapPanel Margin="0,0,0,12">
         <StackPanel Orientation="Horizontal" Margin="0,0,18,4">
           <Label FontSize="13" VerticalAlignment="Center" Width="150" Padding="0,5,8,5">Šifra materijala</Label>
-          <TextBox Text="{Binding CurrentItemMat.Ident}" KeyDown="TextBox_KeyDown" FontSize="14" VerticalAlignment="Center" MinHeight="30" Width="170" MaxLength="9">
-            <i:Interaction.Triggers>
-              <i:EventTrigger EventName="LostFocus">
-                <i:InvokeCommandAction Command="{Binding OsvjeziCommand}"/>
-              </i:EventTrigger>
-              <i:EventTrigger EventName="LostFocus">
-                <i:InvokeCommandAction Command="{Binding RedniBrojCommand}"/>
-              </i:EventTrigger>
-            </i:Interaction.Triggers>
-          </TextBox>
+          <TextBox Text="{Binding CurrentItemMat.Ident, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" KeyDown="TextBox_KeyDown" FontSize="14" VerticalAlignment="Center" MinHeight="30" Width="170" MaxLength="9" LostKeyboardFocus="Reference_LostKeyboardFocus" x:Name="txtIdent" IsReadOnly="{Binding IsEntryReadOnly}"/>
           <TextBox Text="{Binding CurrentItemTabMaterijala.Nazmat}" IsEnabled="False" KeyDown="TextBox_KeyDown" FontSize="14" VerticalAlignment="Center" MinHeight="30" Width="320"/>
         </StackPanel>
       </WrapPanel>
@@ -47,7 +32,7 @@
         </StackPanel>
         <StackPanel Orientation="Horizontal" Margin="0,0,18,4">
           <Label FontSize="13" VerticalAlignment="Center" Width="150" Padding="0,5,8,5">Konto 3</Label>
-          <TextBox Text="{Binding CurrentItemTabMaterijalaK2.Konto2}" IsEnabled="False" KeyDown="TextBox_KeyDown" FontSize="14" VerticalAlignment="Center" MinHeight="30" Width="170"/>
+          <TextBox x:Name="txtKonto3" Text="{Binding CurrentItemTabMaterijalaK2.Konto2}" IsEnabled="False" KeyDown="TextBox_KeyDown" FontSize="14" VerticalAlignment="Center" MinHeight="30" Width="170"/>
         </StackPanel>
         <StackPanel Orientation="Horizontal" Margin="0,0,18,4">
           <Label FontSize="13" VerticalAlignment="Center" Width="150" Padding="0,5,8,5">Red. broj</Label>
@@ -57,17 +42,11 @@
       <WrapPanel Margin="0,0,0,12">
         <StackPanel Orientation="Horizontal" Margin="0,0,18,4">
           <Label FontSize="13" VerticalAlignment="Center" Width="150" Padding="0,5,8,5">Količina</Label>
-          <TextBox Text="{Binding CurrentItemMat.Kolic, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, TargetNullValue='0,00', ConverterCulture='de-DE'}" KeyDown="TextBox_KeyDown" FontSize="14" VerticalAlignment="Center" MinHeight="30" Width="170" TextAlignment="Right" Typography.NumeralAlignment="Tabular">
-            <i:Interaction.Triggers>
-              <i:EventTrigger EventName="LostFocus">
-                <i:InvokeCommandAction Command="{Binding NabavnaCijenaCommand}"/>
-              </i:EventTrigger>
-            </i:Interaction.Triggers>
-          </TextBox>
+          <TextBox Text="{Binding CurrentItemMat.Kolic, StringFormat=N2, UpdateSourceTrigger=LostFocus, Mode=TwoWay, TargetNullValue='0,00', ConverterCulture='de-DE'}" KeyDown="TextBox_KeyDown" FontSize="14" VerticalAlignment="Center" MinHeight="30" Width="170" TextAlignment="Right" Typography.NumeralAlignment="Tabular" LostKeyboardFocus="Amount_LostKeyboardFocus" x:Name="txtKolic" IsReadOnly="{Binding IsEntryReadOnly}"/>
         </StackPanel>
         <StackPanel Orientation="Horizontal" Margin="0,0,18,4">
           <Label FontSize="13" VerticalAlignment="Center" Width="150" Padding="0,5,8,5">NC</Label>
-          <TextBox Text="{Binding CurrentItemMat.Nc, StringFormat=N9, TargetNullValue='0,00', ConverterCulture='de-DE', UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" KeyDown="TextBox_KeyDown" FontSize="14" VerticalAlignment="Center" MinHeight="30" Width="170" TextAlignment="Right" Typography.NumeralAlignment="Tabular"/>
+          <TextBox Text="{Binding CurrentItemMat.Nc, StringFormat=N9, TargetNullValue='0,00', ConverterCulture='de-DE', UpdateSourceTrigger=LostFocus, Mode=TwoWay}" KeyDown="TextBox_KeyDown" FontSize="14" VerticalAlignment="Center" MinHeight="30" Width="170" TextAlignment="Right" Typography.NumeralAlignment="Tabular" x:Name="txtNc" LostKeyboardFocus="Amount_LostKeyboardFocus" IsReadOnly="{Binding IsEntryReadOnly}"/>
         </StackPanel>
         <StackPanel Orientation="Horizontal" Margin="0,0,18,4">
           <Label FontSize="13" VerticalAlignment="Center" Width="150" Padding="0,5,8,5">Vrijednost</Label>
@@ -77,7 +56,7 @@
       <WrapPanel Margin="0,0,0,12">
         <StackPanel Orientation="Horizontal" Margin="0,0,18,4">
           <Label FontSize="13" VerticalAlignment="Center" Width="150" Padding="0,5,8,5">Ukupna vrijednost</Label>
-          <TextBox Text="{Binding SumVrijed, StringFormat=N2, ConverterCulture='de-DE', TargetNullValue='0,00', UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" IsEnabled="False" KeyDown="TextBox_KeyDown" FontSize="14" VerticalAlignment="Center" MinHeight="30" Width="320"/>
+          <TextBox x:Name="txtUkupno" Text="{Binding SumVrijed, StringFormat=N2, ConverterCulture='de-DE', TargetNullValue='0,00', UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" IsEnabled="False" KeyDown="TextBox_KeyDown" FontSize="14" VerticalAlignment="Center" MinHeight="30" Width="320"/>
         </StackPanel>
       </WrapPanel>
       <Border Margin="0,14,0,0" Padding="0,18,0,0" BorderBrush="#E1E9ED" BorderThickness="0,1,0,0"><WrapPanel Margin="0">

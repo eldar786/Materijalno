@@ -148,7 +148,9 @@ namespace Materijalno.Model.Services
                 if (stock.Quantity + quantity < 0) throw new InvalidOperationException("Izmjena bi napravila negativnu zalihu.");
                 input.Kolic = quantity; input.Nc = price; input.Vrijed = value;
                 input.Kontosklad = Account(db, input.Ident, input.Kljnaz.Value);
-                input.Konto1 = db.TabelaMaterijala.Single(m => m.Ident == input.Ident).Konto1;
+                var material = db.TabelaMaterijala.Single(m => m.Ident == input.Ident);
+                input.Konto1 = material.Konto1;
+                if (input.Status == "P") input.Konto2 = material.Konto2 ?? "";
                 input.Kljnaz1 = null; input.Kontosklad1 = null; input.Medus = "";
                 input.IsDraft = false; input.IsArchived = false; input.BookYear = ActiveYear(db);
                 input.DocumentId = Document(db, input.Status, input.BookYear, input.Brfak ?? "", input.Kljnaz.Value).Id;

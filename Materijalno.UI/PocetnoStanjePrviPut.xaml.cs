@@ -23,6 +23,43 @@ namespace Materijalno.UI
         public PocetnoStanjePrviPut()
         {
             InitializeComponent();
+            DataContextChanged += Opening_DataContextChanged;
+        }
+
+        private void Opening_DataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            if (e.OldValue is PocetnoStanjePrviPutViewModel oldVm) oldVm.RequestFocusQuantity -= FocusQuantity;
+            if (e.NewValue is PocetnoStanjePrviPutViewModel newVm) newVm.RequestFocusQuantity += FocusQuantity;
+        }
+
+        private void FocusQuantity()
+        {
+            Dispatcher.BeginInvoke(new Action(() =>
+            {
+                if (txtKolic.IsEnabled && txtKolic.IsVisible)
+                {
+                    Keyboard.Focus(txtKolic);
+                    txtKolic.SelectAll();
+                }
+            }), System.Windows.Threading.DispatcherPriority.ContextIdle);
+        }
+
+        private void Reference_LostKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
+        {
+            var input = sender as TextBox;
+            if (input == null || input.IsKeyboardFocusWithin) return;
+            input.GetBindingExpression(TextBox.TextProperty)?.UpdateSource();
+            if (Validation.GetHasError(input)) return;
+            var vm = DataContext as PocetnoStanjePrviPutViewModel;
+            if (vm?.IsEntryEditable == true) vm.Osvjezi();
+        }
+
+        private void Amount_LostKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
+        {
+            var input = sender as TextBox;
+            if (input == null || input.IsKeyboardFocusWithin || !Helpers.QuantityInput.Commit(input)) return;
+            var vm = DataContext as PocetnoStanjePrviPutViewModel;
+            if (vm?.IsEntryEditable == true) vm.NabavnaCijena();
         }
        
         

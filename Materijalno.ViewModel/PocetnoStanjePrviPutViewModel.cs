@@ -1,7 +1,8 @@
-using Materijalno.Model.Services;
+﻿using Materijalno.Model.Services;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
@@ -26,13 +27,22 @@ using System.Globalization;
 
 namespace Materijalno.ViewModel
 {
-    public class PocetnoStanjePrviPutViewModel : INotifyPropertyChanged
+    public class PocetnoStanjePrviPutViewModel : INotifyPropertyChanged, Services.IActivePrometEntry
     {
         #region Fields
 
         private ApplicationViewModel _avm;
         private GlavniViewModel _gvm;
         private Mat currentItemMat;
+        private string _displayedMaterial;
+        private int? _displayedWarehouse;
+        private bool _editingExisting;
+        private int? _rowBeforeEntry;
+        private int _indexBeforeEntry;
+        public bool IsEntryEditable => isNovaKalkulacijaClicked;
+        public bool IsEntryReadOnly => !IsEntryEditable;
+        public bool HasUnsavedEntry => IsEntryEditable || (CurrentItemMat != null && CurrentItemMat.Id > 0 && CurrentItemMat.IsDraft);
+        public event Action RequestFocusQuantity;
         
         private Mat itemMat;
         public static Komitenti selectedKomitent;
@@ -71,6 +81,8 @@ namespace Materijalno.ViewModel
             set
             {
                 currentItemMat = value;
+                _displayedMaterial = value?.Ident;
+                _displayedWarehouse = value?.Kljnaz;
                 OnPropertyChanged(nameof(CurrentItemMat));
                 UpdateSumVrijed();
             }
@@ -83,7 +95,7 @@ namespace Materijalno.ViewModel
             set
             {
                 currentItemTabMaterijalaK = value;
-                OnPropertyChanged(nameof(currentItemTabMaterijalaK));
+                OnPropertyChanged(nameof(CurrentItemTabMaterijalaK));
             }
         }
         public TabelaMaterijala CurrentItemTabMaterijalaK2
@@ -92,7 +104,7 @@ namespace Materijalno.ViewModel
             set
             {
                 currentItemTabMaterijalaK2 = value;
-                OnPropertyChanged(nameof(currentItemTabMaterijalaK2));
+                OnPropertyChanged(nameof(CurrentItemTabMaterijalaK2));
             }
         }
 
@@ -102,7 +114,7 @@ namespace Materijalno.ViewModel
             set
             {
                 currentItemTabMaterijala = value;
-                OnPropertyChanged(nameof(currentItemTabMaterijala));
+                OnPropertyChanged(nameof(CurrentItemTabMaterijala));
             }
         }
 
@@ -112,7 +124,7 @@ namespace Materijalno.ViewModel
             set
             {
                 currentItemTabSkladista = value;
-                OnPropertyChanged(nameof(currentItemTabSkladista));
+                OnPropertyChanged(nameof(CurrentItemTabSkladista));
             }
         }
 
@@ -122,7 +134,7 @@ namespace Materijalno.ViewModel
             set
             {
                 currentItemTabSkladistaUlaza = value;
-                OnPropertyChanged(nameof(currentItemTabSkladistaUlaza));
+                OnPropertyChanged(nameof(CurrentItemTabSkladistaUlaza));
             }
         }
 
@@ -172,7 +184,7 @@ namespace Materijalno.ViewModel
                 {
                     _isOdustaniEnabled = value;
                     OnPropertyChanged(nameof(IsOdustaniEnabled));
-                    OdustaniCommand.RaiseCanExecuteChanged(); // Notify the command to re-evaluate CanExecute
+                    OdustaniCommand?.RaiseCanExecuteChanged(); // Notify the command to re-evaluate CanExecute
                 }
             }
         }
@@ -180,7 +192,20 @@ namespace Materijalno.ViewModel
         public ObservableCollection<TabelaMaterijala> TebelaMaterijalaList { get; set; }
         public ObservableCollection<SifarnikSkladista> TebelaSkladistaList { get; set; }
         public ObservableCollection<SifarnikSkladista> TebelaSkladistaUlazaList { get; set; }
-        public ObservableCollection<Mat> MatList { get; set; }
+        private ObservableCollection<Mat> _matList;
+        public ObservableCollection<Mat> MatList
+        {
+            get => _matList;
+            set
+            {
+                if (_matList != null) _matList.CollectionChanged -= MatListChanged;
+                _matList = value;
+                if (_matList != null) _matList.CollectionChanged += MatListChanged;
+                OnPropertyChanged(nameof(MatList));
+                UpdateSumVrijed();
+            }
+        }
+        private void MatListChanged(object sender, NotifyCollectionChangedEventArgs e) => UpdateSumVrijed();
         public ObservableCollection<Mat> PrintList { get; set; }
         public List<Komitenti> StaraSifra_Ime_List { get; set; }
 
@@ -208,7 +233,7 @@ namespace Materijalno.ViewModel
                 {
                     _isNovaKalkulacijaClicked = value;
                     OnPropertyChanged(nameof(IsNovaKalkulacijaClicked));
-                    SlijStavkaButtonCommand.RaiseCanExecuteChanged(); // Notify the command to re-evaluate CanExecute
+                    SlijStavkaButtonCommand?.RaiseCanExecuteChanged(); // Notify the command to re-evaluate CanExecute
                 }
             }
         }
@@ -249,19 +274,19 @@ namespace Materijalno.ViewModel
             isNovaKalkulacijaClicked = false;
 
             #region Commands
-            PrviButtonCommand = new RelayCommand(PrviButton, () => !isNovaKalkulacijaClicked);
-            NextButtonCommand = new RelayCommand(NextButton, () => !isNovaKalkulacijaClicked);
-            PrethodniButtonCommand = new RelayCommand(PrethodniButton, () => !isNovaKalkulacijaClicked);
-            ZadnjiButtonCommand = new RelayCommand(ZadnjiButton, () => !isNovaKalkulacijaClicked);
-            BrisanjeCommand = new RelayCommand(Brisanje, () => !isNovaKalkulacijaClicked);
-            UpdateCommand = new RelayCommand(Update, () => !isNovaKalkulacijaClicked);
+            PrviButtonCommand = new RelayCommand(PrviButton, () => !HasUnsavedEntry && MatList != null && MatList.Count > 0);
+            NextButtonCommand = new RelayCommand(NextButton, () => !HasUnsavedEntry && MatList != null && MatList.Count > 0);
+            PrethodniButtonCommand = new RelayCommand(PrethodniButton, () => !HasUnsavedEntry && MatList != null && MatList.Count > 0);
+            ZadnjiButtonCommand = new RelayCommand(ZadnjiButton, () => !HasUnsavedEntry && MatList != null && MatList.Count > 0);
+            BrisanjeCommand = new RelayCommand(Brisanje, () => !HasUnsavedEntry && CurrentItemMat != null && CurrentItemMat.Id > 0 && !CurrentItemMat.IsDraft);
+            UpdateCommand = new RelayCommand(Update, () => !HasUnsavedEntry && CurrentItemMat != null && CurrentItemMat.Id > 0 && !CurrentItemMat.IsDraft);
             SpasiNovuKalkulacijuCommand = new RelayCommand(SpasiNovuKalkulaciju, () => isNovaKalkulacijaClicked);
             OdustaniCommand = new RelayCommand(Odustani, () => IsOdustaniEnabled);
             NovoSklCommand = new RelayCommand(NovaKalkulacija, () => !isNovaKalkulacijaClicked);
             IzlazCommand = new RelayCommand(Izlaz, () => isIzlazEnable);
 
-            TraziSifruMaterijalaCommand = new RelayCommand(Trazi, () => !isNovaKalkulacijaClicked);
-            PrintCommand = new RelayCommand(Print, () => !isNovaKalkulacijaClicked);
+            TraziSifruMaterijalaCommand = new RelayCommand(Trazi, () => !HasUnsavedEntry && MatList != null && MatList.Count > 0);
+            PrintCommand = new RelayCommand(Print, () => !HasUnsavedEntry && CurrentItemMat != null && CurrentItemMat.Id > 0 && !CurrentItemMat.IsDraft);
             NabavnaCijenaCommand = new RelayCommand(NabavnaCijena);
             OsvjeziCommand = new RelayCommand(Osvjezi);
             //RedniBrojCommand = new RelayCommand(RedniBroj);
@@ -278,10 +303,7 @@ namespace Materijalno.ViewModel
 
                 //Dodaj u listu gdje je kljnaz == 1000 i sortiraj po datumu iz kolone (datun)
                 //Neki datum preskoci, treba napraviti dobar data type za kolonu (datun) u sql bazi
-                MatList = new ObservableCollection<Mat>(dbContext.Mat
-                     .Where(row =>  row.Kljnaz >= 1000 && row.Kljnaz <= 1012 && row.Status == "P")
-                     .OrderBy(row => row.Datun)
-                     .ToList());
+                MatList = LoadOpenings(dbContext);
 
                 UpdateCurrentItemData(dbContext);
 
@@ -310,19 +332,19 @@ namespace Materijalno.ViewModel
             }
 
             #region Commands
-            PrviButtonCommand = new RelayCommand(PrviButton, () => !isNovaKalkulacijaClicked);
-            NextButtonCommand = new RelayCommand(NextButton, () => !isNovaKalkulacijaClicked);
-            PrethodniButtonCommand = new RelayCommand(PrethodniButton, () => !isNovaKalkulacijaClicked);
-            ZadnjiButtonCommand = new RelayCommand(ZadnjiButton, () => !isNovaKalkulacijaClicked);
-            BrisanjeCommand = new RelayCommand(Brisanje, () => !isNovaKalkulacijaClicked);
-            UpdateCommand = new RelayCommand(Update, () => !isNovaKalkulacijaClicked);
+            PrviButtonCommand = new RelayCommand(PrviButton, () => !HasUnsavedEntry && MatList != null && MatList.Count > 0);
+            NextButtonCommand = new RelayCommand(NextButton, () => !HasUnsavedEntry && MatList != null && MatList.Count > 0);
+            PrethodniButtonCommand = new RelayCommand(PrethodniButton, () => !HasUnsavedEntry && MatList != null && MatList.Count > 0);
+            ZadnjiButtonCommand = new RelayCommand(ZadnjiButton, () => !HasUnsavedEntry && MatList != null && MatList.Count > 0);
+            BrisanjeCommand = new RelayCommand(Brisanje, () => !HasUnsavedEntry && CurrentItemMat != null && CurrentItemMat.Id > 0 && !CurrentItemMat.IsDraft);
+            UpdateCommand = new RelayCommand(Update, () => !HasUnsavedEntry && CurrentItemMat != null && CurrentItemMat.Id > 0 && !CurrentItemMat.IsDraft);
             SpasiNovuKalkulacijuCommand = new RelayCommand(SpasiNovuKalkulaciju, () => isNovaKalkulacijaClicked);
             OdustaniCommand = new RelayCommand(Odustani, () => IsOdustaniEnabled);
             IzlazCommand = new RelayCommand(Izlaz, () => isIzlazEnable);
             NovoSklCommand = new RelayCommand(NovaKalkulacija, () => !isNovaKalkulacijaClicked);
 
-            TraziSifruMaterijalaCommand = new RelayCommand(Trazi, () => !isNovaKalkulacijaClicked);
-            PrintCommand = new RelayCommand(Print, () => !isNovaKalkulacijaClicked);
+            TraziSifruMaterijalaCommand = new RelayCommand(Trazi, () => !HasUnsavedEntry && MatList != null && MatList.Count > 0);
+            PrintCommand = new RelayCommand(Print, () => !HasUnsavedEntry && CurrentItemMat != null && CurrentItemMat.Id > 0 && !CurrentItemMat.IsDraft);
             NabavnaCijenaCommand = new RelayCommand(NabavnaCijena);
             OsvjeziCommand = new RelayCommand(Osvjezi);
             //RedniBrojCommand = new RelayCommand(RedniBroj);
@@ -338,10 +360,7 @@ namespace Materijalno.ViewModel
             {
                 //Dodaj u listu gdje je kljnaz == 1000 i sortiraj po datumu iz kolone (datun)
                 //Neki datum preskoci, treba napraviti dobar data type za kolonu (datun) u sql bazi
-                MatList = new ObservableCollection<Mat>(dbContext.Mat
-                     .Where(row => row.Kljnaz >= 1000 && row.Kljnaz <= 1012 && row.Status == "P")
-                     .OrderBy(row => row.Datun)
-                     .ToList());
+                MatList = LoadOpenings(dbContext);
 
                 #region Custom UpdateCurrentItemData
                 //***Prilagodjena metoda UpdateCurrentItemData()***
@@ -364,13 +383,13 @@ namespace Materijalno.ViewModel
                 
                 CurrentItemTabMaterijalaK = dbContext.TabelaMaterijala.Where(row => row.Ident == CurrentItemMat.Ident).FirstOrDefault();
                 
-                CurrentItemTabMaterijalaK2 = dbContext.TabelaMaterijala.Where(row => row.Konto2 == CurrentItemMat.Konto2).FirstOrDefault();
+                CurrentItemTabMaterijalaK2 = CurrentItemTabMaterijalaK;
 
                 TebelaSkladistaUlazaList = new ObservableCollection<SifarnikSkladista>(dbContext.SifarnikSkladista.Where(row => row.Kljnaz == CurrentItemMat.Kljnaz1).ToList());
 
                 //Nadji jednu vrijednost po *Ident* iz *TabelaMaterijala* i po Sifri materijala iz tabele *Mat*(col:*Ident*) i stavi u jedan property
 
-                CurrentItemTabMaterijala = dbContext.TabelaMaterijala.Where(row => row.Konto1 == CurrentItemMat.Konto1).FirstOrDefault();
+                CurrentItemTabMaterijala = CurrentItemTabMaterijalaK;
 
                 //CurrentItemTabKonto1 = dbContext.TabelaMaterijala.Where(row => row.Konto1 == CurrentItemMat.Konto1).FirstOrDefault();
 
@@ -403,43 +422,40 @@ namespace Materijalno.ViewModel
         public void NabavnaCijena()
         {
             if (CurrentItemMat == null) return;
-            if (!CurrentItemMat.Nc.HasValue && !string.IsNullOrWhiteSpace(CurrentItemMat.Ident) && CurrentItemMat.Kljnaz.HasValue)
-                CurrentItemMat.Nc = new MaterialPostingService().ReturnPrice(CurrentItemMat.Ident, CurrentItemMat.Kljnaz.Value, CurrentItemMat.Id);
-            CurrentItemMat.Vrijed = CurrentItemMat.Kolic.HasValue && CurrentItemMat.Nc.HasValue ? (decimal?)LedgerMath.Money(CurrentItemMat.Kolic.Value * CurrentItemMat.Nc.Value) : null;
+            if (CurrentItemMat.Nc.HasValue) CurrentItemMat.Nc = LedgerMath.Price(CurrentItemMat.Nc.Value);
+            CurrentItemMat.Vrijed = InitialStockRules.LineValue(CurrentItemMat.Kolic, CurrentItemMat.Nc);
             OnPropertyChanged(nameof(CurrentItemMat));
+            UpdateSumVrijed();
         }
 
         public void Osvjezi()
         {
-            var dbContext = new materijalno_knjigovodstvoContext();
-
-            // Kljnaz kolona
-            int? maxValue_Skladiste = dbContext.Mat
-                .Max(row => row.Kljnaz);
-
-            int? minValue_Skladiste = dbContext.Mat
-                .Min(row => row.Kljnaz);
-
-            // Ident kolona
-
-            if (CurrentItemMat.Kljnaz == 1000)
+            if (CurrentItemMat == null) return;
+            using (var dbContext = new materijalno_knjigovodstvoContext())
             {
-                System.Windows.MessageBox.Show("Ne možete praviti izlaz iz Centralnog magacina!", "Upozorenje", MessageBoxButton.OK, MessageBoxImage.Information);
-                CurrentItemMat.Kljnaz = 0;
+                CurrentItemMat.Ident = MaterialIdentifier.Normalize(CurrentItemMat.Ident);
+                if (CurrentItemMat.Kljnaz > 0 && !dbContext.SifarnikSkladista.Any(row => row.Kljnaz == CurrentItemMat.Kljnaz))
+                {
+                    System.Windows.MessageBox.Show("Skladište nije prijavljeno u šifarnik!", "Upozorenje", MessageBoxButton.OK, MessageBoxImage.Information);
+                    CurrentItemMat.Kljnaz = null;
+                }
+                if (!string.IsNullOrEmpty(CurrentItemMat.Ident) && !dbContext.TabelaMaterijala.Any(row => row.Ident == CurrentItemMat.Ident))
+                {
+                    System.Windows.MessageBox.Show("Materijal ne postoji!", "Upozorenje", MessageBoxButton.OK, MessageBoxImage.Information);
+                    CurrentItemMat.Ident = null;
+                }
+                bool changed = _displayedMaterial != CurrentItemMat.Ident || _displayedWarehouse != CurrentItemMat.Kljnaz;
+                bool suggestPrice = changed || (CurrentItemMat.IsDraft && !CurrentItemMat.Nc.HasValue);
+                LoadReferenceData(dbContext);
+                if (suggestPrice)
+                {
+                    var receipts = dbContext.Mat.AsNoTracking().Where(m => m.Status == "U" &&
+                        m.Ident == CurrentItemMat.Ident && m.Kljnaz == CurrentItemMat.Kljnaz).ToList();
+                    CurrentItemMat.Nc = InitialStockRules.SuggestedPrice(receipts, CurrentItemMat.Ident,
+                        CurrentItemMat.Kljnaz ?? 0, CurrentItemMat.BookYear);
+                    NabavnaCijena();
+                }
             }
-            else if (CurrentItemMat.Kljnaz < minValue_Skladiste || CurrentItemMat.Kljnaz > maxValue_Skladiste)
-            {
-                System.Windows.MessageBox.Show("Skladište nije prijavljeno u šifarnik!", "Upozorenje", MessageBoxButton.OK, MessageBoxImage.Information);
-
-                //TextBox Skladiste vratiti na prazno
-                CurrentItemMat.Kljnaz = 0;
-            }
-            if (!string.IsNullOrWhiteSpace(CurrentItemMat.Ident) && !dbContext.TabelaMaterijala.Any(row => row.Ident == CurrentItemMat.Ident))
-            {
-                System.Windows.MessageBox.Show("Materijal ne postoji!", "Upozorenje", MessageBoxButton.OK, MessageBoxImage.Information);
-                CurrentItemMat.Ident = null;
-            }
-            UpdateCurrentItemData(dbContext);
         }
 
 
@@ -540,73 +556,83 @@ namespace Materijalno.ViewModel
             }
         }
 
+        private static Mat CopyOpening(Mat source)
+        {
+            var copy = new Mat();
+            foreach (var property in typeof(Mat).GetProperties().Where(p => p.CanRead && p.CanWrite))
+            {
+                var value = property.GetValue(source);
+                property.SetValue(copy, value is byte[] ? ((byte[])value).Clone() : value);
+            }
+            return copy;
+        }
+
+        private static ObservableCollection<Mat> LoadOpenings(materijalno_knjigovodstvoContext db)
+        {
+            // Fox Kljnazi order: warehouse + material, then physical record order.
+            return new ObservableCollection<Mat>(db.Mat.AsNoTracking()
+                .Where(m => m.Status == "P" && m.Kljnaz >= 1000 && m.Kljnaz <= 1012)
+                .OrderBy(m => m.Kljnaz).ThenBy(m => m.Ident)
+                .ThenBy(m => m.FoxRecno ?? int.MaxValue).ThenBy(m => m.Id).ToList());
+        }
+
+        private void ReloadOpenings(materijalno_knjigovodstvoContext db, int? selectedId, int preferredIndex)
+        {
+            MatList = LoadOpenings(db);
+            if (MatList.Count == 0)
+            {
+                CurrentIndex = 0;
+                CurrentItemMat = new Mat();
+                CurrentItemTabMaterijala = null;
+                CurrentItemTabMaterijalaK = null;
+                CurrentItemTabMaterijalaK2 = null;
+                CurrentItemTabSkladista = null;
+                return;
+            }
+            int index = selectedId.HasValue ? MatList.ToList().FindIndex(m => m.Id == selectedId.Value) : -1;
+            CurrentIndex = index >= 0 ? index : Math.Max(0, Math.Min(preferredIndex, MatList.Count - 1));
+            CurrentItemMat = MatList[CurrentIndex];
+            LoadReferenceData(db);
+        }
+
         private void Brisanje()
         {
-            using (var dbContext = new materijalno_knjigovodstvoContext())
-            {
-                CurrentItemMat = MatList[CurrentIndex];
+            if (CurrentItemMat == null || CurrentItemMat.IsDraft || HasUnsavedEntry) return;
+            if (System.Windows.MessageBox.Show("Želite li obrisati tekući podatak?", "Upozorenje",
+                MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.No) == MessageBoxResult.Yes)
+                DeleteCurrentOpening();
+        }
 
-                var resultMessageBox = System.Windows.MessageBox.Show("Želite li obrisati tekući podatak? ", "Upozorenje", MessageBoxButton.YesNo, MessageBoxImage.Question);
-
-                if (resultMessageBox == MessageBoxResult.Yes)
-                {
-                    new MaterialPostingService().Delete(CurrentItemMat);
-
-                    MatList.Remove(CurrentItemMat);
-                    if (MatList.Count == 0) { CurrentIndex = 0; CurrentItemMat = new Mat(); OnPropertyChanged(nameof(MatList)); return; }
-
-                }
-                else if (resultMessageBox == MessageBoxResult.No)
-                {
-                    return;
-                }
-
-                //Kada zadnji brise, ne vraca index
-                //Jedna opcija jeste da ponovo ocitamo MatListu
-                //Ako je CurrentIndex zadnji broj kao kod MatList.Count onda nakon brisanja da ide CurrentIdex - 1
-                if (MatList.Count == CurrentIndex)
-                {
-                    CurrentItemMat = MatList[CurrentIndex - 1];
-                }
-                else
-                {
-                    CurrentItemMat = MatList[CurrentIndex];
-                }
-
-                UpdateCurrentItemData(dbContext);
-            }
+        public void DeleteCurrentOpening()
+        {
+            if (CurrentItemMat == null || CurrentItemMat.Id <= 0 || CurrentItemMat.IsDraft || HasUnsavedEntry)
+                throw new InvalidOperationException("Prvo završite unos i odaberite snimljeno početno stanje za brisanje.");
+            int index = MatList.ToList().FindIndex(m => m.Id == CurrentItemMat.Id);
+            new MaterialPostingService().Delete(CurrentItemMat);
+            using (var db = new materijalno_knjigovodstvoContext()) ReloadOpenings(db, null, index);
+            _editingExisting = false;
+            isNovaKalkulacijaClicked = false;
+            _isNovaKalkulacijaClicked = false;
+            IsOdustaniEnabled = false;
+            isIzlazEnable = false;
+            UpdateCommands();
         }
 
         private void Update()
         {
-            using (var dbContext = new materijalno_knjigovodstvoContext())
-            {
-                // Na osnovu Ident od CurrentItemMat, daj mi Konto1 iz tabele TabelaMaterijala i dodijeli u CurrentItemMat u Mat tabeli
-                // Trenutno u If, ali treba uraditi validaciju
-                if (CurrentItemMat.Ident != null)
-                {
-                    CurrentItemMat.Konto1 = (int?)dbContext.TabelaMaterijala
-                    .Where(row => row.Ident == CurrentItemMat.Ident)
-                    .Select(row => row.Konto1)
-                    .FirstOrDefault();
-                }
-
-                if (currentItemMat.Kljnaz != null)
-                {
-                    currentItemMat.Kontosklad = dbContext.SifarnikMaterijalSkladisteKonto
-                    .Where(row => row.Sifskla == currentItemMat.Kljnaz && row.Sifmat == CurrentItemMat.Ident)
-                    .Select(row => row.Sifkonta)
-                    .FirstOrDefault();
-                }
-
-                CurrentItemMat = new MaterialPostingService().Save(CurrentItemMat);
-                if (MatList != null) { int savedIndex = MatList.ToList().FindIndex(m => m.Id == CurrentItemMat.Id); if (savedIndex >= 0) MatList[savedIndex] = CurrentItemMat; }
-
-                System.Windows.MessageBox.Show("Uspješno ste izmijenili", "Potvrda", MessageBoxButton.OK, MessageBoxImage.Information);
-
-                //NAKON STO KLIKNEMO NA OK DA SE VRATI NA IZMIJENJENI ŠIFARNIK
-                UpdateCurrentItemData(dbContext);
-            }
+            if (CurrentItemMat == null || CurrentItemMat.Id <= 0 || CurrentItemMat.IsDraft || HasUnsavedEntry)
+                throw new InvalidOperationException("Odaberite snimljeno početno stanje za izmjenu.");
+            _rowBeforeEntry = CurrentItemMat.Id;
+            _indexBeforeEntry = CurrentIndex;
+            _editingExisting = true;
+            // Keep the saved list row untouched until Snimi; Odustani reloads SQL.
+            CurrentItemMat = CopyOpening(CurrentItemMat);
+            isNovaKalkulacijaClicked = true;
+            _isNovaKalkulacijaClicked = false;
+            IsOdustaniEnabled = true;
+            isIzlazEnable = false;
+            UpdateCommands();
+            RequestFocusQuantity?.Invoke();
         }
 
         private void Trazi()
@@ -676,6 +702,9 @@ namespace Materijalno.ViewModel
 
         private void NovaKalkulacija()
         {
+            _rowBeforeEntry = CurrentItemMat?.Id;
+            _indexBeforeEntry = CurrentIndex;
+            _editingExisting = false;
             //Prolazi ponovo provjeru CanExecute
             isNovaKalkulacijaClicked = true;
             IsOdustaniEnabled = true;
@@ -708,13 +737,22 @@ namespace Materijalno.ViewModel
         //Pokupi sva polja trenutna i spasi. Trebalo bi napraviti disabled SAVE button ako nije odabrana nova kalkulacija
         private void SpasiNovuKalkulaciju()
         {
+            SaveCurrentOpening();
+            System.Windows.MessageBox.Show("Početno stanje je uspješno snimljeno.", "Potvrda",
+                MessageBoxButton.OK, MessageBoxImage.Information);
+        }
+
+        public Mat SaveCurrentOpening()
+        {
+            if (!IsEntryEditable || CurrentItemMat == null)
+                throw new InvalidOperationException("Prvo otvorite unos ili izmjenu početnog stanja.");
+            bool edited = _editingExisting;
             using (var dbContext = new materijalno_knjigovodstvoContext())
             {
                 currentItemMat.Status = "P";
                 currentItemMat.Kontosklad1 = 0;
                 currentItemMat.Analst = "";
                 currentItemMat.Brnar = "";
-                currentItemMat.Konto2 = "";
                 currentItemMat.Brdok = "";
                 currentItemMat.Brfak = "";
 
@@ -744,18 +782,15 @@ namespace Materijalno.ViewModel
                 if (MatList != null) { int savedIndex = MatList.ToList().FindIndex(m => m.Id == CurrentItemMat.Id); if (savedIndex >= 0) MatList[savedIndex] = CurrentItemMat; }
 
                 //Staviti po datumu da sortira i dodaj u listu da bi se vidjele promjene
-                MatList = new ObservableCollection<Mat>(dbContext.Mat
-                    .Where(row => row.Kljnaz >= 1000 && row.Kljnaz <= 1012 && row.Status == "P")
-                    .OrderBy(row => row.Datun)
-                    .ToList());
+                MatList = LoadOpenings(dbContext);
 
-                System.Windows.MessageBox.Show("Uspješno ste unijeli novi šifarnik", "Potvrda", MessageBoxButton.OK, MessageBoxImage.Information);
+
 
 
                 isNovaKalkulacijaClicked = false;
-                _isNovaKalkulacijaClicked = true;
-                IsOdustaniEnabled = true;
-                isIzlazEnable = true;
+                _isNovaKalkulacijaClicked = !edited;
+                IsOdustaniEnabled = false;
+                isIzlazEnable = !edited;
 
                 SpasiNovuKalkulacijuCommand.RaiseCanExecuteChanged();
                 SlijStavkaButtonCommand.RaiseCanExecuteChanged();
@@ -776,64 +811,61 @@ namespace Materijalno.ViewModel
                 }
 
                 UpdateCurrentItemData(dbContext);
+                _editingExisting = false;
+                _rowBeforeEntry = CurrentItemMat.Id;
+                _indexBeforeEntry = CurrentIndex;
+                UpdateCommands();
+                return CurrentItemMat;
             }
         }
 
         private void UpdateCommands()
         {
-            PrviButtonCommand.RaiseCanExecuteChanged();
-            ZadnjiButtonCommand.RaiseCanExecuteChanged();
-            NextButtonCommand.RaiseCanExecuteChanged();
-            PrethodniButtonCommand.RaiseCanExecuteChanged();
-            SpasiNovuKalkulacijuCommand.RaiseCanExecuteChanged();
-            OdustaniCommand.RaiseCanExecuteChanged();
-            BrisanjeCommand.RaiseCanExecuteChanged();
-            UpdateCommand.RaiseCanExecuteChanged();
-            TraziSifruMaterijalaCommand.RaiseCanExecuteChanged();
-            NovoSklCommand.RaiseCanExecuteChanged();
-            PrintCommand.RaiseCanExecuteChanged();
-            
-            SpasiNovuKalkulacijuCommand.RaiseCanExecuteChanged();
-            OdustaniCommand.RaiseCanExecuteChanged();
-            SlijStavkaButtonCommand.RaiseCanExecuteChanged();
+            foreach (var command in new[] { PrviButtonCommand, ZadnjiButtonCommand, NextButtonCommand,
+                PrethodniButtonCommand, SpasiNovuKalkulacijuCommand, OdustaniCommand, BrisanjeCommand,
+                UpdateCommand, TraziSifruMaterijalaCommand, NovoSklCommand, PrintCommand,
+                IzlazCommand, SlijStavkaButtonCommand }) command?.RaiseCanExecuteChanged();
+            OnPropertyChanged(nameof(IsEntryEditable));
+            OnPropertyChanged(nameof(IsEntryReadOnly));
+            OnPropertyChanged(nameof(HasUnsavedEntry));
         }
 
         //Samo dostupno kada odemo na nova kalkulacija i da vrati na prethodni
         private void Odustani()
         {
-            using (var dbContext = new materijalno_knjigovodstvoContext())
+            if (!IsEntryEditable) return;
+            if (System.Windows.MessageBox.Show("Želite li odustati od tekućih izmjena?", "Upozorenje",
+                MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.No) == MessageBoxResult.Yes)
+                CancelCurrentOpening();
+        }
+
+        public void CancelCurrentOpening()
+        {
+            if (!IsEntryEditable) return;
+            using (var db = new materijalno_knjigovodstvoContext())
             {
-                CurrentItemMat = MatList[CurrentIndex]; //PADA
-
-                var resultMessageBox = System.Windows.MessageBox.Show("Želite li odustati tekući podatak? ", "Upozorenje", MessageBoxButton.YesNo, MessageBoxImage.Question);
-
-                if (resultMessageBox == MessageBoxResult.Yes)
+                if (!_editingExisting && CurrentItemMat != null)
                 {
-                    isNovaKalkulacijaClicked = false;
-
-                    UpdateCommands();
-                    //Prije odustajanja dohvati zadnji index, da bi mogao vratiti u pogledu, da ne ide na pocetak??
-
-                    dbContext.Mat.Remove(CurrentItemMat);
-                    dbContext.SaveChanges();
-
-                    MatList.Remove(CurrentItemMat);
-
-                    isNovaKalkulacijaClicked = false;
-
-                    CurrentItemMat = null;
-
-                    _gvm.OdabraniVM = new PocetnoStanjePrviPutViewModel(_gvm);
+                    var draft = db.Mat.IgnoreQueryFilters().SingleOrDefault(m => m.Id == CurrentItemMat.Id &&
+                        m.LineToken == CurrentItemMat.LineToken && m.IsDraft && m.Status == "P");
+                    if (draft != null) { db.Mat.Remove(draft); db.SaveChanges(); }
                 }
-                else if (resultMessageBox == MessageBoxResult.No)
-                {
-                    return;
-                }
+                // Existing saved rows are never deleted by Odustani.
+                ReloadOpenings(db, _rowBeforeEntry, _indexBeforeEntry);
             }
+            _editingExisting = false;
+            isNovaKalkulacijaClicked = false;
+            _isNovaKalkulacijaClicked = false;
+            IsOdustaniEnabled = false;
+            isIzlazEnable = false;
+            UpdateCommands();
         }
 
         private void SlijStavkaButton()
         {
+            _rowBeforeEntry = CurrentItemMat?.Id;
+            _indexBeforeEntry = CurrentIndex;
+            _editingExisting = false;
             //Ostavi prve stavke, dodaj redni broj, ostala polja ostavi prazno i spasi kao novi currentItemMat
             Mat snimljeniCurrentMat = currentItemMat;
 
@@ -905,12 +937,18 @@ namespace Materijalno.ViewModel
             }
 
 
+            LoadReferenceData(dbContext);
+        }
+
+        private void LoadReferenceData(materijalno_knjigovodstvoContext dbContext)
+        {
+            if (CurrentItemMat == null) return;
             //Nadji listu svih po *Ident* iz *TabelaMaterijala* i *CurrentItem* (Mat) i stavi u listu
             TebelaMaterijalaList = new ObservableCollection<TabelaMaterijala>(dbContext.TabelaMaterijala.Where(row => row.Ident == CurrentItemMat.Ident).ToList());
 
             //TebelaKontaList = new ObservableCollection<TabelaMaterijala>(dbContext.TabelaMaterijala.Where(row => row.Konto1 == CurrentItemMat.Konto1).ToList());
             CurrentItemTabMaterijalaK = dbContext.TabelaMaterijala.Where(row => row.Ident == CurrentItemMat.Ident).FirstOrDefault();
-            CurrentItemTabMaterijalaK2 = dbContext.TabelaMaterijala.Where(row => row.Konto2 == CurrentItemMat.Konto2).FirstOrDefault();
+            CurrentItemTabMaterijalaK2 = CurrentItemTabMaterijalaK;
 
             TebelaSkladistaList = new ObservableCollection<SifarnikSkladista>(dbContext.SifarnikSkladista.Where(row => row.Kljnaz == CurrentItemMat.Kljnaz).ToList());
 
@@ -941,32 +979,15 @@ namespace Materijalno.ViewModel
             }
 
             selectedKomitent = null;
+            _displayedMaterial = CurrentItemMat.Ident;
+            _displayedWarehouse = CurrentItemMat.Kljnaz;
+            UpdateSumVrijed();
         }
 
         private void UpdateSumVrijed()
         {
-            var dbContext = new materijalno_knjigovodstvoContext();
-
-            MatList = new ObservableCollection<Mat>(dbContext.Mat
-                     .Where(row => row.Kljnaz >= 1000 && row.Kljnaz <= 1012 && row.Status == "P")
-                     .OrderBy(row => row.Datun)
-                     .ToList());
-
-            if (CurrentItemMat?.Kljnaz != null)
-            {
-                int currentKljnaz = CurrentItemMat.Kljnaz.Value;
-
-                SumVrijed = MatList
-                    .Where(m => m.Kljnaz == currentKljnaz)
-                    .Sum(m => m.Vrijed ?? 0); // handle nullable decimal
-            }
-            else
-            {
-                SumVrijed = 0;
-            }
+            SumVrijed = InitialStockRules.WarehouseTotal(MatList ?? Enumerable.Empty<Mat>(), CurrentItemMat);
         }
-
-
 
         protected virtual void OnPropertyChanged(string propertyName)
         {
