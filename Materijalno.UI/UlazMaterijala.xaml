@@ -8,14 +8,22 @@
       <Setter Property="Language" Value="de-DE"/>
     </Style>
   </ResourceDictionary></UserControl.Resources>
-  <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Background="#F1F5F7">
-    <Border Background="White" BorderBrush="#D7E1E7" BorderThickness="1" CornerRadius="10" Margin="20" Padding="20"><StackPanel Margin="0">
+  <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" Background="#F1F5F7">
+        <Border Background="White"
+        BorderBrush="#D7E1E7"
+        BorderThickness="1"
+        CornerRadius="10"
+        Margin="20"
+        Padding="20"
+        Width="1800"
+        HorizontalAlignment="Left">
+            <StackPanel Margin="0">
       <TextBlock Text="ULAZ MATERIJALA" FontSize="22" Margin="0,0,0,16" FontWeight="SemiBold" Foreground="#203447"/>
       <WrapPanel Margin="0,0,0,12">
         <StackPanel Orientation="Horizontal" Margin="0,0,18,4">
           <Label FontSize="13" VerticalAlignment="Center" Width="150" Padding="0,5,8,5">Skladište</Label>
           <TextBox Text="1000" Name="OpBroj" KeyDown="TextBox_KeyDown" FontWeight="Bold" FontSize="14" IsEnabled="False" VerticalAlignment="Center" MinHeight="30" Width="170"/>
-          <TextBox KeyDown="TextBox_KeyDown" Name="tabelaSifarnikSkladista" FontSize="14" Text="LUTRIJA BIH-CENTRALNI MAGACIN INTERNO" IsEnabled="False" VerticalAlignment="Center" MinHeight="30" Width="320">
+          <TextBox KeyDown="TextBox_KeyDown" Name="tabelaSifarnikSkladista" Margin="18,0,0,0" FontSize="14" Text="LUTRIJA BIH-CENTRALNI MAGACIN INTERNO" IsEnabled="False" VerticalAlignment="Center" MinHeight="30" Width="320">
             <TextBox.InputBindings>
               <MouseBinding Gesture="LeftClick" Command="{Binding UlazMaterijalaSifarnikSkladistaCommand}"/>
             </TextBox.InputBindings>
@@ -29,7 +37,7 @@
         </StackPanel>
         <StackPanel Orientation="Horizontal" Margin="0,0,18,4">
           <Label FontSize="13" VerticalAlignment="Center" Width="150" Padding="0,5,8,5">Broj kalkulacije:</Label>
-          <TextBox Text="{Binding CurrentItemMat.Brfak}" KeyDown="TextBox_KeyDown" FontSize="14" IsEnabled="False" VerticalAlignment="Center" MinHeight="30" Width="170"/>
+          <TextBox Text="{Binding CurrentItemMat.Brfak}" KeyDown="TextBox_KeyDown" FontSize="14" IsEnabled="False" Margin="0,0,0,0" VerticalAlignment="Center" MinHeight="30" Width="170"/>
         </StackPanel>
       </WrapPanel>
       <WrapPanel Margin="0,0,0,12">
@@ -45,7 +53,7 @@
               </i:EventTrigger>
             </i:Interaction.Triggers>
           </TextBox>
-          <TextBox Text="{Binding CurrentNazivZaSifruKomitenta, UpdateSourceTrigger=PropertyChanged}" IsEnabled="False" KeyDown="TextBox_KeyDown" FontSize="14" Name="SifraKomitenta" VerticalAlignment="Center" MinHeight="30" Width="320">
+                        <TextBox Text="{Binding CurrentNazivZaSifruKomitenta, UpdateSourceTrigger=PropertyChanged}" Margin="18,0,0,0" IsEnabled="False" KeyDown="TextBox_KeyDown" FontSize="14" Name="SifraKomitenta" VerticalAlignment="Center" MinHeight="30" Width="320">
             <TextBox.InputBindings>
               <MouseBinding Gesture="LeftClick" Command="{Binding OtvoriKomitentListuCommand}"/>
             </TextBox.InputBindings>
@@ -76,7 +84,7 @@
               </i:EventTrigger>
             </i:Interaction.Triggers>
           </TextBox>
-          <TextBox Text="{Binding CurrentItemTabMaterijala.Nazmat, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" FontSize="14" IsEnabled="False" VerticalAlignment="Center" MinHeight="30" Width="320"/>
+          <TextBox Text="{Binding CurrentItemTabMaterijala.Nazmat, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="10,0,0,0" FontSize="14" IsEnabled="False" VerticalAlignment="Center" MinHeight="30" Width="320"/>
         </StackPanel>
       </WrapPanel>
       <WrapPanel Margin="0,0,0,12">
@@ -146,7 +154,7 @@
         </StackPanel>
         <StackPanel Orientation="Horizontal" Margin="0,0,18,4">
           <Label FontSize="13" VerticalAlignment="Center" Width="150" Padding="0,5,8,5">NC</Label>
-          <TextBox Text="{Binding CurrentItemMat.Nc, StringFormat=N9, TargetNullValue='0,00', ConverterCulture='de-DE', UpdateSourceTrigger=PropertyChanged}" FontSize="14" IsEnabled="False" VerticalAlignment="Center" MinHeight="30" Width="320" TextAlignment="Right" Typography.NumeralAlignment="Tabular"/>
+                        <TextBox Text="{Binding CurrentItemMat.Nc, StringFormat=N9, TargetNullValue='0,00', ConverterCulture='de-DE', UpdateSourceTrigger=PropertyChanged}" Margin="-80,0,0,0" FontSize="14" IsEnabled="False" VerticalAlignment="Center" MinHeight="30" Width="180" TextAlignment="Right" Typography.NumeralAlignment="Tabular"/>
         </StackPanel>
       </WrapPanel>
       <Border Margin="0,14,0,0" Padding="0,18,0,0" BorderBrush="#E1E9ED" BorderThickness="0,1,0,0"><WrapPanel Margin="0">
@@ -154,13 +162,13 @@
           <Button.ToolTip>
             <ToolTip Content="Sljedeci"/>
           </Button.ToolTip>
-          <TextBlock Text="&gt;" FontSize="24"/>
+          <TextBlock Text="&gt;" FontSize="18"/>
         </Button>
         <Button Background="White" x:Name="btnPrethodni" FontSize="13" Command="{Binding PrethodniButtonCommand}" Margin="0,0,8,8" MinWidth="86" Padding="14,8" Height="38">
           <Button.ToolTip>
             <ToolTip Content="Prethodni"/>
           </Button.ToolTip>
-          <TextBlock Text="&lt;" FontSize="24"/>
+          <TextBlock Text="&lt;" FontSize="18"/>
         </Button>
         <Button x:Name="btnPrvi" Content="Prvi" FontSize="13" Command="{Binding PrviButtonCommand}" Margin="0,0,8,8" MinWidth="64" Padding="14,8" Height="38"/>
         <Button x:Name="btnZadnji" FontSize="13" Content="Zadnji" Command="{Binding ZadnjiButtonCommand}" Margin="0,0,8,8" MinWidth="64" Padding="14,8" Height="38"/>

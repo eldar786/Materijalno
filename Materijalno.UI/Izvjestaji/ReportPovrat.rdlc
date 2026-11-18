@@ -40,7 +40,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>Prodavnica zadužuje</Value>
+                              <Value>Prodavnica razdužuje</Value>
                               <Style />
                             </TextRun>
                           </TextRuns>
@@ -318,7 +318,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>Magacin razdužuje</Value>
+                              <Value>Magacin zadužuje</Value>
                               <Style />
                             </TextRun>
                           </TextRuns>

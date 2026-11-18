@@ -204,7 +204,15 @@
 </ResourceDictionary></UserControl.Resources><Grid Background="#F1F5F7" TextElement.FontFamily="Segoe UI" TextElement.Foreground="#203447">
  <Grid.ColumnDefinitions><ColumnDefinition Width="286"/><ColumnDefinition Width="*"/></Grid.ColumnDefinitions>
  <Border Background="#142D40"><Grid><Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="*"/><RowDefinition Height="Auto"/></Grid.RowDefinitions>
-  <Border Padding="24,26,20,23" BorderBrush="#2A4355" BorderThickness="0,0,0,1"><StackPanel><StackPanel Orientation="Horizontal"><Border Background="#087F82" CornerRadius="6" Width="32" Height="32" Margin="0,0,11,0"><TextBlock Text="M" Foreground="White" FontSize="20" FontWeight="SemiBold" HorizontalAlignment="Center" VerticalAlignment="Center"/></Border><TextBlock Text="MATERIJALNO" Foreground="White" FontSize="19" FontWeight="SemiBold" VerticalAlignment="Center"/></StackPanel><TextBlock Text="Materijalno knjigovodstvo" Foreground="#9EB5C5" FontSize="12" Margin="43,5,0,0"/></StackPanel></Border>
+  <Border Padding="24,26,20,23" BorderBrush="#2A4355" BorderThickness="0,0,0,1">
+      <StackPanel><StackPanel Orientation="Horizontal">
+      
+      <!--<Border Background="#087F82" CornerRadius="6" Width="32" Height="32" Margin="0,0,11,0">
+          <TextBlock Text="M" Foreground="White" FontSize="20" FontWeight="SemiBold" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+      </Border>-->
+      
+      <TextBlock Text="MATERIJALNO" Foreground="White" FontSize="19" FontWeight="SemiBold" VerticalAlignment="Center"/></StackPanel>
+      <TextBlock Text="Materijalno knjigovodstvo" Foreground="#9EB5C5" FontSize="12" Margin="0,5,0,0"/></StackPanel></Border>
   <ScrollViewer x:Name="MenuScroll" Grid.Row="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Margin="5,12,5,8"><StackPanel x:Name="glavniStackPanel">
 
                         <!-- ŠIFARNICI -->
