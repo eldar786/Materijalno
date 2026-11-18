@@ -667,7 +667,6 @@
                         <PaddingBottom>2pt</PaddingBottom>
                       </Style>
                     </Textbox>
-                    <rd:Selected>true</rd:Selected>
                   </CellContents>
                 </TablixCell>
                 <TablixCell>
@@ -765,7 +764,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Fields!Nc.Value</Value>
+                              <Value>=IIF(Fields!Status.Value = "M", Nothing, Fields!Nc.Value)</Value>
                               <Style />
                             </TextRun>
                           </TextRuns>
@@ -795,6 +794,7 @@
                         <PaddingBottom>2pt</PaddingBottom>
                       </Style>
                     </Textbox>
+                    <rd:Selected>true</rd:Selected>
                   </CellContents>
                 </TablixCell>
                 <TablixCell>
@@ -1329,7 +1329,10 @@
           <DataField>Vrijed</DataField>
           <rd:TypeName>System.Nullable`1[[System.Decimal, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]</rd:TypeName>
         </Field>
-      <Field Name="Medus"><DataField>Medus</DataField><rd:TypeName>System.String</rd:TypeName></Field>
+        <Field Name="Medus">
+          <DataField>Medus</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
       </Fields>
       <rd:DataSetInfo>
         <rd:DataSetName>Materijalno.UI.Izvjestaji</rd:DataSetName>

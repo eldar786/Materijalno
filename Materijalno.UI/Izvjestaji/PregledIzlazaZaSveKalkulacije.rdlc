@@ -442,7 +442,6 @@
                         <PaddingBottom>2pt</PaddingBottom>
                       </Style>
                     </Textbox>
-                    <rd:Selected>true</rd:Selected>
                   </CellContents>
                 </TablixCell>
                 <TablixCell>
@@ -454,7 +453,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Fields!Kolic.Value</Value>
+                              <Value>=Math.Abs(Fields!Kolic.Value)</Value>
                               <Style>
                                 <Format>n2</Format>
                                 <Language>bs-Latn-BA</Language>
@@ -521,7 +520,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Fields!Vrijed.Value</Value>
+                              <Value>=Math.Abs(Fields!Vrijed.Value)</Value>
                               <Style>
                                 <Format>n2</Format>
                                 <Language>bs-Latn-BA</Language>
@@ -812,7 +811,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Sum(Fields!Vrijed.Value)</Value>
+                              <Value>=Math.Abs(Sum(Fields!Vrijed.Value))</Value>
                               <Style>
                                 <FontWeight>Bold</FontWeight>
                                 <Format>n2</Format>
@@ -1097,7 +1096,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Sum(Fields!Vrijed.Value)</Value>
+                              <Value>=Math.Abs(Sum(Fields!Vrijed.Value))</Value>
                               <Style>
                                 <Format>n2</Format>
                                 <Language>bs-Latn-BA</Language>
@@ -1119,6 +1118,7 @@
                         <PaddingBottom>2pt</PaddingBottom>
                       </Style>
                     </Textbox>
+                    <rd:Selected>true</rd:Selected>
                   </CellContents>
                 </TablixCell>
                 <TablixCell>
