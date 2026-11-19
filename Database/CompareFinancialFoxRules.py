@@ -58,6 +58,7 @@ for case in cases:
     mapped=[]
     for r in expected:
         cost=r['Mjtst']
+        if status=='M':cost=0  # nalogmweb exports the literal '00000'.
         if status in ['I','V'] and cost is not None:cost=int(str(cost).zfill(6)[1:6])
         mapped.append({'Sintstav':r['Sintstav'],'Brdokst':r['Brdokst'].strip(),'Datdokst':r['Datdokst'],'Analst':r['Analst'] if status=='U' else '1LT01','Mjtst':cost,'Dug1st':r['Dug1st'],'Pot1st':r['Pot1st']})
     assert case['OracleMapping']==mapped,(case['Number'],'Oracle payload rules (offline only)')

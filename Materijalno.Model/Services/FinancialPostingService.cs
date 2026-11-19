@@ -135,9 +135,10 @@ namespace Materijalno.Model.Services
                 Sintstav=line.Sintstav,Brdokst=(line.Brdokst??"").Trim(),Datdokst=line.Datdokst,
                 Analst=batch.SourceStatus=="U"?(line.Analst??"").Trim():"1LT01",
                 // nalogiweb / nalogiwebp: SUBSTR(mjtst,2,5), preserving zero padding.
-                Mjtst=(batch.SourceStatus=="I"||batch.SourceStatus=="V") && line.Mjtst.HasValue
+                Mjtst=batch.SourceStatus=="M" ? (int?)0 :
+                    (batch.SourceStatus=="I"||batch.SourceStatus=="V") && line.Mjtst.HasValue
                     ? (int?)int.Parse(line.Mjtst.Value.ToString("D6",CultureInfo.InvariantCulture).Substring(1,5),CultureInfo.InvariantCulture)
-                    : line.Mjtst,
+                    : line.Mjtst, // nalogmweb explicitly exports MJT='00000'.
                 Dug1st=line.Dug1st,Pot1st=line.Pot1st,LineNumber=line.LineNumber
             }).ToList();
         }

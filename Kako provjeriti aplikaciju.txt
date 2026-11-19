@@ -272,3 +272,21 @@ Backup poslije: C:\Program Files\Microsoft SQL Server\MSSQL15.LUTRIJASQL\MSSQL\B
 - Svi probni redovi (4159,4160,4161 i novi otkazani draft 4162) uklonjeni kroz testirane metode; završni cleanup nije morao ukloniti dodatne redove. Hash svih devet praćenih operativnih/finansijskih tabela i poslovnih brojača identičan prije/poslije. Tehnički identity/globalni rowversion brojači prirodno napreduju; nisu resetovani.
 - Originalni Fox podaci i forma nepromijenjeni (61 datoteka + 2 datoteke forme). Nije kreirana nova baza, nisu formirani finansijski nalozi. Postavke SQL/Oracle konekcija sačuvane. Detalji/backup: artifacts/InitialStockEditDelete_20261118_113829.
 - Završni Debug build prošao sa 0 grešaka. Ispravka postavljena u Debug, artifacts/FoxApp i artifacts/PrometTest. Pokrenuti aplikaciju ponovo ili F5.
+
+19.11.2026. - Svi Nalozi za finansije: stvarni SQL i Oracle TESTPDB prenosi
+- Potvrđen stvarni Oracle CON_NAME=TESTPDB, CURRENT_SCHEMA=IBS, servis TESTPDB.LUTRIJABIH.BA. SQL baza ostaje materijalno_fox_20261105_102038. Nije kreirana nova baza.
+- Ulaz u centralni magacin: kalkulacija 10-36, aktivnost 10, broj naloga/BROJNAL 0001, datum 17.11.2026, Oracle NALOG 10780462, 12 stavki, D=P=82,00.
+- Zaduženje prodavnice: 61-241, aktivnost 61, BROJNAL 0401, datum 31.10.2026, Oracle NALOG 10780463, 14 stavki, D=P=5.504,99.
+- Povrat u skladište: 61-247, aktivnost 61, BROJNAL 0402, datum 17.11.2026, Oracle NALOG 10780464, 2 stavke, D=P=-5,95. Negativni iznosi su storno po Fox pravilima.
+- Međuskladišnica: M-204, aktivnost 61, BROJNAL 0403, datum 19.11.2026, Oracle NALOG 10780465, 2 stavke, D=P=0,28.
+- Kontrolni povratni prenos: M-205, aktivnost 61, BROJNAL 0404, datum 19.11.2026, Oracle NALOG 10780466, 2 stavke, D=P=0,28.
+- Sve postojeće međuskladišnice već su imale uvezene naloge. Zato su normalnom aplikacijskom komandom sačuvani M-204 (1 kom materijala 087001, 1001 -> 1002) i M-205 (povrat istog komada 1002 -> 1001). Oba prenosa vrijednosti 0,28 tačno poništavaju promjenu zaliha; svi saldi količine/vrijednosti identični su prije/poslije. Brojevi M-198 do M-203 nisu ponovo korišteni jer ih je postojeći brojač već rezervisao.
+- Pet naloga ostavljeno je u SQL financial_batch/nalmat/financial_export_log i TESTPDB INTERFACE_NALOG/INTERFACE_STAVKE radi dalje provjere; svi imaju SQL State=Sent. Ukupno 5 Oracle zaglavlja i 32 stavke. Oracle NALOG automatski generisan i isti u zaglavlju i njegovim stavkama.
+- Stvarni PrepareLocal za svaki od četiri ViewModela, zatim stvarni Export kroz postojeći OracleFinancialGateway. Potvrđeni BROJNAL sa vodećim nulama, aktivnost, datumi, konta, opisi, komitenti, MJT, AUTOR=MAT, redni brojevi, iznosi i uravnoteženost. Ponovljen Prepare/Export zadržao isti batch i nije dodao zaglavlje, stavke ni drugi success log; attempt_count=1.
+- Prošlo 225 provjera stvarnog SQL/Oracle toka. Nezavisni Python preračun prema Fox formama potvrdio 5 dokumenata, 32 stavke i 736 lokalnih/Oracle polja. Originalni Fox Ulaz nalogweb formira lokalne stavke; direktni Oracle prenos Ulaza u novoj aplikaciji je proširenje izričito traženo ovim testom. I/V/M Oracle mapiranje upoređeno sa njihovim Fox web formama.
+- Nađena i ispravljena razlika: nalogmweb upisuje MJT='00000', a nova aplikacija slala je NULL. Budući M prenosi i nova dva testna naloga koriste 00000. Raniji Oracle nalog 0393 nije mijenjan.
+- Provjereno učitavanje svih novih stavki u Printanje naloga i renderovana prva stranica svakog RDLC izvještaja. Izvještaji koriste nove brojeve naloga i odgovarajuće SQL stavke; papirna štampa nije pokretana.
+- Svi raniji mat/nalmat zapisi i master/veze ostali nepromijenjeni. Brojači sada FIN_10=1, FIN_61=404, PROMET_M=205. To su stvarno rezervisani poslovni brojevi novih testnih dokumenata i naloga.
+- Fox nije pokretan niti mijenjan; svih 18 pregledanih izvornih datoteka ima nepromijenjen hash. Produkcijski Oracle nije korišten. Postojeće konfiguracije SQL/Oracle i OracleExportEnabled=true sačuvane su bez izmjena.
+- Verificirani COPY_ONLY/CHECKSUM SQL backup prije/poslije u backup_before.json i backup_after.json. Dokazi, rezultati, SELECT upiti i slike izvještaja: artifacts/FinancialAll_20261119_093924.
+- Jedina aplikacijska izmjena je MJT mapiranje M naloga. Kompajlirana sa 0 grešaka i postavljena u Debug, artifacts/FoxApp i artifacts/PrometTest. Pokrenuti ponovo/F5.
