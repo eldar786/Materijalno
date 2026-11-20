@@ -24,20 +24,10 @@ namespace Materijalno.Model.Services
         {
             if (input == null || string.IsNullOrWhiteSpace(input.Ident) || input.Kljnaz.GetValueOrDefault() <= 0)
                 throw new InvalidOperationException("Odaberite materijal i skladište inventure.");
-            DateTime day = (input.InventoryDate ?? input.Datun ?? DateTime.Today).Date;
-            var balance = MaterialPostingService.Balance(db, input.Ident, input.Kljnaz.Value, at: day);
-            if (balance.Quantity < 0 || balance.Value < 0)
-                throw new InvalidOperationException("Knjigovodstveni saldo na datum inventure nije ispravan.");
-            if (balance.Quantity > 0) return balance.UnitCost;
-            if (balance.Value != 0) throw new InvalidOperationException("Nulta količina ima nenultu knjigovodstvenu vrijednost.");
-            DateTime end = day.AddDays(1);
-            var lastPrice = db.Mat.IgnoreQueryFilters().Where(m => !m.IsDraft && m.BookYear == day.Year &&
-                m.Ident == input.Ident && m.Kljnaz == input.Kljnaz && m.Datun < end && m.Nc != null)
-                .OrderByDescending(m => m.Id).Select(m => m.Nc).FirstOrDefault();
-            if (lastPrice.HasValue) return lastPrice.Value;
-            if ((input.Kolic ?? 0) == 0) return 0;
-            if (input.Nc > 0) return LedgerMath.Price(input.Nc);
-            throw new InvalidOperationException("Za inventurni višak bez historije unesite potvrđenu nabavnu cijenu.");
+            // uninv.scx sums the current MAT ledger by IDENT/KLJNAZ, without a
+            // date/year condition. INV can already be dated 01.01. of next year.
+            var balance = MaterialPostingService.Balance(db, MaterialIdentifier.Normalize(input.Ident), input.Kljnaz.Value);
+            return balance.Quantity > 0 && balance.Value > 0 ? balance.UnitCost : 0;
         }
 
         public Inv Save(Inv input)
@@ -59,12 +49,18 @@ namespace Materijalno.Model.Services
                 Guid session = SessionId(input.Kljnaz.Value, day);
                 if (db.Inv.Any(i => i.Id != input.Id && i.InventorySessionId == session && i.Ident == input.Ident))
                     throw new InvalidOperationException("Materijal je već unesen u taj inventurni popis. Koristite izmjenu postojeće stavke.");
-                input.Nc = Quote(db, input);
+                if (input.Nc < 0) throw new InvalidOperationException("Nabavna cijena ne može biti negativna.");
+                // Fox permits a confirmed manual NC; saving must not replace it.
+                input.Nc = input.Nc > 0 ? LedgerMath.Price(input.Nc) : Quote(db, input);
+                if (input.Kolic > 0 && input.Nc == 0)
+                    throw new InvalidOperationException("Nije moguće automatski odrediti NC. Unesite potvrđenu prosječnu nabavnu cijenu.");
                 input.Vrijed = LedgerMath.Money(input.Kolic.Value * input.Nc);
                 input.Datun = day; input.Datnar = day; input.InventoryDate = day; input.InventorySessionId = session;
                 input.Status = "P"; input.IsDraft = false; input.IsArchived = false;
                 input.Kontosklad = MaterialPostingService.Account(db, input.Ident, input.Kljnaz.Value);
-                input.Konto1 = db.TabelaMaterijala.Single(m => m.Ident == input.Ident).Konto1 ?? 0;
+                var material = db.TabelaMaterijala.Single(m => m.Ident == input.Ident);
+                input.Konto1 = material.Konto1 ?? 0;
+                input.Konto2 = material.Konto2 ?? "";
                 var stored = input.Id == 0 ? null : db.Inv.IgnoreQueryFilters().SingleOrDefault(i => i.Id == input.Id);
                 if (stored == null)
                 {

@@ -191,6 +191,7 @@ namespace Materijalno.UI.Izvjestaji
             ReportDataSource ds = new ReportDataSource("DataSet1", reportDt);
             PathHelper pathHelper = new PathHelper();
             this._reportViewer.LocalReport.ReportPath = pathHelper.MExecutableRootDirectory + "\\Izvjestaji\\UnosInventurnogStanja.rdlc";
+            _reportViewer.LocalReport.DataSources.Clear();
             _reportViewer.LocalReport.DataSources.Add(ds);
             try
             {
