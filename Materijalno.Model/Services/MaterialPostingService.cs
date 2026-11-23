@@ -162,7 +162,14 @@ namespace Materijalno.Model.Services
                             throw new InvalidOperationException("Početno stanje za taj materijal i skladište već postoji.");
                         if (!input.Nc.HasValue || input.Nc < 0) throw new InvalidOperationException("Unesite poznatu početnu cijenu ili vrijednost; cijena se ne može izmisliti.");
                         price = LedgerMath.Price(input.Nc.Value); value = LedgerMath.Money(quantity * price);
-                        input.Datun = new DateTime(ActiveYear(db), 1, 1); input.Datnar = input.Datun;
+                        // unpoc.scx sets DATUN from YEAR(DATE()) only on INSERT.
+                        // Editing an existing opening must keep its saved date.
+                        if (!existed)
+                        {
+                            input.Datun = new DateTime(DateTime.Today.Year, 1, 1);
+                            input.Datnar = input.Datun;
+                        }
+                        else input.Datun = stored.Datun;
                         break;
                     default: throw new InvalidOperationException("Nepoznata vrsta prometa.");
                 }
@@ -173,7 +180,8 @@ namespace Materijalno.Model.Services
                 input.Konto1 = material.Konto1;
                 if (input.Status == "P") input.Konto2 = material.Konto2 ?? "";
                 input.Kljnaz1 = null; input.Kontosklad1 = null; input.Medus = "";
-                input.IsDraft = false; input.IsArchived = false; input.BookYear = ActiveYear(db);
+                input.IsDraft = false; input.IsArchived = false;
+                input.BookYear = input.Status == "P" && input.Datun.HasValue ? input.Datun.Value.Year : ActiveYear(db);
                 input.DocumentId = Document(db, input.Status, input.BookYear, input.Brfak ?? "", input.Kljnaz.Value).Id;
                 if (stored == null) { stored = input; db.Mat.Add(stored); }
                 else Apply(db, stored, input);

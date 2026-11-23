@@ -756,9 +756,8 @@ namespace Materijalno.ViewModel
                 currentItemMat.Brdok = "";
                 currentItemMat.Brfak = "";
 
-                var nextYearJanuaryFirst = new DateTime(new MaterialPostingService().ActiveYear(), 1, 1);
-                currentItemMat.Datun = nextYearJanuaryFirst;
-                currentItemMat.Datnar = nextYearJanuaryFirst;
+                // The posting service assigns the Fox calendar date on a new
+                // opening and preserves the saved date when editing a row.
 
 
                 if (currentItemMat.Kljnaz != null)
