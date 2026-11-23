@@ -160,7 +160,9 @@ namespace Materijalno.Model.Services
                     case "P":
                         if (db.Mat.Any(m => m.Status == "P" && m.Ident == input.Ident && m.Kljnaz == input.Kljnaz && m.Id != input.Id))
                             throw new InvalidOperationException("Početno stanje za taj materijal i skladište već postoji.");
-                        if (!input.Nc.HasValue || input.Nc < 0) throw new InvalidOperationException("Unesite poznatu početnu cijenu ili vrijednost; cijena se ne može izmisliti.");
+                        // unpoc.scx rejects EMPTY(m.nc), including numeric zero.
+                        if (!input.Nc.HasValue || LedgerMath.Price(input.Nc.Value) <= 0)
+                            throw new InvalidOperationException("Unesite nabavnu cijenu (NC) veću od nule.");
                         price = LedgerMath.Price(input.Nc.Value); value = LedgerMath.Money(quantity * price);
                         // unpoc.scx sets DATUN from YEAR(DATE()) only on INSERT.
                         // Editing an existing opening must keep its saved date.

@@ -6,18 +6,20 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
+using System.Runtime.Serialization;
 using System.Security.Cryptography;
 using System.Text;
 using System.Web.Script.Serialization;
 using Materijalno.Model.EntityModels;
 using Materijalno.Model.Services;
+using Materijalno.ViewModel;
 using Microsoft.EntityFrameworkCore;
 
 // Tests the real posting service against Fox's YEAR(DATE()) rule. All SQL
 // mutations belong to an external transaction and are always rolled back.
 public static class OpeningCalendarDateChecks
 {
-    static string work, material;static int checks, scenarios;static DateTime foxDate;
+    static string work, material;static int checks, scenarios;static DateTime foxDate;static bool priceChecked;
     static readonly List<object> cases=new List<object>();
     static void Check(bool ok,string message){if(!ok)throw new Exception(message);checks++;}
     static void Save(string file,object value)=>File.WriteAllText(Path.Combine(work,file),new JavaScriptSerializer().Serialize(value));
@@ -78,6 +80,57 @@ public static class OpeningCalendarDateChecks
         var after=Hashes();Check(before.All(p=>after[p.Key]==p.Value),"All SQL rows and settings restored by rollback");scenarios++;
         Console.WriteLine("PASS activeYear="+activeYear+" persistedDraft="+persistedDraft+" Fox DATUN="+foxDate.ToString("yyyy-MM-dd"));
     }
+    static bool PriceRejected(Action action){try{action();return false;}catch(InvalidOperationException ex){return ex.Message=="Unesite nabavnu cijenu (NC) veću od nule.";}}
+    static void PriceValidation(dynamic fox){
+        Check((bool)fox.Eval("EMPTY(0)"),"Fox rejects zero NC");
+        Check(!(bool)fox.Eval("EMPTY(0.000000001)"),"Fox accepts a nonzero nine-decimal NC");
+        var invalid=new decimal?[]{null,0,-1,0.0000000001m};
+        Func<decimal?,Mat> row=nc=>new Mat{Status="P",Ident=material,Kljnaz=1000,Kolic=10,Nc=nc,Brfak="PRICE-CHECK",Redbr=1};
+        var vm=(PocetnoStanjePrviPutViewModel)FormatterServices.GetUninitializedObject(typeof(PocetnoStanjePrviPutViewModel));
+        bool originalFlag=PocetnoStanjePrviPutViewModel.isNovaKalkulacijaClicked;
+        try{
+            PocetnoStanjePrviPutViewModel.isNovaKalkulacijaClicked=true;bool focused=false;vm.RequestFocusPrice+=()=>focused=true;
+            foreach(var nc in invalid){
+                vm.CurrentItemMat=row(nc);focused=false;
+                Check(PriceRejected(vm.ValidatePrice)&&focused,"Screen rejects missing/zero/negative/unrepresentable NC and requests price focus");
+                Check(PriceRejected(()=>vm.SaveCurrentOpening()),"Snimi rejects invalid NC before database access");
+                Check(vm.HasUnsavedEntry&&vm.IsEntryEditable,"Rejected opening remains editable");
+            }
+            vm.CurrentItemMat=row(1.25m);vm.ValidatePrice();vm.NabavnaCijena();
+            Check(vm.CurrentItemMat.Vrijed==12.50m,"Positive screen NC still calculates quantity times price");
+        }finally{PocetnoStanjePrviPutViewModel.isNovaKalkulacijaClicked=originalFlag;}
+        var before=Hashes();
+        using(var root=new materijalno_knjigovodstvoContext()){
+            var c=root.Database.GetDbConnection();c.Open();using(var tx=c.BeginTransaction(IsolationLevel.Serializable)){
+                try{
+                    var create=Factory(c,tx);var service=new MaterialPostingService(create);
+                    int count=Convert.ToInt32(Read(c,tx,"SELECT COUNT(*) FROM dbo.mat").Rows[0][0]);
+                    foreach(var nc in invalid){
+                        Check(PriceRejected(()=>service.Save(row(nc))),"Posting service rejects invalid new opening NC");
+                        Check(Convert.ToInt32(Read(c,tx,"SELECT COUNT(*) FROM dbo.mat").Rows[0][0])==count,"Rejected NC inserts no row");
+                    }
+                    var saved=service.Save(row(1.25m));
+                    Check(saved.Nc==1.25m&&saved.Vrijed==12.50m&&saved.Status=="P","Positive opening still saves correctly");
+                    foreach(var nc in invalid){
+                        Mat edit;using(var db=create())edit=db.Mat.AsNoTracking().Single(m=>m.Id==saved.Id);
+                        var oldVersion=(byte[])edit.RowVersion.Clone();edit.Nc=nc;
+                        Check(PriceRejected(()=>service.Save(edit)),"Posting service rejects invalid edited NC");
+                        using(var db=create()){
+                            var actual=db.Mat.AsNoTracking().Single(m=>m.Id==saved.Id);
+                            Check(actual.Nc==1.25m&&actual.Vrijed==12.50m&&actual.RowVersion.SequenceEqual(oldVersion),"Rejected NC edit preserves the stored row and row version");
+                        }
+                    }
+                    using(var db=create())saved=db.Mat.AsNoTracking().Single(m=>m.Id==saved.Id);
+                    saved.Nc=0.000000001m;saved=service.Save(saved);
+                    Check(saved.Nc==0.000000001m&&saved.Vrijed==0,"Smallest representable positive NC remains valid");
+                    saved.Nc=2.5m;saved=service.Save(saved);
+                    Check(saved.Nc==2.5m&&saved.Vrijed==25,"Positive price edit still recalculates value");
+                }finally{tx.Rollback();}
+            }
+        }
+        var after=Hashes();Check(before.All(p=>after[p.Key]==p.Value),"Price tests leave all original SQL rows unchanged");
+        priceChecked=true;Console.WriteLine("PASS opening NC zero/new/edit/focus/positive-price checks");
+    }
     [STAThread]public static int Main(string[] args){
         work=args[0];bool passed=false,unchanged=false;string error=null;Dictionary<string,string> before=null;dynamic fox=null;
         try{
@@ -91,11 +144,12 @@ public static class OpeningCalendarDateChecks
             foxDate=Convert.ToDateTime(fox.Eval("DATE(YEAR(DATE()),1,1)"));
             Check(foxDate==new DateTime(DateTime.Today.Year,1,1),"Fox and .NET agree on current calendar year");
             foreach(int year in new[]{foxDate.Year-1,foxDate.Year,foxDate.Year+1})foreach(bool draft in new[]{false,true})Scenario(year,draft);
+            PriceValidation(fox);
             passed=true;
         }catch(Exception ex){error=ex.ToString();Console.WriteLine(error);}
         finally{if((object)fox!=null){object instance=(object)fox;try{fox.Quit();}finally{Marshal.FinalReleaseComObject(instance);}}}
         if(before!=null){try{var after=Hashes();Save("hashes_after.json",after);unchanged=before.All(p=>after[p.Key]==p.Value);}catch(Exception ex){error=(error??"")+"\n"+ex;}if(!unchanged)passed=false;}
-        Save("cases.json",cases);Save("result.json",new{Passed=passed,Checks=checks,Scenarios=scenarios,FoxCalendarDate=foxDate.ToString("yyyy-MM-dd"),AllOriginalSqlRowsUnchanged=unchanged,EveryWriteRolledBack=true,SqlBackupCreated=false,OracleUsed=false,Error=error});
+        Save("cases.json",cases);Save("result.json",new{Passed=passed,Checks=checks,Scenarios=scenarios,PriceValidationChecked=priceChecked,FoxCalendarDate=foxDate.ToString("yyyy-MM-dd"),AllOriginalSqlRowsUnchanged=unchanged,EveryWriteRolledBack=true,SqlBackupCreated=false,OracleUsed=false,Error=error});
         Console.WriteLine("RESULT passed="+passed+" checks="+checks+" scenarios="+scenarios);return passed?0:1;
     }
 }

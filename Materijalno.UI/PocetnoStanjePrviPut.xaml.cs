@@ -28,18 +28,29 @@ namespace Materijalno.UI
 
         private void Opening_DataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
-            if (e.OldValue is PocetnoStanjePrviPutViewModel oldVm) oldVm.RequestFocusQuantity -= FocusQuantity;
-            if (e.NewValue is PocetnoStanjePrviPutViewModel newVm) newVm.RequestFocusQuantity += FocusQuantity;
+            if (e.OldValue is PocetnoStanjePrviPutViewModel oldVm)
+            {
+                oldVm.RequestFocusQuantity -= FocusQuantity;
+                oldVm.RequestFocusPrice -= FocusPrice;
+            }
+            if (e.NewValue is PocetnoStanjePrviPutViewModel newVm)
+            {
+                newVm.RequestFocusQuantity += FocusQuantity;
+                newVm.RequestFocusPrice += FocusPrice;
+            }
         }
 
-        private void FocusQuantity()
+        private void FocusQuantity() => FocusAmount(txtKolic);
+        private void FocusPrice() => FocusAmount(txtNc);
+
+        private void FocusAmount(TextBox input)
         {
             Dispatcher.BeginInvoke(new Action(() =>
             {
-                if (txtKolic.IsEnabled && txtKolic.IsVisible)
+                if (input.IsEnabled && input.IsVisible)
                 {
-                    Keyboard.Focus(txtKolic);
-                    txtKolic.SelectAll();
+                    Keyboard.Focus(input);
+                    input.SelectAll();
                 }
             }), System.Windows.Threading.DispatcherPriority.ContextIdle);
         }
@@ -67,6 +78,17 @@ namespace Materijalno.UI
         {
             if (e.Key == Key.Enter)
             {
+                if (ReferenceEquals(sender, txtNc) && DataContext is PocetnoStanjePrviPutViewModel vm && vm.IsEntryEditable)
+                {
+                    e.Handled = true;
+                    if (!Helpers.QuantityInput.Commit(txtNc)) return;
+                    try { vm.ValidatePrice(); vm.NabavnaCijena(); }
+                    catch (InvalidOperationException error)
+                    {
+                        MessageBox.Show(error.Message, "Početno stanje", MessageBoxButton.OK, MessageBoxImage.Warning);
+                        return;
+                    }
+                }
                 (sender as UIElement)?.MoveFocus(new TraversalRequest(FocusNavigationDirection.Next));
                 e.Handled = true;
             }

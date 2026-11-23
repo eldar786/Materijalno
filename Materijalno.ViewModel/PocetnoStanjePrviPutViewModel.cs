@@ -43,6 +43,7 @@ namespace Materijalno.ViewModel
         public bool IsEntryReadOnly => !IsEntryEditable;
         public bool HasUnsavedEntry => IsEntryEditable || (CurrentItemMat != null && CurrentItemMat.Id > 0 && CurrentItemMat.IsDraft);
         public event Action RequestFocusQuantity;
+        public event Action RequestFocusPrice;
         
         private Mat itemMat;
         public static Komitenti selectedKomitent;
@@ -742,10 +743,20 @@ namespace Materijalno.ViewModel
                 MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
+        public void ValidatePrice()
+        {
+            if (CurrentItemMat?.Nc == null || LedgerMath.Price(CurrentItemMat.Nc.Value) <= 0)
+            {
+                RequestFocusPrice?.Invoke();
+                throw new InvalidOperationException("Unesite nabavnu cijenu (NC) veću od nule.");
+            }
+        }
+
         public Mat SaveCurrentOpening()
         {
             if (!IsEntryEditable || CurrentItemMat == null)
                 throw new InvalidOperationException("Prvo otvorite unos ili izmjenu početnog stanja.");
+            ValidatePrice();
             bool edited = _editingExisting;
             using (var dbContext = new materijalno_knjigovodstvoContext())
             {
