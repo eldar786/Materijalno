@@ -36,12 +36,24 @@ namespace Materijalno.Model.Services
             input.Ident = MaterialIdentifier.Normalize(input.Ident);
             if (!MaterialIdentifier.IsValid(input.Ident)) throw new InvalidOperationException("Unesite ispravnu šifru materijala.");
             using (var db = _create())
-            using (var transaction = db.Database.BeginTransaction(IsolationLevel.Serializable))
             using (db.AllowPosting())
             {
+                if (db.Database.CurrentTransaction != null) return Save(db, input);
+                using (var transaction = db.Database.BeginTransaction(IsolationLevel.Serializable))
+                {
+                    var saved = Save(db, input);
+                    transaction.Commit();
+                    return saved;
+                }
+            }
+        }
+
+        private static Inv Save(materijalno_knjigovodstvoContext db, Inv input)
+        {
                 MaterialPostingService.LockLedger(db);
                 DateTime day = (input.InventoryDate ?? input.Datun ?? DateTime.Today).Date;
-                if (day.Year != MaterialPostingService.ActiveYear(db)) throw new InvalidOperationException("Inventura mora pripadati otvorenoj godini.");
+                // Fox permits inventory entered in the following calendar year;
+                // its date need not equal the year of the still-active MAT ledger.
                 if (!input.Kolic.HasValue || input.Kolic < 0) throw new InvalidOperationException("Unesite nenegativnu prebrojanu količinu.");
                 if (!db.TabelaMaterijala.Any(m => m.Ident == input.Ident) || !db.SifarnikSkladista.Any(w => w.Kljnaz == input.Kljnaz))
                     throw new InvalidOperationException("Materijal i skladište moraju postojati.");
@@ -74,8 +86,7 @@ namespace Materijalno.Model.Services
                     db.Entry(stored).CurrentValues.SetValues(input); stored.FoxRecno = source;
                     if (version != null) db.Entry(stored).Property(i => i.RowVersion).OriginalValue = version;
                 }
-                db.SaveChanges(); transaction.Commit(); return stored;
-            }
+                db.SaveChanges(); return stored;
         }
 
         public void Delete(Inv input)

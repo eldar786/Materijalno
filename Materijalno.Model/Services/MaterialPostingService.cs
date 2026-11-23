@@ -66,8 +66,18 @@ namespace Materijalno.Model.Services
         public string ReserveDocumentNumber(string status, int year)
         {
             using (var db = _create())
-            using (var transaction = db.Database.BeginTransaction(IsolationLevel.Serializable))
             {
+                if (db.Database.CurrentTransaction != null) return ReserveDocumentNumber(db, status, year);
+                using (var transaction = db.Database.BeginTransaction(IsolationLevel.Serializable))
+                {
+                    string number = ReserveDocumentNumber(db, status, year);
+                    transaction.Commit(); return number;
+                }
+            }
+        }
+
+        private static string ReserveDocumentNumber(materijalno_knjigovodstvoContext db, string status, int year)
+        {
                 LockLedger(db);
                 string name = status == "I" || status == "V" ? "PROMET_IV" : "PROMET_" + status;
                 string prefix = status == "U" ? "10-" : status == "M" ? "M-" : "61-";
@@ -75,9 +85,8 @@ namespace Materijalno.Model.Services
                     .Select(m => m.Brfak).ToList();
                 int maximum = numbers.Select(n => { int parsed; return int.TryParse(n.Substring(prefix.Length), out parsed) ? parsed : 0; }).DefaultIfEmpty(0).Max();
                 int number = NextNumber(db, name, year, maximum);
-                db.SaveChanges(); transaction.Commit();
+                db.SaveChanges();
                 return prefix + number.ToString(CultureInfo.InvariantCulture);
-            }
         }
 
         internal static int NextNumber(materijalno_knjigovodstvoContext db, string name, int year, int importedMaximum)
@@ -97,9 +106,19 @@ namespace Materijalno.Model.Services
             if (input == null) throw new InvalidOperationException("Nema stavke za snimanje.");
             if (input.Status == "M") return SaveTransfer(input);
             using (var db = _create())
-            using (var transaction = db.Database.BeginTransaction(IsolationLevel.Serializable))
             using (db.AllowPosting())
             {
+                if (db.Database.CurrentTransaction != null) return Save(db, input);
+                using (var transaction = db.Database.BeginTransaction(IsolationLevel.Serializable))
+                {
+                    var saved = Save(db, input);
+                    transaction.Commit(); return saved;
+                }
+            }
+        }
+
+        private static Mat Save(materijalno_knjigovodstvoContext db, Mat input)
+        {
                 LockLedger(db);
                 ValidateIdentity(db, input);
                 var stored = input.Id == 0 ? db.Mat.IgnoreQueryFilters().SingleOrDefault(m => m.LineToken == input.LineToken)
@@ -133,7 +152,9 @@ namespace Materijalno.Model.Services
                         break;
                     case "V":
                         var lastPrice = existed && !changed ? stored.Nc : ReturnPrice(db, input.Ident, input.Kljnaz.Value, stored?.Id ?? 0);
-                        if (!lastPrice.HasValue) throw new InvalidOperationException("Nema ranije nabavne cijene za povrat u odabrano skladište.");
+                        // izlazi1p.scx accepts a return only when nacij > 0.
+                        if (!lastPrice.HasValue || lastPrice.Value <= 0)
+                            throw new InvalidOperationException("Nema ranije nabavne cijene veće od nule za povrat u odabrano skladište.");
                         price = lastPrice.Value; value = LedgerMath.Money(quantity * price);
                         break;
                     case "P":
@@ -156,9 +177,8 @@ namespace Materijalno.Model.Services
                 input.DocumentId = Document(db, input.Status, input.BookYear, input.Brfak ?? "", input.Kljnaz.Value).Id;
                 if (stored == null) { stored = input; db.Mat.Add(stored); }
                 else Apply(db, stored, input);
-                db.SaveChanges(); transaction.Commit();
+                db.SaveChanges();
                 return stored;
-            }
         }
 
         public static Mat CreateTransferDraft()
@@ -189,10 +209,21 @@ namespace Materijalno.Model.Services
 
         public Mat SaveTransfer(Mat input)
         {
+            if (input == null) throw new InvalidOperationException("Nema stavke za snimanje.");
             using (var db = _create())
-            using (var transaction = db.Database.BeginTransaction(IsolationLevel.Serializable))
             using (db.AllowPosting())
             {
+                if (db.Database.CurrentTransaction != null) return SaveTransfer(db, input);
+                using (var transaction = db.Database.BeginTransaction(IsolationLevel.Serializable))
+                {
+                    var saved = SaveTransfer(db, input);
+                    transaction.Commit(); return saved;
+                }
+            }
+        }
+
+        private static Mat SaveTransfer(materijalno_knjigovodstvoContext db, Mat input)
+        {
                 LockLedger(db);
                 ValidateIdentity(db, input);
                 NormalizeTransferDefaults(input);
@@ -248,9 +279,8 @@ namespace Materijalno.Model.Services
                 destination.Kljnaz = destinationWarehouse; destination.Kljnaz1 = sourceWarehouse; destination.Kolic = quantity; destination.Vrijed = amount;
                 destination.Kontosklad = targetAccount; destination.Kontosklad1 = sourceAccount; destination.Medus = "1";
                 if (selected != null && input.RowVersion != null) db.Entry(selected).Property(m => m.RowVersion).OriginalValue = input.RowVersion;
-                db.SaveChanges(); transaction.Commit();
+                db.SaveChanges();
                 return destination;
-            }
         }
 
         public void Delete(Mat input)

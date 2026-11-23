@@ -30,11 +30,12 @@ namespace Materijalno.ViewModel
         }
         public void PocetnoStanje()
         {
-            if (System.Windows.MessageBox.Show("Zaključiti završenu godinu i formirati početno stanje iz potpune završne inventure?", "Početno stanje", MessageBoxButton.YesNo, MessageBoxImage.Question) != MessageBoxResult.Yes) return;
+            if (System.Windows.MessageBox.Show("Formirati novo početno stanje iz unesenog inventurnog popisa?\n\nPostojeći materijalni promet bit će obrisan i zamijenjen inventurnim stavkama. Nakon uspješnog prenosa brišu se inventurni popis i lokalni finansijski nalozi. Datumi, količine, NC i vrijednosti preuzimaju se iz inventure.", "Početno stanje", MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.No) != MessageBoxResult.Yes) return;
             try
             {
-                int year = new Materijalno.Model.Services.YearCloseService().CloseFromInventory();
-                System.Windows.MessageBox.Show("Otvorena je godina " + year + ". Prethodni promet i nalozi su sačuvani u arhivi.", "Početno stanje", MessageBoxButton.OK, MessageBoxImage.Information);
+                var service = new Materijalno.Model.Services.YearCloseService();
+                int year = service.CloseFromInventory();
+                System.Windows.MessageBox.Show("Formirano je početno stanje za " + year + ". Prethodni promet je zamijenjen inventurnim stavkama. Inventurni popis i lokalni finansijski nalozi su obrisani.", "Početno stanje", MessageBoxButton.OK, MessageBoxImage.Information);
             }
             catch (Exception ex) { System.Windows.MessageBox.Show(ex.Message, "Početno stanje", MessageBoxButton.OK, MessageBoxImage.Warning); }
         }

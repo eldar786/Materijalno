@@ -199,7 +199,9 @@ namespace Materijalno.ViewModel
             var previous = CurrentItemInv;
             int? warehouse = newWarehouse ? null : previous.Kljnaz;
             int line = newWarehouse ? 1 : _mode == EntryMode.SavedNew ? (previous.Redbr ?? 0) + 1 : InvList.Count(i => i.Kljnaz == warehouse) + 1;
-            DateTime day = newWarehouse ? new DateTime(new MaterialPostingService().ActiveYear(), 1, 1) : (previous.InventoryDate ?? previous.Datun ?? new DateTime(new MaterialPostingService().ActiveYear(), 1, 1)).Date;
+            // uninv.scx dates newly saved inventory to 01.01. of the calendar year,
+            // even while last year's MAT ledger is still open.
+            DateTime day = new DateTime(DateTime.Today.Year, 1, 1);
             _newWarehouse = newWarehouse; _quotedKey = null;
             // Like Fox's MEMVAR entry, no empty row is inserted before Snimi.
             CurrentItemInv = new Inv { Kljnaz = warehouse, Datun = day, Datnar = day, InventoryDate = day, Redbr = line, Status = "P", Kolic = 0, Nc = 0, Vrijed = 0, IsDraft = true };

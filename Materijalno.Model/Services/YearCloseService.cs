@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using Materijalno.Model.EntityModels;
@@ -11,51 +12,97 @@ namespace Materijalno.Model.Services
         private readonly Func<materijalno_knjigovodstvoContext> _create;
         private readonly Func<DateTime> _today;
         public YearCloseService(Func<materijalno_knjigovodstvoContext> create = null, Func<DateTime> today = null)
-        { _create = create ?? (() => new materijalno_knjigovodstvoContext()); _today = today ?? (() => DateTime.Today); }
+        {
+            _create = create ?? (() => new materijalno_knjigovodstvoContext());
+            _today = today ?? (() => DateTime.Today);
+        }
 
         public int CloseFromInventory()
         {
             using (var db = _create())
-            using (var transaction = db.Database.BeginTransaction(IsolationLevel.Serializable))
             using (db.AllowPosting())
             {
-                MaterialPostingService.LockLedger(db);
-                int year = MaterialPostingService.ActiveYear(db), next = year + 1;
-                if (_today().Year <= year) throw new InvalidOperationException("Tekuća godina još nije završena.");
-                if (db.YearCloses.Any(c => c.BookYear == year)) throw new InvalidOperationException("Godina je već zaključena.");
-                if (db.FinancialBatches.Any(b => b.BookYear == year && b.State != "Sent"))
-                    throw new InvalidOperationException("Prvo završite prijenos pripremljenih finansijskih naloga za ovu godinu.");
-                DateTime closingDate = new DateTime(year, 12, 31);
-                var inventory = db.Inv.Where(i => i.InventoryDate == closingDate).ToList();
-                if (inventory.Count == 0) throw new InvalidOperationException("Nedostaje završna inventura na 31.12.");
-                var balances = db.Mat.GroupBy(m => new { m.Kljnaz, m.Ident })
-                    .Select(g => new { g.Key.Kljnaz, g.Key.Ident, Quantity = g.Sum(m => m.Kolic) ?? 0, Value = g.Sum(m => m.Vrijed) ?? 0 }).ToList();
-                foreach (var balance in balances.Where(b => b.Quantity != 0 || b.Value != 0))
-                    if (!inventory.Any(i => i.Kljnaz == balance.Kljnaz && i.Ident == balance.Ident))
-                        throw new InvalidOperationException("Završna inventura nije potpuna za sva skladišta i materijale.");
-                if (inventory.Any(i => !i.Kolic.HasValue || i.Kolic < 0 || i.Nc < 0 || i.Vrijed != LedgerMath.Money((i.Kolic ?? 0) * i.Nc)))
-                    throw new InvalidOperationException("Završna inventura sadrži neispravan obračun.");
-                foreach (var old in db.Mat.IgnoreQueryFilters().Where(m => !m.IsArchived && m.BookYear == year).ToList()) old.IsArchived = true;
-                foreach (var old in db.Inv.IgnoreQueryFilters().Where(i => !i.IsArchived).ToList()) old.IsArchived = true;
-                foreach (var warehouse in inventory.GroupBy(i => i.Kljnaz))
+                // An explicitly supplied transaction remains owned by its caller.
+                // This also permits full SQL verification followed by rollback.
+                if (db.Database.CurrentTransaction != null) return Transfer(db);
+                using (var transaction = db.Database.BeginTransaction(IsolationLevel.Serializable))
                 {
-                    var document = new MaterialDocument { Id = Guid.NewGuid(), Status = "P", BookYear = next, Number = "", Warehouse = warehouse.Key.Value, CreatedAt = DateTime.UtcNow };
-                    db.MaterialDocuments.Add(document);
-                    int line = 0;
-                    foreach (var inv in warehouse.OrderBy(i => i.Ident))
-                    {
-                        if ((inv.Kolic ?? 0) == 0 && inv.Vrijed == 0) continue;
-                        db.Mat.Add(new Mat { Kljnaz = inv.Kljnaz, Ident = inv.Ident, Datun = new DateTime(next, 1, 1), Datnar = new DateTime(next, 1, 1),
-                            Kolic = inv.Kolic, Nc = inv.Nc, Vrijed = inv.Vrijed, Status = "P", Redbr = ++line, Brdok = "", Brfak = "",
-                            Konto1 = inv.Konto1, Konto2 = inv.Konto2, Kontosklad = inv.Kontosklad, IsDraft = false, IsArchived = false,
-                            BookYear = next, DocumentId = document.Id, Medus = "" });
-                    }
+                    int year = Transfer(db);
+                    transaction.Commit();
+                    return year;
                 }
-                db.ApplicationSettings.Single(s => s.KeyName == "ActiveBookYear").Value = next.ToString();
-                db.YearCloses.Add(new YearClose { BookYear = year, NextYear = next, CreatedAt = DateTime.UtcNow, Source = "Inventory",
-                    Quantity = inventory.Sum(i => i.Kolic ?? 0), Value = inventory.Sum(i => i.Vrijed) });
-                db.SaveChanges(); transaction.Commit(); return next;
             }
+        }
+
+        private int Transfer(materijalno_knjigovodstvoContext db)
+        {
+            MaterialPostingService.LockLedger(db);
+            var inventory = db.Inv.AsNoTracking().OrderBy(i => i.Kljnaz).ThenBy(i => i.Ident)
+                .ThenBy(i => i.FoxRecno ?? int.MaxValue).ThenBy(i => i.Id).ToList();
+            // Fox's COUNT<2 accounts for its empty placeholder record. SQL drafts
+            // are not business inventory, so one genuine saved item is sufficient.
+            if (inventory.Count == 0) throw new InvalidOperationException("Već je formirano početno stanje ili inventurni popis nije unesen.");
+
+            // forpoc.scx opens MAT on Kljnazi, then GO BOTTOM; SKIP -1.
+            // Neither ActiveBookYear nor MAX(datum) is the Fox year check.
+            var tail = db.Mat.IgnoreQueryFilters().AsNoTracking().Where(m => !m.IsArchived)
+                .OrderByDescending(m => m.Kljnaz).ThenByDescending(m => m.Ident)
+                .ThenByDescending(m => m.FoxRecno ?? int.MaxValue).ThenByDescending(m => m.Id).Take(2).ToList();
+            var previous = tail.Count > 1 ? tail[1] : tail.FirstOrDefault();
+            if (previous?.Datun == null) throw new InvalidOperationException("Nije moguće odrediti godinu postojećeg prometa.");
+            int sourceYear = previous.Datun.Value.Year;
+            if (sourceYear == _today().Year) throw new InvalidOperationException("Niste završili tekuću godinu.");
+
+            if (inventory.Any(i => !i.Datun.HasValue || !i.Kljnaz.HasValue || string.IsNullOrWhiteSpace(i.Ident) ||
+                !i.Kolic.HasValue || i.Kolic < 0 || i.Nc < 0 || i.Vrijed < 0 || i.Status != "P"))
+                throw new InvalidOperationException("Inventurni popis sadrži neispravnu stavku. Provjerite datum, skladište, materijal, količinu i cijenu.");
+
+            // APPEND FROM INV keeps the source dates and amounts, including zero
+            // quantities. Do not recalculate prices, re-number rows, require 31.12,
+            // compare to book balances, or replace dates with calendarYear+1.
+            int targetYear = inventory.Max(i => i.Datun.Value.Year);
+            // Replace the physical table contents, including previously archived
+            // rows. SQL does not need Fox's empty cursor-placeholder records.
+            // The inventory has been read into memory; it is deleted only AFTER
+            // the new MAT rows have been saved successfully in this transaction.
+            db.Database.ExecuteSqlRaw("DELETE FROM dbo.mat;");
+            // KOMAT/KORAC exist only as immutable fox_raw snapshots in this app.
+            // Preserve export receipts/counters: this operation never touches Oracle.
+            var documents = new Dictionary<string, MaterialDocument>(StringComparer.Ordinal);
+            foreach (var item in inventory)
+            {
+                int year = item.Datun.Value.Year, warehouse = item.Kljnaz.Value;
+                string number = item.Brfak ?? "", key = year + "|" + warehouse + "|" + number;
+                MaterialDocument document;
+                if (!documents.TryGetValue(key, out document))
+                {
+                    document = db.MaterialDocuments.SingleOrDefault(d => d.Status == "P" && d.BookYear == year && d.Warehouse == warehouse && d.Number == number);
+                    if (document == null)
+                    {
+                        document = new MaterialDocument { Id = Guid.NewGuid(), Status = "P", BookYear = year, Warehouse = warehouse, Number = number, CreatedAt = DateTime.UtcNow };
+                        db.MaterialDocuments.Add(document);
+                    }
+                    documents.Add(key, document);
+                }
+                db.Mat.Add(new Mat {
+                    Kljnaz = item.Kljnaz, Ident = item.Ident, Datun = item.Datun, Datnar = item.Datnar,
+                    Analst = item.Analst, Brdok = item.Brdok, Brnar = item.Brnar, Brfak = item.Brfak,
+                    Kolic = item.Kolic, Nc = item.Nc, Vrijed = item.Vrijed, Redbr = item.Redbr, Status = item.Status,
+                    Konto1 = item.Konto1, Konto2 = item.Konto2, Fcj = item.Fcj, Troskovi = item.Troskovi,
+                    Cartro = item.Cartro, Zavtro = item.Zavtro, Ppp = item.Ppp, Tarifa = item.Tarifa,
+                    Fvrijed = item.Fvrijed, Porppp = item.Porppp, Kontosklad = item.Kontosklad,
+                    Kontosklad1 = item.Kontosklad1, Trospe = item.Trospe, Ourst = item.Ourst, Mjtst = item.Mjtst,
+                    IsDraft = false, IsArchived = false, BookYear = year, DocumentId = document.Id, Medus = ""
+                });
+            }
+            db.ApplicationSettings.Single(s => s.KeyName == "ActiveBookYear").Value = targetYear.ToString(System.Globalization.CultureInfo.InvariantCulture);
+            var audit = db.YearCloses.SingleOrDefault(c => c.BookYear == sourceYear);
+            if (audit == null) { audit = new YearClose { BookYear = sourceYear }; db.YearCloses.Add(audit); }
+            audit.NextYear = targetYear; audit.CreatedAt = DateTime.UtcNow; audit.Source = "FoxInventory";
+            audit.Quantity = inventory.Sum(i => i.Kolic ?? 0); audit.Value = inventory.Sum(i => i.Vrijed);
+            db.SaveChanges();
+            db.Database.ExecuteSqlRaw("DELETE FROM dbo.inv; DELETE FROM dbo.nalmat;");
+            return targetYear;
         }
     }
 }
