@@ -32,7 +32,9 @@ namespace Materijalno.Model.Services
                 throw new InvalidOperationException("Količina je veća od raspoložive zalihe (" + stock.Quantity.ToString("0.##") + ").");
             if (stock.Quantity <= 0 || stock.Value < 0)
                 throw new InvalidOperationException("Zaliha nema valjanu nabavnu procjenu.");
-            return quantity == stock.Quantity ? stock.Value : Money(quantity * stock.UnitCost);
+            // Fox izlazi1/medjskl1 use ROUND(kolic * ROUND(vrij / kol, 9), 2),
+            // including a full issue. Keep any rounding remainder in the ledger.
+            return Money(quantity * stock.UnitCost);
         }
     }
 }
