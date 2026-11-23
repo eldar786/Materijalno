@@ -54,7 +54,8 @@ namespace Materijalno.Model.Services
                 DateTime day = (input.InventoryDate ?? input.Datun ?? DateTime.Today).Date;
                 // Fox permits inventory entered in the following calendar year;
                 // its date need not equal the year of the still-active MAT ledger.
-                if (!input.Kolic.HasValue || input.Kolic < 0) throw new InvalidOperationException("Unesite nenegativnu prebrojanu količinu.");
+                // uninv.scx rejects EMPTY(m.kolic), including numeric zero.
+                if (!input.Kolic.HasValue || input.Kolic <= 0) throw new InvalidOperationException("Unesite količinu veću od nule.");
                 if (!db.TabelaMaterijala.Any(m => m.Ident == input.Ident) || !db.SifarnikSkladista.Any(w => w.Kljnaz == input.Kljnaz))
                     throw new InvalidOperationException("Materijal i skladište moraju postojati.");
                 if (!input.Kljnaz.HasValue) throw new InvalidOperationException("Odaberite skladište inventure.");

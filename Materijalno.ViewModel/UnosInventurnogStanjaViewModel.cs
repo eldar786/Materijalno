@@ -217,10 +217,19 @@ namespace Materijalno.ViewModel
             _quotedKey = CurrentItemInv.Kljnaz + "|" + CurrentItemInv.Ident;
             SetMode(EntryMode.Edit); RequestFocus?.Invoke("Quantity");
         }
+        public void ValidateQuantity()
+        {
+            if (CurrentItemInv?.Kolic == null || CurrentItemInv.Kolic <= 0)
+            {
+                RequestFocus?.Invoke("Quantity");
+                throw new InvalidOperationException("Unesite količinu veću od nule.");
+            }
+        }
         public Inv SaveCurrentInventory()
         {
             if (!IsEntryEditable) throw new InvalidOperationException("Prvo otvorite unos ili izmjenu inventurne stavke.");
             if (CommitPendingInput != null && !CommitPendingInput()) throw new InvalidOperationException("Provjerite označena polja prije snimanja.");
+            ValidateQuantity();
             Osvjezi();
             bool edited = _mode == EntryMode.Edit;
             var saved = new InventoryService().Save(CurrentItemInv);

@@ -157,8 +157,11 @@ public static class InventoryEntryWorkflowChecks
             Check(vm.NabavnaCijenaUnos == 0, "Fox zero stock produces NC zero without misleading history error");
             Type("txtKolic", "10"); Enter("txtKolic"); Type("txtNc", "0,173245000"); Enter("txtNc");
             var manual = vm.SaveCurrentInventory(); Track(manual); Check(Read(manual.Id).Nc == 0.173245m && Read(manual.Id).Vrijed == 1.73m, "Confirmed price saves a surplus with no stock"); vm.CancelCurrentInventory();
-            vm.BeginNewItem(); Type("txtIdent", "129"); Enter("txtIdent"); Type("txtKolic", "0"); Enter("txtKolic");
-            var zero = vm.SaveCurrentInventory(); Track(zero); Check(Read(zero.Id).Kolic == 0 && Read(zero.Id).Vrijed == 0, "Existing support for explicit zero count is retained"); vm.CancelCurrentInventory();
+            vm.BeginNewItem(); Type("txtIdent", "129"); Enter("txtIdent"); Type("txtKolic", "0");
+            int beforeZero = Count(); bool zeroRejected = false;
+            try { vm.SaveCurrentInventory(); } catch (InvalidOperationException error) { zeroRejected = error.Message.Contains("veću od nule"); }
+            Check(zeroRejected && Count() == beforeZero && vm.IsEntryEditable, "Fox zero count is rejected without saving or leaving entry mode");
+            FocusIs("txtKolic"); vm.CancelCurrentInventory();
             vm.BeginNewItem(); Type("txtIdent", "13"); Enter("txtIdent"); Type("txtKolic", "abc");
             bool invalid = false; try { vm.SaveCurrentInventory(); } catch (InvalidOperationException) { invalid = true; }
             Check(invalid && Validation.GetHasError(Box("txtKolic")), "Invalid numeric text cannot save an old numeric value"); vm.CancelCurrentInventory();

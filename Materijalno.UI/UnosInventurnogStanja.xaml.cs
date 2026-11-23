@@ -79,6 +79,7 @@ namespace Materijalno.UI
                 if (!Refresh(_vm.Osvjezi)) return;
                 Keyboard.Focus(ReferenceEquals(input, OpBroj) ? txtIdent : txtKolic);
             } else if (ReferenceEquals(input, txtKolic)) {
+                if (!Refresh(_vm.ValidateQuantity)) return;
                 if (Refresh(_vm.NabavnaCijena)) Keyboard.Focus(txtNc);
             } else {
                 _vm.RecalculateValue(); Keyboard.Focus(btnSnimi);
