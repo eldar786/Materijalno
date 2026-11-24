@@ -17,7 +17,7 @@
               </i:EventTrigger>
             </i:Interaction.Triggers>
           </TextBox>
-          <TextBox Text="{Binding CurrentItemTabSkladista.NazivOrg, UpdateSourceTrigger=PropertyChanged}" IsEnabled="False" KeyDown="TextBox_KeyDown" FontSize="14" VerticalAlignment="Center" MinHeight="30" Width="320"/>
+          <TextBox Text="{Binding CurrentItemTabSkladista.NazivOrg, UpdateSourceTrigger=PropertyChanged}" IsEnabled="False" Margin="15,0,0,0" KeyDown="TextBox_KeyDown" FontSize="14" VerticalAlignment="Center" MinHeight="30" Width="320"/>
         </StackPanel>
       </WrapPanel>
       <WrapPanel Margin="0,0,0,12">
@@ -33,7 +33,7 @@
               </i:EventTrigger>
             </i:Interaction.Triggers>
           </TextBox>
-          <TextBox Text="{Binding CurrentItemTabMaterijala.Nazmat}" IsEnabled="False" KeyDown="TextBox_KeyDown" FontSize="14" VerticalAlignment="Center" MinHeight="30" Width="320"/>
+                        <TextBox Text="{Binding CurrentItemTabMaterijala.Nazmat}" IsEnabled="False" Margin="15,0,0,0" KeyDown="TextBox_KeyDown" FontSize="14" VerticalAlignment="Center" MinHeight="30" Width="320"/>
         </StackPanel>
       </WrapPanel>
       <WrapPanel Margin="0,0,0,12">
@@ -51,7 +51,7 @@
         </StackPanel>
         <StackPanel Orientation="Horizontal" Margin="0,0,18,4">
           <Label FontSize="13" VerticalAlignment="Center" Width="150" Padding="0,5,8,5">Red. broj</Label>
-          <TextBox Text="{Binding CurrentItemMat.Redbr, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" IsEnabled="False" KeyDown="TextBox_KeyDown" FontSize="14" VerticalAlignment="Center" MinHeight="30" Width="320"/>
+          <TextBox Text="{Binding CurrentItemMat.Redbr, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" IsEnabled="False" KeyDown="TextBox_KeyDown" FontSize="14" VerticalAlignment="Center" MinHeight="30" Width="170"/>
         </StackPanel>
       </WrapPanel>
       <WrapPanel Margin="0,0,0,12">
@@ -71,7 +71,7 @@
         </StackPanel>
         <StackPanel Orientation="Horizontal" Margin="0,0,18,4">
           <Label FontSize="13" VerticalAlignment="Center" Width="150" Padding="0,5,8,5">Vrijednost</Label>
-          <TextBox IsEnabled="False" Text="{Binding CurrentItemMat.Vrijed, StringFormat=N2, ConverterCulture='de-DE', TargetNullValue='0,00', UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" KeyDown="TextBox_KeyDown" FontSize="14" VerticalAlignment="Center" MinHeight="30" Width="320" TextAlignment="Right" Typography.NumeralAlignment="Tabular"/>
+          <TextBox IsEnabled="False" Text="{Binding CurrentItemMat.Vrijed, StringFormat=N2, ConverterCulture='de-DE', TargetNullValue='0,00', UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" KeyDown="TextBox_KeyDown" FontSize="14" VerticalAlignment="Center" MinHeight="30" Width="170" TextAlignment="Right" Typography.NumeralAlignment="Tabular"/>
         </StackPanel>
       </WrapPanel>
       <WrapPanel Margin="0,0,0,12">
