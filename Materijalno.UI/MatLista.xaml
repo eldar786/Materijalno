@@ -80,11 +80,11 @@
                     <GridViewColumn Width="50">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <Button Background="White" Command="{Binding DataContext.IzmjenaSifarnikSkladistaFormCommand, RelativeSource={RelativeSource AncestorType={x:Type ListView}}}" HorizontalAlignment="Center" Content="Uredi" Width="90" Height="38">
+                                <!--<Button Background="White" Command="{Binding DataContext.IzmjenaSifarnikSkladistaFormCommand, RelativeSource={RelativeSource AncestorType={x:Type ListView}}}" HorizontalAlignment="Center" Content="Uredi" Width="90" Height="38">
                                     <Button.ToolTip>
                                         <ToolTip Content="Uredi"/>
                                     </Button.ToolTip>
-                                </Button>
+                                </Button>-->
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
